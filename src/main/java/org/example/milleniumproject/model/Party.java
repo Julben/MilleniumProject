@@ -10,7 +10,7 @@ public class Party extends StackPane {
 
     public Party(Stage primaryStage) {
         // Création du fond d'écran
-        BG ground = new BG("resources/BackgroundTestBoutons.png");
+        BG ground = new BG("src/main/resources/BackgroundTestBoutons.png");
         setBackground(ground.getCustomBackground());
 
         // Création du GridPane
