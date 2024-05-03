@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import org.example.milleniumproject.view.Audio;
+import org.example.milleniumproject.view.Jcj;
 import org.example.milleniumproject.view.Profil;
 import org.example.milleniumproject.view.Video;
 
@@ -24,6 +25,8 @@ public class Management {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
                 } else if (bouton.getText().equals("Joueur contre joueur")) {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
+                    Jcj jcj = new Jcj(primaryStage);
+                    primaryStage.getScene().setRoot(jcj);
                 } else if (bouton.getText().equals("Charger une Partie")) {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
                 } else if (bouton.getText().equals("Profil")) {
