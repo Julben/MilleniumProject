@@ -1,4 +1,4 @@
-/*package org.example.milleniumproject.view;
+package org.example.milleniumproject.view;
 
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
@@ -51,4 +51,3 @@ public class Jcia extends Pane {
         getChildren().add(boutonsContainer2);// Ajout du conteneur de boutons à Jcia
     }
 }
-*/
