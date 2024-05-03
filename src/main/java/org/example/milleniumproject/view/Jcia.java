@@ -1,4 +1,4 @@
-package org.example.milleniumproject.view;
+/*package org.example.milleniumproject.view;
 
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
@@ -9,7 +9,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import org.example.milleniumproject.model.Buttons.*;
+import org.example.milleniumproject.model.BoutonsContainerPosition;
+import org.example.milleniumproject.model.ButtonIAFactory;
+import org.example.milleniumproject.model.ButtonsIA;
 
 
 public class Jcia extends Pane {
@@ -50,3 +52,4 @@ public class Jcia extends Pane {
         getChildren().add(boutonsContainer2);// Ajout du conteneur de boutons à Jcia
     }
 }
+*/

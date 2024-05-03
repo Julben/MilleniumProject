@@ -1,29 +1,21 @@
 package org.example.milleniumproject.view;
 
-import javafx.scene.layout.Pane;
-import javafx.scene.image.Image;
-import javafx.scene.layout.*;
+import org.example.milleniumproject.model.BG;
+import javafx.geometry.Pos;
 import javafx.stage.Stage;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import org.example.milleniumproject.model.BackButtons;
+import javafx.scene.control.Button;
+import javafx.scene.layout.*;
 
-public class Video extends Pane {
+public class Video extends StackPane {
 
-    private Stage primaryStage; // référence de la scène principale
+    public Video(Stage primaryStage){
+        BG ground = new BG("src/main/resources/BGVIDEO.png");
+        setBackground(ground.getCustomBackground());
 
-    public Video(Stage primaryStage) {
-        this.primaryStage = primaryStage; // Initialiser la référence primaryStage
-        Image backgroundImage = null;
-        try {
-            backgroundImage = new Image(new FileInputStream("src/main/resources/BGVIDEO.png"));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false);
-        BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, null, backgroundSize);
-        setBackground(new Background(background));
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        };
+        // Créer un bouton retour et l'ajouter à la pile
+        Button retourButton = BackButtons.createBackButton(primaryStage);
+        StackPane.setAlignment(retourButton, Pos.TOP_RIGHT);
+        getChildren().add(retourButton);
     }
-
-
+}

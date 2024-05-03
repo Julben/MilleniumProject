@@ -1,112 +1,149 @@
 package org.example.milleniumproject.view;
 
-import javafx.scene.control.Menu;
-import javafx.scene.text.FontWeight;
-import javafx.stage.Stage;
-import javafx.scene.image.ImageView;
-import java.util.List;
+import org.example.milleniumproject.model.*;
+import org.example.milleniumproject.view.Profil;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import org.example.milleniumproject.model.Buttons.ReturnButton;
-import org.example.milleniumproject.model.ImageCarrousel;
-import org.example.milleniumproject.model.LabelCarrousel;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import javafx.scene.text.FontWeight;
+import javafx.stage.Stage;
+import java.util.Arrays;
 
-public class Profil extends BorderPane {
+public class Profil extends StackPane {
+    Menu menu = new Menu();
     public static final double AVATAR_SIZE = 130.0;
-    private Stage primaryStage;
-    private ImageView menuImageView;
-    private List<Button> boutons1;
-    private List<Button> boutons2;
-    private List<Button> boutonsComplets;
+    private TextField textField1;
+    private TextField textField2;
+    private Carrousel avatarCarrousel1;
+    private Carrousel avatarCarrousel2;
+    private Carrousel rangCarrousel1;
+    private Carrousel rangCarrousel2;
+    private Carrousel vaisseauCarrousel1;
+    private Carrousel vaisseauCarrousel2;
 
-    public Profil(Stage primaryStage, ImageView menuImageView, List<Button> boutons1, List<Button> boutons2, List<Button> boutonsComplets) {
-        this.primaryStage = primaryStage;
-        this.menuImageView = menuImageView;
-        this.boutons1 = boutons1;
-        this.boutons2 = boutons2;
-        this.boutonsComplets = boutonsComplets;
+    public Profil(Stage primaryStage) {
+        BG ground = new BG("src/main/resources/BGProfil.png");
+        setBackground(ground.getCustomBackground());
 
-        // Fond d'écran du profilll
-        Image backgroundImage = null;
-        try {
-            backgroundImage = new Image(new FileInputStream("src/main/resources/BGProfil.png"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace(); // Gérer l'erreur de chargement de l'image
+        // Créer un bouton retour et l'ajouter à la pile
+        Button retourButton = BackButtons.createBackButton(primaryStage);
+
+        String[] avatar = {"src/main/resources/Avatar/1.png", "src/main/resources/Avatar/2.png", "src/main/resources/Avatar/3.png", "src/main/resources/Avatar/4.png", "src/main/resources/Avatar/5.png", "src/main/resources/Avatar/6.png", "src/main/resources/Avatar/7.png", "src/main/resources/Avatar/8.png", "src/main/resources/Avatar/9.png", "src/main/resources/Avatar/10.png", "src/main/resources/Avatar/11.png", "src/main/resources/Avatar/12.png",};
+        String[] rang = {"Padawan", "Apprenti Jedi", "Jeune Jedi", "Jedi", "Maitre Jedi", "Seigneur Sith", "Wookie", "Mandalorian"};
+        String[] vaisseau = {"src/main/resources/Pion/PionDestroyer.png", "src/main/resources/Pion/PionFaucon.png", "src/main/resources/Pion/PionTfighter.png", "src/main/resources/Pion/PionXwing.png"};
+
+        // Charger les données du profil s'il existe
+        String savedPlayerName1 = ProfileData.getPlayerName(1);
+        String savedAvatar1 = ProfileData.getAvatar(1);
+        String savedRank1 = ProfileData.getRank(1);
+        String savedShip1 = ProfileData.getShip(1);
+        int savedAvatarIndex1 = Arrays.asList(avatar).indexOf(savedAvatar1);
+        int savedRankIndex1 = Arrays.asList(rang).indexOf(savedRank1);
+        int savedShipIndex1 = Arrays.asList(vaisseau).indexOf(savedShip1);
+
+        if (savedPlayerName1.isEmpty()) {
+            savedPlayerName1 = "";
+            savedAvatarIndex1 = 0; // Index par défaut pour le premier joueur
+            savedRankIndex1 = 0; // Index par défaut pour le premier joueur
+            savedShipIndex1 = 0; // Index par défaut pour le premier joueur
+            // Sauvegarder les valeurs par défaut pour le joueur 1
+            ProfileData.saveProfile(1, savedPlayerName1, avatar[savedAvatarIndex1], rang[savedRankIndex1], vaisseau[savedShipIndex1]);
         }
-        BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false);
-        Background background = new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize));
-        setBackground(background);
 
-        Label labelJ1 = new Label("Joueur 1");
-        labelJ1.setTextFill(Color.WHITE); // Couleur du texte
-        labelJ1.setFont(Font.font("Cardo", 60)); // Police et taille du texte
-        Label labelJ2 = new Label("Joueur 2");
-        labelJ2.setTextFill(Color.WHITE); // Couleur du texte
-        labelJ2.setFont(Font.font("Cardo", 60)); // Police et taille du texte
+        String savedPlayerName2 = ProfileData.getPlayerName(2);
+        String savedAvatar2 = ProfileData.getAvatar(2);
+        String savedRank2 = ProfileData.getRank(2);
+        String savedShip2 = ProfileData.getShip(2);
+        int savedAvatarIndex2 = Arrays.asList(avatar).indexOf(savedAvatar2);
+        int savedRankIndex2 = Arrays.asList(rang).indexOf(savedRank2);
+        int savedShipIndex2 = Arrays.asList(vaisseau).indexOf(savedShip2);
 
-        String[] avatarPathsJ1 = {"src/main/resources/Avatar/1.png", "src/main/resources/Avatar/2.png", "src/main/resources/Avatar/3.png", "src/main/resources/Avatar/4.png", "src/main/resources/Avatar/5.png", "src/main/resources/Avatar/6.png", "src/main/resources/Avatar/7.png", "src/main/resources/Avatar/8.png", "src/main/resources/Avatar/9.png", "src/main/resources/Avatar/10.png", "src/main/resources/Avatar/11.png", "src/main/resources/Avatar/12.png",};
-        ImageCarrousel avatarJ1 = new ImageCarrousel(avatarPathsJ1);
-        String[] avatarPathsJ2 = {"src/main/resources/Avatar/1.png", "src/main/resources/Avatar/2.png", "src/main/resources/Avatar/3.png", "src/main/resources/Avatar/4.png", "src/main/resources/Avatar/5.png", "src/main/resources/Avatar/6.png", "src/main/resources/Avatar/7.png", "src/main/resources/Avatar/8.png", "src/main/resources/Avatar/9.png", "src/main/resources/Avatar/10.png", "src/main/resources/Avatar/11.png", "src/main/resources/Avatar/12.png",};
-        ImageCarrousel avatarJ2 = new ImageCarrousel(avatarPathsJ2);
+        if (savedPlayerName2.isEmpty()) {
+            savedPlayerName2 = "";
+            savedAvatarIndex2 = 0; // Index par défaut pour le deuxième joueur
+            savedRankIndex2 = 0; // Index par défaut pour le deuxième joueur
+            savedShipIndex2 = 0; // Index par défaut pour le deuxième joueur
+            // Sauvegarder les valeurs par défaut pour le joueur 2
+            ProfileData.saveProfile(2, savedPlayerName2, avatar[savedAvatarIndex2], rang[savedRankIndex2], vaisseau[savedShipIndex2]);
+        }
 
-        TextField textFieldJ1 = new TextField();
-        textFieldJ1.setPromptText("Entrez votre pseudo");
-        textFieldJ1.setPrefSize(300, 45);
-        textFieldJ1.setStyle("-fx-text-fill: white; -fx-background-color: rgba(240,240,240,0.35);"); // Définit une transparence de 70%
-        textFieldJ1.setAlignment(Pos.CENTER);
-        textFieldJ1.setFont(Font.font("Cardo", FontWeight.BOLD, 30)); // Taille de police basée sur la hauteur de l'écran
-        textFieldJ1.setBackground(null);
-        TextField textFieldJ2 = new TextField();
-        textFieldJ2.setPromptText("Entrez votre pseudo");
-        textFieldJ2.setPrefSize(300, 45);
-        textFieldJ2.setStyle("-fx-text-fill: white; -fx-background-color: rgba(240, 240, 240, 0.35);"); // Définit une transparence de 70%
-        textFieldJ2.setAlignment(Pos.CENTER);
-        textFieldJ2.setFont(Font.font("Cardo", FontWeight.BOLD, 30)); // Taille de police basée sur la hauteur de l'écran
-        textFieldJ2.setBackground(null);
+        VBox vBox1 = createPlayerBox("Joueur 1", avatar, rang, vaisseau, savedPlayerName1, savedAvatarIndex1, savedRankIndex1, savedShipIndex1);
+        VBox vBox2 = createPlayerBox("Joueur 2", avatar, rang, vaisseau, savedPlayerName2, savedAvatarIndex2, savedRankIndex2, savedShipIndex2);
 
-        String[] TitreJ1 = {"Padawan", "Apprenti Jedi", "Jeune Jedi", "Jedi", "Maitre Jedi", "Seigneur Sith", "Wookie", "Mandalorian"};
-        LabelCarrousel rangJ1 = new LabelCarrousel(TitreJ1);
-        String[] TitreJ2 = {"Padawan", "Apprenti Jedi", "Jeune Jedi", "Jedi", "Maitre Jedi", "Seigneur Sith", "Wookie", "Mandalorian"};
-        LabelCarrousel rangJ2 = new LabelCarrousel(TitreJ2);
-
-        String[] vaisseauJ1 = {"src/main/resources/Pion/PionDestroyer.png", "src/main/resources/Pion/PionFaucon.png", "src/main/resources/Pion/PionTfighter.png", "src/main/resources/Pion/PionXwing.png"};
-        ImageCarrousel pionJ1 = new ImageCarrousel(vaisseauJ1);
-        String[] vaisseauJ2 = {"src/main/resources/Pion/PionDestroyer.png", "src/main/resources/Pion/PionFaucon.png", "src/main/resources/Pion/PionTfighter.png", "src/main/resources/Pion/PionXwing.png"};
-        ImageCarrousel pionJ2 = new ImageCarrousel(vaisseauJ2);
-
-        VBox vBox1 = new VBox(15); // Espacement vertical entre les carrousels
-        vBox1.getChildren().addAll(labelJ1, avatarJ1, textFieldJ1, rangJ1, pionJ1);
-        vBox1.setAlignment(Pos.CENTER);
-
-        VBox vBox2 = new VBox(15); // Espacement vertical entre les carrousels
-        vBox2.getChildren().addAll(labelJ2, avatarJ2, textFieldJ2, rangJ2, pionJ2);
-        vBox2.setAlignment(Pos.CENTER);
+        retourButton.setOnAction(event -> {
+            getProfileData(1, textField1, avatarCarrousel1, rangCarrousel1, vaisseauCarrousel1, avatar, rang, vaisseau);
+            getProfileData(2, textField2, avatarCarrousel2, rangCarrousel2, vaisseauCarrousel2, avatar, rang, vaisseau);
+            SoundPlayer.soundPlay();
+            menu.afficherMenu(primaryStage);
+        });
 
         HBox hBox = new HBox(345); // Espacement horizontal entre les Vbox
         hBox.getChildren().addAll(vBox1, vBox2);
         hBox.setAlignment(Pos.CENTER);
 
-        // Créez une instance de la classe Menu
-        Menu menu = new Menu();
-        // Création du bouton de retour
-        ReturnButton returnButton = new ReturnButton(() -> {
-            // Action du bouton de retour pour afficher le menu
-            //menu.afficherMenu(primaryStage, menuImageView, boutons1, boutons2, boutonsComplets);
-        });
-        BorderPane.setMargin(returnButton, new Insets(25, 0, 0, 25)); // Définissez les marges ici selon vos besoins
-        BorderPane.setMargin(hBox, new Insets(0, 10, 30, 0)); // Définissez les marges ici selon vos besoins
-        // Ajouter le bouton de retour à la région supérieure gauche
-        setTop(returnButton);
-        // Ajouter la hBox à la région centrale
-        setCenter(hBox);
+        getChildren().addAll(hBox, retourButton);
+    }
+
+    private VBox createPlayerBox(String playerNum, String[] avatar, String[] rang, String[] vaisseau, String playerName, int savedAvatarIndex, int savedRankIndex, int savedShipIndex) {
+        Label label = new Label(playerNum);
+        label.setTextFill(Color.WHITE); // Couleur du texte
+        label.setFont(Font.font("Cardo", 60)); // Police et taille du texte
+
+        Carrousel avatarCarrousel = new Carrousel(avatar, true, savedAvatarIndex);
+        Carrousel rangCarrousel = new Carrousel(rang, false, savedRankIndex);
+        Carrousel vaisseauCarrousel = new Carrousel(vaisseau, true, savedShipIndex);
+
+        TextField textField = createTextField(playerName);
+
+        if (playerNum.equals("Joueur 1")) {
+            avatarCarrousel1 = avatarCarrousel;
+            rangCarrousel1 = rangCarrousel;
+            vaisseauCarrousel1 = vaisseauCarrousel;
+            textField1 = textField;
+        } else {
+            avatarCarrousel2 = avatarCarrousel;
+            rangCarrousel2 = rangCarrousel;
+            vaisseauCarrousel2 = vaisseauCarrousel;
+            textField2 = textField;
+        }
+
+        VBox vBox = new VBox(15); // Espacement vertical entre les carrousels
+        vBox.getChildren().addAll(label, avatarCarrousel, textField, rangCarrousel, vaisseauCarrousel);
+        vBox.setAlignment(Pos.CENTER);
+
+        return vBox;
+    }
+
+
+    private TextField createTextField(String playerName) {
+        TextField textField = new TextField();
+        textField.setPromptText("Entrez votre pseudo");
+        textField.setPrefSize(300, 45);
+        textField.setAlignment(Pos.CENTER);
+        textField.setFont(Font.font("Cardo", FontWeight.BOLD, 30)); // Taille de police basée sur la hauteur de l'écran
+        textField.setBackground(new Background(new BackgroundFill(Color.rgb(240, 240, 240, 0.35), CornerRadii.EMPTY, Insets.EMPTY)));
+        textField.setStyle("-fx-text-fill: white;");
+        textField.setText(playerName); // Remplir le champ avec le nom du joueur actuel
+        return textField;
+    }
+
+    private void getProfileData(int playerNumber, TextField playerNameField, Carrousel avatarCarrousel, Carrousel rankCarrousel, Carrousel shipCarrousel, String[] avatar, String[] rang, String[] vaisseau) {
+        String playerName = playerNameField.getText();
+        int avatarIndex = avatarCarrousel.getCurrentIndex();
+        int rankIndex = rankCarrousel.getCurrentIndex();
+        int shipIndex = shipCarrousel.getCurrentIndex();
+        saveProfileData(playerNumber, playerName, avatarIndex, rankIndex, shipIndex, avatar, rang, vaisseau);
+    }
+
+    private void saveProfileData(int playerNumber, String playerName, int avatarIndex, int rankIndex, int shipIndex, String[] avatar, String[] rang, String[] vaisseau) {
+        String selectedAvatar = avatar[avatarIndex];
+        String selectedRank = rang[rankIndex];
+        String selectedShip = vaisseau[shipIndex];
+        ProfileData.saveProfile(playerNumber, playerName, selectedAvatar, selectedRank, selectedShip);
     }
 }

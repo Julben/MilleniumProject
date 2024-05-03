@@ -1,4 +1,4 @@
-package org.example.milleniumproject.view;
+/*package org.example.milleniumproject.view;
 
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -9,7 +9,8 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundRepeat;
-import org.example.milleniumproject.model.Buttons.*;
+import org.example.milleniumproject.model.BoutonsContainerPosition;
+import org.example.milleniumproject.model.ButtonIAFactory;
 
 public class Jcj extends Pane {
     private Stage primaryStage; // référence de la scène principale
@@ -45,3 +46,4 @@ public class Jcj extends Pane {
         getChildren().add(boutonsContainer2);// Ajout du conteneur de boutons à Jcia
     }
 }
+*/

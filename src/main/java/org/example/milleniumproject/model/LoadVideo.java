@@ -33,10 +33,10 @@ public class LoadVideo {
         // Création de la scène et ajout du lecteur vidéo à la pile
         StackPane root = new StackPane(mediaView);
         Scene scene = new Scene(root);
-        primaryStage.setResizable(false);
-        primaryStage.setFullScreen(true);// Plein écran
-        primaryStage.setFullScreenExitHint("");
 
+        // Plein écran
+        primaryStage.setFullScreen(true);
+        primaryStage.setFullScreenExitHint("");
 
         // Ajout de la scène à la fenêtre principale et affichage de la fenêtre
         primaryStage.setScene(scene);
