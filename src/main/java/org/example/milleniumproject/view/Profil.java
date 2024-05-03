@@ -35,7 +35,7 @@ public class Profil extends BorderPane {
         this.boutons2 = boutons2;
         this.boutonsComplets = boutonsComplets;
 
-        // Fond d'écran du profilll
+        // Fond d'écran du profil
         Image backgroundImage = null;
         try {
             backgroundImage = new Image(new FileInputStream("src/main/resources/BGProfil.png"));
