@@ -21,8 +21,9 @@ public class Party extends StackPane {
 
         // Création du GridPane
         GridPane gridPane = new GridPane();
-        gridPane.setHgap(27); // Espacement horizontal entre les boutons
-        gridPane.setVgap(26); // Espacement vertical entre les boutons
+        gridPane.setHgap(60); // Espacement horizontal entre les boutons
+        gridPane.setVgap(60);
+        gridPane.setAlignment(Pos.CENTER);// Espacement vertical entre les boutons
 
         // Ajout des boutons au GridPane avec leurs positions
         String[] buttonLabels = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X"};
