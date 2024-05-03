@@ -7,8 +7,6 @@ module org.example.milleniumproject {
 
     opens org.example.milleniumproject to javafx.fxml;
     exports org.example.milleniumproject;
-    //exports org.example.milleniumproject.model.Buttons;
-    //opens org.example.milleniumproject.model.Buttons to javafx.fxml;
     exports org.example.milleniumproject.model;
     opens org.example.milleniumproject.model to javafx.fxml;
     exports org.example.milleniumproject.view;
