@@ -8,14 +8,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Party extends StackPane {
 
-    public Party(Stage primaryStage) {
+    public Party(Stage primaryStage){
         // Création du fond d'écran
         BG ground = new BG("src/main/resources/BackgroundTestBoutons.png");
         setBackground(ground.getCustomBackground());
@@ -26,7 +25,7 @@ public class Party extends StackPane {
         gridPane.setVgap(26); // Espacement vertical entre les boutons
 
         // Positionnement du GridPane au centre de la StackPane
-        gridPane.setAlignment(Pos.CENTER);
+        //gridPane.setAlignment(Pos.CENTER);
 
         // Ajout des boutons au GridPane avec leurs positions
         String[] buttonLabels = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X"};
@@ -38,50 +37,24 @@ public class Party extends StackPane {
             gridPane.add(button, colIndices[i], rowIndices[i]);
         }
 
-        // Ajout des lignes entre certains boutons
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "A", "B");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "B", "C");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "D", "E");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "E", "F");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "G", "H");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "H", "I");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "J", "K");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "K", "L");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "M", "N");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "N", "O");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "P", "Q");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "Q", "R");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "S", "T");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "T", "U");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "V", "W");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "W", "X");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "A", "J");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "J", "V");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "D", "K");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "K", "S");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "G", "L");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "L", "P");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "B", "E");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "E", "H");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "Q", "T");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "T", "W");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "C", "M");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "M", "R");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "F", "N");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "N", "U");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "O", "C");
-        addLineBetweenButtons(gridPane, colIndices, rowIndices, "O", "X");
+        String str = ProfileData.getShip(1);
+        int lastIndex = str.lastIndexOf('/');
+        String vaisseau1 = str.substring(lastIndex + 1);
+
+        String str2 = ProfileData.getShip(2);
+        int lastIndex2 = str2.lastIndexOf('/');
+        String vaisseau2 = str2.substring(lastIndex2 + 1);
 
         // Ajout des images des vaisseaux à gauche et à droite du GridPane
-        VBox leftVBox = createVBoxWithImages("src/main/resources/Pion/PionTfighter.png", 9);
-        VBox rightVBox = createVBoxWithImages("src/main/resources/Pion/PionXwing.png", 9);
+        VBox leftVBox = createVBoxWithImages(vaisseau1, 9);
+        VBox rightVBox = createVBoxWithImages(vaisseau2, 9);
 
         // Positionnement des VBox à gauche et à droite du GridPane
-        StackPane.setAlignment(leftVBox, Pos.CENTER_LEFT);
-        StackPane.setAlignment(rightVBox, Pos.CENTER_RIGHT);
+        setAlignment(leftVBox, Pos.CENTER_LEFT); // Positionner à gauche
+        setAlignment(rightVBox, Pos.CENTER_RIGHT); // Positionner à droite
 
         // Ajout des VBox à la StackPane
-        getChildren().addAll(gridPane, leftVBox, rightVBox);
+        getChildren().addAll(leftVBox, rightVBox, gridPane);
     }
 
     private Button createStyledButton(String text) {
@@ -127,26 +100,5 @@ public class Party extends StackPane {
         vBox.getChildren().add(gridPane);
 
         return vBox;
-    }
-
-    private void addLineBetweenButtons(GridPane gridPane, int[] colIndices, int[] rowIndices, String buttonText1, String buttonText2) {
-        int index1 = -1;
-        int index2 = -1;
-        for (int i = 0; i < colIndices.length; i++) {
-            if (buttonText1.equals(gridPane.getChildren().get(i).toString())) {
-                index1 = i;
-            }
-            if (buttonText2.equals(gridPane.getChildren().get(i).toString())) {
-                index2 = i;
-            }
-        }
-        if (index1 != -1 && index2 != -1) {
-            Line line = new Line();
-            line.setStartX(0);
-            line.setStartY(0);
-            line.setEndX(80);
-            line.setEndY(0);
-            gridPane.add(line, colIndices[index1] + 1, rowIndices[index1]);
-        }
     }
 }
