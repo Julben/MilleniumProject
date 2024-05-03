@@ -15,6 +15,11 @@ public class PreParty extends StackPane {
 
         Button jouer = new Button("Jouer");
 
+        jouer.setOnAction(event -> {
+            Party party = new Party(primaryStage);
+            primaryStage.getScene().setRoot(party);
+        });
+
         getChildren().addAll(jouer, retourButton);
     }
 }
