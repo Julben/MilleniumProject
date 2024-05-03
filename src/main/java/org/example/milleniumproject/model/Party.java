@@ -24,9 +24,6 @@ public class Party extends StackPane {
         gridPane.setHgap(27); // Espacement horizontal entre les boutons
         gridPane.setVgap(26); // Espacement vertical entre les boutons
 
-        // Positionnement du GridPane au centre de la StackPane
-        //gridPane.setAlignment(Pos.CENTER);
-
         // Ajout des boutons au GridPane avec leurs positions
         String[] buttonLabels = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X"};
         int[] rowIndices = {0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 6};
@@ -54,8 +51,13 @@ public class Party extends StackPane {
         setAlignment(rightVBox, Pos.CENTER_RIGHT); // Positionner à droite
 
         // Ajout des VBox à la StackPane
-        getChildren().addAll(leftVBox, rightVBox, gridPane);
+        getChildren().addAll(leftVBox, rightVBox);
+
+        // Ajout du GridPane à la StackPane et le centrer
+        getChildren().add(gridPane);
+        setAlignment(gridPane, Pos.CENTER);
     }
+
 
     private Button createStyledButton(String text) {
         Button button = new Button(text);
@@ -96,6 +98,9 @@ public class Party extends StackPane {
                 rowIndex++;
             }
         }
+
+        // Positionnement du GridPane au centre de la StackPane
+        setAlignment(gridPane, Pos.CENTER);
 
         vBox.getChildren().add(gridPane);
 
