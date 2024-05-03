@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -21,9 +22,14 @@ public class Party extends StackPane {
 
         // Création du GridPane
         GridPane gridPane = new GridPane();
+<<<<<<< Updated upstream
         gridPane.setHgap(60); // Espacement horizontal entre les boutons
         gridPane.setVgap(60);
         gridPane.setAlignment(Pos.CENTER);// Espacement vertical entre les boutons
+=======
+        gridPane.setHgap(27); // Espacement horizontal entre les boutons
+        gridPane.setVgap(26); // Espacement vertical entre les boutons
+>>>>>>> Stashed changes
 
         // Ajout des boutons au GridPane avec leurs positions
         String[] buttonLabels = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X"};
@@ -47,16 +53,20 @@ public class Party extends StackPane {
         VBox leftVBox = createVBoxWithImages(vaisseau1, 9);
         VBox rightVBox = createVBoxWithImages(vaisseau2, 9);
 
-        // Positionnement des VBox à gauche et à droite du GridPane
-        setAlignment(leftVBox, Pos.CENTER_LEFT); // Positionner à gauche
-        setAlignment(rightVBox, Pos.CENTER_RIGHT); // Positionner à droite
+        HBox hBox = new HBox(450); // Espacement horizontal entre les Vbox
+        hBox.getChildren().addAll(leftVBox, rightVBox);
+        hBox.setAlignment(Pos.CENTER);
 
         // Ajout des VBox à la StackPane
+<<<<<<< Updated upstream
         getChildren().addAll(leftVBox, rightVBox);
 
         // Ajout du GridPane à la StackPane et le centrer
         getChildren().add(gridPane);
         setAlignment(gridPane, Pos.CENTER);
+=======
+        getChildren().addAll(hBox, gridPane);
+>>>>>>> Stashed changes
     }
 
 
