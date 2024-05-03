@@ -25,8 +25,8 @@ public class Management {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
                 } else if (bouton.getText().equals("Joueur contre joueur")) {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
-                    Jcj jcj = new Jcj(primaryStage);
-                    primaryStage.getScene().setRoot(jcj);
+                    PreParty pre = new PreParty(primaryStage);
+                    primaryStage.getScene().setRoot(pre);
                 } else if (bouton.getText().equals("Charger une Partie")) {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
                 } else if (bouton.getText().equals("Profil")) {
