@@ -22,7 +22,7 @@ public class HelloApplication extends Application {
         mediaPlayer.setOnEndOfMedia(() -> {
             // Lorsque la vidéo est terminée, affichez l'image du menu
             menu.afficherMenu(primaryStage);
-            MusicPlayer.musicPlay("src/main/resources/MenuMusic.wav");
+            MusicPlayer.musicPlay("src/main/resources/Star Wars_ Battlefront OST - Main Menu Music.mp3");
         });
 
         // Ajout d'un gestionnaire d'événements pour la touche espace
@@ -30,7 +30,7 @@ public class HelloApplication extends Application {
             if (event.getCode() == KeyCode.SPACE && !mediaPlayer.getCurrentTime().equals(mediaPlayer.getTotalDuration())) {
                 mediaPlayer.stop();
                 menu.afficherMenu(primaryStage);
-                MusicPlayer.musicPlay("src/main/resources/MenuMusic.wav");
+                MusicPlayer.musicPlay("src/main/resources/Star Wars_ Battlefront OST - Main Menu Music.mp3");
             }
         });
     }
