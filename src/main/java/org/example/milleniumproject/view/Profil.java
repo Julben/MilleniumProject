@@ -40,7 +40,7 @@ public class Profil extends BorderPane {
         try {
             backgroundImage = new Image(new FileInputStream("src/main/resources/BGProfil.png"));
         } catch (FileNotFoundException e) {
-            e.printStackTrace(); // Gérer l'erreur de chargement de l'imageee
+            e.printStackTrace(); // Gérer l'erreur de chargement de l'image
         }
         BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false);
         Background background = new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize));
