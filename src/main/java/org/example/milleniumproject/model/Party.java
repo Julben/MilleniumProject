@@ -17,19 +17,14 @@ public class Party extends StackPane {
 
     public Party(Stage primaryStage){
         // Création du fond d'écran
-        BG ground = new BG("src/main/resources/BackgroundTestBoutons.png");
+        BG ground = new BG("src/main/resources/FENABOO.png");
         setBackground(ground.getCustomBackground());
 
         // Création du GridPane
         GridPane gridPane = new GridPane();
-<<<<<<< Updated upstream
-        gridPane.setHgap(60); // Espacement horizontal entre les boutons
-        gridPane.setVgap(60);
+        gridPane.setHgap(42); // Espacement horizontal entre les boutons
+        gridPane.setVgap(42);
         gridPane.setAlignment(Pos.CENTER);// Espacement vertical entre les boutons
-=======
-        gridPane.setHgap(27); // Espacement horizontal entre les boutons
-        gridPane.setVgap(26); // Espacement vertical entre les boutons
->>>>>>> Stashed changes
 
         // Ajout des boutons au GridPane avec leurs positions
         String[] buttonLabels = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X"};
@@ -53,30 +48,21 @@ public class Party extends StackPane {
         VBox leftVBox = createVBoxWithImages(vaisseau1, 9);
         VBox rightVBox = createVBoxWithImages(vaisseau2, 9);
 
-        HBox hBox = new HBox(450); // Espacement horizontal entre les Vbox
+        HBox hBox = new HBox(0.6*Constant.screenWidth); // Espacement horizontal entre les Vbox
         hBox.getChildren().addAll(leftVBox, rightVBox);
         hBox.setAlignment(Pos.CENTER);
 
-        // Ajout des VBox à la StackPane
-<<<<<<< Updated upstream
-        getChildren().addAll(leftVBox, rightVBox);
-
-        // Ajout du GridPane à la StackPane et le centrer
-        getChildren().add(gridPane);
-        setAlignment(gridPane, Pos.CENTER);
-=======
         getChildren().addAll(hBox, gridPane);
->>>>>>> Stashed changes
     }
 
 
     private Button createStyledButton(String text) {
         Button button = new Button(text);
-        button.setStyle("-fx-background-radius: 50px; " +
-                "-fx-min-width: 45px; " +
-                "-fx-min-height: 45px; " +
-                "-fx-max-width: 45px; " +
-                "-fx-max-height: 45px;");
+        button.setStyle("-fx-background-radius: 50%; " + // Rendre les coins ronds
+                "-fx-min-width: 65px; " + // Définir la largeur
+                "-fx-min-height: 65px; " + // Définir la hauteur
+                "-fx-max-width: 65px; " + // Limiter la largeur
+                "-fx-max-height: 65px;"); // Limiter la hauteur
         return button;
     }
 
@@ -90,8 +76,8 @@ public class Party extends StackPane {
         Image image = new Image(imageLink);
         for (int i = 0; i < count; i++) {
             ImageView imageView = new ImageView(image);
-            imageView.setFitWidth(50); // Largeur de l'image réduite
-            imageView.setFitHeight(50); // Hauteur de l'image réduite
+            imageView.setFitWidth(0.04*Constant.screenWidth); // Largeur de l'image réduite
+            imageView.setFitHeight(0.04*Constant.screenWidth); // Hauteur de l'image réduite
             imageViews.add(imageView);
         }
 
