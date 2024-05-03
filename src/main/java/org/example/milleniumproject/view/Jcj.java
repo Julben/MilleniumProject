@@ -1,0 +1,47 @@
+package org.example.milleniumproject.view;
+
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
+import javafx.scene.layout.Pane;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundRepeat;
+import org.example.milleniumproject.model.Buttons.*;
+
+public class Jcj extends Pane {
+    private Stage primaryStage; // référence de la scène principale
+
+    public Jcj(Stage primaryStage) {
+        this.primaryStage = primaryStage;// Utilisation de Pane au lieu de StackPane
+    }
+
+    public Jcj() {
+        Image backgroundImage = null;
+        try {
+            backgroundImage = new Image(new FileInputStream("src/main/resources/BGAUDIO.png"));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false);
+        BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, null, backgroundSize);
+        setBackground(new Background(background));
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ButtonIAFactory buttonFactory = new ButtonIAFactory();
+        String[] imagePaths = {"BGAUDIO.png", "BGVIDEO.png", "BGProfil.png"};
+        var a = buttonFactory.createImageButtons(imagePaths);
+        BoutonsContainerPosition boutonsContainer1 = new BoutonsContainerPosition(30,950,800);
+        boutonsContainer1.getChildren().addAll(a);
+        getChildren().add(boutonsContainer1);// Ajout du conteneur de boutons à Jcia
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ButtonIAFactory buttonFactory1 = new ButtonIAFactory();
+        String[] imagePaths1 = {"Naboo.png", "Coruscant.png", "Mustafar.png"};
+        var b = buttonFactory1.createImageButtons(imagePaths1);
+        BoutonsContainerPosition boutonsContainer2=new BoutonsContainerPosition(30,950,550);
+        boutonsContainer2.getChildren().addAll(b); // Ajout des boutons à la vue de Jcia
+        getChildren().add(boutonsContainer2);// Ajout du conteneur de boutons à Jcia
+    }
+}
