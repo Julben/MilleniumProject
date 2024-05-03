@@ -13,7 +13,6 @@ import org.example.milleniumproject.model.BoutonsContainerPosition;
 import org.example.milleniumproject.model.ButtonIAFactory;
 import org.example.milleniumproject.model.ButtonsIA;
 
-
 public class Jcia extends Pane {
     private Stage primaryStage; // référence de la scène principaleeee
 
