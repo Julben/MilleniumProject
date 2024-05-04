@@ -146,7 +146,6 @@ public class Profil extends StackPane {
         return vBox;
     }
 
-
     private TextField createTextField(String playerName) {
         TextField textField = new TextField();
         textField.setPromptText("Entrez votre pseudo");

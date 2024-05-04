@@ -16,10 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Party extends StackPane {
-    private int currentPlayer = 1; // Variable pour suivre le joueur actuel (1 pour Joueur 1, 2 pour Joueur 2)
-    private VBox leftVBox; // VBox pour les images du Joueur 1
-    private VBox rightVBox; // VBox pour les images du Joueur 2
-    private int turns = 0; // Nombre de tours joués
+    // Déclarations des variables d'instance
+    private int currentPlayer = 1;
+    private VBox leftVBox;
+    private VBox rightVBox;
+    private int turns = 0;
+    private int currentImageIndex = 0;
 
     public Party(Stage primaryStage) {
         // Création du fond d'écran
@@ -54,7 +56,7 @@ public class Party extends StackPane {
         leftVBox = createVBoxWithImages(vaisseau1, 9);
         rightVBox = createVBoxWithImages(vaisseau2, 9);
 
-        HBox hBox = new HBox(0.6*Constant.screenWidth); // Espacement horizontal entre les Vbox
+        HBox hBox = new HBox(0.6 * Constant.screenWidth); // Espacement horizontal entre les Vbox
         hBox.getChildren().addAll(leftVBox, rightVBox);
         hBox.setAlignment(Pos.CENTER);
 
@@ -95,14 +97,33 @@ public class Party extends StackPane {
     }
 
     // Méthode pour placer l'image du joueur sur un bouton
+    // Méthode pour placer l'image du joueur sur un bouton
     private void placePlayerImage(Button button, VBox playerVBox) {
-        // Obtenir la première image du joueur depuis la VBox correspondante
-        ImageView imageView = (ImageView) playerVBox.getChildren().get(0);
-        // Appliquer l'image sur le bouton
-        button.setGraphic(imageView);
-        // Supprimer l'image de la VBox
-        playerVBox.getChildren().remove(0);
+        // Obtenir le GridPane enfant de la VBox
+        GridPane gridPane = (GridPane) playerVBox.getChildren().get(0);
+
+        // Vérifier si le GridPane contient des images
+        if (!gridPane.getChildren().isEmpty()) {
+            // Récupérer l'image correspondant à l'index du joueur actuel
+            ImageView imageView = (ImageView) gridPane.getChildren().get(currentImageIndex);
+
+            // Appliquer l'image sur le bouton
+            button.setGraphic(imageView);
+
+            // Supprimer l'image du GridPane
+            gridPane.getChildren().remove(imageView);
+
+            // Incrémenter l'index d'image pour le prochain joueur
+            currentImageIndex++;
+
+            // Passer au joueur suivant après chaque tour complet
+            if (currentImageIndex >= gridPane.getChildren().size()) {
+                currentPlayer = currentPlayer == 1 ? 2 : 1;
+                currentImageIndex = 0; // Réinitialiser l'index d'image
+            }
+        }
     }
+
 
     // Méthode pour créer un bouton stylisé
     private Button createStyledButton(String text) {
@@ -131,7 +152,22 @@ public class Party extends StackPane {
             imageViews.add(imageView);
         }
 
-        vBox.getChildren().addAll(imageViews);
+        // Création d'une grille de 3x3 images
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        int rowIndex = 0;
+        int colIndex = 0;
+        for (ImageView imageView : imageViews) {
+            gridPane.add(imageView, colIndex, rowIndex);
+            colIndex++;
+            if (colIndex > 2) {
+                colIndex = 0;
+                rowIndex++;
+            }
+        }
+
+        vBox.getChildren().add(gridPane);
 
         return vBox;
     }
