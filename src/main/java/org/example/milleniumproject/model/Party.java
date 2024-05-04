@@ -52,12 +52,13 @@ public class Party extends StackPane {
         gridPane.setAlignment(Pos.CENTER); // Positionnement au centre de la StackPane
 
         // Ajout des boutons au GridPane avec leurs positions
-        String[] buttonLabels = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X"};
+        String[] buttonLabels = {"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""};
         int[] rowIndices = {0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 6};
         int[] colIndices = {0, 3, 6, 1, 3, 5, 2, 3, 4, 0, 1, 2, 4, 5, 6, 2, 3, 4, 1, 3, 5, 0, 3, 6, 6};
 
         for (int i = 0; i < buttonLabels.length; i++) {
             Button button = createStyledButton(buttonLabels[i]);
+
             gridPane.add(button, colIndices[i], rowIndices[i]);
         }
 
@@ -137,6 +138,8 @@ public class Party extends StackPane {
                 "-fx-min-height: 65px; " + // Définir la hauteur
                 "-fx-max-width: 65px; " + // Limiter la largeur
                 "-fx-max-height: 65px;");
+
+
     }
 
     // Méthode pour désélectionner un bouton
@@ -145,12 +148,11 @@ public class Party extends StackPane {
                 "-fx-min-width: 65px; " + // Définir la largeur
                 "-fx-min-height: 65px; " + // Définir la hauteur
                 "-fx-max-width: 65px; " + // Limiter la largeur
-                "-fx-max-height: 65px;");
+                "-fx-max-height: 65px;"+
+                "-fx-background-color: transparent; -fx-border-color: transparent;");
     }
 
-    // Méthode pour vérifier si deux boutons sont voisins dans le GridPane
-    // Méthode pour vérifier si deux boutons sont voisins dans le GridPane sans autre bouton entre eux
-    // Méthode pour vérifier si deux boutons sont voisins dans le GridPane sans autre bouton entre eux
+
     // Méthode pour vérifier si deux boutons sont voisins dans le GridPane
     private boolean isNeighbourButton(Button button1, Button button2) {
         GridPane gridPane = (GridPane) button1.getParent();
@@ -194,7 +196,7 @@ public class Party extends StackPane {
 
         return false;
     }
-    
+
     // Méthode pour obtenir un nœud à partir de ses indices de ligne et de colonne dans un GridPane
     private Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
         ObservableList<Node> children = gridPane.getChildren();
@@ -218,6 +220,7 @@ public class Party extends StackPane {
         if (!gridPane.getChildren().isEmpty()) {
             // Récupérer l'image correspondant à l'index du joueur actuel
             ImageView imageView = (ImageView) gridPane.getChildren().get(currentImageIndex);
+
 
             // Appliquer l'image sur le bouton
             button.setGraphic(imageView);
@@ -244,7 +247,9 @@ public class Party extends StackPane {
                 "-fx-min-width: 65px; " + // Définir la largeur
                 "-fx-min-height: 65px; " + // Définir la hauteur
                 "-fx-max-width: 65px; " + // Limiter la largeur
-                "-fx-max-height: 65px;"); // Limiter la hauteur
+                "-fx-max-height: 65px;"+
+                "-fx-background-color: transparent; -fx-border-color: transparent;"); // Limiter la hauteur
+
         return button;
     }
 
