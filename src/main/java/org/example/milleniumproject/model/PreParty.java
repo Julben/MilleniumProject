@@ -2,6 +2,7 @@ package org.example.milleniumproject.model;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -77,6 +78,15 @@ public class PreParty extends StackPane {
         primaryStage.setScene(scene);
         primaryStage.setFullScreen(true);
         primaryStage.show();
+
+        primaryStage.getScene().setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.SPACE && !mediaPlayer.getCurrentTime().equals(mediaPlayer.getTotalDuration())) {
+                mediaPlayer.stop();
+                Party party = new Party(primaryStage); // Supposons que primaryStage soit accessible ici
+                primaryStage.getScene().setRoot(party);
+
+            }
+        });
 
         mediaPlayer.setOnEndOfMedia(() -> {
             Party party = new Party(primaryStage); // Supposons que primaryStage soit accessible ici
