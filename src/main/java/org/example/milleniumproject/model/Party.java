@@ -107,34 +107,108 @@ public class Party extends StackPane {
                 currentPlayer = 1;
                 turns++;
             }
-        }else {
+        } else {
             if (selectedButton == null) {
-            selectedButton = button;
-            button.setStyle("-fx-background-color: yellow;");
+                selectedButton = button;
+                // Sélectionner le bouton actuel
+                selectButton(button);
             } else {
-            // Sinon, si le bouton actuel est déjà sélectionné, désélectionnez-le
-            if (selectedButton == button) {
-                selectedButton.setStyle("");
-                selectedButton = null;
-            } else {
-                // Si un autre bouton est déjà sélectionné, effectuez l'échange
-                if (button.getGraphic() == null) {
+                // Vérifier si le bouton actuel est voisin du bouton sélectionné
+                if (isNeighbourButton(selectedButton, button)) {
                     // Échanger les images des boutons
-                    ImageView imageView = (ImageView) selectedButton.getGraphic();
-                    button.setGraphic(imageView);
-                    selectedButton.setGraphic(null);
-
-                    // Réinitialiser le style des boutons
-                    selectedButton.setStyle("");
-                    selectedButton = null;
+                    if (button.getGraphic() == null) {
+                        ImageView imageView = (ImageView) selectedButton.getGraphic();
+                        button.setGraphic(imageView);
+                        selectedButton.setGraphic(null);
+                    }
                 }
+                // Désélectionner le bouton sélectionné
+                deselectButton(selectedButton);
+                selectedButton = null;
             }
-            }
-
         }
     }
 
-    // Méthode pour placer l'image du joueur sur un bouton
+    // Méthode pour sélectionner un bouton
+    private void selectButton(Button button) {
+        button.setStyle("-fx-background-color: yellow;"+
+                "-fx-background-radius: 50%; " + // Rendre les coins ronds
+                "-fx-min-width: 65px; " + // Définir la largeur
+                "-fx-min-height: 65px; " + // Définir la hauteur
+                "-fx-max-width: 65px; " + // Limiter la largeur
+                "-fx-max-height: 65px;");
+    }
+
+    // Méthode pour désélectionner un bouton
+    private void deselectButton(Button button) {
+        button.setStyle("-fx-background-radius: 50%; " + // Rendre les coins ronds
+                "-fx-min-width: 65px; " + // Définir la largeur
+                "-fx-min-height: 65px; " + // Définir la hauteur
+                "-fx-max-width: 65px; " + // Limiter la largeur
+                "-fx-max-height: 65px;");
+    }
+
+    // Méthode pour vérifier si deux boutons sont voisins dans le GridPane
+    // Méthode pour vérifier si deux boutons sont voisins dans le GridPane sans autre bouton entre eux
+    // Méthode pour vérifier si deux boutons sont voisins dans le GridPane sans autre bouton entre eux
+    // Méthode pour vérifier si deux boutons sont voisins dans le GridPane
+    private boolean isNeighbourButton(Button button1, Button button2) {
+        GridPane gridPane = (GridPane) button1.getParent();
+        Integer rowIndex1 = GridPane.getRowIndex(button1);
+        Integer colIndex1 = GridPane.getColumnIndex(button1);
+        Integer rowIndex2 = GridPane.getRowIndex(button2);
+        Integer colIndex2 = GridPane.getColumnIndex(button2);
+
+        // Vérifier si les boutons sont dans les mêmes colonnes
+        if (colIndex1.equals(colIndex2)) {
+            // Parcourir les lignes entre les deux boutons
+            int startRow = Math.min(rowIndex1, rowIndex2);
+            int endRow = Math.max(rowIndex1, rowIndex2);
+            for (int row = startRow + 1; row < endRow; row++) {
+                if (row == 3 && colIndex1 == 3) {
+                    return false; // Arrêter le scan si la coordonnée (3,3) est un mur
+                }
+                Node node = getNodeByRowColumnIndex(row, colIndex1, gridPane);
+                if (node instanceof Button) {
+                    return false; // Il y a un bouton entre les deux, donc ils ne sont pas voisins
+                }
+            }
+            return true;
+        }
+        // Vérifier si les boutons sont dans les mêmes lignes
+        else if (rowIndex1.equals(rowIndex2)) {
+            // Parcourir les colonnes entre les deux boutons
+            int startCol = Math.min(colIndex1, colIndex2);
+            int endCol = Math.max(colIndex1, colIndex2);
+            for (int col = startCol + 1; col < endCol; col++) {
+                if (rowIndex1 == 3 && col == 3) {
+                    return false; // Arrêter le scan si la coordonnée (3,3) est un mur
+                }
+                Node node = getNodeByRowColumnIndex(rowIndex1, col, gridPane);
+                if (node instanceof Button) {
+                    return false; // Il y a un bouton entre les deux, donc ils ne sont pas voisins
+                }
+            }
+            return true;
+        }
+
+        return false;
+    }
+    
+    // Méthode pour obtenir un nœud à partir de ses indices de ligne et de colonne dans un GridPane
+    private Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
+        ObservableList<Node> children = gridPane.getChildren();
+        for (Node node : children) {
+            if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column) {
+                return node;
+            }
+        }
+        return null;
+    }
+
+
+
+
     // Méthode pour placer l'image du joueur sur un bouton
     private void placePlayerImage(Button button, VBox playerVBox) {
         // Obtenir le GridPane enfant de la VBox
