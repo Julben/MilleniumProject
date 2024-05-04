@@ -1,5 +1,6 @@
 package org.example.milleniumproject.view;
 
+import javafx.scene.image.ImageView;
 import org.example.milleniumproject.model.*;
 import org.example.milleniumproject.view.Profil;
 import javafx.geometry.Insets;
@@ -107,9 +108,8 @@ public class Profil extends StackPane {
                 menu.afficherMenu(primaryStage);
             }
         });
-
-
-        HBox hBox = new HBox(345); // Espacement horizontal entre les Vbox
+        
+        HBox hBox = new HBox(0.0898*Constant.screenWidth); // Espacement horizontal entre les Vbox
         hBox.getChildren().addAll(vBox1, vBox2);
         hBox.setAlignment(Pos.CENTER);
 
@@ -139,7 +139,7 @@ public class Profil extends StackPane {
             textField2 = textField;
         }
 
-        VBox vBox = new VBox(15); // Espacement vertical entre les carrousels
+        VBox vBox = new VBox(0.0039*Constant.screenWidth); // Espacement vertical entre les carrousels
         vBox.getChildren().addAll(label, avatarCarrousel, textField, rangCarrousel, vaisseauCarrousel);
         vBox.setAlignment(Pos.CENTER);
 
