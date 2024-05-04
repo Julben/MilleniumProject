@@ -225,17 +225,6 @@ public class Party extends StackPane {
         return false;
     }
 
-    // Méthode pour obtenir un nœud à partir de ses indices de ligne et de colonne dans un GridPane
-    private Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
-        ObservableList<Node> children = gridPane.getChildren();
-        for (Node node : children) {
-            if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column) {
-                return node;
-            }
-        }
-        return null;
-    }
-
     // Méthode pour placer l'image du joueur sur un bouton
     private void placePlayerImage(Button button, VBox playerVBox) {
         // Obtenir le GridPane enfant de la VBox
@@ -409,7 +398,7 @@ public class Party extends StackPane {
         }
 
         // Création d'une VBox pour contenir le nom et le rang
-        VBox labelsVBox = new VBox(10); // Espacement vertical entre les labels
+        VBox labelsVBox = new VBox(0); // Espacement vertical entre les labels
 
         if (isPlayer1) {
             labelsVBox.setAlignment(Pos.CENTER_LEFT); // Alignement à droite des labels pour le joueur 1
