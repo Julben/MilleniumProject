@@ -267,7 +267,7 @@ public class Party extends StackPane {
         return button;
     }
 
-    private void highlightAlignedButtons(GridPane gridPane) {
+    /*private void highlightAlignedButtons(GridPane gridPane) {
         // Parcourir chaque ligne et chaque colonne de la GridPane
         for (int i = 0; i < gridPane.getRowCount(); i++) {
             highlightAlignedButtonsInRow(gridPane, i);
@@ -325,11 +325,11 @@ public class Party extends StackPane {
                 }
             }
         }
-    }
+    }*/
 
 
 
-    private Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
+    /*private Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
         Node result = null;
         ObservableList<Node> children = gridPane.getChildren();
         for (Node node : children) {
@@ -339,7 +339,7 @@ public class Party extends StackPane {
             }
         }
         return result;
-    }
+    }*/
 
 
     // Méthode pour créer une VBox avec des images répétées
