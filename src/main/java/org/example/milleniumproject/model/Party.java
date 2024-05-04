@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -12,7 +13,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,10 +23,25 @@ public class Party extends StackPane {
     private VBox rightVBox;
     private int turns = 0;
     private int currentImageIndex = 0;
+    private ToggleGroup toggleGroup3;
+    private HBox hbox3;
 
-    public Party(Stage primaryStage) {
+    public Party(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3) {
+        this.toggleGroup3 = toggleGroup3;
+        this.hbox3 = hbox3;
+
+        int selectedIndex = PreParty.getSelectedIndex(toggleGroup3, hbox3);
         // Création du fond d'écran
-        BG ground = new BG("src/main/resources/FENABOO.png");
+
+        String backgroundImage = "";
+        if (selectedIndex == 0) {
+            backgroundImage = "src/main/resources/FENABOO.png";
+        } else if (selectedIndex == 1) {
+            backgroundImage = "src/main/resources/FECORUSCANT.png";
+        } else if (selectedIndex == 2) {
+            backgroundImage = "src/main/resources/FEMUSTAPHAR.png";
+        }
+        BG ground = new BG(backgroundImage);
         setBackground(ground.getCustomBackground());
 
         // Création du GridPane

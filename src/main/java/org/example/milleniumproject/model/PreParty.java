@@ -4,16 +4,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-<<<<<<< Updated upstream
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.StackPane;
-=======
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
->>>>>>> Stashed changes
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -85,14 +81,7 @@ public class PreParty extends StackPane {
 
     public String ChooseVideo(String shipIndex1, String shipIndex2, ToggleGroup toggleGroup3, HBox hbox3) {
 
-        int selectedIndex = -1;
-        ToggleButton selectedButton = (ToggleButton) toggleGroup3.getSelectedToggle();
-        if(selectedButton != null) {
-            selectedIndex = hbox3.getChildren().indexOf(selectedButton);
-            System.out.println(selectedIndex); // print the index of selected button
-        } else {
-            System.out.println("Aucun ToggleButton n'est actuellement sélectionné.");
-        }
+        int selectedIndex = getSelectedIndex(toggleGroup3, hbox3);
 
         String[] planete = {"Naboo.png", "Coruscant.png", "Mustafar.png"};
 
@@ -174,14 +163,14 @@ public class PreParty extends StackPane {
         primaryStage.getScene().setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.SPACE && !mediaPlayer.getCurrentTime().equals(mediaPlayer.getTotalDuration())) {
                 mediaPlayer.stop();
-                Party party = new Party(primaryStage); // Supposons que primaryStage soit accessible ici
+                Party party = new Party(primaryStage, toggleGroup3, hbox3); // Supposons que primaryStage soit accessible ici
                 primaryStage.getScene().setRoot(party);
 
             }
         });
 
         mediaPlayer.setOnEndOfMedia(() -> {
-            Party party = new Party(primaryStage); // Supposons que primaryStage soit accessible ici
+            Party party = new Party(primaryStage, toggleGroup3, hbox3); // Supposons que primaryStage soit accessible ici
             primaryStage.getScene().setRoot(party);
         });
         mediaPlayer.play();
@@ -257,5 +246,15 @@ public class PreParty extends StackPane {
             launchButton.setDisable(true); // Désactiver le bouton sinon
         }
     }
+
+    public static int getSelectedIndex(ToggleGroup toggleGroup3, HBox hbox3) {
+        int selectedIndex = -1;
+        ToggleButton selectedButton = (ToggleButton) toggleGroup3.getSelectedToggle();
+        if(selectedButton != null) {
+            selectedIndex = hbox3.getChildren().indexOf(selectedButton);
+        }
+        return selectedIndex;
+    }
+
 
 }
