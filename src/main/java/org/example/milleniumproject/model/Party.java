@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,7 +13,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,7 +86,30 @@ public class Party extends StackPane {
         StackPane.setAlignment(leftVBox, Pos.CENTER_LEFT);
         StackPane.setAlignment(rightVBox, Pos.CENTER_RIGHT);
 
-        getChildren().addAll(hBox, gridPane);
+        // Récupération des données des profils
+        String avatar1 = ProfileData.getAvatar(1);
+        String playerName1 = ProfileData.getPlayerName(1);
+        String rank1 = ProfileData.getRank(1);
+
+        String avatar2 = ProfileData.getAvatar(2);
+        String playerName2 = ProfileData.getPlayerName(2);
+        String rank2 = ProfileData.getRank(2);
+
+        // Extraction des noms de fichiers à partir des chemins complets
+        String avatarFileName1 = avatar1.substring(avatar1.lastIndexOf('/') + 1);
+        String avatarFileName2 = avatar2.substring(avatar2.lastIndexOf('/') + 1);
+
+        // Création des VBox pour afficher les profils
+        VBox profileBox1 = createProfileBox(avatarFileName1, playerName1, rank1, true);
+        VBox profileBox2 = createProfileBox(avatarFileName2, playerName2, rank2, false);
+        setMargin(profileBox1, new Insets(0, 950, 20, 0));
+        setMargin(profileBox2, new Insets(0, 0, 20, 950));
+
+        // Positionnement des VBox
+        setAlignment(profileBox1, Pos.BOTTOM_LEFT);
+        setAlignment(profileBox2, Pos.BOTTOM_RIGHT);
+
+        getChildren().addAll(hBox, profileBox1, profileBox2, gridPane);
 
         // Gestionnaire d'événements pour les boutons du GridPane
         for (Node node : gridPane.getChildren()) {
@@ -194,20 +222,6 @@ public class Party extends StackPane {
 
         return false;
     }
-    
-    // Méthode pour obtenir un nœud à partir de ses indices de ligne et de colonne dans un GridPane
-    private Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
-        ObservableList<Node> children = gridPane.getChildren();
-        for (Node node : children) {
-            if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column) {
-                return node;
-            }
-        }
-        return null;
-    }
-
-
-
 
     // Méthode pour placer l'image du joueur sur un bouton
     private void placePlayerImage(Button button, VBox playerVBox) {
@@ -248,7 +262,7 @@ public class Party extends StackPane {
         return button;
     }
 
-    /*private void highlightAlignedButtons(GridPane gridPane) {
+    private void highlightAlignedButtons(GridPane gridPane) {
         // Parcourir chaque ligne et chaque colonne de la GridPane
         for (int i = 0; i < gridPane.getRowCount(); i++) {
             highlightAlignedButtonsInRow(gridPane, i);
@@ -320,7 +334,7 @@ public class Party extends StackPane {
             }
         }
         return result;
-    }*/
+    }
 
 
     // Méthode pour créer une VBox avec des images répétées
@@ -357,5 +371,62 @@ public class Party extends StackPane {
         vBox.getChildren().add(gridPane);
 
         return vBox;
+    }
+
+    // Méthode pour créer une VBox affichant le profil d'un joueur avec l'avatar à côté des labels
+    private VBox createProfileBox(String avatarFileName, String playerName, String rank, boolean isPlayer1) {
+        VBox profileBox = new VBox(0); // Espacement vertical entre les éléments du profil
+        profileBox.setAlignment(Pos.BOTTOM_CENTER); // Alignement au centre et en bas
+
+        // Création d'une HBox pour contenir l'avatar, le nom et le rang
+        HBox hbox = new HBox(10); // Espacement horizontal entre les éléments
+        hbox.setAlignment(Pos.CENTER); // Centrage horizontal des éléments
+
+        // Ajout de l'avatar à la HBox
+        ImageView avatarImageView = new ImageView(new Image(avatarFileName));
+        avatarImageView.setFitWidth(150); // Taille de l'avatar
+        avatarImageView.setFitHeight(150);
+
+        if (isPlayer1) {
+            // Pour le joueur 1, placer l'avatar à gauche et aligner les labels à droite
+            hbox.getChildren().add(avatarImageView);
+        }
+
+        // Création d'une VBox pour contenir le nom et le rang
+        VBox labelsVBox = new VBox(10); // Espacement vertical entre les labels
+
+        if (isPlayer1) {
+            labelsVBox.setAlignment(Pos.CENTER_LEFT); // Alignement à droite des labels pour le joueur 1
+        } else {
+            labelsVBox.setAlignment(Pos.CENTER_RIGHT); // Alignement à gauche des labels pour le joueur 2
+        }
+
+        // Ajout du nom du joueur
+        Label nameLabel = new Label(playerName);
+        nameLabel.setFont(Font.font("Cardo", 35)); // Définition de la police et de la taille
+        nameLabel.setTextFill(Color.WHITE); // Définition de la couleur du text
+        labelsVBox.getChildren().add(nameLabel);
+
+        // Ajout du rang du joueur
+        Label rankLabel = new Label(rank);
+        rankLabel.setFont(Font.font("Cardo", 20)); // Définition de la police et de la taille
+        rankLabel.setTextFill(Color.WHITE); // Définition de la couleur du text
+        labelsVBox.getChildren().add(rankLabel);
+
+        if (!isPlayer1) {
+            hbox.getChildren().add(labelsVBox); // Ajout de la VBox des labels à la HBox pour le joueur 2
+        } else {
+            hbox.getChildren().add(labelsVBox); // Ajout de la VBox des labels à la HBox pour le joueur 1
+        }
+
+        // Ajout de l'avatar à droite pour le joueur 2
+        if (!isPlayer1) {
+            hbox.getChildren().add(avatarImageView); // Ajout de l'avatar à droite pour le joueur 2
+        }
+
+        // Ajout de la HBox au VBox principal
+        profileBox.getChildren().add(hbox);
+
+        return profileBox;
     }
 }

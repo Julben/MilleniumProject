@@ -85,7 +85,6 @@ public class PreParty extends StackPane {
 
         String[] planete = {"Naboo.png", "Coruscant.png", "Mustafar.png"};
 
-
         if ((shipIndex1.equals("src/main/resources/PionDestroyer.png") && shipIndex2.equals("src/main/resources/PionFaucon.png")) || (shipIndex1.equals("src/main/resources/PionFaucon.png") && shipIndex2.equals("src/main/resources/PionDestroyer.png"))) {
             if (planete[selectedIndex].equals("Naboo.png")) {
                 video = "src/main/resources/VideoLoad/FauconDestroyerNabooFinal.mp4";
@@ -227,7 +226,7 @@ public class PreParty extends StackPane {
             // Ajouter un style lorsque le bouton est sélectionné
             button.selectedProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue) {
-                    button.setStyle("-fx-border-color: #9ed586; -fx-border-width: 2px; -fx-background-color: transparent;");
+                    button.setStyle("-fx-border-color: #9ed586; -fx-border-width: 2px; -fx-background-color: #9ed586;");
                 } else {
                     button.setStyle("-fx-background-color: transparent;");
                 }
