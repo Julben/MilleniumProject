@@ -14,6 +14,9 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import java.util.Arrays;
 
+import static org.example.milleniumproject.model.Constant.screenHeight;
+import static org.example.milleniumproject.model.Constant.screenWidth;
+
 public class Profil extends StackPane {
     Menu menu = new Menu();
     public static final double AVATAR_SIZE = 130.0;
@@ -25,8 +28,23 @@ public class Profil extends StackPane {
     private Carrousel rangCarrousel2;
     private Carrousel vaisseauCarrousel1;
     private Carrousel vaisseauCarrousel2;
+    private Label erreurLabel;
 
     public Profil(Stage primaryStage) {
+
+        erreurLabel = new Label(); // Initialiser le label d'erreur
+        erreurLabel.setTextFill(Color.WHITE);
+        erreurLabel.setFont(Font.font("Cardo", FontWeight.BOLD, 0.02 * screenHeight));
+
+        // Ajouter directement le label d'erreur à la scène principale (Profil)
+        getChildren().add(erreurLabel);
+
+        StackPane.setAlignment(erreurLabel, Pos.TOP_LEFT);
+        StackPane.setMargin(erreurLabel, new Insets(0.02*screenHeight, 0, 0, 0.35 * screenWidth));
+
+        //Pane buttonContainer = new Pane();
+        //buttonContainer.getChildren().add(erreurLabel);
+
         BG ground = new BG("src/main/resources/BGProfil.png");
         setBackground(ground.getCustomBackground());
 
@@ -76,11 +94,20 @@ public class Profil extends StackPane {
         VBox vBox2 = createPlayerBox("Joueur 2", avatar, rang, vaisseau, savedPlayerName2, savedAvatarIndex2, savedRankIndex2, savedShipIndex2);
 
         retourButton.setOnAction(event -> {
-            getProfileData(1, textField1, avatarCarrousel1, rangCarrousel1, vaisseauCarrousel1, avatar, rang, vaisseau);
-            getProfileData(2, textField2, avatarCarrousel2, rangCarrousel2, vaisseauCarrousel2, avatar, rang, vaisseau);
-            SoundPlayer.soundPlay();
-            menu.afficherMenu(primaryStage);
+            // Comparer les chemins d'accès des avatars et des pions des deux joueurs
+            if(avatarCarrousel1.getCurrentIndex() == avatarCarrousel2.getCurrentIndex()) {
+                erreurLabel.setText("Les avatars des joueurs ne doivent pas être identiques !");
+            } else if(vaisseauCarrousel1.getCurrentIndex() == vaisseauCarrousel2.getCurrentIndex()) {
+                erreurLabel.setText("Les pions des joueurs ne doivent pas être identiques !");
+            } else {
+                // Si les avatars et les pions sont différents, poursuivre avec l'action de retour
+                getProfileData(1, textField1, avatarCarrousel1, rangCarrousel1, vaisseauCarrousel1, avatar, rang, vaisseau);
+                getProfileData(2, textField2, avatarCarrousel2, rangCarrousel2, vaisseauCarrousel2, avatar, rang, vaisseau);
+                SoundPlayer.soundPlay();
+                menu.afficherMenu(primaryStage);
+            }
         });
+
 
         HBox hBox = new HBox(345); // Espacement horizontal entre les Vbox
         hBox.getChildren().addAll(vBox1, vBox2);
