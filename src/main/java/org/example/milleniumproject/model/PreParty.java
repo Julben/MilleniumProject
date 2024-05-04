@@ -165,7 +165,6 @@ public class PreParty extends StackPane {
                 mediaPlayer.stop();
                 Party party = new Party(primaryStage, toggleGroup3, hbox3); // Supposons que primaryStage soit accessible ici
                 primaryStage.getScene().setRoot(party);
-
             }
         });
 

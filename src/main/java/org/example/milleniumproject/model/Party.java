@@ -25,6 +25,7 @@ public class Party extends StackPane {
     private int currentImageIndex = 0;
     private ToggleGroup toggleGroup3;
     private HBox hbox3;
+    private Button selectedButton=null;
 
     public Party(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3) {
         this.toggleGroup3 = toggleGroup3;
@@ -99,18 +100,37 @@ public class Party extends StackPane {
             if (currentPlayer == 1) {
                 // Placez l'image du joueur 1 sur le bouton
                 placePlayerImage(button, leftVBox);
-                // Passez au tour du joueur 2
                 currentPlayer = 2;
             } else {
                 // Placez l'image du joueur 2 sur le bouton
                 placePlayerImage(button, rightVBox);
-                // Passez au tour du joueur 1
                 currentPlayer = 1;
-                // Incrémenter le nombre de tours
                 turns++;
             }
-            // Ajouter la vérification des boutons alignés après chaque tour
-            highlightAlignedButtons((GridPane) ((StackPane) button.getParent().getParent()).getChildren().get(1));
+        }else {
+            if (selectedButton == null) {
+            selectedButton = button;
+            button.setStyle("-fx-background-color: yellow;");
+            } else {
+            // Sinon, si le bouton actuel est déjà sélectionné, désélectionnez-le
+            if (selectedButton == button) {
+                selectedButton.setStyle("");
+                selectedButton = null;
+            } else {
+                // Si un autre bouton est déjà sélectionné, effectuez l'échange
+                if (button.getGraphic() == null) {
+                    // Échanger les images des boutons
+                    ImageView imageView = (ImageView) selectedButton.getGraphic();
+                    button.setGraphic(imageView);
+                    selectedButton.setGraphic(null);
+
+                    // Réinitialiser le style des boutons
+                    selectedButton.setStyle("");
+                    selectedButton = null;
+                }
+            }
+            }
+
         }
     }
 
@@ -154,7 +174,7 @@ public class Party extends StackPane {
         return button;
     }
 
-    private void highlightAlignedButtons(GridPane gridPane) {
+    /*private void highlightAlignedButtons(GridPane gridPane) {
         // Parcourir chaque ligne et chaque colonne de la GridPane
         for (int i = 0; i < gridPane.getRowCount(); i++) {
             highlightAlignedButtonsInRow(gridPane, i);
@@ -226,7 +246,7 @@ public class Party extends StackPane {
             }
         }
         return result;
-    }
+    }*/
 
 
     // Méthode pour créer une VBox avec des images répétées
