@@ -41,15 +41,15 @@ public class PreParty extends StackPane {
 
     public String ChooseVideo(String shipIndex1, String shipIndex2) {
 
-        if ((shipIndex1.equals("src/main/resources/Pion/PionDestroyer.png") && shipIndex2.equals("src/main/resources/Pion/PionFaucon.png") )||(shipIndex1.equals("src/main/resources/Pion/PionFaucon.png")  && shipIndex2.equals("src/main/resources/Pion/PionDestroyer.png"))) {
+        if ((shipIndex1.equals("src/main/resources/PionDestroyer.png") && shipIndex2.equals("src/main/resources/PionFaucon.png") )||(shipIndex1.equals("src/main/resources/PionFaucon.png")  && shipIndex2.equals("src/main/resources/PionDestroyer.png"))) {
             video ="src/main/resources/VideoLoad/FauconDestroyerNabooFinal.mp4";
-        } else if ((shipIndex1.equals("src/main/resources/Pion/PionDestroyer.png")  && shipIndex2.equals("src/main/resources/Pion/PionTfighter.png") )||(shipIndex1.equals("src/main/resources/Pion/PionTfighter.png") && shipIndex2.equals("src/main/resources/Pion/PionDestroyer.png") )) {
+        } else if ((shipIndex1.equals("src/main/resources/PionDestroyer.png")  && shipIndex2.equals("src/main/resources/PionTfighter.png") )||(shipIndex1.equals("src/main/resources/PionTfighter.png") && shipIndex2.equals("src/main/resources/PionDestroyer.png") )) {
             video =  "src/main/resources/VideoLoad/TfighterDestroyerNabooFinal.mp4";
-        } else if ((shipIndex1.equals("src/main/resources/Pion/PionDestroyer.png")  && shipIndex2.equals("src/main/resources/Pion/PionXwing.png"))||(shipIndex1.equals("src/main/resources/Pion/PionXwing.png")  && shipIndex2.equals("src/main/resources/Pion/PionDestroyer.png") )) {
+        } else if ((shipIndex1.equals("src/main/resources/PionDestroyer.png")  && shipIndex2.equals("src/main/resources/PionXwing.png"))||(shipIndex1.equals("src/main/resources/PionXwing.png")  && shipIndex2.equals("src/main/resources/PionDestroyer.png") )) {
             video = "src/main/resources/VideoLoad/XwingDestroyerNabooFinal.mp4";
-        } else if ((shipIndex1.equals("src/main/resources/Pion/PionFaucon.png") && shipIndex2.equals("src/main/resources/Pion/PionTfighter.png"))||(shipIndex1.equals("src/main/resources/Pion/PionTfighter.png") && shipIndex2.equals("src/main/resources/Pion/PionFaucon.png"))) {
+        } else if ((shipIndex1.equals("src/main/resources/PionFaucon.png") && shipIndex2.equals("src/main/resources/PionTfighter.png"))||(shipIndex1.equals("src/main/resources/PionTfighter.png") && shipIndex2.equals("src/main/resources/PionFaucon.png"))) {
             video = "src/main/resources/VideoLoad/FauconTfighterNabooFinal.mp4";
-        } else if ((shipIndex1.equals("src/main/resources/Pion/PionFaucon.png") && shipIndex2.equals("src/main/resources/Pion/PionXwing.png"))||(shipIndex1.equals("src/main/resources/Pion/PionXwing.png") && shipIndex2.equals("src/main/resources/Pion/PionFaucon.png"))) {
+        } else if ((shipIndex1.equals("src/main/resources/PionFaucon.png") && shipIndex2.equals("src/main/resources/PionXwing.png"))||(shipIndex1.equals("src/main/resources/PionXwing.png") && shipIndex2.equals("src/main/resources/PionFaucon.png"))) {
             video = "src/main/resources/VideoLoad/FauconXwingNabooFinal.mp4";
         } else {
             video = "src/main/resources/VideoLoad/XwingTfighterNabooFinal.mp4";
