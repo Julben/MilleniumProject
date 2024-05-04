@@ -35,7 +35,7 @@ public class Profil extends StackPane {
 
         String[] avatar = {"src/main/resources/Avatar/1.png", "src/main/resources/Avatar/2.png", "src/main/resources/Avatar/3.png", "src/main/resources/Avatar/4.png", "src/main/resources/Avatar/5.png", "src/main/resources/Avatar/6.png", "src/main/resources/Avatar/7.png", "src/main/resources/Avatar/8.png", "src/main/resources/Avatar/9.png", "src/main/resources/Avatar/10.png", "src/main/resources/Avatar/11.png", "src/main/resources/Avatar/12.png",};
         String[] rang = {"Padawan", "Apprenti Jedi", "Jeune Jedi", "Jedi", "Maitre Jedi", "Seigneur Sith", "Wookie", "Mandalorian"};
-        String[] vaisseau = {"src/main/resources/Pion/PionDestroyer.png", "src/main/resources/Pion/PionFaucon.png", "src/main/resources/Pion/PionTfighter.png", "src/main/resources/Pion/PionXwing.png"};
+        String[] vaisseau = {"src/main/resources/PionDestroyer.png", "src/main/resources/PionFaucon.png", "src/main/resources/PionTfighter.png", "src/main/resources/PionXwing.png"};
 
         // Charger les données du profil s'il existe
         String savedPlayerName1 = ProfileData.getPlayerName(1);
