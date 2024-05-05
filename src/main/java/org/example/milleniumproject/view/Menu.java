@@ -16,10 +16,11 @@ import java.util.List;
 public class Menu {
 
     public void afficherMenu(Stage primaryStage) {
+        //Affichage de la scène principale + nettoyage de la scène
         StackPane root = (StackPane) primaryStage.getScene().getRoot();
-        root.getChildren().clear(); // Supprime tous les nœuds existants dans la pile
+        root.getChildren().clear();
 
-        // Ajouter l'ImageView du menu à la pile
+        // Ajouter le fond d'écran du menu
         BG ground = new BG("src/main/resources/TestBckgrnd.png");
         root.getChildren().add(ground);
 
@@ -29,12 +30,13 @@ public class Menu {
         List<Button> boutons1 = new ArrayList<>(boutonsComplets.subList(0, 5)); // Les 5 premiers boutons
         List<Button> boutons2 = new ArrayList<>(boutonsComplets.subList(5, boutonsComplets.size())); // Les 5 suivants
 
-        // Rendre les boutons2 invisibles et non-cliquables
+        // Rendre les sous-boutons invisibles et non-cliquables
         for (Button bouton : boutons2) {
             bouton.setVisible(false);
             bouton.setDisable(true);
         }
 
+        //Créer une VBox pour les 2 listes de boutons
         VBox boutonsLayout = createButtonVBox(boutons1);
         VBox boutonsLayout1 = createButtonVBox(boutons2);
 
@@ -64,5 +66,4 @@ public class Menu {
         vbox.getChildren().addAll(buttons);
         return vbox;
     }
-
 }
