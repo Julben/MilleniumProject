@@ -161,10 +161,10 @@ public class Party extends StackPane {
     // Méthode pour gérer la sélection du bouton
     private void handleSelection(List<Button> buttons ,Button clickedButton) {
             if (selectedButton == null) {
-                selectedButton = clickedButton;
-                // Sélectionner le bouton actuel
-                selectButton(selectedButton);
-            } else {
+                if (buttons.contains(clickedButton)) {
+                    selectedButton = clickedButton;// Sélectionner le bouton actuel
+                    selectButton(selectedButton);
+                }} else {
                 // Vérifier si le bouton actuel est voisin du bouton sélectionné
                 if (isNeighbourButton(selectedButton, clickedButton)) {
                     // Échanger les images des boutons
