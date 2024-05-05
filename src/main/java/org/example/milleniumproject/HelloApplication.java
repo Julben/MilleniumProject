@@ -12,20 +12,20 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        LoadVideo loadVideo = new LoadVideo();
-        Menu menu = new Menu(); // Création de l'instance de la classe Menu
+
+        LoadVideo loadVideo = new LoadVideo();  //Instanciation de la vidéo de démarrage
+        Menu menu = new Menu();  // Instanciation de la classe Menu
 
         String videoPath = "src/main/resources/Video.mp4";
         MediaPlayer mediaPlayer = loadVideo.chargerVideo(primaryStage, videoPath);
 
-        // Ajout d'un écouteur d'événements pour détecter la fin de la vidéo
+        // Affiche le Menu et lance la musique lorsque la vidéo s'arrète
         mediaPlayer.setOnEndOfMedia(() -> {
-            // Lorsque la vidéo est terminée, affichez l'image du menu
             menu.afficherMenu(primaryStage);
             MusicPlayer.musicPlay("src/main/resources/Star Wars_ Battlefront OST - Main Menu Music.mp3");
         });
 
-        // Ajout d'un gestionnaire d'événements pour la touche espace
+        // Skip la vidéo lorsque l'on presse la touche "Espace"
         primaryStage.getScene().setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.SPACE && !mediaPlayer.getCurrentTime().equals(mediaPlayer.getTotalDuration())) {
                 mediaPlayer.stop();
@@ -34,7 +34,6 @@ public class HelloApplication extends Application {
             }
         });
     }
-
     public static void main(String[] args) {
         launch(args);
     }
