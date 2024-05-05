@@ -30,7 +30,11 @@ public class Party extends StackPane {
     private int currentImageIndex = 0;
     private ToggleGroup toggleGroup3;
     private HBox hbox3;
-    private Button selectedButton=null;
+    private Button selectedButton = null;
+    private boolean isMovePhase = false;
+    private List<Button> buttonsJ1 = new ArrayList<>();
+    private List<Button> buttonsJ2 = new ArrayList<>();
+
 
     public Party(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3) {
         this.toggleGroup3 = toggleGroup3;
@@ -121,41 +125,58 @@ public class Party extends StackPane {
         }
     }
 
-    // Méthode pour gérer les clics sur les boutons du GridPane
+
+
+    // Méthode pour gérer le clic sur le bouton
     private void handleButtonClick(Button button) {
         // Vérifier si le bouton n'a pas déjà d'image et si tous les tours n'ont pas été joués
         if (button.getGraphic() == null && turns < 9) {
-            // Vérifier le joueur actuel
+            // Placer l'image du joueur sur le bouton en fonction du joueur actuel
             if (currentPlayer == 1) {
-                // Placez l'image du joueur 1 sur le bouton
                 placePlayerImage(button, leftVBox);
+                buttonsJ1.add(button);
                 currentPlayer = 2;
             } else {
-                // Placez l'image du joueur 2 sur le bouton
                 placePlayerImage(button, rightVBox);
+                buttonsJ2.add(button);
                 currentPlayer = 1;
                 turns++;
             }
         } else {
+            // Vérifier si le bouton cliqué appartient à la liste des boutons autorisés à être sélectionnés par le joueur actuel
+            if (currentPlayer == 1 && (buttonsJ1.contains(button) || button.getGraphic() == null)) {
+                handleSelection(buttonsJ1, button);
+            } else if (currentPlayer == 2 && (buttonsJ2.contains(button) || button.getGraphic() == null) ) {
+                handleSelection(buttonsJ2, button);
+            }
+        }
+    }
+
+    // Méthode pour gérer la sélection du bouton
+    private void handleSelection(List<Button> buttons ,Button clickedButton) {
             if (selectedButton == null) {
-                selectedButton = button;
+                selectedButton = clickedButton;
                 // Sélectionner le bouton actuel
-                selectButton(button);
+                selectButton(selectedButton);
             } else {
                 // Vérifier si le bouton actuel est voisin du bouton sélectionné
-                if (isNeighbourButton(selectedButton, button)) {
+                if (isNeighbourButton(selectedButton, clickedButton)) {
                     // Échanger les images des boutons
-                    if (button.getGraphic() == null) {
+                    if (clickedButton.getGraphic() == null) {
                         ImageView imageView = (ImageView) selectedButton.getGraphic();
-                        button.setGraphic(imageView);
+                        clickedButton.setGraphic(imageView);
                         selectedButton.setGraphic(null);
+                        buttons.remove(selectedButton);
+                        buttons.add(clickedButton);
+                        // Changer de joueur après avoir effectué l'échange
+                        currentPlayer = (currentPlayer == 1) ? 2 : 1;
                     }
                 }
                 // Désélectionner le bouton sélectionné
                 deselectButton(selectedButton);
                 selectedButton = null;
             }
-        }
+
     }
 
     // Méthode pour sélectionner un bouton
@@ -166,8 +187,6 @@ public class Party extends StackPane {
                 "-fx-min-height: 65px; " + // Définir la hauteur
                 "-fx-max-width: 65px; " + // Limiter la largeur
                 "-fx-max-height: 65px;");
-
-
     }
 
     // Méthode pour désélectionner un bouton
