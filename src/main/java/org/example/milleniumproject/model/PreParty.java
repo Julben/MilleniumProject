@@ -13,6 +13,7 @@ import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import org.example.milleniumproject.model.MusicPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -154,12 +155,14 @@ public class PreParty extends StackPane {
         primaryStage.getScene().setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.SPACE && !mediaPlayer.getCurrentTime().equals(mediaPlayer.getTotalDuration())) {
                 mediaPlayer.stop();
+                MusicPlayer.stopPlaying();
                 Party party = new Party(primaryStage, toggleGroup3, hbox3, toggleGroup2, hbox2); // Supposons que primaryStage soit accessible ici
                 primaryStage.getScene().setRoot(party);
             }
         });
 
         mediaPlayer.setOnEndOfMedia(() -> {
+            MusicPlayer.stopPlaying();
             Party party = new Party(primaryStage, toggleGroup3, hbox3, toggleGroup2, hbox2); // Supposons que primaryStage soit accessible ici
             primaryStage.getScene().setRoot(party);
         });

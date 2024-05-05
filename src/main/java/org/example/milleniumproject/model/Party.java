@@ -68,7 +68,7 @@ public class Party extends StackPane {
         gridPane.setAlignment(Pos.CENTER); // Positionnement au centre de la StackPane
 
         // Ajout des boutons au GridPane avec leurs positions
-        String[] buttonLabels = {"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""};
+        String[] buttonLabels = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X"};
         int[] rowIndices = {0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 6};
         int[] colIndices = {0, 3, 6, 1, 3, 5, 2, 3, 4, 0, 1, 2, 4, 5, 6, 2, 3, 4, 1, 3, 5, 0, 3, 6, 6};
 
@@ -153,15 +153,13 @@ public class Party extends StackPane {
         for (Node node : gridPane.getChildren()) {
             if (node instanceof Button) {
                 Button button = (Button) node;
-                button.setOnAction(e -> handleButtonClick(button));
+                button.setOnAction(e -> handleButtonClick(button, gridPane));
             }
         }
     }
 
-
-
     // Méthode pour gérer le clic sur le bouton
-    private void handleButtonClick(Button button) {
+    private void handleButtonClick(Button button, GridPane gridpane) {
         // Vérifier si le bouton n'a pas déjà d'image et si tous les tours n'ont pas été joués
         if (button.getGraphic() == null && turns < 9) {
             // Placer l'image du joueur sur le bouton en fonction du joueur actuel
@@ -183,32 +181,86 @@ public class Party extends StackPane {
                 handleSelection(buttonsJ2, button);
             }
         }
+
+        String[][] buttonCombinations = {{"A", "B", "C"}, {"D", "E", "F"}, {"G", "H", "I"}, {"J", "K", "L"}, {"M", "N", "O"}, {"P", "Q", "R"}, {"S", "T", "U"}, {"V", "W", "X"}, {"A", "J", "V"}, {"D", "K", "S"}, {"G", "L", "P"}, {"B", "E", "H"}, {"Q", "T", "W"}, {"I", "M", "R"}, {"F", "N", "U"}, {"C", "O", "X"}};
+        for (String[] combination : buttonCombinations) {
+            checkAndChangeButtonColor(combination[0], combination[1], combination[2], gridpane);
+        }
+
+    }
+
+    private void checkAndChangeButtonColor(String buttonLabel1, String buttonLabel2, String buttonLabel3, GridPane gridPane) {
+        // Variables pour stocker les URLs des boutons
+        String url1 = null;
+        String url2 = null;
+        String url3 = null;
+
+        // Obtenez tous les nœuds enfants du GridPane
+        ObservableList<Node> children = gridPane.getChildren();
+
+        // Parcourez chaque nœud pour obtenir les informations de chaque bouton
+        for (Node node : children) {
+            if (node instanceof Button) {
+                Button currentButton = (Button) node;
+                String buttonText = getButtonText(currentButton);
+                String imageUrl = getImageUrlFromButton(currentButton);
+
+                // Stockez les URLs des boutons
+                if (buttonText.equals(buttonLabel1)) {
+                    url1 = imageUrl;
+                } else if (buttonText.equals(buttonLabel2)) {
+                    url2 = imageUrl;
+                } else if (buttonText.equals(buttonLabel3)) {
+                    url3 = imageUrl;
+                }
+            }
+        }
+
+        // Vérifiez si les URLs des boutons sont identiques
+        if (url1 != null && url2 != null && url3 != null && url1.equals(url2) && url1.equals(url3)) {
+            // Parcourez à nouveau chaque nœud pour changer la couleur des boutons
+            for (Node node : children) {
+                if (node instanceof Button) {
+                    Button currentButton = (Button) node;
+                    String buttonText = getButtonText(currentButton);
+                    // Si le bouton est l'un des boutons spécifiés, changez sa couleur en rouge
+                    if (buttonText.equals(buttonLabel1) || buttonText.equals(buttonLabel2) || buttonText.equals(buttonLabel3)) {
+                        currentButton.setStyle("-fx-background-color: yellow;"+
+                                "-fx-background-radius: 50%; " + // Rendre les coins ronds
+                                "-fx-min-width: 65px; " + // Définir la largeur
+                                "-fx-min-height: 65px; " + // Définir la hauteur
+                                "-fx-max-width: 65px; " + // Limiter la largeur
+                                "-fx-max-height: 65px;");
+                    }
+                }
+            }
+        }
     }
 
     // Méthode pour gérer la sélection du bouton
     private void handleSelection(List<Button> buttons ,Button clickedButton) {
-            if (selectedButton == null) {
-                if (buttons.contains(clickedButton)) {
-                    selectedButton = clickedButton;// Sélectionner le bouton actuel
-                    selectButton(selectedButton);
-                }} else {
-                // Vérifier si le bouton actuel est voisin du bouton sélectionné
-                if (isNeighbourButton(selectedButton, clickedButton)) {
-                    // Échanger les images des boutons
-                    if (clickedButton.getGraphic() == null) {
-                        ImageView imageView = (ImageView) selectedButton.getGraphic();
-                        clickedButton.setGraphic(imageView);
-                        selectedButton.setGraphic(null);
-                        buttons.remove(selectedButton);
-                        buttons.add(clickedButton);
-                        // Changer de joueur après avoir effectué l'échange
-                        currentPlayer = (currentPlayer == 1) ? 2 : 1;
-                    }
+        if (selectedButton == null) {
+            if (buttons.contains(clickedButton)) {
+                selectedButton = clickedButton;// Sélectionner le bouton actuel
+                selectButton(selectedButton);
+            }} else {
+            // Vérifier si le bouton actuel est voisin du bouton sélectionné
+            if (isNeighbourButton(selectedButton, clickedButton)) {
+                // Échanger les images des boutons
+                if (clickedButton.getGraphic() == null) {
+                    ImageView imageView = (ImageView) selectedButton.getGraphic();
+                    clickedButton.setGraphic(imageView);
+                    selectedButton.setGraphic(null);
+                    buttons.remove(selectedButton);
+                    buttons.add(clickedButton);
+                    // Changer de joueur après avoir effectué l'échange
+                    currentPlayer = (currentPlayer == 1) ? 2 : 1;
                 }
-                // Désélectionner le bouton sélectionné
-                deselectButton(selectedButton);
-                selectedButton = null;
             }
+            // Désélectionner le bouton sélectionné
+            deselectButton(selectedButton);
+            selectedButton = null;
+        }
 
     }
 
@@ -276,6 +328,29 @@ public class Party extends StackPane {
 
         return false;
     }
+
+    private String getImageUrlFromButton(Button button) {
+        // Vérifier si le bouton contient une image
+        if (button.getGraphic() instanceof ImageView) {
+            ImageView imageView = (ImageView) button.getGraphic();
+            Image image = imageView.getImage();
+
+            // Récupérer l'URL de l'image
+            String imageUrl = image.getUrl();
+            return imageUrl;
+        } else {
+            // Le bouton ne contient pas d'image
+            return null;
+        }
+    }
+
+    private String getButtonText(Button button) {
+        // Récupérer le texte du bouton
+        String buttonText = button.getText();
+        return buttonText;
+    }
+
+
 
     // Méthode pour placer l'image du joueur sur un bouton
     private void placePlayerImage(Button button, VBox playerVBox) {
@@ -546,6 +621,7 @@ public class Party extends StackPane {
         ouiButton.setOnAction(e -> {
             Menu menu = new Menu();
             menu.afficherMenu(primaryStage);
+            MusicPlayer.musicPlay("src/main/resources/Star Wars_ Battlefront OST - Main Menu Music.mp3");
         });
 
         hbox.getChildren().addAll(ouiButton, nonButton);
