@@ -23,7 +23,6 @@ import static org.example.milleniumproject.model.Constant.screenWidth;
 
 public class PreParty extends StackPane {
     private Button launchButton;
-    //String[] vaisseau = {"src/main/resources/Pion/PionDestroyer.png", "src/main/resources/Pion/PionFaucon.png", "src/main/resources/Pion/PionTfighter.png", "src/main/resources/Pion/PionXwing.png"};
     String video;
     String shipIndex1 = ProfileData.getShip(1);
     String shipIndex2 = ProfileData.getShip(2);
@@ -39,10 +38,6 @@ public class PreParty extends StackPane {
         vbox.setAlignment(Pos.CENTER); // Centrer les HBox verticalement
         vbox.setPadding(new Insets(100, 0, 0, 0)); // Ajouter une marge en haut
 
-        String[] niveau = {"Facile", "Moyen", "Difficile"};
-
-        ToggleGroup toggleGroup1 = new ToggleGroup();
-        HBox hbox1 = createToggleHBox(niveau, toggleGroup1); // Appeler la méthode pour créer la HBox appropriée
         ToggleGroup toggleGroup2 = new ToggleGroup();
         String[] imageUrls2 = {"Chrono30Test.png", "Chrono1Test.png", "ChronoXTest.png"}; // Remplacez les liens par vos propres URLs
         HBox hbox2 = createImageToggleHBox(toggleGroup2, imageUrls2); // Appeler la méthode pour créer la HBox appropriée
@@ -60,14 +55,13 @@ public class PreParty extends StackPane {
 
         hbox4.getChildren().add(launchButton); // Ajouter le bouton à la HBox
 
-        vbox.getChildren().addAll(hbox1, hbox2, hbox3, hbox4); // Ajouter les HBox à la VBox
+        vbox.getChildren().addAll(hbox2, hbox3, hbox4); // Ajouter les HBox à la VBox
 
         getChildren().addAll(vbox); // Ajouter l'arrière-plan et la VBox à la StackPane
 
         // Ajouter des écouteurs pour surveiller les sélections dans les ToggleGroups
-        toggleGroup1.selectedToggleProperty().addListener((observable, oldValue, newValue) -> checkLaunchButtonState(toggleGroup1, toggleGroup2, toggleGroup3));
-        toggleGroup2.selectedToggleProperty().addListener((observable, oldValue, newValue) -> checkLaunchButtonState(toggleGroup1, toggleGroup2, toggleGroup3));
-        toggleGroup3.selectedToggleProperty().addListener((observable, oldValue, newValue) -> checkLaunchButtonState(toggleGroup1, toggleGroup2, toggleGroup3));
+        toggleGroup2.selectedToggleProperty().addListener((observable, oldValue, newValue) -> checkLaunchButtonState(toggleGroup2, toggleGroup3));
+        toggleGroup3.selectedToggleProperty().addListener((observable, oldValue, newValue) -> checkLaunchButtonState(toggleGroup2, toggleGroup3));
 
         launchButton.setOnAction(event -> {
             MusicPlayer.stopPlaying();
@@ -173,37 +167,6 @@ public class PreParty extends StackPane {
 
     }
 
-    private HBox createToggleHBox(String[] niveau, ToggleGroup toggleGroup) {
-        HBox hbox = new HBox(30); // Création de la HBox
-        hbox.setAlignment(Pos.CENTER); // Centrer les boutons horizontalement
-
-        for (String niv: niveau) {
-            ToggleButton button = new ToggleButton(niv);
-            button.setToggleGroup(toggleGroup); // Associez le bouton au ToggleGroup
-
-            button.setPrefSize(150, 40); // Taille préférée des boutons (largeur x hauteur)
-            button.setFont(Font.font("Cardo", FontWeight.BOLD, 20)); // Police et taille du texte
-            button.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(50), Insets.EMPTY)));
-            button.setTextFill(Color.BLACK);
-
-            // Ajouter un style différent pour les boutons sélectionnés
-            button.setStyle("-fx-background-color: white; -fx-text-fill: black;");
-
-            // Ajouter un style lorsque le bouton est sélectionné
-            button.selectedProperty().addListener((observable, oldValue, newValue) -> {
-                if (newValue) {
-                    button.setStyle("-fx-background-color: #9ed586; -fx-text-fill: black;");
-                } else {
-                    button.setStyle("-fx-background-color: white; -fx-text-fill: black;");
-                }
-            });
-
-            hbox.getChildren().add(button); // Ajouter le bouton à la HBox
-        }
-
-        return hbox;
-    }
-
     private HBox createImageToggleHBox(ToggleGroup toggleGroup, String[] imageUrls) {
         HBox hbox = new HBox(30); // Création de la HBox
         hbox.setAlignment(Pos.CENTER); // Centrer les boutons horizontalement
@@ -235,8 +198,8 @@ public class PreParty extends StackPane {
         return hbox;
     }
 
-    private void checkLaunchButtonState(ToggleGroup toggleGroup1, ToggleGroup toggleGroup2, ToggleGroup toggleGroup3) {
-        if (toggleGroup1.getSelectedToggle() != null && toggleGroup2.getSelectedToggle() != null && toggleGroup3.getSelectedToggle() != null) {
+    private void checkLaunchButtonState(ToggleGroup toggleGroup2, ToggleGroup toggleGroup3) {
+        if (toggleGroup2.getSelectedToggle() != null && toggleGroup3.getSelectedToggle() != null) {
             launchButton.setDisable(false); // Activer le bouton si une sélection est faite dans chaque ToggleGroup
         } else {
             launchButton.setDisable(true); // Désactiver le bouton sinon
