@@ -4,6 +4,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.io.File;
 
+//Créer une classe pour que les boutons fassent un bruit lorsque l'on clique dessus
 public class SoundPlayer {
 
     public static void soundPlay() {

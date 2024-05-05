@@ -4,7 +4,6 @@ import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import org.example.milleniumproject.view.Audio;
-import org.example.milleniumproject.view.Jcj;
 import org.example.milleniumproject.view.Profil;
 import org.example.milleniumproject.view.Video;
 import org.example.milleniumproject.model.PrePartyIA;
