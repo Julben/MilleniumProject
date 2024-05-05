@@ -1,4 +1,4 @@
-package org.example.milleniumproject.model;
+/*package org.example.milleniumproject.model;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -21,14 +21,14 @@ import java.io.File;
 import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 
-public class PreParty extends StackPane {
+public class PrePartyIA extends StackPane {
     private Button launchButton;
     //String[] vaisseau = {"src/main/resources/Pion/PionDestroyer.png", "src/main/resources/Pion/PionFaucon.png", "src/main/resources/Pion/PionTfighter.png", "src/main/resources/Pion/PionXwing.png"};
     String video;
     String shipIndex1 = ProfileData.getShip(1);
     String shipIndex2 = ProfileData.getShip(2);
 
-    public PreParty(Stage primaryStage) {
+    public PrePartyIA(Stage primaryStage) {
 
         Button retourButton = BackButtons.createBackButton(primaryStage);
 
@@ -160,14 +160,14 @@ public class PreParty extends StackPane {
         primaryStage.getScene().setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.SPACE && !mediaPlayer.getCurrentTime().equals(mediaPlayer.getTotalDuration())) {
                 mediaPlayer.stop();
-                Party party = new Party(primaryStage, toggleGroup3, hbox3); // Supposons que primaryStage soit accessible ici
-                primaryStage.getScene().setRoot(party);
+                PartyIA partyia = new PartyIA(primaryStage, toggleGroup3, hbox3); // Supposons que primaryStage soit accessible ici
+                primaryStage.getScene().setRoot(partyia);
             }
         });
 
         mediaPlayer.setOnEndOfMedia(() -> {
-            Party party = new Party(primaryStage, toggleGroup3, hbox3); // Supposons que primaryStage soit accessible ici
-            primaryStage.getScene().setRoot(party);
+            PartyIA partyia = new PartyIA(primaryStage, toggleGroup3, hbox3); // Supposons que primaryStage soit accessible ici
+            primaryStage.getScene().setRoot(partyia);
         });
         mediaPlayer.play();
 
@@ -253,4 +253,4 @@ public class PreParty extends StackPane {
     }
 
 
-}
+}*/

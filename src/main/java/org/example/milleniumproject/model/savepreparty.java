@@ -1,4 +1,4 @@
-package org.example.milleniumproject.model;
+/*package org.example.milleniumproject.model;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -253,4 +253,4 @@ public class PreParty extends StackPane {
     }
 
 
-}
+}*/

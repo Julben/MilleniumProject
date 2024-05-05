@@ -1,4 +1,4 @@
-package org.example.milleniumproject.model;
+/*package org.example.milleniumproject.model;
 
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -16,12 +16,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Party extends StackPane {
+public class PartyIA extends StackPane {
     // Déclarations des variables d'instance
     private int currentPlayer = 1;
     private VBox leftVBox;
@@ -32,11 +30,11 @@ public class Party extends StackPane {
     private HBox hbox3;
     private Button selectedButton=null;
 
-    public Party(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3) {
+    public PartyIA(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3) {
         this.toggleGroup3 = toggleGroup3;
         this.hbox3 = hbox3;
 
-        int selectedIndex = PreParty.getSelectedIndex(toggleGroup3, hbox3);
+        int selectedIndex = PrePartyIA.getSelectedIndex(toggleGroup3, hbox3);
         // Création du fond d'écran
 
         String backgroundImage = "";
@@ -327,24 +325,6 @@ public class Party extends StackPane {
         }
     }
 
-
-/*import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import org.example.milleniumproject.model.Constant;
-
-import java.util.ArrayList;
-import java.util.List;*/
-
     private Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
         Node result = null;
         ObservableList<Node> children = gridPane.getChildren();
@@ -403,19 +383,21 @@ import java.util.List;*/
         HBox hbox = new HBox(10); // Espacement horizontal entre les éléments
         hbox.setAlignment(Pos.CENTER); // Centrage horizontal des éléments
 
-        // Ajout de l'avatar à la HBox
-        ImageView avatarImageView = new ImageView(new Image(avatarFileName));
+        // Création d'une ImageView pour l'avatar
+        ImageView avatarImageView;
+        if (isPlayer1) {
+            // Pour le joueur 1, charger l'image depuis le fichier
+            avatarImageView = new ImageView(new Image(avatarFileName));
+        } else {
+            // Pour le joueur 2, utiliser l'image constante
+            avatarImageView = new ImageView(new Image("9.png"));
+        }
         avatarImageView.setFitWidth(150); // Taille de l'avatar
         avatarImageView.setFitHeight(150);
-
-        if (isPlayer1) {
-            // Pour le joueur 1, placer l'avatar à gauche et aligner les labels à droite
-            hbox.getChildren().add(avatarImageView);
-        }
+        hbox.getChildren().add(avatarImageView);
 
         // Création d'une VBox pour contenir le nom et le rang
         VBox labelsVBox = new VBox(0); // Espacement vertical entre les labels
-
         if (isPlayer1) {
             labelsVBox.setAlignment(Pos.CENTER_LEFT); // Alignement à droite des labels pour le joueur 1
         } else {
@@ -434,20 +416,11 @@ import java.util.List;*/
         rankLabel.setTextFill(Color.WHITE); // Définition de la couleur du text
         labelsVBox.getChildren().add(rankLabel);
 
-        if (!isPlayer1) {
-            hbox.getChildren().add(labelsVBox); // Ajout de la VBox des labels à la HBox pour le joueur 2
-        } else {
-            hbox.getChildren().add(labelsVBox); // Ajout de la VBox des labels à la HBox pour le joueur 1
-        }
-
-        // Ajout de l'avatar à droite pour le joueur 2
-        if (!isPlayer1) {
-            hbox.getChildren().add(avatarImageView); // Ajout de l'avatar à droite pour le joueur 2
-        }
-
+        hbox.getChildren().add(labelsVBox); // Ajout de la VBox des labels à la HBox
         // Ajout de la HBox au VBox principal
         profileBox.getChildren().add(hbox);
 
         return profileBox;
     }
-}
+
+}*/

@@ -1,4 +1,4 @@
-package org.example.milleniumproject.model;
+/*package org.example.milleniumproject.model;
 
 import javafx.application.Platform;
 import javafx.scene.control.Button;
@@ -7,7 +7,6 @@ import org.example.milleniumproject.view.Audio;
 import org.example.milleniumproject.view.Jcj;
 import org.example.milleniumproject.view.Profil;
 import org.example.milleniumproject.view.Video;
-import org.example.milleniumproject.model.PrePartyIA;
 
 import java.util.List;
 
@@ -24,8 +23,6 @@ public class Management {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
                 } else if (bouton.getText().equals("Jouer contre l'ordinateur")) {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
-                    PrePartyIA preia = new PrePartyIA(primaryStage);
-                    primaryStage.getScene().setRoot(preia);
                 } else if (bouton.getText().equals("Joueur contre joueur")) {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
                     PreParty pre = new PreParty(primaryStage);
@@ -52,4 +49,4 @@ public class Management {
             });
         }
     }
-}
+}*/
