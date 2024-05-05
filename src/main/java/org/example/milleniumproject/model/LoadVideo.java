@@ -20,6 +20,7 @@ import java.io.File;
 public class LoadVideo {
 
     public MediaPlayer chargerVideo(Stage primaryStage, String videoPath) {
+
         // Création du lecteur média et du lecteur vidéo
         Media media = new Media(new File(videoPath).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
@@ -30,7 +31,7 @@ public class LoadVideo {
         mediaView.fitWidthProperty().bind(primaryStage.widthProperty());
         mediaView.fitHeightProperty().bind(primaryStage.heightProperty());
 
-        // Création de la scène et ajout du lecteur vidéo à la pile
+        // Création de la scène et ajout du lecteur vidéo
         StackPane root = new StackPane(mediaView);
         Scene scene = new Scene(root);
 
@@ -50,7 +51,7 @@ public class LoadVideo {
         StackPane.setMargin(skipLabel, new Insets(0, 10, 10, 0)); // Marge pour le label
         root.getChildren().add(skipLabel); // Ajouter le label au StackPane utilisé dans la scène vidéo
 
-        // Animation de clignotement
+        // Animation de clignotement de la phrase
         FadeTransition fadeTransition = new FadeTransition(Duration.seconds(1.0), skipLabel);
         fadeTransition.setFromValue(1.0);
         fadeTransition.setToValue(0.0);
@@ -62,7 +63,6 @@ public class LoadVideo {
 
         // Lecture de la vidéo
         mediaPlayer.play();
-
         return mediaPlayer; // Retourner le MediaPlayer pour pouvoir ajouter un écouteur d'événements dans HelloApplication
     }
 }

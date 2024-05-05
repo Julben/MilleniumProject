@@ -10,6 +10,8 @@ public class MusicPlayer {
     private static MediaPlayer mediaPlayer;
 
     public static void musicPlay(String musicFile) {
+
+        //Si il n'y a pas de musique, relance la musique
         if (mediaPlayer == null) {
             Media sound = new Media(new File(musicFile).toURI().toString());
             mediaPlayer = new MediaPlayer(sound);

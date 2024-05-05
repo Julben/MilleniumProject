@@ -10,7 +10,7 @@ import javafx.scene.text.FontWeight;
 
 public class ButtonsStyle {
 
-    // Méthode pour appliquer le style aux boutons
+    // Méthode pour appliquer un style aux boutons
     public static void appliquerStyle(Button bouton, int width, int height, int size) {
         bouton.setPrefSize(width, height); // Taille préférée des boutons (largeur x hauteur)
         bouton.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, new CornerRadii(5), javafx.geometry.Insets.EMPTY)));

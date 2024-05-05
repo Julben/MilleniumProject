@@ -12,7 +12,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.event.ActionEvent;
 import org.example.milleniumproject.view.Profil;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
@@ -43,7 +42,6 @@ public class Carrousel extends StackPane {
 
         HBox buttonsBox = new HBox(120, previousButton, nextButton);
         buttonsBox.setAlignment(Pos.CENTER);
-
         this.getChildren().addAll(isImage ? imageView : label, buttonsBox);
 
         // Charger le contenu sauvegardé dès la création

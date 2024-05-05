@@ -6,11 +6,10 @@ import javafx.stage.Stage;
 import org.example.milleniumproject.view.Audio;
 import org.example.milleniumproject.view.Profil;
 import org.example.milleniumproject.view.Video;
-import org.example.milleniumproject.model.PrePartyIA;
-
 import java.util.List;
 
-public class Management {
+
+public class Management { //Classe qui gère les évènements liés aux boutons du menu
 
     public static void gererEvenements(Stage primaryStage, List<Button> boutonsComplets) {
 

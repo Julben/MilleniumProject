@@ -10,6 +10,8 @@ public class BackButtons {
 
     // Méthode pour créer un bouton "Retour" avec le style défini dans ButtonsStyle
     public static Button createBackButton(Stage primaryStage) {
+
+        //Instanciation du bouton retour+style
         Button retourButton = new Button("Retour");
         ButtonsStyle.appliquerStyle(retourButton, 160, 5, 20); // Appliquer le style défini dans ButtonsStyle
 
@@ -19,7 +21,6 @@ public class BackButtons {
         // Positionnement du bouton en haut à gauche
         StackPane.setAlignment(retourButton, Pos.TOP_LEFT);
         StackPane.setMargin(retourButton, new javafx.geometry.Insets(15));
-
         return retourButton;
     }
 }

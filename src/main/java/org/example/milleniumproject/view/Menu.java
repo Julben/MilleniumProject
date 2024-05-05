@@ -16,6 +16,7 @@ import java.util.List;
 public class Menu {
 
     public void afficherMenu(Stage primaryStage) {
+
         //Affichage de la scène principale + nettoyage de la scène
         StackPane root = (StackPane) primaryStage.getScene().getRoot();
         root.getChildren().clear();

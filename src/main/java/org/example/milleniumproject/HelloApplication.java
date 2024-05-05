@@ -12,6 +12,7 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+
         LoadVideo loadVideo = new LoadVideo();  //Instanciation de la vidéo de démarrage
         Menu menu = new Menu();  // Instanciation de la classe Menu
 

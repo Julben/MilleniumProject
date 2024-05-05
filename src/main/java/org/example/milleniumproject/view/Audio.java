@@ -15,6 +15,7 @@ import org.example.milleniumproject.model.BackButtons;
 public class Audio extends StackPane {
 
     public Audio(Stage primaryStage) {
+
         //Créer un fond d'écran
         BG ground = new BG("src/main/resources/BGAUDIO.png");
         setBackground(ground.getCustomBackground());
