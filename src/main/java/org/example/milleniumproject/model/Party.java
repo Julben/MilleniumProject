@@ -30,6 +30,8 @@ public class Party extends StackPane {
     private int currentImageIndex = 0;
     private ToggleGroup toggleGroup3;
     private HBox hbox3;
+    private ToggleGroup toggleGroup2;
+    private HBox hbox2;
     private Button selectedButton = null;
     private boolean isMovePhase = false;
     private List<Button> buttonsJ1 = new ArrayList<>();

@@ -388,13 +388,13 @@ public class PartyIA extends StackPane {
         if (isPlayer1) {
             // Pour le joueur 1, charger l'image depuis le fichier
             avatarImageView = new ImageView(new Image(avatarFileName));
+            hbox.getChildren().add(avatarImageView);
         } else {
             // Pour le joueur 2, utiliser l'image constante
             avatarImageView = new ImageView(new Image("9.png"));
         }
         avatarImageView.setFitWidth(150); // Taille de l'avatar
         avatarImageView.setFitHeight(150);
-        hbox.getChildren().add(avatarImageView);
 
         // Création d'une VBox pour contenir le nom et le rang
         VBox labelsVBox = new VBox(0); // Espacement vertical entre les labels
@@ -404,7 +404,7 @@ public class PartyIA extends StackPane {
             labelsVBox.setAlignment(Pos.CENTER_RIGHT); // Alignement à gauche des labels pour le joueur 2
             // Définir le nom et le rang par défaut pour le joueur 2
             playerName = "Robot";
-            rank = "Intelligence Artificielle";
+            rank = "IA";
         }
 
         // Ajout du nom du joueur
@@ -420,12 +420,15 @@ public class PartyIA extends StackPane {
         labelsVBox.getChildren().add(rankLabel);
 
         hbox.getChildren().add(labelsVBox); // Ajout de la VBox des labels à la HBox
+
+        // Ajout de l'avatar à droite pour le joueur 2
+        if (!isPlayer1) {
+            hbox.getChildren().add(avatarImageView); // Ajout de l'avatar à droite pour le joueur 2
+        }
+
         // Ajout de la HBox au VBox principal
         profileBox.getChildren().add(hbox);
 
         return profileBox;
     }
-
-
-
 }
