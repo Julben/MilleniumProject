@@ -73,7 +73,7 @@ public class PreParty extends StackPane {
 
         launchButton.setOnAction(event -> {
             MusicPlayer.stopPlaying();
-            VideoLoad(primaryStage, toggleGroup3, hbox3);
+            VideoLoad(primaryStage, toggleGroup3, hbox3, toggleGroup2, hbox2);
         });
 
         getChildren().addAll(retourButton);
@@ -137,7 +137,7 @@ public class PreParty extends StackPane {
         return video;
     }
 
-    public void VideoLoad(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3) {
+    public void VideoLoad(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3, ToggleGroup toggleGroup2, HBox hbox2) {
         File file = new File(ChooseVideo(shipIndex1, shipIndex2, toggleGroup3, hbox3));
         Media media = new Media(file.toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
@@ -162,13 +162,13 @@ public class PreParty extends StackPane {
         primaryStage.getScene().setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.SPACE && !mediaPlayer.getCurrentTime().equals(mediaPlayer.getTotalDuration())) {
                 mediaPlayer.stop();
-                Party party = new Party(primaryStage, toggleGroup3, hbox3); // Supposons que primaryStage soit accessible ici
+                Party party = new Party(primaryStage, toggleGroup3, hbox3, toggleGroup2, hbox2); // Supposons que primaryStage soit accessible ici
                 primaryStage.getScene().setRoot(party);
             }
         });
 
         mediaPlayer.setOnEndOfMedia(() -> {
-            Party party = new Party(primaryStage, toggleGroup3, hbox3); // Supposons que primaryStage soit accessible ici
+            Party party = new Party(primaryStage, toggleGroup3, hbox3, toggleGroup2, hbox2); // Supposons que primaryStage soit accessible ici
             primaryStage.getScene().setRoot(party);
         });
         mediaPlayer.play();
@@ -250,6 +250,15 @@ public class PreParty extends StackPane {
         ToggleButton selectedButton = (ToggleButton) toggleGroup3.getSelectedToggle();
         if(selectedButton != null) {
             selectedIndex = hbox3.getChildren().indexOf(selectedButton);
+        }
+        return selectedIndex;
+    }
+
+    public static int getSelectedIndexchrono(ToggleGroup toggleGroup2, HBox hbox2) {
+        int selectedIndex = -1;
+        ToggleButton selectedButton = (ToggleButton) toggleGroup2.getSelectedToggle();
+        if(selectedButton != null) {
+            selectedIndex = hbox2.getChildren().indexOf(selectedButton);
         }
         return selectedIndex;
     }

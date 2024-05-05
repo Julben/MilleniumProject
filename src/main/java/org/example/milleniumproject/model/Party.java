@@ -30,14 +30,21 @@ public class Party extends StackPane {
     private int currentImageIndex = 0;
     private ToggleGroup toggleGroup3;
     private HBox hbox3;
+    private ToggleGroup toggleGroup2;
+    private HBox hbox2;
     private Button selectedButton=null;
 
-    public Party(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3) {
+    public Party(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3, ToggleGroup toggleGroup2, HBox hbox2) {
         this.toggleGroup3 = toggleGroup3;
         this.hbox3 = hbox3;
 
+        this.toggleGroup2 = toggleGroup2;
+        this.hbox2 = hbox2;
+
+        int selectedIndexchrono = PreParty.getSelectedIndexchrono(toggleGroup2, hbox2);
+        System.out.println("selectedIndexchrono: " + selectedIndexchrono);
+
         int selectedIndex = PreParty.getSelectedIndex(toggleGroup3, hbox3);
-        // Création du fond d'écran
 
         String backgroundImage = "";
         if (selectedIndex == 0) {
@@ -267,7 +274,7 @@ public class Party extends StackPane {
         return button;
     }
 
-    /*private void highlightAlignedButtons(GridPane gridPane) {
+    private void highlightAlignedButtons(GridPane gridPane) {
         // Parcourir chaque ligne et chaque colonne de la GridPane
         for (int i = 0; i < gridPane.getRowCount(); i++) {
             highlightAlignedButtonsInRow(gridPane, i);
@@ -325,11 +332,9 @@ public class Party extends StackPane {
                 }
             }
         }
-    }*/
+    }
 
-
-
-    /*private Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
+    private Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
         Node result = null;
         ObservableList<Node> children = gridPane.getChildren();
         for (Node node : children) {
@@ -339,8 +344,7 @@ public class Party extends StackPane {
             }
         }
         return result;
-    }*/
-
+    }
 
     // Méthode pour créer une VBox avec des images répétées
     private VBox createVBoxWithImages(String imageLink, int count) {
