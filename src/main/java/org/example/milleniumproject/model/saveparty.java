@@ -1,4 +1,4 @@
-package org.example.milleniumproject.model;
+/*package org.example.milleniumproject.model;
 
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -30,22 +30,14 @@ public class Party extends StackPane {
     private int currentImageIndex = 0;
     private ToggleGroup toggleGroup3;
     private HBox hbox3;
-    private Button selectedButton = null;
-    private boolean isMovePhase = false;
-    private List<Button> buttonsJ1 = new ArrayList<>();
-    private List<Button> buttonsJ2 = new ArrayList<>();
+    private Button selectedButton=null;
 
-    public Party(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3, ToggleGroup toggleGroup2, HBox hbox2) {
+    public Party(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3) {
         this.toggleGroup3 = toggleGroup3;
         this.hbox3 = hbox3;
 
-        this.toggleGroup2 = toggleGroup2;
-        this.hbox2 = hbox2;
-
-        int selectedIndexchrono = PreParty.getSelectedIndexchrono(toggleGroup2, hbox2);
-        System.out.println("selectedIndexchrono: " + selectedIndexchrono);
-
         int selectedIndex = PreParty.getSelectedIndex(toggleGroup3, hbox3);
+        // Création du fond d'écran
 
         String backgroundImage = "";
         if (selectedIndex == 0) {
@@ -129,58 +121,41 @@ public class Party extends StackPane {
         }
     }
 
-
-
-    // Méthode pour gérer le clic sur le bouton
+    // Méthode pour gérer les clics sur les boutons du GridPane
     private void handleButtonClick(Button button) {
         // Vérifier si le bouton n'a pas déjà d'image et si tous les tours n'ont pas été joués
         if (button.getGraphic() == null && turns < 9) {
-            // Placer l'image du joueur sur le bouton en fonction du joueur actuel
+            // Vérifier le joueur actuel
             if (currentPlayer == 1) {
+                // Placez l'image du joueur 1 sur le bouton
                 placePlayerImage(button, leftVBox);
-                buttonsJ1.add(button);
                 currentPlayer = 2;
             } else {
+                // Placez l'image du joueur 2 sur le bouton
                 placePlayerImage(button, rightVBox);
-                buttonsJ2.add(button);
                 currentPlayer = 1;
                 turns++;
             }
         } else {
-            // Vérifier si le bouton cliqué appartient à la liste des boutons autorisés à être sélectionnés par le joueur actuel
-            if (currentPlayer == 1 && (buttonsJ1.contains(button) || button.getGraphic() == null)) {
-                handleSelection(buttonsJ1, button);
-            } else if (currentPlayer == 2 && (buttonsJ2.contains(button) || button.getGraphic() == null) ) {
-                handleSelection(buttonsJ2, button);
-            }
-        }
-    }
-
-    // Méthode pour gérer la sélection du bouton
-    private void handleSelection(List<Button> buttons ,Button clickedButton) {
             if (selectedButton == null) {
-                selectedButton = clickedButton;
+                selectedButton = button;
                 // Sélectionner le bouton actuel
-                selectButton(selectedButton);
+                selectButton(button);
             } else {
                 // Vérifier si le bouton actuel est voisin du bouton sélectionné
-                if (isNeighbourButton(selectedButton, clickedButton)) {
+                if (isNeighbourButton(selectedButton, button)) {
                     // Échanger les images des boutons
-                    if (clickedButton.getGraphic() == null) {
+                    if (button.getGraphic() == null) {
                         ImageView imageView = (ImageView) selectedButton.getGraphic();
-                        clickedButton.setGraphic(imageView);
+                        button.setGraphic(imageView);
                         selectedButton.setGraphic(null);
-                        buttons.remove(selectedButton);
-                        buttons.add(clickedButton);
-                        // Changer de joueur après avoir effectué l'échange
-                        currentPlayer = (currentPlayer == 1) ? 2 : 1;
                     }
                 }
                 // Désélectionner le bouton sélectionné
                 deselectButton(selectedButton);
                 selectedButton = null;
             }
-
+        }
     }
 
     // Méthode pour sélectionner un bouton
@@ -191,6 +166,8 @@ public class Party extends StackPane {
                 "-fx-min-height: 65px; " + // Définir la hauteur
                 "-fx-max-width: 65px; " + // Limiter la largeur
                 "-fx-max-height: 65px;");
+
+
     }
 
     // Méthode pour désélectionner un bouton
@@ -350,6 +327,7 @@ public class Party extends StackPane {
         }
     }
 
+
 /*import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -367,109 +345,109 @@ import org.example.milleniumproject.model.Constant;
 import java.util.ArrayList;
 import java.util.List;*/
 
-    private Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
-        Node result = null;
-        ObservableList<Node> children = gridPane.getChildren();
-        for (Node node : children) {
-            if (gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
-                result = node;
-                break;
-            }
+/*private Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
+    Node result = null;
+    ObservableList<Node> children = gridPane.getChildren();
+    for (Node node : children) {
+        if (gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
+            result = node;
+            break;
         }
-        return result;
     }
-
-
-    // Méthode pour créer une VBox avec des images répétées
-    private VBox createVBoxWithImages(String imageLink, int count) {
-        VBox vBox = new VBox(10); // Espacement vertical entre les images
-        vBox.setPadding(new Insets(10)); // Espacement autour des images
-        vBox.setAlignment(Pos.CENTER); // Centrer les images dans la VBox
-
-        List<ImageView> imageViews = new ArrayList<>();
-
-        Image image = new Image(imageLink);
-        for (int i = 0; i < count; i++) {
-            ImageView imageView = new ImageView(image);
-            imageView.setFitWidth(0.04 * Constant.screenWidth); // Largeur de l'image réduite
-            imageView.setFitHeight(0.04 * Constant.screenWidth); // Hauteur de l'image réduite
-            imageViews.add(imageView);
-        }
-
-        // Création d'une grille de 3x3 images
-        GridPane gridPane = new GridPane();
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
-        int rowIndex = 0;
-        int colIndex = 0;
-        for (ImageView imageView : imageViews) {
-            gridPane.add(imageView, colIndex, rowIndex);
-            colIndex++;
-            if (colIndex > 2) {
-                colIndex = 0;
-                rowIndex++;
-            }
-        }
-
-        vBox.getChildren().add(gridPane);
-
-        return vBox;
-    }
-
-    // Méthode pour créer une VBox affichant le profil d'un joueur avec l'avatar à côté des labels
-    private VBox createProfileBox(String avatarFileName, String playerName, String rank, boolean isPlayer1) {
-        VBox profileBox = new VBox(0); // Espacement vertical entre les éléments du profil
-        profileBox.setAlignment(Pos.BOTTOM_CENTER); // Alignement au centre et en bas
-
-        // Création d'une HBox pour contenir l'avatar, le nom et le rang
-        HBox hbox = new HBox(10); // Espacement horizontal entre les éléments
-        hbox.setAlignment(Pos.CENTER); // Centrage horizontal des éléments
-
-        // Ajout de l'avatar à la HBox
-        ImageView avatarImageView = new ImageView(new Image(avatarFileName));
-        avatarImageView.setFitWidth(150); // Taille de l'avatar
-        avatarImageView.setFitHeight(150);
-
-        if (isPlayer1) {
-            // Pour le joueur 1, placer l'avatar à gauche et aligner les labels à droite
-            hbox.getChildren().add(avatarImageView);
-        }
-
-        // Création d'une VBox pour contenir le nom et le rang
-        VBox labelsVBox = new VBox(0); // Espacement vertical entre les labels
-
-        if (isPlayer1) {
-            labelsVBox.setAlignment(Pos.CENTER_LEFT); // Alignement à droite des labels pour le joueur 1
-        } else {
-            labelsVBox.setAlignment(Pos.CENTER_RIGHT); // Alignement à gauche des labels pour le joueur 2
-        }
-
-        // Ajout du nom du joueur
-        Label nameLabel = new Label(playerName);
-        nameLabel.setFont(Font.font("Cardo", 35)); // Définition de la police et de la taille
-        nameLabel.setTextFill(Color.WHITE); // Définition de la couleur du text
-        labelsVBox.getChildren().add(nameLabel);
-
-        // Ajout du rang du joueur
-        Label rankLabel = new Label(rank);
-        rankLabel.setFont(Font.font("Cardo", 20)); // Définition de la police et de la taille
-        rankLabel.setTextFill(Color.WHITE); // Définition de la couleur du text
-        labelsVBox.getChildren().add(rankLabel);
-
-        if (!isPlayer1) {
-            hbox.getChildren().add(labelsVBox); // Ajout de la VBox des labels à la HBox pour le joueur 2
-        } else {
-            hbox.getChildren().add(labelsVBox); // Ajout de la VBox des labels à la HBox pour le joueur 1
-        }
-
-        // Ajout de l'avatar à droite pour le joueur 2
-        if (!isPlayer1) {
-            hbox.getChildren().add(avatarImageView); // Ajout de l'avatar à droite pour le joueur 2
-        }
-
-        // Ajout de la HBox au VBox principal
-        profileBox.getChildren().add(hbox);
-
-        return profileBox;
-    }
+    return result;
 }
+
+
+// Méthode pour créer une VBox avec des images répétées
+private VBox createVBoxWithImages(String imageLink, int count) {
+    VBox vBox = new VBox(10); // Espacement vertical entre les images
+    vBox.setPadding(new Insets(10)); // Espacement autour des images
+    vBox.setAlignment(Pos.CENTER); // Centrer les images dans la VBox
+
+    List<ImageView> imageViews = new ArrayList<>();
+
+    Image image = new Image(imageLink);
+    for (int i = 0; i < count; i++) {
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(0.04 * Constant.screenWidth); // Largeur de l'image réduite
+        imageView.setFitHeight(0.04 * Constant.screenWidth); // Hauteur de l'image réduite
+        imageViews.add(imageView);
+    }
+
+    // Création d'une grille de 3x3 images
+    GridPane gridPane = new GridPane();
+    gridPane.setHgap(10);
+    gridPane.setVgap(10);
+    int rowIndex = 0;
+    int colIndex = 0;
+    for (ImageView imageView : imageViews) {
+        gridPane.add(imageView, colIndex, rowIndex);
+        colIndex++;
+        if (colIndex > 2) {
+            colIndex = 0;
+            rowIndex++;
+        }
+    }
+
+    vBox.getChildren().add(gridPane);
+
+    return vBox;
+}
+
+// Méthode pour créer une VBox affichant le profil d'un joueur avec l'avatar à côté des labels
+private VBox createProfileBox(String avatarFileName, String playerName, String rank, boolean isPlayer1) {
+    VBox profileBox = new VBox(0); // Espacement vertical entre les éléments du profil
+    profileBox.setAlignment(Pos.BOTTOM_CENTER); // Alignement au centre et en bas
+
+    // Création d'une HBox pour contenir l'avatar, le nom et le rang
+    HBox hbox = new HBox(10); // Espacement horizontal entre les éléments
+    hbox.setAlignment(Pos.CENTER); // Centrage horizontal des éléments
+
+    // Ajout de l'avatar à la HBox
+    ImageView avatarImageView = new ImageView(new Image(avatarFileName));
+    avatarImageView.setFitWidth(150); // Taille de l'avatar
+    avatarImageView.setFitHeight(150);
+
+    if (isPlayer1) {
+        // Pour le joueur 1, placer l'avatar à gauche et aligner les labels à droite
+        hbox.getChildren().add(avatarImageView);
+    }
+
+    // Création d'une VBox pour contenir le nom et le rang
+    VBox labelsVBox = new VBox(0); // Espacement vertical entre les labels
+
+    if (isPlayer1) {
+        labelsVBox.setAlignment(Pos.CENTER_LEFT); // Alignement à droite des labels pour le joueur 1
+    } else {
+        labelsVBox.setAlignment(Pos.CENTER_RIGHT); // Alignement à gauche des labels pour le joueur 2
+    }
+
+    // Ajout du nom du joueur
+    Label nameLabel = new Label(playerName);
+    nameLabel.setFont(Font.font("Cardo", 35)); // Définition de la police et de la taille
+    nameLabel.setTextFill(Color.WHITE); // Définition de la couleur du text
+    labelsVBox.getChildren().add(nameLabel);
+
+    // Ajout du rang du joueur
+    Label rankLabel = new Label(rank);
+    rankLabel.setFont(Font.font("Cardo", 20)); // Définition de la police et de la taille
+    rankLabel.setTextFill(Color.WHITE); // Définition de la couleur du text
+    labelsVBox.getChildren().add(rankLabel);
+
+    if (!isPlayer1) {
+        hbox.getChildren().add(labelsVBox); // Ajout de la VBox des labels à la HBox pour le joueur 2
+    } else {
+        hbox.getChildren().add(labelsVBox); // Ajout de la VBox des labels à la HBox pour le joueur 1
+    }
+
+    // Ajout de l'avatar à droite pour le joueur 2
+    if (!isPlayer1) {
+        hbox.getChildren().add(avatarImageView); // Ajout de l'avatar à droite pour le joueur 2
+    }
+
+    // Ajout de la HBox au VBox principal
+    profileBox.getChildren().add(hbox);
+
+    return profileBox;
+}
+}*/

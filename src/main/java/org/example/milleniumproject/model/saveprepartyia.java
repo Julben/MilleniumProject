@@ -1,4 +1,4 @@
-package org.example.milleniumproject.model;
+/*package org.example.milleniumproject.model;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -21,14 +21,14 @@ import java.io.File;
 import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 
-public class PreParty extends StackPane {
+public class PrePartyIA extends StackPane {
     private Button launchButton;
     //String[] vaisseau = {"src/main/resources/Pion/PionDestroyer.png", "src/main/resources/Pion/PionFaucon.png", "src/main/resources/Pion/PionTfighter.png", "src/main/resources/Pion/PionXwing.png"};
     String video;
     String shipIndex1 = ProfileData.getShip(1);
     String shipIndex2 = ProfileData.getShip(2);
 
-    public PreParty(Stage primaryStage) {
+    public PrePartyIA(Stage primaryStage) {
 
         Button retourButton = BackButtons.createBackButton(primaryStage);
 
@@ -71,7 +71,7 @@ public class PreParty extends StackPane {
 
         launchButton.setOnAction(event -> {
             MusicPlayer.stopPlaying();
-            VideoLoad(primaryStage, toggleGroup3, hbox3, toggleGroup2, hbox2);
+            VideoLoad(primaryStage, toggleGroup3, hbox3);
         });
 
         getChildren().addAll(retourButton);
@@ -135,7 +135,7 @@ public class PreParty extends StackPane {
         return video;
     }
 
-    public void VideoLoad(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3, ToggleGroup toggleGroup2, HBox hbox2) {
+    public void VideoLoad(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3) {
         File file = new File(ChooseVideo(shipIndex1, shipIndex2, toggleGroup3, hbox3));
         Media media = new Media(file.toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
@@ -160,14 +160,14 @@ public class PreParty extends StackPane {
         primaryStage.getScene().setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.SPACE && !mediaPlayer.getCurrentTime().equals(mediaPlayer.getTotalDuration())) {
                 mediaPlayer.stop();
-                Party party = new Party(primaryStage, toggleGroup3, hbox3, toggleGroup2, hbox2); // Supposons que primaryStage soit accessible ici
-                primaryStage.getScene().setRoot(party);
+                PartyIA partyia = new PartyIA(primaryStage, toggleGroup3, hbox3); // Supposons que primaryStage soit accessible ici
+                primaryStage.getScene().setRoot(partyia);
             }
         });
 
         mediaPlayer.setOnEndOfMedia(() -> {
-            Party party = new Party(primaryStage, toggleGroup3, hbox3, toggleGroup2, hbox2); // Supposons que primaryStage soit accessible ici
-            primaryStage.getScene().setRoot(party);
+            PartyIA partyia = new PartyIA(primaryStage, toggleGroup3, hbox3); // Supposons que primaryStage soit accessible ici
+            primaryStage.getScene().setRoot(partyia);
         });
         mediaPlayer.play();
 
@@ -252,14 +252,5 @@ public class PreParty extends StackPane {
         return selectedIndex;
     }
 
-    public static int getSelectedIndexchrono(ToggleGroup toggleGroup2, HBox hbox2) {
-        int selectedIndex = -1;
-        ToggleButton selectedButton = (ToggleButton) toggleGroup2.getSelectedToggle();
-        if(selectedButton != null) {
-            selectedIndex = hbox2.getChildren().indexOf(selectedButton);
-        }
-        return selectedIndex;
-    }
 
-
-}
+}*/

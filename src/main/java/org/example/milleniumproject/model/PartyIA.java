@@ -16,12 +16,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Party extends StackPane {
+public class PartyIA extends StackPane {
     // Déclarations des variables d'instance
     private int currentPlayer = 1;
     private VBox leftVBox;
@@ -30,22 +28,14 @@ public class Party extends StackPane {
     private int currentImageIndex = 0;
     private ToggleGroup toggleGroup3;
     private HBox hbox3;
-    private Button selectedButton = null;
-    private boolean isMovePhase = false;
-    private List<Button> buttonsJ1 = new ArrayList<>();
-    private List<Button> buttonsJ2 = new ArrayList<>();
+    private Button selectedButton=null;
 
-    public Party(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3, ToggleGroup toggleGroup2, HBox hbox2) {
+    public PartyIA(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3) {
         this.toggleGroup3 = toggleGroup3;
         this.hbox3 = hbox3;
 
-        this.toggleGroup2 = toggleGroup2;
-        this.hbox2 = hbox2;
-
-        int selectedIndexchrono = PreParty.getSelectedIndexchrono(toggleGroup2, hbox2);
-        System.out.println("selectedIndexchrono: " + selectedIndexchrono);
-
-        int selectedIndex = PreParty.getSelectedIndex(toggleGroup3, hbox3);
+        int selectedIndex = PrePartyIA.getSelectedIndex(toggleGroup3, hbox3);
+        // Création du fond d'écran
 
         String backgroundImage = "";
         if (selectedIndex == 0) {
@@ -129,58 +119,41 @@ public class Party extends StackPane {
         }
     }
 
-
-
-    // Méthode pour gérer le clic sur le bouton
+    // Méthode pour gérer les clics sur les boutons du GridPane
     private void handleButtonClick(Button button) {
         // Vérifier si le bouton n'a pas déjà d'image et si tous les tours n'ont pas été joués
         if (button.getGraphic() == null && turns < 9) {
-            // Placer l'image du joueur sur le bouton en fonction du joueur actuel
+            // Vérifier le joueur actuel
             if (currentPlayer == 1) {
+                // Placez l'image du joueur 1 sur le bouton
                 placePlayerImage(button, leftVBox);
-                buttonsJ1.add(button);
                 currentPlayer = 2;
             } else {
+                // Placez l'image du joueur 2 sur le bouton
                 placePlayerImage(button, rightVBox);
-                buttonsJ2.add(button);
                 currentPlayer = 1;
                 turns++;
             }
         } else {
-            // Vérifier si le bouton cliqué appartient à la liste des boutons autorisés à être sélectionnés par le joueur actuel
-            if (currentPlayer == 1 && (buttonsJ1.contains(button) || button.getGraphic() == null)) {
-                handleSelection(buttonsJ1, button);
-            } else if (currentPlayer == 2 && (buttonsJ2.contains(button) || button.getGraphic() == null) ) {
-                handleSelection(buttonsJ2, button);
-            }
-        }
-    }
-
-    // Méthode pour gérer la sélection du bouton
-    private void handleSelection(List<Button> buttons ,Button clickedButton) {
             if (selectedButton == null) {
-                selectedButton = clickedButton;
+                selectedButton = button;
                 // Sélectionner le bouton actuel
-                selectButton(selectedButton);
+                selectButton(button);
             } else {
                 // Vérifier si le bouton actuel est voisin du bouton sélectionné
-                if (isNeighbourButton(selectedButton, clickedButton)) {
+                if (isNeighbourButton(selectedButton, button)) {
                     // Échanger les images des boutons
-                    if (clickedButton.getGraphic() == null) {
+                    if (button.getGraphic() == null) {
                         ImageView imageView = (ImageView) selectedButton.getGraphic();
-                        clickedButton.setGraphic(imageView);
+                        button.setGraphic(imageView);
                         selectedButton.setGraphic(null);
-                        buttons.remove(selectedButton);
-                        buttons.add(clickedButton);
-                        // Changer de joueur après avoir effectué l'échange
-                        currentPlayer = (currentPlayer == 1) ? 2 : 1;
                     }
                 }
                 // Désélectionner le bouton sélectionné
                 deselectButton(selectedButton);
                 selectedButton = null;
             }
-
+        }
     }
 
     // Méthode pour sélectionner un bouton
@@ -191,6 +164,8 @@ public class Party extends StackPane {
                 "-fx-min-height: 65px; " + // Définir la hauteur
                 "-fx-max-width: 65px; " + // Limiter la largeur
                 "-fx-max-height: 65px;");
+
+
     }
 
     // Méthode pour désélectionner un bouton
@@ -350,23 +325,6 @@ public class Party extends StackPane {
         }
     }
 
-/*import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import org.example.milleniumproject.model.Constant;
-
-import java.util.ArrayList;
-import java.util.List;*/
-
     private Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
         Node result = null;
         ObservableList<Node> children = gridPane.getChildren();
@@ -425,23 +383,28 @@ import java.util.List;*/
         HBox hbox = new HBox(10); // Espacement horizontal entre les éléments
         hbox.setAlignment(Pos.CENTER); // Centrage horizontal des éléments
 
-        // Ajout de l'avatar à la HBox
-        ImageView avatarImageView = new ImageView(new Image(avatarFileName));
+        // Création d'une ImageView pour l'avatar
+        ImageView avatarImageView;
+        if (isPlayer1) {
+            // Pour le joueur 1, charger l'image depuis le fichier
+            avatarImageView = new ImageView(new Image(avatarFileName));
+        } else {
+            // Pour le joueur 2, utiliser l'image constante
+            avatarImageView = new ImageView(new Image("9.png"));
+        }
         avatarImageView.setFitWidth(150); // Taille de l'avatar
         avatarImageView.setFitHeight(150);
-
-        if (isPlayer1) {
-            // Pour le joueur 1, placer l'avatar à gauche et aligner les labels à droite
-            hbox.getChildren().add(avatarImageView);
-        }
+        hbox.getChildren().add(avatarImageView);
 
         // Création d'une VBox pour contenir le nom et le rang
         VBox labelsVBox = new VBox(0); // Espacement vertical entre les labels
-
         if (isPlayer1) {
             labelsVBox.setAlignment(Pos.CENTER_LEFT); // Alignement à droite des labels pour le joueur 1
         } else {
             labelsVBox.setAlignment(Pos.CENTER_RIGHT); // Alignement à gauche des labels pour le joueur 2
+            // Définir le nom et le rang par défaut pour le joueur 2
+            playerName = "Robot";
+            rank = "Intelligence Artificielle";
         }
 
         // Ajout du nom du joueur
@@ -456,20 +419,13 @@ import java.util.List;*/
         rankLabel.setTextFill(Color.WHITE); // Définition de la couleur du text
         labelsVBox.getChildren().add(rankLabel);
 
-        if (!isPlayer1) {
-            hbox.getChildren().add(labelsVBox); // Ajout de la VBox des labels à la HBox pour le joueur 2
-        } else {
-            hbox.getChildren().add(labelsVBox); // Ajout de la VBox des labels à la HBox pour le joueur 1
-        }
-
-        // Ajout de l'avatar à droite pour le joueur 2
-        if (!isPlayer1) {
-            hbox.getChildren().add(avatarImageView); // Ajout de l'avatar à droite pour le joueur 2
-        }
-
+        hbox.getChildren().add(labelsVBox); // Ajout de la VBox des labels à la HBox
         // Ajout de la HBox au VBox principal
         profileBox.getChildren().add(hbox);
 
         return profileBox;
     }
+
+
+
 }
