@@ -97,7 +97,7 @@ public class Profil extends StackPane {
         retourButton.setOnAction(event -> {
             // Vérifier si les joueurs ont entré leur pseudo
             if (textField1.getText().isEmpty() || textField2.getText().isEmpty()) {
-                erreurLabel.setText("Veuillez écrire votre pseudo pour chaque joueur !");
+                erreurLabel.setText("Veuillez entrer les pseudos des joueurs !");
             } else if (avatarCarrousel1.getCurrentIndex() == avatarCarrousel2.getCurrentIndex()) {
                 erreurLabel.setText("Les avatars des joueurs ne doivent pas être identiques !");
             } else if (vaisseauCarrousel1.getCurrentIndex() == vaisseauCarrousel2.getCurrentIndex()) {
