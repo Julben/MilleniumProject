@@ -174,7 +174,7 @@ public class Party extends StackPane {
                 currentPlayer = 1;
                 turns++;
             }
-            checkAlignment();
+            //checkAlignment();
         } else {
             // Vérifier si le bouton cliqué appartient à la liste des boutons autorisés à être sélectionnés par le joueur actuel
             if (currentPlayer == 1 && (buttonsJ1.contains(button) || button.getGraphic() == null)) {
@@ -408,6 +408,7 @@ public class Party extends StackPane {
         return result;
     }
 
+    /*
     private void checkAlignment() {
         GridPane gridPane = (GridPane) this.getChildren().get(this.getChildren().size() - 1); // Récupérer le GridPane
 
@@ -490,7 +491,7 @@ public class Party extends StackPane {
                         "-fx-background-color: yellow;");
             }
         }
-    }
+    }*/
 
 
 
