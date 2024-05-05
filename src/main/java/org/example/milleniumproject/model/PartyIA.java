@@ -15,7 +15,10 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import org.example.milleniumproject.view.Menu;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +32,8 @@ public class PartyIA extends StackPane {
     private ToggleGroup toggleGroup3;
     private HBox hbox3;
     private Button selectedButton=null;
+    private VBox pauseMenu; // Conteneur pour le menu pause
+    private VBox quitterMenu;
 
     public PartyIA(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3) {
         this.toggleGroup3 = toggleGroup3;
@@ -108,7 +113,33 @@ public class PartyIA extends StackPane {
         setAlignment(profileBox1, Pos.BOTTOM_LEFT);
         setAlignment(profileBox2, Pos.BOTTOM_RIGHT);
 
-        getChildren().addAll(hBox, profileBox1, profileBox2, gridPane);
+        // Création du bouton pause avec une image
+        Image pauseImage = new Image("pause.png"); // Remplacez "chemin/vers/votre/image.png" par le chemin de votre image
+        ImageView imageView = new ImageView(pauseImage);
+        imageView.setFitWidth(32); // Ajustez la largeur de l'image selon vos besoins
+        imageView.setFitHeight(32); // Ajustez la hauteur de l'image selon vos besoins
+
+        Button pauseButton = new Button();
+        pauseButton.setGraphic(imageView); // Définit l'image comme graphique du bouton
+
+        // Rendre l'arrière-plan du bouton invisible
+        pauseButton.setStyle("-fx-background-color: transparent; -fx-background-radius: 0; -fx-border-color: transparent;");
+
+        // Ajout d'une action pour afficher le menu pause lors du clic sur le bouton pause
+        pauseButton.setOnAction(e -> {
+            // Afficher le menu pause
+            pauseMenu.setVisible(true);
+        });
+
+        // Positionnement du bouton pause en haut à droite
+        StackPane.setAlignment(pauseButton, Pos.TOP_RIGHT);
+        setMargin(pauseButton, new Insets(10, 10, 0, 0));
+
+        pauseMenu = createPauseMenu(primaryStage);
+        pauseMenu.setVisible(false);
+        quitterMenu.setVisible(false);
+
+        getChildren().addAll(hBox, profileBox1, profileBox2, gridPane, pauseMenu, quitterMenu, pauseButton);
 
         // Gestionnaire d'événements pour les boutons du GridPane
         for (Node node : gridPane.getChildren()) {
@@ -430,5 +461,82 @@ public class PartyIA extends StackPane {
         profileBox.getChildren().add(hbox);
 
         return profileBox;
+    }
+
+    private VBox createPauseMenu(Stage primaryStage) {
+        VBox menu = new VBox(15); // Conteneur pour les boutons du menu pause
+
+        // Ajout des boutons nécessaires (Reprendre, Options, Quitter, etc.)
+        Button resumeButton = new Button("Reprendre");
+        Button regles = new Button("Règles");
+        Button parametres = new Button("Paramètres");
+        Button quitter = new Button("Quitter la Partie");
+
+        // Stylisation des boutons du menu pause
+        resumeButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14pt;");
+        regles.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 14pt;");
+        parametres.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 14pt;");
+        quitter.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white; -fx-font-size: 14pt;");
+
+        // Ajout d'une action pour le bouton "Reprendre" pour masquer le menu pause
+        resumeButton.setOnAction(e -> {
+            // Masquer le menu pause
+            menu.setVisible(false);
+        });
+
+        quitter.setOnAction(e -> {
+            quitterMenu.setVisible(true);
+        });
+
+        quitterMenu = boutonquitter(primaryStage);
+
+        // Ajout des boutons au menu
+        menu.getChildren().addAll(resumeButton, regles, parametres, quitter);
+
+        // Stylisation du menu pause avec un arrière-plan semi-transparent
+        menu.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5); -fx-padding: 20px;");
+
+        // Positionnement du menu pause au centre de l'écran
+        menu.setAlignment(Pos.CENTER);
+
+        return menu;
+    }
+
+    private VBox boutonquitter(Stage primaryStage){
+        VBox vbox = new VBox(30);
+
+        Label confirmationLabel = new Label("Êtes-vous sûr de vouloir quitter la partie ?");
+        confirmationLabel.setFont(Font.font("Cardo", FontWeight.BOLD, 22));
+        confirmationLabel.setTextFill(Color.WHITE);
+
+        HBox hbox = new HBox(30);
+        Button ouiButton = new Button("Oui");
+        Button nonButton = new Button("Non");
+
+        ouiButton.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white; -fx-font-size: 12pt;");
+        nonButton.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white; -fx-font-size: 12pt;");
+
+        nonButton.setOnAction(e -> {
+            // Masquer le menu pause
+            vbox.setVisible(false);
+        });
+
+        ouiButton.setOnAction(e -> {
+            Menu menu = new Menu();
+            menu.afficherMenu(primaryStage);
+        });
+
+        hbox.getChildren().addAll(ouiButton, nonButton);
+        vbox.getChildren().addAll(confirmationLabel, hbox);
+
+        // Stylisation du menu pause avec un arrière-plan semi-transparent
+        vbox.setStyle("-fx-background-color: rgba(0, 0, 0, 0.6); -fx-padding: 20px;");
+
+        // Positionnement du menu pause au centre de l'écran
+        hbox.setAlignment(Pos.CENTER);
+        vbox.setAlignment(Pos.TOP_CENTER);
+        vbox.setPadding(new Insets(20, 0, 0, 0));
+
+        return vbox;
     }
 }
