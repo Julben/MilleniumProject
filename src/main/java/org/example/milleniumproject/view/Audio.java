@@ -15,10 +15,12 @@ import org.example.milleniumproject.model.BackButtons;
 public class Audio extends StackPane {
 
     public Audio(Stage primaryStage) {
+
+        //Créer un fond d'écran
         BG ground = new BG("src/main/resources/BGAUDIO.png");
         setBackground(ground.getCustomBackground());
 
-        // Créer un bouton retour et l'ajouter à la pile
+        // Créer un bouton retour
         Button retourButton = BackButtons.createBackButton(primaryStage);
 
         // Création des sliders pour les volumes
@@ -31,7 +33,7 @@ public class Audio extends StackPane {
         musicSlider.setPrefWidth(250);
         effectsSlider.setPrefWidth(250);
 
-        // Création de la VBox pour les sliders et boutons
+        // Création de la VBox pour les sliders et les boutons
         VBox slidersVBox = new VBox(60);
         slidersVBox.setAlignment(Pos.CENTER_LEFT);
         slidersVBox.getChildren().addAll(
@@ -69,18 +71,21 @@ public class Audio extends StackPane {
     }
 
     private VBox createVolumeBox(Slider slider, String label) {
+        //Créer un bouton pour diminuer le volume
         Button decreaseButton = new Button("<");
         decreaseButton.setBackground(Background.EMPTY);
         decreaseButton.setTextFill(Color.WHITE);
         decreaseButton.setFont(Font.font(25)); // Taille de police plus grande
         decreaseButton.setOnAction(event -> slider.setValue(slider.getValue() - 10));
 
+        //Créer un bouton pour diminuer le volume
         Button increaseButton = new Button(">");
         increaseButton.setBackground(Background.EMPTY);
         increaseButton.setTextFill(Color.WHITE);
         increaseButton.setFont(Font.font(25)); // Taille de police plus grande
         increaseButton.setOnAction(event -> slider.setValue(slider.getValue() + 10));
 
+        //Créér une HBox
         HBox adjustmentBox = new HBox(5);
         adjustmentBox.getChildren().addAll(decreaseButton, slider, increaseButton);
         adjustmentBox.setAlignment(Pos.CENTER_LEFT); // Aligner les éléments à gauche
@@ -93,6 +98,7 @@ public class Audio extends StackPane {
         borderPane.setCenter(adjustmentBox);
         borderPane.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, new CornerRadii(10), Insets.EMPTY)));
 
+        //Créer une VBox pour le son
         VBox volumeBox = new VBox(20);
         volumeBox.setAlignment(Pos.CENTER_LEFT); // Aligner les VBox à gauche
         volumeBox.getChildren().addAll(borderPane);

@@ -6,9 +6,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class BG extends StackPane {
+
     private Background background;
 
+    //Création d'une méthode qui permet d'ajouter un fond d'écran
     public BG(String imagePath) {
+
         try {
             Image image = new Image(new FileInputStream(imagePath)); // Renommage de la variable
             BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false);
@@ -19,7 +22,6 @@ public class BG extends StackPane {
             throw new RuntimeException(e);
         }
     }
-
     public Background getCustomBackground() {
         return background;
     }

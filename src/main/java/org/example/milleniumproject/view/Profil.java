@@ -1,8 +1,6 @@
 package org.example.milleniumproject.view;
 
-import javafx.scene.image.ImageView;
 import org.example.milleniumproject.model.*;
-import org.example.milleniumproject.view.Profil;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -14,11 +12,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import java.util.Arrays;
-
 import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 
 public class Profil extends StackPane {
+
     Menu menu = new Menu();
     public static final double AVATAR_SIZE = 130.0;
     private TextField textField1;
@@ -33,23 +31,19 @@ public class Profil extends StackPane {
 
     public Profil(Stage primaryStage) {
 
-        erreurLabel = new Label(); // Initialiser le label d'erreur
+        // Ajouter directement le label d'erreur à la scène principale (Profil)  Initialiser le label d'erreur
+        erreurLabel = new Label();
         erreurLabel.setTextFill(Color.WHITE);
         erreurLabel.setFont(Font.font("Cardo", FontWeight.BOLD, 0.02 * screenHeight));
-
-        // Ajouter directement le label d'erreur à la scène principale (Profil)
         getChildren().add(erreurLabel);
-
         StackPane.setAlignment(erreurLabel, Pos.TOP_LEFT);
         StackPane.setMargin(erreurLabel, new Insets(0.02*screenHeight, 0, 0, 0.35 * screenWidth));
 
-        //Pane buttonContainer = new Pane();
-        //buttonContainer.getChildren().add(erreurLabel);
-
+        //Créer un fond d'écran
         BG ground = new BG("src/main/resources/BGProfil.png");
         setBackground(ground.getCustomBackground());
 
-        // Créer un bouton retour et l'ajouter à la pile
+        // Créer un bouton retour
         Button retourButton = BackButtons.createBackButton(primaryStage);
 
         String[] avatar = {"src/main/resources/Avatar/1.png", "src/main/resources/Avatar/2.png", "src/main/resources/Avatar/3.png", "src/main/resources/Avatar/4.png", "src/main/resources/Avatar/5.png", "src/main/resources/Avatar/6.png", "src/main/resources/Avatar/7.png", "src/main/resources/Avatar/8.png", "src/main/resources/Avatar/9.png", "src/main/resources/Avatar/10.png", "src/main/resources/Avatar/11.png", "src/main/resources/Avatar/12.png",};
@@ -91,9 +85,11 @@ public class Profil extends StackPane {
             ProfileData.saveProfile(2, savedPlayerName2, avatar[savedAvatarIndex2], rang[savedRankIndex2], vaisseau[savedShipIndex2]);
         }
 
+        //Créer les VBox pour les profils
         VBox vBox1 = createPlayerBox("Joueur 1", avatar, rang, vaisseau, savedPlayerName1, savedAvatarIndex1, savedRankIndex1, savedShipIndex1);
         VBox vBox2 = createPlayerBox("Joueur 2", avatar, rang, vaisseau, savedPlayerName2, savedAvatarIndex2, savedRankIndex2, savedShipIndex2);
 
+        //Créer les messages d'erreurs lorsque 2 joueurs ont des éléments en commun
         retourButton.setOnAction(event -> {
             // Vérifier si les joueurs ont entré leur pseudo
             if (textField1.getText().isEmpty() || textField2.getText().isEmpty()) {
@@ -115,7 +111,6 @@ public class Profil extends StackPane {
         HBox hBox = new HBox(0.35*Constant.screenWidth); // Espacement horizontal entre les Vbox
         hBox.getChildren().addAll(vBox1, vBox2);
         hBox.setAlignment(Pos.CENTER);
-
         getChildren().addAll(hBox, retourButton);
     }
 
@@ -124,10 +119,12 @@ public class Profil extends StackPane {
         label.setTextFill(Color.WHITE); // Couleur du texte
         label.setFont(Font.font("Cardo", 60)); // Police et taille du texte
 
+        //Création des Carrousel pour les vaisseaux
         Carrousel avatarCarrousel = new Carrousel(avatar, true, savedAvatarIndex);
         Carrousel rangCarrousel = new Carrousel(rang, false, savedRankIndex);
         Carrousel vaisseauCarrousel = new Carrousel(vaisseau, true, savedShipIndex);
 
+        //Instancie la zone de texte pour entrer les pseudos des joueurs
         TextField textField = createTextField(playerName);
 
         if (playerNum.equals("Joueur 1")) {
@@ -145,10 +142,10 @@ public class Profil extends StackPane {
         VBox vBox = new VBox(0.025*Constant.screenWidth); // Espacement vertical entre les carrousels
         vBox.getChildren().addAll(label, avatarCarrousel, textField, rangCarrousel, vaisseauCarrousel);
         vBox.setAlignment(Pos.CENTER);
-
         return vBox;
     }
 
+    //Création de la méthode pour entrer le pseudo des Joueurs
     private TextField createTextField(String playerName) {
         TextField textField = new TextField();
         textField.setPromptText("Entrez votre pseudo");
@@ -161,6 +158,7 @@ public class Profil extends StackPane {
         return textField;
     }
 
+    //Créer la méthode qui permet de récupérér les données du profil
     private void getProfileData(int playerNumber, TextField playerNameField, Carrousel avatarCarrousel, Carrousel rankCarrousel, Carrousel shipCarrousel, String[] avatar, String[] rang, String[] vaisseau) {
         String playerName = playerNameField.getText();
         int avatarIndex = avatarCarrousel.getCurrentIndex();
@@ -169,6 +167,7 @@ public class Profil extends StackPane {
         saveProfileData(playerNumber, playerName, avatarIndex, rankIndex, shipIndex, avatar, rang, vaisseau);
     }
 
+    //Créer la méthode qui permet de sauvegarder les données du profil
     private void saveProfileData(int playerNumber, String playerName, int avatarIndex, int rankIndex, int shipIndex, String[] avatar, String[] rang, String[] vaisseau) {
         String selectedAvatar = avatar[avatarIndex];
         String selectedRank = rang[rankIndex];

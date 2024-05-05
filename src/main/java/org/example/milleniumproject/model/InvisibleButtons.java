@@ -3,6 +3,7 @@ package org.example.milleniumproject.model;
 import javafx.scene.control.Button;
 import java.util.List;
 
+//Créer une classe pour rendre les sous-boutons inutiles invisible
 public class InvisibleButtons {
 
     public static void renderInvisibleButtons(List<Button> boutonsComplets, Button bouton) {
