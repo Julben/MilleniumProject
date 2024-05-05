@@ -329,7 +329,7 @@ public class Party extends StackPane {
 
 
 
-    /*private Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
+    private Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
         Node result = null;
         ObservableList<Node> children = gridPane.getChildren();
         for (Node node : children) {
@@ -339,7 +339,7 @@ public class Party extends StackPane {
             }
         }
         return result;
-    }*/
+    }
 
 
     // Méthode pour créer une VBox avec des images répétées

@@ -1,4 +1,4 @@
-package org.example.milleniumproject.view;
+/*package org.example.milleniumproject.view;
 
 import javafx.scene.image.ImageView;
 import org.example.milleniumproject.model.*;
@@ -95,22 +95,19 @@ public class Profil extends StackPane {
         VBox vBox2 = createPlayerBox("Joueur 2", avatar, rang, vaisseau, savedPlayerName2, savedAvatarIndex2, savedRankIndex2, savedShipIndex2);
 
         retourButton.setOnAction(event -> {
-            // Vérifier si les joueurs ont entré leur pseudo
-            if (textField1.getText().isEmpty() || textField2.getText().isEmpty()) {
-                erreurLabel.setText("Veuillez écrire votre pseudo pour chaque joueur !");
-            } else if (avatarCarrousel1.getCurrentIndex() == avatarCarrousel2.getCurrentIndex()) {
+            // Comparer les chemins d'accès des avatars et des pions des deux joueurs
+            if(avatarCarrousel1.getCurrentIndex() == avatarCarrousel2.getCurrentIndex()) {
                 erreurLabel.setText("Les avatars des joueurs ne doivent pas être identiques !");
-            } else if (vaisseauCarrousel1.getCurrentIndex() == vaisseauCarrousel2.getCurrentIndex()) {
+            } else if(vaisseauCarrousel1.getCurrentIndex() == vaisseauCarrousel2.getCurrentIndex()) {
                 erreurLabel.setText("Les pions des joueurs ne doivent pas être identiques !");
             } else {
-                // Si les avatars, les vaisseaux spatiaux et les pseudos sont différents, poursuivre avec l'action de retour
+                // Si les avatars et les pions sont différents, poursuivre avec l'action de retour
                 getProfileData(1, textField1, avatarCarrousel1, rangCarrousel1, vaisseauCarrousel1, avatar, rang, vaisseau);
                 getProfileData(2, textField2, avatarCarrousel2, rangCarrousel2, vaisseauCarrousel2, avatar, rang, vaisseau);
                 SoundPlayer.soundPlay();
                 menu.afficherMenu(primaryStage);
             }
         });
-
 
         HBox hBox = new HBox(0.35*Constant.screenWidth); // Espacement horizontal entre les Vbox
         hBox.getChildren().addAll(vBox1, vBox2);
@@ -175,4 +172,4 @@ public class Profil extends StackPane {
         String selectedShip = vaisseau[shipIndex];
         ProfileData.saveProfile(playerNumber, playerName, selectedAvatar, selectedRank, selectedShip);
     }
-}
+}*/
