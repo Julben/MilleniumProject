@@ -266,24 +266,14 @@ public class Party extends StackPane {
 
     }
 
-    // Méthode pour sélectionner un bouton
+    // Instance pour séléctionner un bouton
     private void selectButton(Button button) {
-        button.setStyle("-fx-background-color: yellow;"+
-                "-fx-background-radius: 50%; " + // Rendre les coins ronds
-                "-fx-min-width: 65px; " + // Définir la largeur
-                "-fx-min-height: 65px; " + // Définir la hauteur
-                "-fx-max-width: 65px; " + // Limiter la largeur
-                "-fx-max-height: 65px;");
+        ButtonSelector.selectButton(button);
     }
 
-    // Méthode pour désélectionner un bouton
+    // Instance pour désélectionner un bouton
     private void deselectButton(Button button) {
-        button.setStyle("-fx-background-radius: 50%; " + // Rendre les coins ronds
-                "-fx-min-width: 65px; " + // Définir la largeur
-                "-fx-min-height: 65px; " + // Définir la hauteur
-                "-fx-max-width: 65px; " + // Limiter la largeur
-                "-fx-max-height: 65px;"+
-                "-fx-background-color: transparent; -fx-border-color: transparent;");
+        ButtonSelector.deselectButton(button);
     }
 
 
@@ -382,18 +372,9 @@ public class Party extends StackPane {
         }
     }
 
-
-    // Méthode pour créer un bouton stylisé
+    // Instance pour créer un bouton stylisé
     private Button createStyledButton(String text) {
-        Button button = new Button(text);
-        button.setStyle("-fx-background-radius: 50%; " + // Rendre les coins ronds
-                "-fx-min-width: 65px; " + // Définir la largeur
-                "-fx-min-height: 65px; " + // Définir la hauteur
-                "-fx-max-width: 65px; " + // Limiter la largeur
-                "-fx-max-height: 65px;"+
-                "-fx-background-color: transparent; -fx-border-color: transparent;"); // Limiter la hauteur
-
-        return button;
+        return ButtonSelector.createStyledButton(text);
     }
 
     private Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
