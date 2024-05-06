@@ -15,14 +15,16 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.example.milleniumproject.view.Menu;
 
 public class Party extends StackPane {
     // Déclarations des variables d'instance
     private int currentPlayer = 1;
+    private boolean isPlayer1Turn = true; // Variable pour suivre le tour des joueurs
     private VBox leftVBox;
     private VBox rightVBox;
     private int turns = 0;
@@ -42,12 +44,6 @@ public class Party extends StackPane {
         this.toggleGroup3 = toggleGroup3;
         this.hbox3 = hbox3;
 
-        this.toggleGroup2 = toggleGroup2;
-        this.hbox2 = hbox2;
-
-        int selectedIndexchrono = PreParty.getSelectedIndexchrono(toggleGroup2, hbox2);
-        System.out.println("selectedIndexchrono: " + selectedIndexchrono);
-
         int selectedIndex = PreParty.getSelectedIndex(toggleGroup3, hbox3);
 
         String backgroundImage = "";
@@ -60,6 +56,12 @@ public class Party extends StackPane {
         }
         BG ground = new BG(backgroundImage);
         setBackground(ground.getCustomBackground());
+
+        this.toggleGroup2 = toggleGroup2;
+        this.hbox2 = hbox2;
+
+        int selectedIndexchrono = PreParty.getSelectedIndexchrono(toggleGroup2, hbox2);
+        System.out.println("selectedIndexchrono: " + selectedIndexchrono);
 
         // Création du GridPane
         GridPane gridPane = new GridPane();
@@ -160,6 +162,7 @@ public class Party extends StackPane {
 
     // Méthode pour gérer le clic sur le bouton
     private void handleButtonClick(Button button, GridPane gridpane) {
+
         // Vérifier si le bouton n'a pas déjà d'image et si tous les tours n'ont pas été joués
         if (button.getGraphic() == null && turns < 9) {
             // Placer l'image du joueur sur le bouton en fonction du joueur actuel
@@ -174,7 +177,6 @@ public class Party extends StackPane {
                 currentPlayer = 1;
                 turns++;
             }
-            //checkAlignment();
         } else {
             // Vérifier si le bouton cliqué appartient à la liste des boutons autorisés à être sélectionnés par le joueur actuel
             if (currentPlayer == 1 && (buttonsJ1.contains(button) || button.getGraphic() == null)) {
@@ -188,7 +190,6 @@ public class Party extends StackPane {
         for (String[] combination : buttonCombinations) {
             checkAndChangeButtonColor(combination[0], combination[1], combination[2], gridpane);
         }
-
     }
 
     private void checkAndChangeButtonColor(String buttonLabel1, String buttonLabel2, String buttonLabel3, GridPane gridPane) {
@@ -237,6 +238,27 @@ public class Party extends StackPane {
                 }
             }
         }
+    }
+
+    private String getImageUrlFromButton(Button button) {
+        // Vérifier si le bouton contient une image
+        if (button.getGraphic() instanceof ImageView) {
+            ImageView imageView = (ImageView) button.getGraphic();
+            Image image = imageView.getImage();
+
+            // Récupérer l'URL de l'image
+            String imageUrl = image.getUrl();
+            return imageUrl;
+        } else {
+            // Le bouton ne contient pas d'image
+            return null;
+        }
+    }
+
+    private String getButtonText(Button button) {
+        // Récupérer le texte du bouton
+        String buttonText = button.getText();
+        return buttonText;
     }
 
     // Méthode pour gérer la sélection du bouton
@@ -331,28 +353,17 @@ public class Party extends StackPane {
         return false;
     }
 
-    private String getImageUrlFromButton(Button button) {
-        // Vérifier si le bouton contient une image
-        if (button.getGraphic() instanceof ImageView) {
-            ImageView imageView = (ImageView) button.getGraphic();
-            Image image = imageView.getImage();
-
-            // Récupérer l'URL de l'image
-            String imageUrl = image.getUrl();
-            return imageUrl;
-        } else {
-            // Le bouton ne contient pas d'image
-            return null;
+    private Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
+        Node result = null;
+        ObservableList<Node> children = gridPane.getChildren();
+        for (Node node : children) {
+            if (gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
+                result = node;
+                break;
+            }
         }
+        return result;
     }
-
-    private String getButtonText(Button button) {
-        // Récupérer le texte du bouton
-        String buttonText = button.getText();
-        return buttonText;
-    }
-
-
 
     // Méthode pour placer l'image du joueur sur un bouton
     private void placePlayerImage(Button button, VBox playerVBox) {
@@ -363,7 +374,6 @@ public class Party extends StackPane {
         if (!gridPane.getChildren().isEmpty()) {
             // Récupérer l'image correspondant à l'index du joueur actuel
             ImageView imageView = (ImageView) gridPane.getChildren().get(currentImageIndex);
-
 
             // Appliquer l'image sur le bouton
             button.setGraphic(imageView);
@@ -392,108 +402,10 @@ public class Party extends StackPane {
                 "-fx-max-width: 65px; " + // Limiter la largeur
                 "-fx-max-height: 65px;"+
                 "-fx-background-color: transparent; -fx-border-color: transparent;"); // Limiter la hauteur
+        button.setTextFill(Color.TRANSPARENT);
 
         return button;
     }
-
-    private Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
-        Node result = null;
-        ObservableList<Node> children = gridPane.getChildren();
-        for (Node node : children) {
-            if (gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
-                result = node;
-                break;
-            }
-        }
-        return result;
-    }
-
-    /*
-    private void checkAlignment() {
-        GridPane gridPane = (GridPane) this.getChildren().get(this.getChildren().size() - 1); // Récupérer le GridPane
-
-        // Parcourir chaque ligne et chaque colonne du GridPane
-        for (int rowIndex = 0; rowIndex < gridPane.getRowCount(); rowIndex++) {
-            for (int colIndex = 0; colIndex < gridPane.getColumnCount(); colIndex++) {
-                Button button = (Button) getNodeByRowColumnIndex(rowIndex, colIndex, gridPane);
-                if (button != null && button.getGraphic() != null) {
-                    // Vérifier les alignements possibles à partir de ce bouton
-                    checkAlignmentFromButton(button, gridPane);
-                }
-            }
-        }
-    }
-
-    private void checkAlignmentFromButton(Button button, GridPane gridPane) {
-        Integer rowIndex = GridPane.getRowIndex(button);
-        Integer colIndex = GridPane.getColumnIndex(button);
-
-        ImageView imageView = (ImageView) button.getGraphic();
-        Image image = imageView.getImage();
-
-        // Vérifier l'alignement horizontal à droite
-        if (checkHorizontalAlignment(image, rowIndex, colIndex, gridPane)) {
-            // Marquer l'alignement
-            markAlignment(rowIndex, colIndex, 0, 1, gridPane);
-        }
-        // Vérifier l'alignement vertical vers le bas
-        if (checkVerticalAlignment(image, rowIndex, colIndex, gridPane)) {
-            // Marquer l'alignement
-            markAlignment(rowIndex, colIndex, 1, 0, gridPane);
-        }
-    }
-
-    private boolean checkHorizontalAlignment(Image image, int rowIndex, int colIndex, GridPane gridPane) {
-        // Vérifier l'alignement horizontal à droite
-        for (int i = 1; i < 3; i++) {
-            if (colIndex + i >= gridPane.getColumnCount()) {
-                return false; // Dépassement des limites du GridPane
-            }
-            Button nextButton = (Button) getNodeByRowColumnIndex(rowIndex, colIndex + i, gridPane);
-            if (nextButton == null || nextButton.getGraphic() == null) {
-                return false; // Le prochain bouton est vide ou inexistant
-            }
-            ImageView nextImageView = (ImageView) nextButton.getGraphic();
-            if (!nextImageView.getImage().equals(image)) {
-                return false; // Le prochain bouton n'a pas la même image
-            }
-        }
-        return true; // Alignement horizontal trouvé
-    }
-
-    private boolean checkVerticalAlignment(Image image, int rowIndex, int colIndex, GridPane gridPane) {
-        // Vérifier l'alignement vertical vers le bas
-        for (int i = 1; i < 3; i++) {
-            if (rowIndex + i >= gridPane.getRowCount()) {
-                return false; // Dépassement des limites du GridPane
-            }
-            Button nextButton = (Button) getNodeByRowColumnIndex(rowIndex + i, colIndex, gridPane);
-            if (nextButton == null || nextButton.getGraphic() == null) {
-                return false; // Le prochain bouton est vide ou inexistant
-            }
-            ImageView nextImageView = (ImageView) nextButton.getGraphic();
-            if (!nextImageView.getImage().equals(image)) {
-                return false; // Le prochain bouton n'a pas la même image
-            }
-        }
-        return true; // Alignement vertical trouvé
-    }
-    private void markAlignment(int startRow, int startCol, int rowIncrement, int colIncrement, GridPane gridPane) {
-        // Parcourir les boutons alignés et les mettre en surbrillance
-        for (int i = 0; i < 3; i++) {
-            Button button = (Button) getNodeByRowColumnIndex(startRow + i * rowIncrement, startCol + i * colIncrement, gridPane);
-            if (button != null) {
-                button.setStyle("-fx-background-radius: 50%; " + // Rendre les coins ronds
-                        "-fx-min-width: 65px; " + // Définir la largeur
-                        "-fx-min-height: 65px; " + // Définir la hauteur
-                        "-fx-max-width: 65px; " + // Limiter la largeur
-                        "-fx-max-height: 65px;"+
-                        "-fx-background-color: yellow;");
-            }
-        }
-    }*/
-
-
 
     // Méthode pour créer une VBox avec des images répétées
     private VBox createVBoxWithImages(String imageLink, int count) {
