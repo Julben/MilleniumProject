@@ -43,12 +43,16 @@ public class PartyIA extends StackPane {
 
 
 
+
+
     public PartyIA(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3) {
         this.toggleGroup3 = toggleGroup3;
         this.hbox3 = hbox3;
 /////////////////////////////////////////////////////////////////////////////////////
         buttonUtils = new ButtonUtils();
 /////////////////////////////////////////////////////////////////////////////////////
+
+        //////////////////////////////////////////////////////////////////////////////////////////
 
         int selectedIndex = PrePartyIA.getSelectedIndex(toggleGroup3, hbox3);
 
@@ -69,6 +73,8 @@ public class PartyIA extends StackPane {
         gridPane.setHgap(42); // Espacement horizontal entre les boutons
         gridPane.setVgap(42); // Espacement vertical entre les boutons
         gridPane.setAlignment(Pos.CENTER); // Positionnement au centre de la StackPane
+
+
 
         // Ajout des boutons au GridPane avec leurs positions
         String[] buttonLabels = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X"};
@@ -159,6 +165,8 @@ public class PartyIA extends StackPane {
                 button.setOnAction(e -> handleButtonClick(button, gridPane));
             }
         }
+
+        
     }
 
     // Méthode pour gérer le clic sur le bouton
@@ -336,6 +344,9 @@ public class PartyIA extends StackPane {
             }
         }
     }
+
+
+
 
 
 
