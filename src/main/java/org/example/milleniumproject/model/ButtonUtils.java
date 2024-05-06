@@ -4,10 +4,16 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-
+/**
+ * Classe utilitaire pour la gestion des boutons dans une grille.
+ */
 public class ButtonUtils
 {
-
+    /**
+     * Met en surbrillance les boutons alignés dans une grille.
+     *
+     * @param gridPane La grille contenant les boutons.
+     */
     public static void highlightAlignedButtons(GridPane gridPane) {
         for (int i = 0; i < gridPane.getRowCount(); i++) {
             highlightAlignedButtonsInRow(gridPane, i);
@@ -61,7 +67,13 @@ public class ButtonUtils
 
 
 
-
+    /**
+     * Vérifie si deux boutons sont voisins dans la grille.
+     *
+     * @param button1 Le premier bouton.
+     * @param button2 Le deuxième bouton.
+     * @return true si les boutons sont voisins, sinon false.
+     */
     public static boolean isNeighbourButton(Button button1, Button button2) {
         GridPane gridPane = (GridPane) button1.getParent();
         Integer rowIndex1 = GridPane.getRowIndex(button1);
@@ -104,7 +116,14 @@ public class ButtonUtils
 
         return false;
     }
-
+    /**
+     * Obtient le nœud situé à la ligne et à la colonne spécifiées dans une grille.
+     *
+     * @param row       L'index de la ligne.
+     * @param column    L'index de la colonne.
+     * @param gridPane  La grille contenant les nœuds.
+     * @return Le nœud à la position spécifiée.
+     */
     static Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
         Node result = null;
         for (Node node : gridPane.getChildren()) {

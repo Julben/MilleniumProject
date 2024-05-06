@@ -15,6 +15,10 @@ import org.example.milleniumproject.view.Profil;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+/**
+ * Carrousel est une classe personnalisée qui représente un composant permettant de naviguer
+ * à travers une série d'éléments, qu'ils soient des images ou des textes.
+ */
 public class Carrousel extends StackPane {
     private ImageView imageView;
     private Label label;
@@ -22,6 +26,13 @@ public class Carrousel extends StackPane {
     private final String[] contents;
     private final boolean isImage;
 
+    /**
+     * Constructeur de la classe Carrousel.
+     *
+     * @param contents    Le tableau des contenus à afficher dans le carrousel.
+     * @param isImage     Un booléen indiquant si les contenus sont des images ou des textes.
+     * @param savedIndex  L'index de départ sauvegardé.
+     */
     public Carrousel(String[] contents, boolean isImage, int savedIndex) {
         this.contents = contents;
         this.isImage = isImage;
@@ -48,6 +59,13 @@ public class Carrousel extends StackPane {
         showContent(savedIndex);
     }
 
+    /**
+     * Crée un bouton de navigation pour le carrousel.
+     *
+     * @param text           Le texte affiché sur le bouton.
+     * @param eventHandler  L'objet EventHandler<ActionEvent> gérant l'événement de clic sur le bouton.
+     * @return Le bouton créé.
+     */
     private Button createNavigationButton(String text, EventHandler<ActionEvent> eventHandler) {
         Button button = new Button(text);
         button.setOnAction(eventHandler);
@@ -58,6 +76,11 @@ public class Carrousel extends StackPane {
         return button;
     }
 
+    /**
+     * Affiche le contenu à l'index spécifié.
+     *
+     * @param index L'index du contenu à afficher.
+     */
     private void showContent(int index) {
         if (index >= 0 && index < contents.length) {
             if (isImage) {
@@ -74,16 +97,27 @@ public class Carrousel extends StackPane {
         }
     }
 
+    /**
+     * Affiche le contenu suivant dans le carrousel.
+     */
     public void showNext() {
         currentIndex = (currentIndex + 1) % contents.length;
         showContent(currentIndex);
     }
 
+    /**
+     * Affiche le contenu précédent dans le carrousel.
+     */
     public void showPrevious() {
         currentIndex = (currentIndex - 1 + contents.length) % contents.length;
         showContent(currentIndex);
     }
 
+    /**
+     * Récupère l'index actuel du contenu affiché dans le carrousel.
+     *
+     * @return L'index actuel.
+     */
     public int getCurrentIndex() {
         return currentIndex;
     }

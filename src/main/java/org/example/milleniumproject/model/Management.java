@@ -8,14 +8,22 @@ import org.example.milleniumproject.view.Profil;
 import org.example.milleniumproject.view.Video;
 import java.util.List;
 
+/**
+ * Classe qui gère les évènements liés aux boutons du menu.
+ */
+public class Management {
 
-public class Management { //Classe qui gère les évènements liés aux boutons du menu
-
+    /**
+     * Gère les événements associés aux boutons du menu.
+     *
+     * @param primaryStage   La fenêtre principale de l'application
+     * @param boutonsComplets La liste des boutons du menu
+     */
     public static void gererEvenements(Stage primaryStage, List<Button> boutonsComplets) {
 
         for (Button bouton : boutonsComplets) {
             bouton.setOnAction(event -> {
-                SoundPlayer.soundPlay();
+                SoundPlayer.soundPlay(); // Joue un son lorsqu'un bouton est cliqué
                 if (bouton.getText().equals("Nouvelle Partie")) {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
                 } else if (bouton.getText().equals("Campagne")) {
@@ -45,7 +53,7 @@ public class Management { //Classe qui gère les évènements liés aux boutons 
                     Video video = new Video(primaryStage);
                     primaryStage.getScene().setRoot(video);
                 } else if (bouton.getText().equals("Quitter")) {
-                    Platform.exit();
+                    Platform.exit(); // Ferme l'application
                 }
             });
         }
