@@ -242,6 +242,9 @@ public class PartyIA extends StackPane {
         }
     }
 
+
+
+
     // Méthode pour gérer la sélection du bouton
     private void handleSelection(List<Button> buttons ,Button clickedButton) {
         if (selectedButton == null) {
@@ -278,7 +281,10 @@ public class PartyIA extends StackPane {
     private void deselectButton(Button button) {
         ButtonSelector.deselectButton(button);
     }
-
+    // Instance pour créer un bouton stylisé
+    private Button createStyledButton(String text) {
+        return ButtonSelector.createStyledButton(text);
+    }
 
 
 
@@ -331,10 +337,7 @@ public class PartyIA extends StackPane {
         }
     }
 
-    // Instance pour créer un bouton stylisé
-    private Button createStyledButton(String text) {
-        return ButtonSelector.createStyledButton(text);
-    }
+
 
 
     // Méthode pour créer une VBox avec des images répétées
