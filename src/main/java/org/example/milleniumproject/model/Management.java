@@ -28,15 +28,18 @@ public class Management {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
                 } else if (bouton.getText().equals("Campagne")) {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
-                } else if (bouton.getText().equals("Jouer contre l'ordinateur")) {
+                }
+                else if (bouton.getText().equals("Jouer contre l'ordinateur")) {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
                     PrePartyIA preia = new PrePartyIA(primaryStage);
                     primaryStage.getScene().setRoot(preia);
-                } else if (bouton.getText().equals("Joueur contre joueur")) {
+                }
+                else if (bouton.getText().equals("Joueur contre joueur")) {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
                     PreParty pre = new PreParty(primaryStage);
                     primaryStage.getScene().setRoot(pre);
-                } else if (bouton.getText().equals("Charger une Partie")) {
+                }
+                else if (bouton.getText().equals("Charger une Partie")) {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
                 } else if (bouton.getText().equals("Profil")) {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);

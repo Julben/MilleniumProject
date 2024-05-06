@@ -20,6 +20,8 @@ import javafx.stage.Stage;
 import org.example.milleniumproject.view.Menu;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
 import static org.example.milleniumproject.model.ButtonUtils.getNodeByRowColumnIndex;
 import static org.example.milleniumproject.model.ButtonUtils.isNeighbourButton;
 
@@ -40,6 +42,7 @@ public class PartyIA extends StackPane {
     private List<Button> buttonsJ1 = new ArrayList<>();
     private List<Button> buttonsJ2 = new ArrayList<>();
     private ButtonUtils buttonUtils;
+    private Random random = new Random();
 
 
 
@@ -170,29 +173,108 @@ public class PartyIA extends StackPane {
                 placePlayerImage(button, leftVBox);
                 buttonsJ1.add(button);
                 currentPlayer = 2;
+                turns++; // Augmenter le compteur de tours après que les deux joueurs aient placé leur pion
+                placeRandomPlayerImage(gridpane); // Appel pour placer l'image du joueur 2
             } else {
-                placePlayerImage(button, rightVBox);
-                buttonsJ2.add(button);
-
-                currentPlayer = 1;
+                placeRandomPlayerImage(gridpane);
                 turns++;
+                currentPlayer = 1;
+                enableAllButtons(gridpane); // Activer tous les boutons après que le joueur 2 ait placé son pion
             }
-            //checkAlignment();
         } else {
             // Vérifier si le bouton cliqué appartient à la liste des boutons autorisés à être sélectionnés par le joueur actuel
             if (currentPlayer == 1 && (buttonsJ1.contains(button) || button.getGraphic() == null)) {
                 handleSelection(buttonsJ1, button);
-            } else if (currentPlayer == 2 && (buttonsJ2.contains(button) || button.getGraphic() == null) ) {
+            } else if (currentPlayer == 2 && (buttonsJ2.contains(button) || button.getGraphic() == null)) {
                 handleSelection(buttonsJ2, button);
             }
         }
 
+        // Vérifier et changer la couleur des boutons
         String[][] buttonCombinations = {{"A", "B", "C"}, {"D", "E", "F"}, {"G", "H", "I"}, {"J", "K", "L"}, {"M", "N", "O"}, {"P", "Q", "R"}, {"S", "T", "U"}, {"V", "W", "X"}, {"A", "J", "V"}, {"D", "K", "S"}, {"G", "L", "P"}, {"B", "E", "H"}, {"Q", "T", "W"}, {"I", "M", "R"}, {"F", "N", "U"}, {"C", "O", "X"}};
         for (String[] combination : buttonCombinations) {
             checkAndChangeButtonColor(combination[0], combination[1], combination[2], gridpane);
         }
-
     }
+
+    private void placeRandomPlayerImage(GridPane gridpane) {
+        while (true) {
+            int randomRow = random.nextInt(7); // Choisir une ligne aléatoire
+            int randomCol = random.nextInt(7); // Choisir une colonne aléatoire
+            Button randomButton = (Button) getNodeByRowColumnIndex(randomRow, randomCol, gridpane); // Obtenir le bouton correspondant à la ligne et à la colonne aléatoires
+            if (randomButton != null && randomButton.getGraphic() == null) { // Vérifier si le bouton n'est pas nul et s'il est vide
+                placePlayerImage(randomButton, rightVBox); // Placer le pion du joueur 2 sur le bouton aléatoire
+                buttonsJ2.add(randomButton); // Ajouter le bouton à la liste des boutons du joueur 2
+                break;
+            }
+        }
+    }
+
+
+    // Méthode pour placer l'image du joueur sur un bouton
+    // Méthode pour placer l'image du joueur sur un bouton
+    // Méthode pour placer l'image du joueur sur un bouton
+    // Méthode pour placer l'image du joueur sur un bouton
+    private void placePlayerImage(Button button, VBox playerVBox) {
+        // Obtenir le GridPane enfant de la VBox
+        GridPane gridPane = (GridPane) playerVBox.getChildren().get(0);
+
+        // Vérifier si le GridPane contient des images
+        if (!gridPane.getChildren().isEmpty()) {
+            // Récupérer l'image correspondant à l'index du joueur actuel
+            ImageView imageView = (ImageView) gridPane.getChildren().get(0);
+
+            // Vérifier si le bouton n'a pas déjà d'image
+            if (button.getGraphic() == null) {
+                // Créer une copie de l'image pour la placer sur le bouton
+                ImageView imageViewCopy = new ImageView(imageView.getImage());
+                imageViewCopy.setFitWidth(button.getWidth());
+                imageViewCopy.setFitHeight(button.getHeight());
+
+                // Appliquer l'image sur le bouton
+                button.setGraphic(imageViewCopy);
+
+                // Passer au joueur suivant après chaque tour complet
+                currentPlayer = currentPlayer == 1 ? 2 : 1;
+
+                // Vérifier s'il reste des images à placer
+                if (gridPane.getChildren().size() > 1) {
+                    gridPane.getChildren().remove(0);
+                } else {
+                    gridPane.getChildren().clear();
+                    currentImageIndex = 0; // Réinitialiser l'index d'image
+                }
+            }
+        } else {
+            // Afficher un message d'erreur ou effectuer une autre action appropriée
+            System.err.println("Erreur : Aucune image à placer sur le bouton.");
+        }
+    }
+
+
+
+
+
+    private void enableAllButtons(GridPane gridPane) {
+        for (Node node : gridPane.getChildren()) {
+            if (node instanceof Button) {
+                Button button = (Button) node;
+                button.setDisable(false);
+            }
+        }
+    }
+
+    private void disableAllButtons(GridPane gridPane) {
+        for (Node node : gridPane.getChildren()) {
+            if (node instanceof Button) {
+                Button button = (Button) node;
+                button.setDisable(true);
+            }
+        }
+    }
+
+
+
 
     private void checkAndChangeButtonColor(String buttonLabel1, String buttonLabel2, String buttonLabel3, GridPane gridPane) {
         // Variables pour stocker les URLs des boutons
@@ -309,33 +391,7 @@ public class PartyIA extends StackPane {
         return buttonText;
     }
 
-    // Méthode pour placer l'image du joueur sur un bouton
-    private void placePlayerImage(Button button, VBox playerVBox) {
-        // Obtenir le GridPane enfant de la VBox
-        GridPane gridPane = (GridPane) playerVBox.getChildren().get(0);
 
-        // Vérifier si le GridPane contient des images
-        if (!gridPane.getChildren().isEmpty()) {
-            // Récupérer l'image correspondant à l'index du joueur actuel
-            ImageView imageView = (ImageView) gridPane.getChildren().get(currentImageIndex);
-
-
-            // Appliquer l'image sur le bouton
-            button.setGraphic(imageView);
-
-            // Supprimer l'image du GridPane
-            gridPane.getChildren().remove(imageView);
-
-            // Incrémenter l'index d'image pour le prochain joueur
-            currentImageIndex++;
-
-            // Passer au joueur suivant après chaque tour complet
-            if (currentImageIndex >= gridPane.getChildren().size()) {
-                currentPlayer = currentPlayer == 1 ? 2 : 1;
-                currentImageIndex = 0; // Réinitialiser l'index d'image
-            }
-        }
-    }
 
 
 
