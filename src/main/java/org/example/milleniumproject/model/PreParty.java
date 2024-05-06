@@ -13,10 +13,6 @@ import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
-import org.example.milleniumproject.model.MusicPlayer;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import java.io.File;
 import static org.example.milleniumproject.model.Constant.screenHeight;
@@ -46,7 +42,6 @@ public class PreParty extends StackPane {
         String[] imageUrls3 = {"Naboo.png", "Coruscant.png", "Mustafar.png"}; // Remplacez les liens par vos propres URLs
         HBox hbox3 = createImageToggleHBox(toggleGroup3, imageUrls3); // Appeler la méthode pour créer la HBox appropriée
         HBox hbox4 = new HBox(10); // Création de la VBox pour le bouton "Lancer Partie"
-
         hbox4.setAlignment(Pos.CENTER);
 
         launchButton = new Button("Lancer Partie");
@@ -167,7 +162,6 @@ public class PreParty extends StackPane {
             primaryStage.getScene().setRoot(party);
         });
         mediaPlayer.play();
-
     }
 
     private HBox createImageToggleHBox(ToggleGroup toggleGroup, String[] imageUrls) {
@@ -226,6 +220,4 @@ public class PreParty extends StackPane {
         }
         return selectedIndex;
     }
-
-
 }

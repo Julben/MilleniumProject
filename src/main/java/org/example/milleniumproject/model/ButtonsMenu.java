@@ -11,7 +11,6 @@ public class ButtonsMenu {
 
     /**
      * Crée une liste de boutons de menu avec des noms prédéfinis et un style spécifié.
-     *
      * @return Une liste de boutons de menu.
      */
     public List<Button> creerBoutons() {
