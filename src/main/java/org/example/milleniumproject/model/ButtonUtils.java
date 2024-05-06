@@ -2,10 +2,66 @@ package org.example.milleniumproject.model;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
 public class ButtonUtils
 {
+
+    public static void highlightAlignedButtons(GridPane gridPane) {
+        for (int i = 0; i < gridPane.getRowCount(); i++) {
+            highlightAlignedButtonsInRow(gridPane, i);
+        }
+        for (int i = 0; i < gridPane.getColumnCount(); i++) {
+            highlightAlignedButtonsInColumn(gridPane, i);
+        }
+    }
+
+    private static void highlightAlignedButtonsInRow(GridPane gridPane, int rowIndex) {
+        Button[] buttonsInRow = new Button[gridPane.getColumnCount()];
+        for (int colIndex = 0; colIndex < gridPane.getColumnCount(); colIndex++) {
+            Node node = getNodeByRowColumnIndex(rowIndex, colIndex, gridPane);
+            if (node instanceof Button) {
+                buttonsInRow[colIndex] = (Button) node;
+            }
+        }
+        if (buttonsInRow[0] != null && buttonsInRow[1] != null && buttonsInRow[2] != null
+                && buttonsInRow[0].getGraphic() != null && buttonsInRow[1].getGraphic() != null && buttonsInRow[2].getGraphic() != null) {
+            ImageView imageView1 = (ImageView) buttonsInRow[0].getGraphic();
+            ImageView imageView2 = (ImageView) buttonsInRow[1].getGraphic();
+            ImageView imageView3 = (ImageView) buttonsInRow[2].getGraphic();
+            if (imageView1.getImage().equals(imageView2.getImage()) && imageView1.getImage().equals(imageView3.getImage())) {
+                for (Button button : buttonsInRow) {
+                    button.setStyle("-fx-background-color: yellow;");
+                }
+            }
+        }
+    }
+
+    private static void highlightAlignedButtonsInColumn(GridPane gridPane, int colIndex) {
+        Button[] buttonsInColumn = new Button[gridPane.getRowCount()];
+        for (int rowIndex = 0; rowIndex < gridPane.getRowCount(); rowIndex++) {
+            Node node = getNodeByRowColumnIndex(rowIndex, colIndex, gridPane);
+            if (node instanceof Button) {
+                buttonsInColumn[rowIndex] = (Button) node;
+            }
+        }
+        if (buttonsInColumn[0] != null && buttonsInColumn[1] != null && buttonsInColumn[2] != null
+                && buttonsInColumn[0].getGraphic() != null && buttonsInColumn[1].getGraphic() != null && buttonsInColumn[2].getGraphic() != null) {
+            ImageView imageView1 = (ImageView) buttonsInColumn[0].getGraphic();
+            ImageView imageView2 = (ImageView) buttonsInColumn[1].getGraphic();
+            ImageView imageView3 = (ImageView) buttonsInColumn[2].getGraphic();
+            if (imageView1.getImage().equals(imageView2.getImage()) && imageView1.getImage().equals(imageView3.getImage())) {
+                for (Button button : buttonsInColumn) {
+                    button.setStyle("-fx-background-color: yellow;");
+                }
+            }
+        }
+    }
+
+
+
+
     public static boolean isNeighbourButton(Button button1, Button button2) {
         GridPane gridPane = (GridPane) button1.getParent();
         Integer rowIndex1 = GridPane.getRowIndex(button1);
