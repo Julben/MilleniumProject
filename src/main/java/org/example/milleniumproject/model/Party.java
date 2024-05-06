@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.example.milleniumproject.view.Menu;
 
+import static org.example.milleniumproject.model.ButtonUtils.isNeighbourButton;
+
 public class Party extends StackPane {
     // Déclarations des variables d'instance
     private int currentPlayer = 1;
@@ -37,10 +39,14 @@ public class Party extends StackPane {
     private List<Button> buttonsJ2 = new ArrayList<>();
     private VBox pauseMenu; // Conteneur pour le menu pause
     private VBox quitterMenu;
+    private ButtonUtils buttonUtils;
 
     public Party(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3, ToggleGroup toggleGroup2, HBox hbox2) {
         this.toggleGroup3 = toggleGroup3;
         this.hbox3 = hbox3;
+        /////////////////////////////////////////////////////////////////////////////////////
+        buttonUtils = new ButtonUtils();
+/////////////////////////////////////////////////////////////////////////////////////
 
         this.toggleGroup2 = toggleGroup2;
         this.hbox2 = hbox2;
@@ -278,7 +284,7 @@ public class Party extends StackPane {
 
 
     // Méthode pour vérifier si deux boutons sont voisins dans le GridPane
-    private boolean isNeighbourButton(Button button1, Button button2) {
+    /*private boolean isNeighbourButton(Button button1, Button button2) {
         GridPane gridPane = (GridPane) button1.getParent();
         Integer rowIndex1 = GridPane.getRowIndex(button1);
         Integer colIndex1 = GridPane.getColumnIndex(button1);
@@ -320,6 +326,17 @@ public class Party extends StackPane {
 
         return false;
     }
+    private Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
+        Node result = null;
+        ObservableList<Node> children = gridPane.getChildren();
+        for (Node node : children) {
+            if (gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
+                result = node;
+                break;
+            }
+        }
+        return result;
+    }*/
 
     private String getImageUrlFromButton(Button button) {
         // Vérifier si le bouton contient une image
@@ -377,17 +394,7 @@ public class Party extends StackPane {
         return ButtonSelector.createStyledButton(text);
     }
 
-    private Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
-        Node result = null;
-        ObservableList<Node> children = gridPane.getChildren();
-        for (Node node : children) {
-            if (gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
-                result = node;
-                break;
-            }
-        }
-        return result;
-    }
+
 
     /*
     private void checkAlignment() {
