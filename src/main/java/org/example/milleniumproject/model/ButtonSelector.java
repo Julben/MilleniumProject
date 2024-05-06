@@ -1,6 +1,7 @@
 package org.example.milleniumproject.model;
 
 import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
 
 /**
  * Classe pour sélectionner et désélectionner les boutons et pour créer des boutons stylisés.
@@ -48,8 +49,9 @@ public class ButtonSelector {
                 "-fx-min-width: 65px; " + // Définir la largeur
                 "-fx-min-height: 65px; " + // Définir la hauteur
                 "-fx-max-width: 65px; " + // Limiter la largeur
-                "-fx-max-height: 65px;" +
+                "-fx-max-height: 65px;"+
                 "-fx-background-color: transparent; -fx-border-color: transparent;"); // Limiter la hauteur
+        button.setTextFill(Color.TRANSPARENT);
 
         return button;
     }

@@ -299,6 +299,11 @@ public class Party extends StackPane {
     private void deselectButton(Button button) {
         ButtonSelector.deselectButton(button);
     }
+    // Instance pour créer un bouton stylisé
+    private Button createStyledButton(String text) {
+        return ButtonSelector.createStyledButton(text);
+    }
+
 
 
 
@@ -339,19 +344,6 @@ public class Party extends StackPane {
         }
     }
 
-    // Instance pour créer un bouton stylisé
-    private Button createStyledButton(String text) {
-        Button button = new Button(text);
-        button.setStyle("-fx-background-radius: 50%; " + // Rendre les coins ronds
-                "-fx-min-width: 65px; " + // Définir la largeur
-                "-fx-min-height: 65px; " + // Définir la hauteur
-                "-fx-max-width: 65px; " + // Limiter la largeur
-                "-fx-max-height: 65px;"+
-                "-fx-background-color: transparent; -fx-border-color: transparent;"); // Limiter la hauteur
-        button.setTextFill(Color.TRANSPARENT);
-
-        return button;
-    }
 
     // Méthode pour créer une VBox avec des images répétées
     private VBox createVBoxWithImages(String imageLink, int count) {

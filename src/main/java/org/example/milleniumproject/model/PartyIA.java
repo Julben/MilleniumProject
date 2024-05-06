@@ -21,9 +21,10 @@ import org.example.milleniumproject.view.Menu;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 import static org.example.milleniumproject.model.ButtonUtils.getNodeByRowColumnIndex;
 import static org.example.milleniumproject.model.ButtonUtils.isNeighbourButton;
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
 
 
 public class PartyIA extends StackPane {
@@ -43,6 +44,7 @@ public class PartyIA extends StackPane {
     private List<Button> buttonsJ2 = new ArrayList<>();
     private ButtonUtils buttonUtils;
     private Random random = new Random();
+
 
 
 
@@ -83,6 +85,8 @@ public class PartyIA extends StackPane {
 
             gridPane.add(button, colIndices[i], rowIndices[i]);
         }
+
+
 
         // Création des Vbox pour les images des joueurs
         String str = ProfileData.getShip(1);
@@ -174,12 +178,21 @@ public class PartyIA extends StackPane {
                 buttonsJ1.add(button);
                 currentPlayer = 2;
                 turns++; // Augmenter le compteur de tours après que les deux joueurs aient placé leur pion
-                placeRandomPlayerImage(gridpane); // Appel pour placer l'image du joueur 2
+
+                // Désactiver les interactions avec la souris ou le pavé tactile
+                disableMouseInteractions(gridpane, true);
+
+                // Ajouter un délai avant que le joueur 2 ne place son pion
+                PauseTransition pause = new PauseTransition(Duration.seconds(1));
+                pause.setOnFinished(e -> {
+                    placeRandomPlayerImage(gridpane); // Appel pour placer l'image du joueur 2
+                    disableMouseInteractions(gridpane, false); // Réactiver les interactions avec la souris ou le pavé tactile
+                });
+                pause.play();
             } else {
                 placeRandomPlayerImage(gridpane);
                 turns++;
                 currentPlayer = 1;
-                enableAllButtons(gridpane); // Activer tous les boutons après que le joueur 2 ait placé son pion
             }
         } else {
             // Vérifier si le bouton cliqué appartient à la liste des boutons autorisés à être sélectionnés par le joueur actuel
@@ -269,6 +282,20 @@ public class PartyIA extends StackPane {
             if (node instanceof Button) {
                 Button button = (Button) node;
                 button.setDisable(true);
+            }
+        }
+    }
+
+    private void disableMouseInteractions(GridPane gridpane, boolean disable) {
+        for (Node node : gridpane.getChildren()) {
+            if (node instanceof Button) {
+                Button button = (Button) node;
+                button.setMouseTransparent(disable);
+                if (disable) {
+                    button.setOnMouseClicked(e -> e.consume()); // Consommer l'événement de clic pour empêcher l'action
+                } else {
+                    button.setOnMouseClicked(null); // Réinitialiser l'événement de clic
+                }
             }
         }
     }
