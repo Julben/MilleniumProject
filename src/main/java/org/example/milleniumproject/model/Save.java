@@ -17,7 +17,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -150,19 +149,18 @@ public class Party extends StackPane {
                 // Sélectionner le bouton actuel
                 selectButton(button);
             } else {
-                // Vérifier si le bouton actuel est voisin du bouton sélectionné
-                if (isNeighbourButton(selectedButton, button)) {
-                    // Échanger les images des boutons
-                    if (button.getGraphic() == null) {
-                        ImageView imageView = (ImageView) selectedButton.getGraphic();
-                        button.setGraphic(imageView);
-                        selectedButton.setGraphic(null);
-                    }
-                }
-                // Désélectionner le bouton sélectionné
-                deselectButton(selectedButton);
-                selectedButton = null;
+            // Vérifier si le bouton cliqué appartient à la liste des boutons autorisés à être sélectionnés par le joueur actuel
+            if (currentPlayer == 1 && (buttonsJ1.contains(button) || button.getGraphic() == null)) {
+                handleSelection(buttonsJ1, button);
+            } else if (currentPlayer == 2 && (buttonsJ2.contains(button) || button.getGraphic() == null) ) {
+                handleSelection(buttonsJ2, button);
             }
+        }
+
+        String[][] buttonCombinations = {{"A", "B", "C"}, {"D", "E", "F"}, {"G", "H", "I"}, {"J", "K", "L"}, {"M", "N", "O"}, {"P", "Q", "R"}, {"S", "T", "U"}, {"V", "W", "X"}, {"A", "J", "V"}, {"D", "K", "S"}, {"G", "L", "P"}, {"B", "E", "H"}, {"Q", "T", "W"}, {"I", "M", "R"}, {"F", "N", "U"}, {"C", "O", "X"}};
+        for (String[] combination : buttonCombinations) {
+            checkAndChangeButtonColor(combination[0], combination[1], combination[2], gridpane);
+        }
         }
     }
 

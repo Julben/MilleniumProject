@@ -407,6 +407,84 @@ public class Party extends StackPane {
         return button;
     }
 
+    private void highlightAlignedButtons(GridPane gridPane) {
+        // Parcourir chaque ligne et chaque colonne de la GridPane
+        for (int i = 0; i < gridPane.getRowCount(); i++) {
+            highlightAlignedButtonsInRow(gridPane, i);
+        }
+        for (int i = 0; i < gridPane.getColumnCount(); i++) {
+            highlightAlignedButtonsInColumn(gridPane, i);
+        }
+    }
+
+
+    private void highlightAlignedButtonsInRow(GridPane gridPane, int rowIndex) {
+        Button[] buttonsInRow = new Button[gridPane.getColumnCount()];
+        // Récupérer les boutons dans la ligne
+        for (int colIndex = 0; colIndex < gridPane.getColumnCount(); colIndex++) {
+            Node node = getNodeByRowColumnIndex(rowIndex, colIndex, gridPane);
+            if (node instanceof Button) {
+                buttonsInRow[colIndex] = (Button) node;
+            }
+        }
+        // Vérifier si les trois boutons alignés ont des images
+        if (buttonsInRow[0] != null && buttonsInRow[1] != null && buttonsInRow[2] != null
+                && buttonsInRow[0].getGraphic() != null && buttonsInRow[1].getGraphic() != null && buttonsInRow[2].getGraphic() != null) {
+            // Vérifier si les images des boutons sont les mêmes
+            ImageView imageView1 = (ImageView) buttonsInRow[0].getGraphic();
+            ImageView imageView2 = (ImageView) buttonsInRow[1].getGraphic();
+            ImageView imageView3 = (ImageView) buttonsInRow[2].getGraphic();
+            if (imageView1.getImage().equals(imageView2.getImage()) && imageView1.getImage().equals(imageView3.getImage())) {
+                // Mettre en surbrillance les boutons alignés
+                for (Button button : buttonsInRow) {
+                    button.setStyle("-fx-background-color: yellow;");
+                }
+            }
+        }
+    }
+
+
+
+
+    private void highlightAlignedButtonsInColumn(GridPane gridPane, int colIndex) {
+        Button[] buttonsInColumn = new Button[gridPane.getRowCount()];
+        // Récupérer les boutons dans la colonne
+        for (int rowIndex = 0; rowIndex < gridPane.getRowCount(); rowIndex++) {
+            Node node = getNodeByRowColumnIndex(rowIndex, colIndex, gridPane);
+            if (node instanceof Button) {
+                buttonsInColumn[rowIndex] = (Button) node;
+            }
+        }
+        // Vérifier si les trois boutons alignés ont des images
+        if (buttonsInColumn[0] != null && buttonsInColumn[1] != null && buttonsInColumn[2] != null
+                && buttonsInColumn[0].getGraphic() != null && buttonsInColumn[1].getGraphic() != null && buttonsInColumn[2].getGraphic() != null) {
+            // Vérifier si les images des boutons sont les mêmes
+            ImageView imageView1 = (ImageView) buttonsInColumn[0].getGraphic();
+            ImageView imageView2 = (ImageView) buttonsInColumn[1].getGraphic();
+            ImageView imageView3 = (ImageView) buttonsInColumn[2].getGraphic();
+            if (imageView1.getImage().equals(imageView2.getImage()) && imageView1.getImage().equals(imageView3.getImage())) {
+                // Mettre en surbrillance les boutons alignés
+                for (Button button : buttonsInColumn) {
+                    button.setStyle("-fx-background-color: yellow;");
+                }
+            }
+        }
+    }
+
+
+
+    private Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
+        Node result = null;
+        ObservableList<Node> children = gridPane.getChildren();
+        for (Node node : children) {
+            if (gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
+                result = node;
+                break;
+            }
+        }
+        return result;
+    }
+
     // Méthode pour créer une VBox avec des images répétées
     private VBox createVBoxWithImages(String imageLink, int count) {
         VBox vBox = new VBox(10); // Espacement vertical entre les images
