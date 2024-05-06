@@ -17,10 +17,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import org.example.milleniumproject.view.Menu;
-
 import static org.example.milleniumproject.model.ButtonUtils.isNeighbourButton;
 
 public class Party extends StackPane {
@@ -46,9 +43,8 @@ public class Party extends StackPane {
     public Party(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3, ToggleGroup toggleGroup2, HBox hbox2) {
         this.toggleGroup3 = toggleGroup3;
         this.hbox3 = hbox3;
-        /////////////////////////////////////////////////////////////////////////////////////
+
         buttonUtils = new ButtonUtils();
-/////////////////////////////////////////////////////////////////////////////////////
 
         int selectedIndex = PreParty.getSelectedIndex(toggleGroup3, hbox3);
 
@@ -95,8 +91,8 @@ public class Party extends StackPane {
         int lastIndex2 = str2.lastIndexOf('/');
         String vaisseau2 = str2.substring(lastIndex2 + 1);
 
-        leftVBox = createVBoxWithImages(vaisseau1, 9);
-        rightVBox = createVBoxWithImages(vaisseau2, 9);
+        leftVBox = ProfilParty.createVBoxWithImages(vaisseau1, 9);
+        rightVBox = ProfilParty.createVBoxWithImages(vaisseau2, 9);
 
         HBox hBox = new HBox(0.6 * Constant.screenWidth); // Espacement horizontal entre les Vbox
         hBox.getChildren().addAll(leftVBox, rightVBox);
@@ -120,8 +116,8 @@ public class Party extends StackPane {
         String avatarFileName2 = avatar2.substring(avatar2.lastIndexOf('/') + 1);
 
         // Création des VBox pour afficher les profils
-        VBox profileBox1 = createProfileBox(avatarFileName1, playerName1, rank1, true);
-        VBox profileBox2 = createProfileBox(avatarFileName2, playerName2, rank2, false);
+        VBox profileBox1 = ProfilParty.createProfileBox(avatarFileName1, playerName1, rank1, true);
+        VBox profileBox2 = ProfilParty.createProfileBox(avatarFileName2, playerName2, rank2, false);
         setMargin(profileBox1, new Insets(0, 950, 20, 0));
         setMargin(profileBox2, new Insets(0, 0, 20, 950));
 
@@ -388,9 +384,6 @@ public class Party extends StackPane {
             // Supprimer l'image du GridPane
             gridPane.getChildren().remove(imageView);
 
-            // Incrémenter l'index d'image pour le prochain joueur
-            currentImageIndex++;
-
             // Passer au joueur suivant après chaque tour complet
             if (currentImageIndex >= gridPane.getChildren().size()) {
                 currentPlayer = currentPlayer == 1 ? 2 : 1;
@@ -411,22 +404,6 @@ public class Party extends StackPane {
         button.setTextFill(Color.TRANSPARENT);
 
         return button;
-    }
-
-    
-
-
-
-    private Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
-        Node result = null;
-        ObservableList<Node> children = gridPane.getChildren();
-        for (Node node : children) {
-            if (gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
-                result = node;
-                break;
-            }
-        }
-        return result;
     }
 
     // Méthode pour créer une VBox avec des images répétées
@@ -543,6 +520,11 @@ public class Party extends StackPane {
             menu.setVisible(false);
         });
 
+        // Action du bouton "Règles" pour afficher les règles
+        regles.setOnAction(e -> {
+            afficherRegles(this); // Passer la racine de la scène pour ajouter la StackPane
+        });
+
         quitter.setOnAction(e -> {
             quitterMenu.setVisible(true);
         });
@@ -559,6 +541,43 @@ public class Party extends StackPane {
         menu.setAlignment(Pos.CENTER);
 
         return menu;
+    }
+
+    private void afficherRegles(StackPane root) {
+        // Création de la StackPane pour contenir l'image et le bouton
+        StackPane reglesPane = new StackPane();
+        reglesPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7);"); // Fond semi-transparent
+
+        // Création de l'image
+        Image image = new Image("Règles.png"); // Remplacez "regles_image.png" par le chemin de votre image
+        ImageView imageView = new ImageView(image);
+
+        // Redimensionner l'image
+        imageView.setFitWidth(1250); // Largeur souhaitée
+        imageView.setFitHeight(750); // Hauteur souhaitée
+
+        // Création du bouton pour masquer l'image et le bouton
+        Button fermerButton = new Button();
+
+        fermerButton.setMinWidth(50);
+        fermerButton.setMinHeight(50);
+        fermerButton.setStyle("-fx-background-color: transparent;"); // Fond transparent
+
+        // Action du bouton pour masquer l'image et le bouton
+        fermerButton.setOnAction(e -> {
+            root.getChildren().remove(reglesPane); // Retirer la StackPane de la racine
+        });
+
+        StackPane.setMargin(fermerButton, new Insets(0, 0, 480, 1020)); // Marge de 10 pixels
+
+        // Ajout de l'image et du bouton à la StackPane
+        reglesPane.getChildren().addAll(imageView, fermerButton);
+
+        // Centrer la StackPane dans la fenêtre
+        StackPane.setAlignment(reglesPane, Pos.CENTER);
+
+        // Ajouter la StackPane à la racine de la scène
+        root.getChildren().add(reglesPane);
     }
 
     private VBox boutonquitter(Stage primaryStage){

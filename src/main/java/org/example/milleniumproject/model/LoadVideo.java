@@ -24,9 +24,8 @@ public class LoadVideo {
 
     /**
      * Charge et lit la vidéo au démarrage de l'application.
-     *
      * @param primaryStage La fenêtre principale de l'application
-     * @param videoPath     Le chemin vers le fichier vidéo
+     * @param videoPath    Le chemin vers le fichier vidéo
      * @return Le MediaPlayer utilisé pour lire la vidéo
      */
     public MediaPlayer chargerVideo(Stage primaryStage, String videoPath) {

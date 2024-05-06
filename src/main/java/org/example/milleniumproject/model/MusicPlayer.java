@@ -18,16 +18,21 @@ public class MusicPlayer {
      * @param musicFile Chemin vers le fichier audio de la musique
      */
     public static void musicPlay(String musicFile) {
-        // Si aucune musique n'est en cours de lecture, lance la musique
+
+        //Si il n'y a pas de musique, relance la musique
         if (mediaPlayer == null) {
             Media sound = new Media(new File(musicFile).toURI().toString());
             mediaPlayer = new MediaPlayer(sound);
         }
 
-        // Réinitialise la lecture à zéro lorsque la musique arrive à la fin
-        mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.seek(Duration.ZERO));
+        mediaPlayer.setOnEndOfMedia(new Runnable() {
+            @Override
+            public void run() {
+                mediaPlayer.seek(Duration.ZERO);
+            }
+        });
 
-        // Démarre la musique si elle n'est pas déjà en cours de lecture
+        // Ne démarrez la musique que si elle n'est pas déjà en train de jouer
         if (mediaPlayer.getStatus() != MediaPlayer.Status.PLAYING) {
             mediaPlayer.play();
         }

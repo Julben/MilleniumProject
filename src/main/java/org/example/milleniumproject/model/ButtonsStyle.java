@@ -15,7 +15,6 @@ public class ButtonsStyle {
 
     /**
      * Applique un style spécifié aux boutons.
-     *
      * @param bouton Le bouton auquel appliquer le style.
      * @param width  La largeur préférée du bouton.
      * @param height La hauteur préférée du bouton.
