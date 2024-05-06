@@ -18,11 +18,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import org.example.milleniumproject.view.Menu;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class PartyIA extends StackPane {
+
     // Déclarations des variables d'instance
     private int currentPlayer = 1;
     private VBox leftVBox;
@@ -40,8 +40,8 @@ public class PartyIA extends StackPane {
         this.hbox3 = hbox3;
 
         int selectedIndex = PrePartyIA.getSelectedIndex(toggleGroup3, hbox3);
-        // Création du fond d'écran
 
+        // Création du fond d'écran
         String backgroundImage = "";
         if (selectedIndex == 0) {
             backgroundImage = "src/main/resources/FENABOO.png";
@@ -540,3 +540,9 @@ public class PartyIA extends StackPane {
         return vbox;
     }
 }
+
+
+
+
+
+
