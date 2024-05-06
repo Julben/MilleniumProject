@@ -377,7 +377,7 @@ public class Party extends StackPane {
             quitterMenu.setVisible(true);
         });
 
-        quitterMenu = boutonquitter(primaryStage);
+        quitterMenu = ButtonPause.boutonquitter(primaryStage);
 
         // Ajout des boutons au menu
         menu.getChildren().addAll(resumeButton, regles, parametres, quitter);
@@ -393,7 +393,7 @@ public class Party extends StackPane {
 
 
 
-    private VBox boutonquitter(Stage primaryStage){
+    /*private VBox boutonquitter(Stage primaryStage){
         VBox vbox = new VBox(30);
 
         Label confirmationLabel = new Label("Êtes-vous sûr de vouloir quitter la partie ?");
@@ -430,5 +430,5 @@ public class Party extends StackPane {
         vbox.setPadding(new Insets(20, 0, 0, 0));
 
         return vbox;
-    }
+    }*/
 }

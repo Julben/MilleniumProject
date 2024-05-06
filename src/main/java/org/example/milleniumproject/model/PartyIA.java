@@ -549,7 +549,7 @@ public class PartyIA extends StackPane {
             quitterMenu.setVisible(true);
         });
 
-        quitterMenu = boutonquitter(primaryStage);
+        quitterMenu = ButtonPause.boutonquitter(primaryStage);
 
         // Ajout des boutons au menu
         menu.getChildren().addAll(resumeButton, regles, parametres, quitter);
@@ -563,43 +563,7 @@ public class PartyIA extends StackPane {
         return menu;
     }
 
-    private VBox boutonquitter(Stage primaryStage){
-        VBox vbox = new VBox(30);
 
-        Label confirmationLabel = new Label("Êtes-vous sûr de vouloir quitter la partie ?");
-        confirmationLabel.setFont(Font.font("Cardo", FontWeight.BOLD, 22));
-        confirmationLabel.setTextFill(Color.WHITE);
-
-        HBox hbox = new HBox(30);
-        Button ouiButton = new Button("Oui");
-        Button nonButton = new Button("Non");
-
-        ouiButton.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white; -fx-font-size: 12pt;");
-        nonButton.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white; -fx-font-size: 12pt;");
-
-        nonButton.setOnAction(e -> {
-            // Masquer le menu pause
-            vbox.setVisible(false);
-        });
-
-        ouiButton.setOnAction(e -> {
-            Menu menu = new Menu();
-            menu.afficherMenu(primaryStage);
-        });
-
-        hbox.getChildren().addAll(ouiButton, nonButton);
-        vbox.getChildren().addAll(confirmationLabel, hbox);
-
-        // Stylisation du menu pause avec un arrière-plan semi-transparent
-        vbox.setStyle("-fx-background-color: rgba(0, 0, 0, 0.6); -fx-padding: 20px;");
-
-        // Positionnement du menu pause au centre de l'écran
-        hbox.setAlignment(Pos.CENTER);
-        vbox.setAlignment(Pos.TOP_CENTER);
-        vbox.setPadding(new Insets(20, 0, 0, 0));
-
-        return vbox;
-    }
 
 
 }
