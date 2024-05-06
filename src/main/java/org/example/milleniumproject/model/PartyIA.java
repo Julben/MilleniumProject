@@ -21,6 +21,8 @@ import org.example.milleniumproject.view.Menu;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import static org.example.milleniumproject.model.ButtonPause.afficherRegles;
 import static org.example.milleniumproject.model.ButtonUtils.getNodeByRowColumnIndex;
 import static org.example.milleniumproject.model.ButtonUtils.isNeighbourButton;
 import javafx.animation.PauseTransition;
@@ -538,6 +540,11 @@ public class PartyIA extends StackPane {
             menu.setVisible(false);
         });
 
+        // Action du bouton "Règles" pour afficher les règles
+        regles.setOnAction(e -> {
+            afficherRegles(this); // Passer la racine de la scène pour ajouter la StackPane
+        });
+
         quitter.setOnAction(e -> {
             quitterMenu.setVisible(true);
         });
@@ -593,6 +600,8 @@ public class PartyIA extends StackPane {
 
         return vbox;
     }
+
+
 }
 
 
