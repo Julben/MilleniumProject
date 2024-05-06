@@ -17,8 +17,18 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.io.File;
 
+/**
+ * Classe permettant de charger et de lire une vidéo au démarrage de l'application.
+ */
 public class LoadVideo {
 
+    /**
+     * Charge et lit la vidéo au démarrage de l'application.
+     *
+     * @param primaryStage La fenêtre principale de l'application
+     * @param videoPath     Le chemin vers le fichier vidéo
+     * @return Le MediaPlayer utilisé pour lire la vidéo
+     */
     public MediaPlayer chargerVideo(Stage primaryStage, String videoPath) {
 
         // Création du lecteur média et du lecteur vidéo

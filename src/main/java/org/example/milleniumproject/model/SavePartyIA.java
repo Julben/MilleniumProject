@@ -1,10 +1,12 @@
-package org.example.milleniumproject.model;
+/*package org.example.milleniumproject.model;
 
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -15,43 +17,42 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import org.example.milleniumproject.view.Menu;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import org.example.milleniumproject.view.Menu;
-
+import static org.example.milleniumproject.model.ButtonUtils.getNodeByRowColumnIndex;
 import static org.example.milleniumproject.model.ButtonUtils.isNeighbourButton;
 
-public class Party extends StackPane {
+
+public class PartyIA extends StackPane {
+
     // Déclarations des variables d'instance
     private int currentPlayer = 1;
-    private boolean isPlayer1Turn = true; // Variable pour suivre le tour des joueurs
     private VBox leftVBox;
     private VBox rightVBox;
     private int turns = 0;
     private int currentImageIndex = 0;
     private ToggleGroup toggleGroup3;
     private HBox hbox3;
-    private ToggleGroup toggleGroup2;
-    private HBox hbox2;
-    private Button selectedButton = null;
-    private boolean isMovePhase = false;
-    private List<Button> buttonsJ1 = new ArrayList<>();
-    private List<Button> buttonsJ2 = new ArrayList<>();
+    private Button selectedButton=null;
     private VBox pauseMenu; // Conteneur pour le menu pause
     private VBox quitterMenu;
+    private List<Button> buttonsJ1 = new ArrayList<>();
+    private List<Button> buttonsJ2 = new ArrayList<>();
     private ButtonUtils buttonUtils;
 
-    public Party(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3, ToggleGroup toggleGroup2, HBox hbox2) {
+
+
+    public PartyIA(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3) {
         this.toggleGroup3 = toggleGroup3;
         this.hbox3 = hbox3;
-        /////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
         buttonUtils = new ButtonUtils();
 /////////////////////////////////////////////////////////////////////////////////////
 
-        int selectedIndex = PreParty.getSelectedIndex(toggleGroup3, hbox3);
+        int selectedIndex = PrePartyIA.getSelectedIndex(toggleGroup3, hbox3);
 
+        // Création du fond d'écran
         String backgroundImage = "";
         if (selectedIndex == 0) {
             backgroundImage = "src/main/resources/FENABOO.png";
@@ -62,12 +63,6 @@ public class Party extends StackPane {
         }
         BG ground = new BG(backgroundImage);
         setBackground(ground.getCustomBackground());
-
-        this.toggleGroup2 = toggleGroup2;
-        this.hbox2 = hbox2;
-
-        int selectedIndexchrono = PreParty.getSelectedIndexchrono(toggleGroup2, hbox2);
-        System.out.println("selectedIndexchrono: " + selectedIndexchrono);
 
         // Création du GridPane
         GridPane gridPane = new GridPane();
@@ -168,7 +163,6 @@ public class Party extends StackPane {
 
     // Méthode pour gérer le clic sur le bouton
     private void handleButtonClick(Button button, GridPane gridpane) {
-
         // Vérifier si le bouton n'a pas déjà d'image et si tous les tours n'ont pas été joués
         if (button.getGraphic() == null && turns < 9) {
             // Placer l'image du joueur sur le bouton en fonction du joueur actuel
@@ -183,6 +177,7 @@ public class Party extends StackPane {
                 currentPlayer = 1;
                 turns++;
             }
+            //checkAlignment();
         } else {
             // Vérifier si le bouton cliqué appartient à la liste des boutons autorisés à être sélectionnés par le joueur actuel
             if (currentPlayer == 1 && (buttonsJ1.contains(button) || button.getGraphic() == null)) {
@@ -196,6 +191,7 @@ public class Party extends StackPane {
         for (String[] combination : buttonCombinations) {
             checkAndChangeButtonColor(combination[0], combination[1], combination[2], gridpane);
         }
+
     }
 
     private void checkAndChangeButtonColor(String buttonLabel1, String buttonLabel2, String buttonLabel3, GridPane gridPane) {
@@ -246,27 +242,6 @@ public class Party extends StackPane {
         }
     }
 
-    private String getImageUrlFromButton(Button button) {
-        // Vérifier si le bouton contient une image
-        if (button.getGraphic() instanceof ImageView) {
-            ImageView imageView = (ImageView) button.getGraphic();
-            Image image = imageView.getImage();
-
-            // Récupérer l'URL de l'image
-            String imageUrl = image.getUrl();
-            return imageUrl;
-        } else {
-            // Le bouton ne contient pas d'image
-            return null;
-        }
-    }
-
-    private String getButtonText(Button button) {
-        // Récupérer le texte du bouton
-        String buttonText = button.getText();
-        return buttonText;
-    }
-
     // Méthode pour gérer la sélection du bouton
     private void handleSelection(List<Button> buttons ,Button clickedButton) {
         if (selectedButton == null) {
@@ -305,71 +280,27 @@ public class Party extends StackPane {
     }
 
 
-    // Méthode pour vérifier si deux boutons sont voisins dans le GridPane
-    /*private boolean isNeighbourButton(Button button1, Button button2) {
-        GridPane gridPane = (GridPane) button1.getParent();
-        Integer rowIndex1 = GridPane.getRowIndex(button1);
-        Integer colIndex1 = GridPane.getColumnIndex(button1);
-        Integer rowIndex2 = GridPane.getRowIndex(button2);
-        Integer colIndex2 = GridPane.getColumnIndex(button2);
 
-        // Vérifier si les boutons sont dans les mêmes colonnes
-        if (colIndex1.equals(colIndex2)) {
-            // Parcourir les lignes entre les deux boutons
-            int startRow = Math.min(rowIndex1, rowIndex2);
-            int endRow = Math.max(rowIndex1, rowIndex2);
-            for (int row = startRow + 1; row < endRow; row++) {
-                if (row == 3 && colIndex1 == 3) {
-                    return false; // Arrêter le scan si la coordonnée (3,3) est un mur
-                }
-                Node node = getNodeByRowColumnIndex(row, colIndex1, gridPane);
-                if (node instanceof Button) {
-                    return false; // Il y a un bouton entre les deux, donc ils ne sont pas voisins
-                }
-            }
-            return true;
-        }
-        // Vérifier si les boutons sont dans les mêmes lignes
-        else if (rowIndex1.equals(rowIndex2)) {
-            // Parcourir les colonnes entre les deux boutons
-            int startCol = Math.min(colIndex1, colIndex2);
-            int endCol = Math.max(colIndex1, colIndex2);
-            for (int col = startCol + 1; col < endCol; col++) {
-                if (rowIndex1 == 3 && col == 3) {
-                    return false; // Arrêter le scan si la coordonnée (3,3) est un mur
-                }
-                Node node = getNodeByRowColumnIndex(rowIndex1, col, gridPane);
-                if (node instanceof Button) {
-                    return false; // Il y a un bouton entre les deux, donc ils ne sont pas voisins
-                }
-            }
-            return true;
-        }
 
-        return false;
+    private String getImageUrlFromButton(Button button) {
+        // Vérifier si le bouton contient une image
+        if (button.getGraphic() instanceof ImageView) {
+            ImageView imageView = (ImageView) button.getGraphic();
+            Image image = imageView.getImage();
+
+            // Récupérer l'URL de l'image
+            String imageUrl = image.getUrl();
+            return imageUrl;
+        } else {
+            // Le bouton ne contient pas d'image
+            return null;
+        }
     }
-    private Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
-        Node result = null;
-        ObservableList<Node> children = gridPane.getChildren();
-        for (Node node : children) {
-            if (gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
-                result = node;
-                break;
-            }
-        }
-        return result;
-    }*/
 
-    private Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
-        Node result = null;
-        ObservableList<Node> children = gridPane.getChildren();
-        for (Node node : children) {
-            if (gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
-                result = node;
-                break;
-            }
-        }
-        return result;
+    private String getButtonText(Button button) {
+        // Récupérer le texte du bouton
+        String buttonText = button.getText();
+        return buttonText;
     }
 
     // Méthode pour placer l'image du joueur sur un bouton
@@ -381,6 +312,7 @@ public class Party extends StackPane {
         if (!gridPane.getChildren().isEmpty()) {
             // Récupérer l'image correspondant à l'index du joueur actuel
             ImageView imageView = (ImageView) gridPane.getChildren().get(currentImageIndex);
+
 
             // Appliquer l'image sur le bouton
             button.setGraphic(imageView);
@@ -401,33 +333,9 @@ public class Party extends StackPane {
 
     // Instance pour créer un bouton stylisé
     private Button createStyledButton(String text) {
-        Button button = new Button(text);
-        button.setStyle("-fx-background-radius: 50%; " + // Rendre les coins ronds
-                "-fx-min-width: 65px; " + // Définir la largeur
-                "-fx-min-height: 65px; " + // Définir la hauteur
-                "-fx-max-width: 65px; " + // Limiter la largeur
-                "-fx-max-height: 65px;"+
-                "-fx-background-color: transparent; -fx-border-color: transparent;"); // Limiter la hauteur
-        button.setTextFill(Color.TRANSPARENT);
-
-        return button;
+        return ButtonSelector.createStyledButton(text);
     }
 
-    
-
-
-
-    private Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
-        Node result = null;
-        ObservableList<Node> children = gridPane.getChildren();
-        for (Node node : children) {
-            if (gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
-                result = node;
-                break;
-            }
-        }
-        return result;
-    }
 
     // Méthode pour créer une VBox avec des images répétées
     private VBox createVBoxWithImages(String imageLink, int count) {
@@ -474,23 +382,28 @@ public class Party extends StackPane {
         HBox hbox = new HBox(10); // Espacement horizontal entre les éléments
         hbox.setAlignment(Pos.CENTER); // Centrage horizontal des éléments
 
-        // Ajout de l'avatar à la HBox
-        ImageView avatarImageView = new ImageView(new Image(avatarFileName));
+        // Création d'une ImageView pour l'avatar
+        ImageView avatarImageView;
+        if (isPlayer1) {
+            // Pour le joueur 1, charger l'image depuis le fichier
+            avatarImageView = new ImageView(new Image(avatarFileName));
+            hbox.getChildren().add(avatarImageView);
+        } else {
+            // Pour le joueur 2, utiliser l'image constante
+            avatarImageView = new ImageView(new Image("9.png"));
+        }
         avatarImageView.setFitWidth(150); // Taille de l'avatar
         avatarImageView.setFitHeight(150);
 
-        if (isPlayer1) {
-            // Pour le joueur 1, placer l'avatar à gauche et aligner les labels à droite
-            hbox.getChildren().add(avatarImageView);
-        }
-
         // Création d'une VBox pour contenir le nom et le rang
         VBox labelsVBox = new VBox(0); // Espacement vertical entre les labels
-
         if (isPlayer1) {
             labelsVBox.setAlignment(Pos.CENTER_LEFT); // Alignement à droite des labels pour le joueur 1
         } else {
             labelsVBox.setAlignment(Pos.CENTER_RIGHT); // Alignement à gauche des labels pour le joueur 2
+            // Définir le nom et le rang par défaut pour le joueur 2
+            playerName = "Robot";
+            rank = "IA";
         }
 
         // Ajout du nom du joueur
@@ -505,11 +418,7 @@ public class Party extends StackPane {
         rankLabel.setTextFill(Color.WHITE); // Définition de la couleur du text
         labelsVBox.getChildren().add(rankLabel);
 
-        if (!isPlayer1) {
-            hbox.getChildren().add(labelsVBox); // Ajout de la VBox des labels à la HBox pour le joueur 2
-        } else {
-            hbox.getChildren().add(labelsVBox); // Ajout de la VBox des labels à la HBox pour le joueur 1
-        }
+        hbox.getChildren().add(labelsVBox); // Ajout de la VBox des labels à la HBox
 
         // Ajout de l'avatar à droite pour le joueur 2
         if (!isPlayer1) {
@@ -553,7 +462,7 @@ public class Party extends StackPane {
         menu.getChildren().addAll(resumeButton, regles, parametres, quitter);
 
         // Stylisation du menu pause avec un arrière-plan semi-transparent
-        menu.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7); -fx-padding: 20px;");
+        menu.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5); -fx-padding: 20px;");
 
         // Positionnement du menu pause au centre de l'écran
         menu.setAlignment(Pos.CENTER);
@@ -583,14 +492,13 @@ public class Party extends StackPane {
         ouiButton.setOnAction(e -> {
             Menu menu = new Menu();
             menu.afficherMenu(primaryStage);
-            MusicPlayer.musicPlay("src/main/resources/Star Wars_ Battlefront OST - Main Menu Music.mp3");
         });
 
         hbox.getChildren().addAll(ouiButton, nonButton);
         vbox.getChildren().addAll(confirmationLabel, hbox);
 
         // Stylisation du menu pause avec un arrière-plan semi-transparent
-        vbox.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7); -fx-padding: 20px;");
+        vbox.setStyle("-fx-background-color: rgba(0, 0, 0, 0.6); -fx-padding: 20px;");
 
         // Positionnement du menu pause au centre de l'écran
         hbox.setAlignment(Pos.CENTER);
@@ -600,3 +508,10 @@ public class Party extends StackPane {
         return vbox;
     }
 }
+
+
+
+
+
+
+*/

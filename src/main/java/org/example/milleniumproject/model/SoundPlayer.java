@@ -4,15 +4,28 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.io.File;
 
-//Créer une classe pour que les boutons fassent un bruit lorsque l'on clique dessus
+/**
+ * Classe permettant de jouer un son lorsque les boutons sont cliqués.
+ */
 public class SoundPlayer {
 
+    /**
+     * Joue un son lorsque les boutons sont cliqués.
+     */
     public static void soundPlay() {
+        // Chemin du fichier audio de clic
         String clickSoundFile = "src/main/resources/button-202966.mp3";
+
+        // Crée un objet Media à partir du fichier audio
         Media clickSound = new Media(new File(clickSoundFile).toURI().toString());
+
+        // Crée un lecteur MediaPlayer pour le son de clic
         MediaPlayer clickPlayer = new MediaPlayer(clickSound);
 
-        clickPlayer.stop(); // Arrête le son précédent pour que les sons ne se chevauchent pas
-        clickPlayer.play(); // Joue le son de clic
+        // Arrête le son précédent pour éviter les chevauchements
+        clickPlayer.stop();
+
+        // Joue le son de clic
+        clickPlayer.play();
     }
 }

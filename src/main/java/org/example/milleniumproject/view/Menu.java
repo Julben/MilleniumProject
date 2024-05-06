@@ -13,15 +13,24 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe gérant l'affichage du menu principal de l'application.
+ * Elle permet d'afficher les boutons du menu sur la scène principale.
+ */
 public class Menu {
 
+    /**
+     * Affiche le menu principal sur la scène principale.
+     *
+     * @param primaryStage La fenêtre principale de l'application.
+     */
     public void afficherMenu(Stage primaryStage) {
 
-        //Affichage de la scène principale + nettoyage de la scène
+        // Affichage de la scène principale + nettoyage de la scène
         StackPane root = (StackPane) primaryStage.getScene().getRoot();
         root.getChildren().clear();
 
-        // Ajouter le fond d'écran du menu
+        // Ajout du fond d'écran du menu
         BG ground = new BG("src/main/resources/TestBckgrnd.png");
         root.getChildren().add(ground);
 
@@ -37,14 +46,14 @@ public class Menu {
             bouton.setDisable(true);
         }
 
-        //Créer une VBox pour les 2 listes de boutons
+        // Créer une VBox pour les 2 listes de boutons
         VBox boutonsLayout = createButtonVBox(boutons1);
         VBox boutonsLayout1 = createButtonVBox(boutons2);
 
         // Créer une HBox pour contenir les VBox des boutons
         HBox hbox = new HBox();
         hbox.setAlignment(Pos.CENTER);
-        HBox.setMargin(boutonsLayout, new Insets(0, 0, 0, 350)); // Marge de 50 pixels à gauche
+        HBox.setMargin(boutonsLayout, new Insets(0, 0, 0, 350)); // Marge de 350 pixels à gauche
 
         // Ajouter les VBox à la HBox
         hbox.getChildren().addAll(boutonsLayout, boutonsLayout1);
@@ -59,6 +68,12 @@ public class Menu {
         Management.gererEvenements(primaryStage, boutonsComplets);
     }
 
+    /**
+     * Crée une VBox pour contenir une liste de boutons.
+     *
+     * @param buttons La liste de boutons à inclure dans la VBox.
+     * @return La VBox contenant les boutons.
+     */
     private VBox createButtonVBox(List<Button> buttons) {
         VBox vbox = new VBox(30); // Espacement vertical de 30 pixels entre les boutons
         vbox.setAlignment(Pos.CENTER); // Centrer les boutons

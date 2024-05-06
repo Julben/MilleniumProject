@@ -3,9 +3,17 @@ package org.example.milleniumproject.model;
 import javafx.scene.control.Button;
 import java.util.List;
 
-//Créer une classe pour rendre les sous-boutons inutiles invisible
+/**
+ * Classe permettant de rendre certains boutons invisibles et non cliquables en fonction de l'action effectuée.
+ */
 public class InvisibleButtons {
 
+    /**
+     * Rend certains boutons invisibles et non cliquables en fonction du bouton principal cliqué.
+     *
+     * @param boutonsComplets La liste complète des boutons du menu
+     * @param bouton          Le bouton principal cliqué
+     */
     public static void renderInvisibleButtons(List<Button> boutonsComplets, Button bouton) {
 
         if (bouton.getText().equals("Nouvelle Partie")) {

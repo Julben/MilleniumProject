@@ -4,8 +4,16 @@ import javafx.scene.control.Button;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe utilitaire pour créer des boutons de menu avec un style prédéfini.
+ */
 public class ButtonsMenu {
 
+    /**
+     * Crée une liste de boutons de menu avec des noms prédéfinis et un style spécifié.
+     *
+     * @return Une liste de boutons de menu.
+     */
     public List<Button> creerBoutons() {
 
         //Création des Boutons du Menu
