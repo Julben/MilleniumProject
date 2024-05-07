@@ -21,7 +21,7 @@ import static org.example.milleniumproject.model.Constant.screenWidth;
 public class Profil extends StackPane {
 
     Menu menu = new Menu();
-    public static final double AVATAR_SIZE = 130.0;
+    public static final double AVATAR_SIZE = 0.10156*screenWidth;
     private TextField textField1;
     private TextField textField2;
     private Carrousel avatarCarrousel1;
@@ -43,10 +43,10 @@ public class Profil extends StackPane {
         // Ajouter directement le label d'erreur à la scène principale (Profil)  Initialiser le label d'erreur
         erreurLabel = new Label();
         erreurLabel.setTextFill(Color.WHITE);
-        erreurLabel.setFont(Font.font("Cardo", FontWeight.BOLD, 0.02 * screenHeight));
+        erreurLabel.setFont(Font.font("Cardo", FontWeight.BOLD, 0.025*screenHeight));
         getChildren().add(erreurLabel);
-        StackPane.setAlignment(erreurLabel, Pos.TOP_LEFT);
-        StackPane.setMargin(erreurLabel, new Insets(0.02*screenHeight, 0, 0, 0.35 * screenWidth));
+        StackPane.setAlignment(erreurLabel, Pos.TOP_CENTER);
+        StackPane.setMargin(erreurLabel, new Insets(0.02778*screenHeight, 0, 0, 0));
 
         //Créer un fond d'écran
         BG ground = new BG("src/main/resources/BGProfil.png");
@@ -117,7 +117,7 @@ public class Profil extends StackPane {
         });
 
 
-        HBox hBox = new HBox(0.35*Constant.screenWidth); // Espacement horizontal entre les Vbox
+        HBox hBox = new HBox(0.27344*screenWidth); // Espacement horizontal entre les Vbox
         hBox.getChildren().addAll(vBox1, vBox2);
         hBox.setAlignment(Pos.CENTER);
         getChildren().addAll(hBox, retourButton);
@@ -138,7 +138,7 @@ public class Profil extends StackPane {
     private VBox createPlayerBox(String playerNum, String[] avatar, String[] rang, String[] vaisseau, String playerName, int savedAvatarIndex, int savedRankIndex, int savedShipIndex) {
         Label label = new Label(playerNum);
         label.setTextFill(Color.WHITE); // Couleur du texte
-        label.setFont(Font.font("Cardo", 60)); // Police et taille du texte
+        label.setFont(Font.font("Cardo", 0.0833*screenHeight)); // Police et taille du texte
 
         //Création des Carrousel pour les vaisseaux
         Carrousel avatarCarrousel = new Carrousel(avatar, true, savedAvatarIndex);
@@ -160,7 +160,7 @@ public class Profil extends StackPane {
             textField2 = textField;
         }
 
-        VBox vBox = new VBox(0.025*Constant.screenWidth); // Espacement vertical entre les carrousels
+        VBox vBox = new VBox(0.02778*screenHeight); // Espacement vertical entre les carrousels
         vBox.getChildren().addAll(label, avatarCarrousel, textField, rangCarrousel, vaisseauCarrousel);
         vBox.setAlignment(Pos.CENTER);
         return vBox;
@@ -175,9 +175,9 @@ public class Profil extends StackPane {
     private TextField createTextField(String playerName) {
         TextField textField = new TextField();
         textField.setPromptText("Entrez votre pseudo");
-        textField.setPrefSize(300, 45);
+        textField.setPrefSize(0.2344*screenWidth, 0.0625*screenHeight);
         textField.setAlignment(Pos.CENTER);
-        textField.setFont(Font.font("Cardo", FontWeight.BOLD, 30)); // Taille de police basée sur la hauteur de l'écran
+        textField.setFont(Font.font("Cardo", FontWeight.BOLD, 0.04167*screenHeight)); // Taille de police basée sur la hauteur de l'écran
         textField.setBackground(new Background(new BackgroundFill(Color.rgb(240, 240, 240, 0.35), CornerRadii.EMPTY, Insets.EMPTY)));
         textField.setStyle("-fx-text-fill: white;");
         textField.setText(playerName); // Remplir le champ avec le nom du joueur actuel

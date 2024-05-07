@@ -2,6 +2,7 @@ package org.example.milleniumproject.view;
 
 import org.example.milleniumproject.model.BG;
 import org.example.milleniumproject.model.ButtonsMenu;
+import org.example.milleniumproject.model.Constant;
 import org.example.milleniumproject.model.Management;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,6 +13,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.example.milleniumproject.model.Constant.screenHeight;
+import static org.example.milleniumproject.model.Constant.screenWidth;
 
 /**
  * Classe gérant l'affichage du menu principal de l'application.
@@ -53,7 +57,7 @@ public class Menu {
         // Créer une HBox pour contenir les VBox des boutons
         HBox hbox = new HBox();
         hbox.setAlignment(Pos.CENTER);
-        HBox.setMargin(boutonsLayout, new Insets(0, 0, 0, 350)); // Marge de 350 pixels à gauche
+        HBox.setMargin(boutonsLayout, new Insets(0, 0, 0, 0.2734*screenWidth)); // Marge de 350 pixels à gauche
 
         // Ajouter les VBox à la HBox
         hbox.getChildren().addAll(boutonsLayout, boutonsLayout1);
@@ -75,10 +79,10 @@ public class Menu {
      * @return La VBox contenant les boutons.
      */
     private VBox createButtonVBox(List<Button> buttons) {
-        VBox vbox = new VBox(30); // Espacement vertical de 30 pixels entre les boutons
+        VBox vbox = new VBox(0.0417*screenHeight); // Espacement vertical de 30 pixels entre les boutons
         vbox.setAlignment(Pos.CENTER); // Centrer les boutons
-        vbox.setPadding(new Insets(100, 0, 0, 0)); // Ajouter un padding-top de 100 pixels
-        vbox.setMaxSize(400, 300); // Taille maximale de la boîte de boutons
+        vbox.setPadding(new Insets(0.1389*screenHeight, 0, 0, 0)); // Ajouter un padding-top de 100 pixels
+        vbox.setMaxSize(0.3125*screenWidth, 0.4167*screenHeight); // Taille maximale de la boîte de boutons
         vbox.getChildren().addAll(buttons);
         return vbox;
     }

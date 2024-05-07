@@ -57,7 +57,7 @@ public class LoadVideo {
         skipLabel.setTextFill(Color.WHITE);
         skipLabel.setFont(Font.font("Cardo", FontWeight.BOLD, 25));
         StackPane.setAlignment(skipLabel, Pos.BOTTOM_RIGHT); // Aligner le label en bas à droite
-        StackPane.setMargin(skipLabel, new Insets(0, 10, 10, 0)); // Marge pour le label
+        StackPane.setMargin(skipLabel, new Insets(0, 0.0078*Constant.screenWidth, 0.0139*Constant.screenHeight, 0)); // Marge pour le label
         root.getChildren().add(skipLabel); // Ajouter le label au StackPane utilisé dans la scène vidéo
 
         // Animation de clignotement de la phrase
