@@ -1,6 +1,5 @@
 package org.example.milleniumproject.model;
 
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -11,16 +10,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
-import org.example.milleniumproject.view.Menu;
-
 import static org.example.milleniumproject.model.ButtonColorChecker.checkAndChangeButtonColor;
 import static org.example.milleniumproject.model.ButtonPause.afficherRegles;
+import static org.example.milleniumproject.model.ButtonSelector.*;
 import static org.example.milleniumproject.model.ButtonUtils.isNeighbourButton;
 
 public class Party extends StackPane {
@@ -198,7 +193,6 @@ public class Party extends StackPane {
     }
 
 
-
     // Méthode pour gérer la sélection du bouton
     private void handleSelection(List<Button> buttons ,Button clickedButton) {
         if (selectedButton == null) {
@@ -225,37 +219,6 @@ public class Party extends StackPane {
         }
 
     }
-
-    // Instance pour séléctionner un bouton
-    private void selectButton(Button button) {
-        ButtonSelector.selectButton(button);
-    }
-
-    // Instance pour désélectionner un bouton
-    private void deselectButton(Button button) {
-        ButtonSelector.deselectButton(button);
-    }
-    // Instance pour créer un bouton stylisé
-    private Button createStyledButton(String text) {
-        return ButtonSelector.createStyledButton(text);
-    }
-
-
-
-
-
-    private Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
-        Node result = null;
-        ObservableList<Node> children = gridPane.getChildren();
-        for (Node node : children) {
-            if (gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
-                result = node;
-                break;
-            }
-        }
-        return result;
-    }
-
     // Méthode pour placer l'image du joueur sur un bouton
     private void placePlayerImage(Button button, VBox playerVBox) {
         // Obtenir le GridPane enfant de la VBox
@@ -324,45 +287,4 @@ public class Party extends StackPane {
 
         return menu;
     }
-
-
-
-    /*private VBox boutonquitter(Stage primaryStage){
-        VBox vbox = new VBox(30);
-
-        Label confirmationLabel = new Label("Êtes-vous sûr de vouloir quitter la partie ?");
-        confirmationLabel.setFont(Font.font("Cardo", FontWeight.BOLD, 22));
-        confirmationLabel.setTextFill(Color.WHITE);
-
-        HBox hbox = new HBox(30);
-        Button ouiButton = new Button("Oui");
-        Button nonButton = new Button("Non");
-
-        ouiButton.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white; -fx-font-size: 12pt;");
-        nonButton.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white; -fx-font-size: 12pt;");
-
-        nonButton.setOnAction(e -> {
-            // Masquer le menu pause
-            vbox.setVisible(false);
-        });
-
-        ouiButton.setOnAction(e -> {
-            Menu menu = new Menu();
-            menu.afficherMenu(primaryStage);
-            MusicPlayer.musicPlay("src/main/resources/Star Wars_ Battlefront OST - Main Menu Music.mp3");
-        });
-
-        hbox.getChildren().addAll(ouiButton, nonButton);
-        vbox.getChildren().addAll(confirmationLabel, hbox);
-
-        // Stylisation du menu pause avec un arrière-plan semi-transparent
-        vbox.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7); -fx-padding: 20px;");
-
-        // Positionnement du menu pause au centre de l'écran
-        hbox.setAlignment(Pos.CENTER);
-        vbox.setAlignment(Pos.TOP_CENTER);
-        vbox.setPadding(new Insets(20, 0, 0, 0));
-
-        return vbox;
-    }*/
 }

@@ -10,7 +10,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,6 +95,63 @@ public class ProfilParty {
         } else {
             hbox.getChildren().add(labelsVBox); // Ajout de la VBox des labels à la HBox pour le joueur 1
         }
+
+        // Ajout de l'avatar à droite pour le joueur 2
+        if (!isPlayer1) {
+            hbox.getChildren().add(avatarImageView); // Ajout de l'avatar à droite pour le joueur 2
+        }
+
+        // Ajout de la HBox au VBox principal
+        profileBox.getChildren().add(hbox);
+
+        return profileBox;
+    }
+
+    static VBox createProfileBox2(String avatarFileName, String playerName, String rank, boolean isPlayer1) {
+        VBox profileBox = new VBox(0); // Espacement vertical entre les éléments du profil
+        profileBox.setAlignment(Pos.BOTTOM_CENTER); // Alignement au centre et en bas
+
+        // Création d'une HBox pour contenir l'avatar, le nom et le rang
+        HBox hbox = new HBox(10); // Espacement horizontal entre les éléments
+        hbox.setAlignment(Pos.CENTER); // Centrage horizontal des éléments
+
+        // Création d'une ImageView pour l'avatar
+        ImageView avatarImageView;
+        if (isPlayer1) {
+            // Pour le joueur 1, charger l'image depuis le fichier
+            avatarImageView = new ImageView(new Image(avatarFileName));
+            hbox.getChildren().add(avatarImageView);
+        } else {
+            // Pour le joueur 2, utiliser l'image constante
+            avatarImageView = new ImageView(new Image("9.png"));
+        }
+        avatarImageView.setFitWidth(150); // Taille de l'avatar
+        avatarImageView.setFitHeight(150);
+
+        // Création d'une VBox pour contenir le nom et le rang
+        VBox labelsVBox = new VBox(0); // Espacement vertical entre les labels
+        if (isPlayer1) {
+            labelsVBox.setAlignment(Pos.CENTER_LEFT); // Alignement à droite des labels pour le joueur 1
+        } else {
+            labelsVBox.setAlignment(Pos.CENTER_RIGHT); // Alignement à gauche des labels pour le joueur 2
+            // Définir le nom et le rang par défaut pour le joueur 2
+            playerName = "Robot";
+            rank = "IA";
+        }
+
+        // Ajout du nom du joueur
+        Label nameLabel = new Label(playerName);
+        nameLabel.setFont(Font.font("Cardo", 35)); // Définition de la police et de la taille
+        nameLabel.setTextFill(Color.WHITE); // Définition de la couleur du text
+        labelsVBox.getChildren().add(nameLabel);
+
+        // Ajout du rang du joueur
+        Label rankLabel = new Label(rank);
+        rankLabel.setFont(Font.font("Cardo", 20)); // Définition de la police et de la taille
+        rankLabel.setTextFill(Color.WHITE); // Définition de la couleur du text
+        labelsVBox.getChildren().add(rankLabel);
+
+        hbox.getChildren().add(labelsVBox); // Ajout de la VBox des labels à la HBox
 
         // Ajout de l'avatar à droite pour le joueur 2
         if (!isPlayer1) {
