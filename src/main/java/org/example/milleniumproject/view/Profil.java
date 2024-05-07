@@ -21,7 +21,7 @@ import static org.example.milleniumproject.model.Constant.screenWidth;
 public class Profil extends StackPane {
 
     Menu menu = new Menu();
-    public static final double AVATAR_SIZE = 130.0;
+    public static final double AVATAR_SIZE = 0.10156*screenWidth;
     private TextField textField1;
     private TextField textField2;
     private Carrousel avatarCarrousel1;

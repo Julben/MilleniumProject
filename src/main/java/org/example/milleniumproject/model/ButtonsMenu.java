@@ -3,6 +3,8 @@ package org.example.milleniumproject.model;
 import javafx.scene.control.Button;
 import java.util.ArrayList;
 import java.util.List;
+import static org.example.milleniumproject.model.Constant.screenHeight;
+import static org.example.milleniumproject.model.Constant.screenWidth;
 
 /**
  * Classe utilitaire pour créer des boutons de menu avec un style prédéfini.
@@ -21,7 +23,7 @@ public class ButtonsMenu {
 
         for (String nom : nomsBoutons) {
             Button bouton = new Button(nom);
-            ButtonsStyle.appliquerStyle(bouton, 0.28125*Constant.screenWidth, 0.0694*Constant.screenHeight, 25); // Appliquer le style défini dans ButtonsStyle
+            ButtonsStyle.appliquerStyle(bouton, 0.28125*screenWidth, 0.0694*screenHeight, 0.0347*screenHeight); // Appliquer le style défini dans ButtonsStyle
             boutons.add(bouton);
         }
         return boutons;

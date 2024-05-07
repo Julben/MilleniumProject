@@ -20,7 +20,7 @@ public class ButtonsStyle {
      * @param height La hauteur préférée du bouton.
      * @param size   La taille de la police du texte.
      */
-    public static void appliquerStyle(Button bouton, double width, double height, int size) {
+    public static void appliquerStyle(Button bouton, double width, double height, double size) {
         bouton.setPrefSize(width, height); // Taille préférée des boutons (largeur x hauteur)
         bouton.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, new CornerRadii(50), javafx.geometry.Insets.EMPTY)));
         bouton.setTextFill(Color.WHITE); // Couleur du texte
