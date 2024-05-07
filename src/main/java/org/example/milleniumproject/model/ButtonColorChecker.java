@@ -22,7 +22,7 @@ public class ButtonColorChecker {
         for (Node node : children) {
             if (node instanceof Button) {
                 Button currentButton = (Button) node;
-                String buttonText = getButtonText(currentButton);
+                String buttonText = currentButton.getText();
                 String imageUrl = getImageUrlFromButton(currentButton);
 
                 // Stockez les URLs des boutons
@@ -42,7 +42,7 @@ public class ButtonColorChecker {
             for (Node node : children) {
                 if (node instanceof Button) {
                     Button currentButton = (Button) node;
-                    String buttonText = getButtonText(currentButton);
+                    String buttonText = currentButton.getText();
                     // Si le bouton est l'un des boutons spécifiés, changez sa couleur en rouge
                     if (buttonText.equals(buttonLabel1) || buttonText.equals(buttonLabel2) || buttonText.equals(buttonLabel3)) {
                         currentButton.setStyle("-fx-background-color: yellow;"+
@@ -70,12 +70,6 @@ public class ButtonColorChecker {
             // Le bouton ne contient pas d'image
             return null;
         }
-    }
-
-    private static String getButtonText(Button button) {
-        // Récupérer le texte du bouton
-        String buttonText = button.getText();
-        return buttonText;
     }
 }
 
