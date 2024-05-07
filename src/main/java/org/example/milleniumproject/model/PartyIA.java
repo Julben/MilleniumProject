@@ -21,11 +21,13 @@ import org.example.milleniumproject.view.Menu;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 import static org.example.milleniumproject.model.ButtonColorChecker.checkAndChangeButtonColor;
 import static org.example.milleniumproject.model.ButtonPause.afficherRegles;
+import static org.example.milleniumproject.model.ButtonSelector.*;
 import static org.example.milleniumproject.model.ButtonUtils.getNodeByRowColumnIndex;
 import static org.example.milleniumproject.model.ButtonUtils.isNeighbourButton;
+import static org.example.milleniumproject.model.Methodeia.disableMouseInteractions;
+
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 
@@ -227,19 +229,6 @@ public class PartyIA extends StackPane {
         }
     }
 
-    private void disableMouseInteractions(GridPane gridpane, boolean disable) {
-        for (Node node : gridpane.getChildren()) {
-            if (node instanceof Button) {
-                Button button = (Button) node;
-                button.setMouseTransparent(disable);
-                if (disable) {
-                    button.setOnMouseClicked(e -> e.consume()); // Consommer l'événement de clic pour empêcher l'action
-                } else {
-                    button.setOnMouseClicked(null); // Réinitialiser l'événement de clic
-                }
-            }
-        }
-    }
 
     // Méthode pour placer l'image du joueur sur un bouton
     private void placePlayerImage(Button button, VBox playerVBox) {
@@ -304,30 +293,6 @@ public class PartyIA extends StackPane {
         }
 
     }
-
-    // Instance pour séléctionner un bouton
-    private void selectButton(Button button) {
-        ButtonSelector.selectButton(button);
-    }
-
-    // Instance pour désélectionner un bouton
-    private void deselectButton(Button button) {
-        ButtonSelector.deselectButton(button);
-    }
-    // Instance pour créer un bouton stylisé
-    private Button createStyledButton(String text) {
-        return ButtonSelector.createStyledButton(text);
-    }
-
-
-
-
-
-
-
-
-
-
     // Méthode pour créer une VBox avec des images répétées
     private VBox createVBoxWithImages(String imageLink, int count) {
         VBox vBox = new VBox(10); // Espacement vertical entre les images
