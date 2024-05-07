@@ -21,7 +21,6 @@ import org.example.milleniumproject.view.Menu;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 import static org.example.milleniumproject.model.ButtonPause.afficherRegles;
 import static org.example.milleniumproject.model.ButtonUtils.getNodeByRowColumnIndex;
 import static org.example.milleniumproject.model.ButtonUtils.isNeighbourButton;
@@ -225,10 +224,20 @@ public class PartyIA extends StackPane {
         }
     }
 
+    private void disableMouseInteractions(GridPane gridpane, boolean disable) {
+        for (Node node : gridpane.getChildren()) {
+            if (node instanceof Button) {
+                Button button = (Button) node;
+                button.setMouseTransparent(disable);
+                if (disable) {
+                    button.setOnMouseClicked(e -> e.consume()); // Consommer l'événement de clic pour empêcher l'action
+                } else {
+                    button.setOnMouseClicked(null); // Réinitialiser l'événement de clic
+                }
+            }
+        }
+    }
 
-    // Méthode pour placer l'image du joueur sur un bouton
-    // Méthode pour placer l'image du joueur sur un bouton
-    // Méthode pour placer l'image du joueur sur un bouton
     // Méthode pour placer l'image du joueur sur un bouton
     private void placePlayerImage(Button button, VBox playerVBox) {
         // Obtenir le GridPane enfant de la VBox
@@ -265,45 +274,6 @@ public class PartyIA extends StackPane {
             System.err.println("Erreur : Aucune image à placer sur le bouton.");
         }
     }
-
-
-
-
-
-    private void enableAllButtons(GridPane gridPane) {
-        for (Node node : gridPane.getChildren()) {
-            if (node instanceof Button) {
-                Button button = (Button) node;
-                button.setDisable(false);
-            }
-        }
-    }
-
-    private void disableAllButtons(GridPane gridPane) {
-        for (Node node : gridPane.getChildren()) {
-            if (node instanceof Button) {
-                Button button = (Button) node;
-                button.setDisable(true);
-            }
-        }
-    }
-
-    private void disableMouseInteractions(GridPane gridpane, boolean disable) {
-        for (Node node : gridpane.getChildren()) {
-            if (node instanceof Button) {
-                Button button = (Button) node;
-                button.setMouseTransparent(disable);
-                if (disable) {
-                    button.setOnMouseClicked(e -> e.consume()); // Consommer l'événement de clic pour empêcher l'action
-                } else {
-                    button.setOnMouseClicked(null); // Réinitialiser l'événement de clic
-                }
-            }
-        }
-    }
-
-
-
 
     private void checkAndChangeButtonColor(String buttonLabel1, String buttonLabel2, String buttonLabel3, GridPane gridPane) {
         // Variables pour stocker les URLs des boutons
