@@ -24,8 +24,7 @@ import java.util.Random;
 import static org.example.milleniumproject.model.ButtonColorChecker.checkAndChangeButtonColor;
 import static org.example.milleniumproject.model.ButtonPause.afficherRegles;
 import static org.example.milleniumproject.model.ButtonSelector.*;
-import static org.example.milleniumproject.model.ButtonUtils.getNodeByRowColumnIndex;
-import static org.example.milleniumproject.model.ButtonUtils.isNeighbourButton;
+import static org.example.milleniumproject.model.ButtonUtils.*;
 import static org.example.milleniumproject.model.Methodeia.disableMouseInteractions;
 
 import javafx.animation.PauseTransition;
@@ -293,6 +292,7 @@ public class PartyIA extends StackPane {
         }
 
     }
+
     // Méthode pour créer une VBox avec des images répétées
     private VBox createVBoxWithImages(String imageLink, int count) {
         VBox vBox = new VBox(10); // Espacement vertical entre les images
