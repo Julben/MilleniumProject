@@ -93,8 +93,4 @@ public class ButtonPause extends StackPane {
 
         return vbox;
     }
-
-
-
-
 }

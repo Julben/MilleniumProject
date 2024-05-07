@@ -21,7 +21,7 @@ public class ButtonsMenu {
 
         for (String nom : nomsBoutons) {
             Button bouton = new Button(nom);
-            ButtonsStyle.appliquerStyle(bouton, 360, 50, 25); // Appliquer le style défini dans ButtonsStyle
+            ButtonsStyle.appliquerStyle(bouton, 0.28125*Constant.screenWidth, 0.0694*Constant.screenHeight, 25); // Appliquer le style défini dans ButtonsStyle
             boutons.add(bouton);
         }
         return boutons;

@@ -29,7 +29,7 @@ public class HelloApplication extends Application {
         Menu menu = new Menu();
 
         // Chemin de la vidéo de démarrage
-        String videoPath = "src/main/resources/Video.mp4";
+        String videoPath = "src/main/resources/VideoChargement.mp4";
         // Chargement de la vidéo
         MediaPlayer mediaPlayer = loadVideo.chargerVideo(primaryStage, videoPath);
 
