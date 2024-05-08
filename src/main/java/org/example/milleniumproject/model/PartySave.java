@@ -235,22 +235,6 @@ public class Party extends StackPane {
         return ButtonSelector.createStyledButton(text);
     }
 
-
-
-
-
-    private Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
-        Node result = null;
-        ObservableList<Node> children = gridPane.getChildren();
-        for (Node node : children) {
-            if (gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
-                result = node;
-                break;
-            }
-        }
-        return result;
-    }
-
     // Méthode pour placer l'image du joueur sur un bouton
     private void placePlayerImage(Button button, VBox playerVBox) {
         // Obtenir le GridPane enfant de la VBox
@@ -275,7 +259,6 @@ public class Party extends StackPane {
         }
     }
 
-
     private VBox createPauseMenu(Stage primaryStage) {
         VBox menu = new VBox(15); // Conteneur pour les boutons du menu pause
 
@@ -285,11 +268,16 @@ public class Party extends StackPane {
         Button parametres = new Button("Paramètres");
         Button quitter = new Button("Quitter la Partie");
 
+        resumeButton.setFont(Font.font("Cardo", FontWeight.BOLD, 20));
+        regles.setFont(Font.font("Cardo", FontWeight.BOLD, 20));
+        parametres.setFont(Font.font("Cardo", FontWeight.BOLD, 20));
+        quitter.setFont(Font.font("Cardo", FontWeight.BOLD, 20));
+
         // Stylisation des boutons du menu pause
-        resumeButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14pt;");
-        regles.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 14pt;");
-        parametres.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 14pt;");
-        quitter.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white; -fx-font-size: 14pt;");
+        resumeButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
+        regles.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white;");
+        parametres.setStyle("-fx-background-color: #f44336; -fx-text-fill: white;");
+        quitter.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white;");
 
         // Ajout d'une action pour le bouton "Reprendre" pour masquer le menu pause
         resumeButton.setOnAction(e -> {
@@ -320,4 +308,4 @@ public class Party extends StackPane {
         return menu;
     }
 }
- */
+*/

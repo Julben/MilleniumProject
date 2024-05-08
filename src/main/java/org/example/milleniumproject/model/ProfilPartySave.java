@@ -1,3 +1,4 @@
+/*
 package org.example.milleniumproject.model;
 
 import javafx.geometry.Pos;
@@ -58,7 +59,7 @@ public class ProfilParty {
         profileBox.setAlignment(Pos.BOTTOM_CENTER); // Alignement au centre et en bas
 
         // Création d'une HBox pour contenir l'avatar, le nom et le rang
-        HBox hbox = new HBox(0.0078*screenWidth); // Espacement horizontal entre les éléments
+        HBox hbox = new HBox(0.01389*screenWidth); // Espacement horizontal entre les éléments
         hbox.setAlignment(Pos.CENTER); // Centrage horizontal des éléments
 
         // Ajout de l'avatar à la HBox
@@ -114,7 +115,7 @@ public class ProfilParty {
         profileBox.setAlignment(Pos.BOTTOM_CENTER); // Alignement au centre et en bas
 
         // Création d'une HBox pour contenir l'avatar, le nom et le rang
-        HBox hbox = new HBox(0.0078*screenWidth); // Espacement horizontal entre les éléments
+        HBox hbox = new HBox(10); // Espacement horizontal entre les éléments
         hbox.setAlignment(Pos.CENTER); // Centrage horizontal des éléments
 
         // Création d'une ImageView pour l'avatar
@@ -166,3 +167,4 @@ public class ProfilParty {
         return profileBox;
     }
 }
+*/

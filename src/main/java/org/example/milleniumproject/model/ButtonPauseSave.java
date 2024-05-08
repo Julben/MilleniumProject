@@ -67,12 +67,15 @@ public class ButtonPause extends StackPane {
         confirmationLabel.setFont(Font.font("Cardo", FontWeight.BOLD, 0.0305*screenHeight));
         confirmationLabel.setTextFill(Color.WHITE);
 
-        HBox hbox = new HBox(0.0234*screenHeight);
+        HBox hbox = new HBox(0.05139*screenHeight);
         Button ouiButton = new Button("Oui");
         Button nonButton = new Button("Non");
 
-        ouiButton.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white; -fx-font-size: 12pt;");
-        nonButton.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white; -fx-font-size: 12pt;");
+        ouiButton.setFont(Font.font("Cardo", FontWeight.BOLD, 17));
+        nonButton.setFont(Font.font("Cardo", FontWeight.BOLD, 17));
+
+        ouiButton.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white;");
+        nonButton.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white;");
 
         nonButton.setOnAction(e -> {
             // Masquer le menu pause
@@ -98,5 +101,4 @@ public class ButtonPause extends StackPane {
         return vbox;
     }
 }
-
- */
+*/

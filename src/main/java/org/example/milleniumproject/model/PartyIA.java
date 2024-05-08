@@ -13,6 +13,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
@@ -98,10 +99,6 @@ public class PartyIA extends StackPane {
         hBox.getChildren().addAll(leftVBox, rightVBox);
         hBox.setAlignment(Pos.CENTER);
 
-        // Positionnement des Vbox à gauche et à droite du GridPane
-        StackPane.setAlignment(leftVBox, Pos.CENTER_LEFT);
-        StackPane.setAlignment(rightVBox, Pos.CENTER_RIGHT);
-
         // Récupération des données des profils
         String avatar1 = ProfileData.getAvatar(1);
         String playerName1 = ProfileData.getPlayerName(1);
@@ -116,10 +113,16 @@ public class PartyIA extends StackPane {
         String avatarFileName2 = avatar2.substring(avatar2.lastIndexOf('/') + 1);
 
         // Création des VBox pour afficher les profils
-        VBox profileBox1 = createProfileBox2(avatarFileName1, playerName1, rank1, true);
-        VBox profileBox2 = createProfileBox2(avatarFileName2, playerName2, rank2, false);
-        setMargin(profileBox1, new Insets(0, 950, 20, 0));
-        setMargin(profileBox2, new Insets(0, 0, 20, 950));
+        VBox profileBox1 = ProfilParty.createProfileBox(avatarFileName1, playerName1, rank1, true);
+        VBox profileBox2 = ProfilParty.createProfileBox(avatarFileName2, playerName2, rank2, false);
+        HBox hbox1 = new HBox(); // HBox pour le profil 1
+        HBox hbox4 = new HBox(); // HBox pour le profil 2
+        hbox1.getChildren().add(profileBox1);
+        hbox4.getChildren().add(profileBox2);
+        hbox1.setAlignment(Pos.BOTTOM_LEFT);
+        hbox4.setAlignment(Pos.BOTTOM_RIGHT);
+        setMargin(hbox1, new Insets(0, 0, 10, 15));
+        setMargin(hbox4, new Insets(0, 15, 10, 0));
 
         // Positionnement des VBox
         setAlignment(profileBox1, Pos.BOTTOM_LEFT);
@@ -151,7 +154,7 @@ public class PartyIA extends StackPane {
         pauseMenu.setVisible(false);
         quitterMenu.setVisible(false);
 
-        getChildren().addAll(hBox, profileBox1, profileBox2, gridPane, pauseMenu, quitterMenu, pauseButton);
+        getChildren().addAll(hBox, hbox1, hbox4, gridPane, pauseMenu, quitterMenu, pauseButton);
 
         // Gestionnaire d'événements pour les boutons du GridPane
         for (Node node : gridPane.getChildren()) {
@@ -291,11 +294,16 @@ public class PartyIA extends StackPane {
         Button parametres = new Button("Paramètres");
         Button quitter = new Button("Quitter la Partie");
 
+        resumeButton.setFont(Font.font("Cardo", FontWeight.BOLD, 20));
+        regles.setFont(Font.font("Cardo", FontWeight.BOLD, 20));
+        parametres.setFont(Font.font("Cardo", FontWeight.BOLD, 20));
+        quitter.setFont(Font.font("Cardo", FontWeight.BOLD, 20));
+
         // Stylisation des boutons du menu pause
-        resumeButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14pt;");
-        regles.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 14pt;");
-        parametres.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 14pt;");
-        quitter.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white; -fx-font-size: 14pt;");
+        resumeButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
+        regles.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white;");
+        parametres.setStyle("-fx-background-color: #f44336; -fx-text-fill: white;");
+        quitter.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white;");
 
         // Ajout d'une action pour le bouton "Reprendre" pour masquer le menu pause
         resumeButton.setOnAction(e -> {
@@ -318,7 +326,7 @@ public class PartyIA extends StackPane {
         menu.getChildren().addAll(resumeButton, regles, parametres, quitter);
 
         // Stylisation du menu pause avec un arrière-plan semi-transparent
-        menu.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5); -fx-padding: 20px;");
+        menu.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7); -fx-padding: 20px;");
 
         // Positionnement du menu pause au centre de l'écran
         menu.setAlignment(Pos.CENTER);

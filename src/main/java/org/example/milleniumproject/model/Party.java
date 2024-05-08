@@ -1,22 +1,25 @@
 package org.example.milleniumproject.model;
 
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
-import static org.example.milleniumproject.model.Constant.screenWidth;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import org.example.milleniumproject.view.Menu;
 
+import static org.example.milleniumproject.model.ButtonColorChecker.checkAndChangeButtonColor;
+import static org.example.milleniumproject.model.ButtonPause.afficherRegles;
+import static org.example.milleniumproject.model.ButtonUtils.isNeighbourButton;
+import static org.example.milleniumproject.model.Constant.screenWidth;
 
 public class Party extends StackPane {
     // Déclarations des variables d'instance
@@ -75,7 +78,8 @@ public class Party extends StackPane {
         int[] colIndices = {0, 3, 6, 1, 3, 5, 2, 3, 4, 0, 1, 2, 4, 5, 6, 2, 3, 4, 1, 3, 5, 0, 3, 6, 6};
 
         for (int i = 0; i < buttonLabels.length; i++) {
-            Button button = ButtonSelector.createStyledButton(buttonLabels[i]);
+            Button button = createStyledButton(buttonLabels[i]);
+
             gridPane.add(button, colIndices[i], rowIndices[i]);
         }
 
@@ -115,8 +119,14 @@ public class Party extends StackPane {
         // Création des VBox pour afficher les profils
         VBox profileBox1 = ProfilParty.createProfileBox(avatarFileName1, playerName1, rank1, true);
         VBox profileBox2 = ProfilParty.createProfileBox(avatarFileName2, playerName2, rank2, false);
-        setMargin(profileBox1, new Insets(0, 980, 15, 0));
-        setMargin(profileBox2, new Insets(0, 0, 15, 980));
+        HBox hbox1 = new HBox(); // HBox pour le profil 1
+        HBox hbox4 = new HBox(); // HBox pour le profil 2
+        hbox1.getChildren().add(profileBox1);
+        hbox4.getChildren().add(profileBox2);
+        hbox1.setAlignment(Pos.BOTTOM_LEFT);
+        hbox4.setAlignment(Pos.BOTTOM_RIGHT);
+        setMargin(hbox1, new Insets(0, 0, 10, 15));
+        setMargin(hbox4, new Insets(0, 15, 10, 0));
 
         // Création du bouton pause avec une image
         Image pauseImage = new Image("pause.png"); // Remplacez "chemin/vers/votre/image.png" par le chemin de votre image
@@ -144,7 +154,7 @@ public class Party extends StackPane {
         pauseMenu.setVisible(false);
         quitterMenu.setVisible(false);
 
-        getChildren().addAll(hBox, profileBox1, profileBox2, gridPane, pauseMenu, quitterMenu, pauseButton);
+        getChildren().addAll(hBox, hbox1, hbox4, gridPane, pauseMenu, quitterMenu, pauseButton);
 
         // Gestionnaire d'événements pour les boutons du GridPane
         for (Node node : gridPane.getChildren()) {
@@ -183,19 +193,21 @@ public class Party extends StackPane {
 
         String[][] buttonCombinations = {{"A", "B", "C"}, {"D", "E", "F"}, {"G", "H", "I"}, {"J", "K", "L"}, {"M", "N", "O"}, {"P", "Q", "R"}, {"S", "T", "U"}, {"V", "W", "X"}, {"A", "J", "V"}, {"D", "K", "S"}, {"G", "L", "P"}, {"B", "E", "H"}, {"Q", "T", "W"}, {"I", "M", "R"}, {"F", "N", "U"}, {"C", "O", "X"}};
         for (String[] combination : buttonCombinations) {
-            ButtonColorChecker.checkAndChangeButtonColor(combination[0], combination[1], combination[2], gridpane);
+            checkAndChangeButtonColor(combination[0], combination[1], combination[2], gridpane);
         }
     }
+
+
 
     // Méthode pour gérer la sélection du bouton
     private void handleSelection(List<Button> buttons ,Button clickedButton) {
         if (selectedButton == null) {
             if (buttons.contains(clickedButton)) {
                 selectedButton = clickedButton;// Sélectionner le bouton actuel
-                ButtonSelector.selectButton(selectedButton);
+                selectButton(selectedButton);
             }} else {
             // Vérifier si le bouton actuel est voisin du bouton sélectionné
-            if (ButtonUtils.isNeighbourButton(selectedButton, clickedButton)) {
+            if (isNeighbourButton(selectedButton, clickedButton)) {
                 // Échanger les images des boutons
                 if (clickedButton.getGraphic() == null) {
                     ImageView imageView = (ImageView) selectedButton.getGraphic();
@@ -208,10 +220,24 @@ public class Party extends StackPane {
                 }
             }
             // Désélectionner le bouton sélectionné
-            ButtonSelector.deselectButton(selectedButton);
+            deselectButton(selectedButton);
             selectedButton = null;
         }
 
+    }
+
+    // Instance pour séléctionner un bouton
+    private void selectButton(Button button) {
+        ButtonSelector.selectButton(button);
+    }
+
+    // Instance pour désélectionner un bouton
+    private void deselectButton(Button button) {
+        ButtonSelector.deselectButton(button);
+    }
+    // Instance pour créer un bouton stylisé
+    private Button createStyledButton(String text) {
+        return ButtonSelector.createStyledButton(text);
     }
 
     // Méthode pour placer l'image du joueur sur un bouton
@@ -238,7 +264,6 @@ public class Party extends StackPane {
         }
     }
 
-
     private VBox createPauseMenu(Stage primaryStage) {
         VBox menu = new VBox(15); // Conteneur pour les boutons du menu pause
 
@@ -248,16 +273,16 @@ public class Party extends StackPane {
         Button parametres = new Button("Paramètres");
         Button quitter = new Button("Quitter la Partie");
 
-        resumeButton.setFont(Font.font("Cardo", FontWeight.BOLD, 15));
-        regles.setFont(Font.font("Cardo", FontWeight.BOLD, 15));
-        parametres.setFont(Font.font("Cardo", FontWeight.BOLD, 15));
-        quitter.setFont(Font.font("Cardo", FontWeight.BOLD, 15));
+        resumeButton.setFont(Font.font("Cardo", FontWeight.BOLD, 20));
+        regles.setFont(Font.font("Cardo", FontWeight.BOLD, 20));
+        parametres.setFont(Font.font("Cardo", FontWeight.BOLD, 20));
+        quitter.setFont(Font.font("Cardo", FontWeight.BOLD, 20));
 
         // Stylisation des boutons du menu pause
-        resumeButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14pt;");
-        regles.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 14pt;");
-        parametres.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 14pt;");
-        quitter.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white; -fx-font-size: 14pt;");
+        resumeButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
+        regles.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white;");
+        parametres.setStyle("-fx-background-color: #f44336; -fx-text-fill: white;");
+        quitter.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white;");
 
         // Ajout d'une action pour le bouton "Reprendre" pour masquer le menu pause
         resumeButton.setOnAction(e -> {
@@ -267,7 +292,7 @@ public class Party extends StackPane {
 
         // Action du bouton "Règles" pour afficher les règles
         regles.setOnAction(e -> {
-            ButtonPause.afficherRegles(this); // Passer la racine de la scène pour ajouter la StackPane
+            afficherRegles(this); // Passer la racine de la scène pour ajouter la StackPane
         });
 
         quitter.setOnAction(e -> {

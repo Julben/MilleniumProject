@@ -39,7 +39,7 @@ public class PrePartyIA extends StackPane {
         vbox.setAlignment(Pos.CENTER); // Centrer les HBox verticalement
         vbox.setPadding(new Insets(0.13889*screenHeight, 0, 0, 0)); // Ajouter une marge en haut
 
-        String[] niveau = {"Facile", "Moyen", "Difficile"};
+        String[] niveau = {"Facile", "Difficile"};
 
         ToggleGroup toggleGroup1 = new ToggleGroup();
         HBox hbox1 = createToggleHBox(niveau, toggleGroup1); // Appeler la méthode pour créer la HBox appropriée
@@ -186,7 +186,7 @@ public class PrePartyIA extends StackPane {
             button.setPrefSize(0.1328*screenWidth, 0.0555*screenHeight);
             button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, new CornerRadii(50), javafx.geometry.Insets.EMPTY)));
             button.setTextFill(Color.WHITE); // Couleur du texte
-            button.setFont(Font.font("Cardo", FontWeight.BOLD, 0.04167*screenWidth));
+            button.setFont(Font.font("Cardo", FontWeight.BOLD, 0.0486*screenHeight));
 
             // Style lorsque le bouton est sélectionné
             button.selectedProperty().addListener((observable, oldValue, newValue) -> {
