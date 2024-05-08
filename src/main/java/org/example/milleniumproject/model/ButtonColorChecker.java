@@ -45,7 +45,7 @@ public class ButtonColorChecker {
                     String buttonText = currentButton.getText();
                     // Si le bouton est l'un des boutons spécifiés, changez sa couleur en rouge
                     if (buttonText.equals(buttonLabel1) || buttonText.equals(buttonLabel2) || buttonText.equals(buttonLabel3)) {
-                        currentButton.setStyle("-fx-background-color: yellow;"+
+                        currentButton.setStyle("-fx-background-color: #0037ff;"+
                                 "-fx-background-radius: 50%; " + // Rendre les coins ronds
                                 "-fx-min-width: 65px; " + // Définir la largeur
                                 "-fx-min-height: 65px; " + // Définir la hauteur

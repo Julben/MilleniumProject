@@ -17,6 +17,8 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+
 import static org.example.milleniumproject.model.ButtonColorChecker.checkAndChangeButtonColor;
 import static org.example.milleniumproject.model.ButtonPause.afficherRegles;
 import static org.example.milleniumproject.model.ButtonSelector.*;
@@ -44,6 +46,9 @@ public class PartyIA extends StackPane {
     private ButtonUtils buttonUtils;
     private Random random = new Random();
     private List<String> player2Positions = new ArrayList<>();
+    private List<String> player1Positions = new ArrayList<>();
+    private int turnMove = 1;
+
 
     public PartyIA(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3) {
 
@@ -183,6 +188,7 @@ public class PartyIA extends StackPane {
                 pause.setOnFinished(e -> {
                     placeRandomPlayerImage(gridpane); // Appel pour placer l'image du joueur 2
                     disableMouseInteractions(gridpane, false); // Réactiver les interactions avec la souris ou le pavé tactile
+
                 });
                 pause.play();
             } else {
@@ -257,13 +263,31 @@ public class PartyIA extends StackPane {
         }
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     // Méthode pour gérer la sélection du bouton
-    private void handleSelection(List<Button> buttons ,Button clickedButton) {
+    private void handleSelection(List<Button> buttons, Button clickedButton) {
         if (selectedButton == null) {
             if (buttons.contains(clickedButton)) {
-                selectedButton = clickedButton;// Sélectionner le bouton actuel
+                selectedButton = clickedButton; // Sélectionner le bouton actuel
                 selectButton(selectedButton);
-            }} else {
+            }
+        } else {
             // Vérifier si le bouton actuel est voisin du bouton sélectionné
             if (isNeighbourButton(selectedButton, clickedButton)) {
                 // Échanger les images des boutons
@@ -275,32 +299,77 @@ public class PartyIA extends StackPane {
                     buttons.add(clickedButton);
                     // Changer de joueur après avoir effectué l'échange
                     currentPlayer = (currentPlayer == 1) ? 2 : 1;
-                }
-            }
-            // Désélectionner le bouton sélectionné
-            deselectButton(selectedButton);
-            selectedButton = null;
-        }
+                    turnMove++; // Incrémenter le compteur de mouvements
 
-    }
-
-    private void savePlayer2Positions(GridPane gridpane) {
-        for (Node node : gridpane.getChildren()) {
-            if (node instanceof Button) {
-                Button button = (Button) node;
-                if (button.getGraphic() instanceof ImageView) {
-                    // Vérifier si le pion appartient au joueur 2
-                    if (buttonsJ2.contains(button)) {
-                        // Enregistrer la position du pion
-                        String position = GridPane.getRowIndex(button) + "-" + GridPane.getColumnIndex(button);
-                        // Faites quelque chose avec la position enregistrée (par exemple, ajoutez-la à une liste)
-                        // Par exemple :
-                        player2Positions.add(position);
+                    // Si le compteur de mouvements est pair, sélectionner automatiquement un bouton avec l'image d'un joueur 1
+                    if (turnMove % 2 == 0 && currentPlayer == 2) {
+                        selectRandomButton(buttonsJ2);
                     }
                 }
             }
+            // Désélectionner le bouton sélectionné s'il n'est pas null
+            if (selectedButton != null) {
+                deselectButton(selectedButton);
+                selectedButton = null;
+            }
         }
     }
+
+
+    // Méthode pour sélectionner automatiquement un bouton avec l'image d'un joueur 2
+    private void selectRandomButton(List<Button> buttons) {
+        // Vérifier si la liste de boutons n'est pas vide
+        if (!buttons.isEmpty()) {
+            // Filtrer les boutons avec l'image du joueur 2
+            List<Button> player2Buttons = buttons.stream()
+                    .filter(button -> buttonsJ2.contains(button) && button.getGraphic() != null)
+                    .collect(Collectors.toList());
+
+            // Vérifier si la liste des boutons du joueur 2 n'est pas vide
+            if (!player2Buttons.isEmpty()) {
+                // Sélectionner un bouton aléatoire parmi les boutons du joueur 2
+                Button randomButton = player2Buttons.get(random.nextInt(player2Buttons.size()));
+
+                // Sélectionner le bouton
+                selectButton(randomButton);
+
+                // Appeler handleSelection avec le bouton sélectionné
+                handleSelection(buttons, randomButton);
+            }
+        }
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private VBox createPauseMenu(Stage primaryStage) {
         VBox menu = new VBox(15); // Conteneur pour les boutons du menu pause
