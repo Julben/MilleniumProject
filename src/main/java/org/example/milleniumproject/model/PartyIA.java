@@ -289,9 +289,6 @@ public class PartyIA extends StackPane {
 
     }
 
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     private VBox createPauseMenu(Stage primaryStage) {
         VBox menu = new VBox(15); // Conteneur pour les boutons du menu pause
 
