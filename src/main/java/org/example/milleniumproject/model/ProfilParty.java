@@ -13,11 +13,13 @@ import javafx.scene.text.Font;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.example.milleniumproject.model.Constant.screenHeight;
+import static org.example.milleniumproject.model.Constant.screenWidth;
+
 public class ProfilParty {
     // Méthode pour créer une VBox avec des images répétées
     static VBox createVBoxWithImages(String imageLink, int count) {
-        VBox vBox = new VBox(10); // Espacement vertical entre les images
-        vBox.setPadding(new Insets(10)); // Espacement autour des images
+        VBox vBox = new VBox(0.01389*screenHeight); // Espacement vertical entre les images
         vBox.setAlignment(Pos.CENTER); // Centrer les images dans la VBox
 
         List<ImageView> imageViews = new ArrayList<>();
@@ -32,8 +34,8 @@ public class ProfilParty {
 
         // Création d'une grille de 3x3 images
         GridPane gridPane = new GridPane();
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
+        gridPane.setHgap(0.01389*screenHeight);
+        gridPane.setVgap(0.0078*screenWidth);
         int rowIndex = 0;
         int colIndex = 0;
         for (ImageView imageView : imageViews) {
@@ -56,13 +58,13 @@ public class ProfilParty {
         profileBox.setAlignment(Pos.BOTTOM_CENTER); // Alignement au centre et en bas
 
         // Création d'une HBox pour contenir l'avatar, le nom et le rang
-        HBox hbox = new HBox(10); // Espacement horizontal entre les éléments
+        HBox hbox = new HBox(0.01389*screenWidth); // Espacement horizontal entre les éléments
         hbox.setAlignment(Pos.CENTER); // Centrage horizontal des éléments
 
         // Ajout de l'avatar à la HBox
         ImageView avatarImageView = new ImageView(new Image(avatarFileName));
-        avatarImageView.setFitWidth(150); // Taille de l'avatar
-        avatarImageView.setFitHeight(150);
+        avatarImageView.setFitWidth(0.1172*screenWidth); // Taille de l'avatar
+        avatarImageView.setFitHeight(0.2083*screenHeight);
 
         if (isPlayer1) {
             // Pour le joueur 1, placer l'avatar à gauche et aligner les labels à droite
@@ -80,13 +82,13 @@ public class ProfilParty {
 
         // Ajout du nom du joueur
         Label nameLabel = new Label(playerName);
-        nameLabel.setFont(Font.font("Cardo", 35)); // Définition de la police et de la taille
+        nameLabel.setFont(Font.font("Cardo", 0.0486*screenHeight)); // Définition de la police et de la taille
         nameLabel.setTextFill(Color.WHITE); // Définition de la couleur du text
         labelsVBox.getChildren().add(nameLabel);
 
         // Ajout du rang du joueur
         Label rankLabel = new Label(rank);
-        rankLabel.setFont(Font.font("Cardo", 20)); // Définition de la police et de la taille
+        rankLabel.setFont(Font.font("Cardo", 0.0278*screenHeight)); // Définition de la police et de la taille
         rankLabel.setTextFill(Color.WHITE); // Définition de la couleur du text
         labelsVBox.getChildren().add(rankLabel);
 

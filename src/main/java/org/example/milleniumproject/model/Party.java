@@ -6,17 +6,17 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.stage.Stage;
+import java.util.ArrayList;
+import java.util.List;
+import static org.example.milleniumproject.model.Constant.screenWidth;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import java.util.ArrayList;
-import java.util.List;
-import static org.example.milleniumproject.model.ButtonColorChecker.checkAndChangeButtonColor;
-import static org.example.milleniumproject.model.ButtonPause.afficherRegles;
-import static org.example.milleniumproject.model.ButtonSelector.*;
-import static org.example.milleniumproject.model.ButtonUtils.isNeighbourButton;
+
 
 public class Party extends StackPane {
     // Déclarations des variables d'instance
@@ -75,8 +75,7 @@ public class Party extends StackPane {
         int[] colIndices = {0, 3, 6, 1, 3, 5, 2, 3, 4, 0, 1, 2, 4, 5, 6, 2, 3, 4, 1, 3, 5, 0, 3, 6, 6};
 
         for (int i = 0; i < buttonLabels.length; i++) {
-            Button button = createStyledButton(buttonLabels[i]);
-
+            Button button = ButtonSelector.createStyledButton(buttonLabels[i]);
             gridPane.add(button, colIndices[i], rowIndices[i]);
         }
 
@@ -92,7 +91,7 @@ public class Party extends StackPane {
         leftVBox = ProfilParty.createVBoxWithImages(vaisseau1, 9);
         rightVBox = ProfilParty.createVBoxWithImages(vaisseau2, 9);
 
-        HBox hBox = new HBox(0.6 * Constant.screenWidth); // Espacement horizontal entre les Vbox
+        HBox hBox = new HBox(0.6 * screenWidth); // Espacement horizontal entre les Vbox
         hBox.getChildren().addAll(leftVBox, rightVBox);
         hBox.setAlignment(Pos.CENTER);
 
@@ -116,12 +115,8 @@ public class Party extends StackPane {
         // Création des VBox pour afficher les profils
         VBox profileBox1 = ProfilParty.createProfileBox(avatarFileName1, playerName1, rank1, true);
         VBox profileBox2 = ProfilParty.createProfileBox(avatarFileName2, playerName2, rank2, false);
-        setMargin(profileBox1, new Insets(0, 950, 20, 0));
-        setMargin(profileBox2, new Insets(0, 0, 20, 950));
-
-        // Positionnement des VBox
-        setAlignment(profileBox1, Pos.BOTTOM_LEFT);
-        setAlignment(profileBox2, Pos.BOTTOM_RIGHT);
+        setMargin(profileBox1, new Insets(0, 980, 15, 0));
+        setMargin(profileBox2, new Insets(0, 0, 15, 980));
 
         // Création du bouton pause avec une image
         Image pauseImage = new Image("pause.png"); // Remplacez "chemin/vers/votre/image.png" par le chemin de votre image
@@ -188,20 +183,19 @@ public class Party extends StackPane {
 
         String[][] buttonCombinations = {{"A", "B", "C"}, {"D", "E", "F"}, {"G", "H", "I"}, {"J", "K", "L"}, {"M", "N", "O"}, {"P", "Q", "R"}, {"S", "T", "U"}, {"V", "W", "X"}, {"A", "J", "V"}, {"D", "K", "S"}, {"G", "L", "P"}, {"B", "E", "H"}, {"Q", "T", "W"}, {"I", "M", "R"}, {"F", "N", "U"}, {"C", "O", "X"}};
         for (String[] combination : buttonCombinations) {
-            checkAndChangeButtonColor(combination[0], combination[1], combination[2], gridpane);
+            ButtonColorChecker.checkAndChangeButtonColor(combination[0], combination[1], combination[2], gridpane);
         }
     }
-
 
     // Méthode pour gérer la sélection du bouton
     private void handleSelection(List<Button> buttons ,Button clickedButton) {
         if (selectedButton == null) {
             if (buttons.contains(clickedButton)) {
                 selectedButton = clickedButton;// Sélectionner le bouton actuel
-                selectButton(selectedButton);
+                ButtonSelector.selectButton(selectedButton);
             }} else {
             // Vérifier si le bouton actuel est voisin du bouton sélectionné
-            if (isNeighbourButton(selectedButton, clickedButton)) {
+            if (ButtonUtils.isNeighbourButton(selectedButton, clickedButton)) {
                 // Échanger les images des boutons
                 if (clickedButton.getGraphic() == null) {
                     ImageView imageView = (ImageView) selectedButton.getGraphic();
@@ -214,11 +208,12 @@ public class Party extends StackPane {
                 }
             }
             // Désélectionner le bouton sélectionné
-            deselectButton(selectedButton);
+            ButtonSelector.deselectButton(selectedButton);
             selectedButton = null;
         }
 
     }
+
     // Méthode pour placer l'image du joueur sur un bouton
     private void placePlayerImage(Button button, VBox playerVBox) {
         // Obtenir le GridPane enfant de la VBox
@@ -253,6 +248,11 @@ public class Party extends StackPane {
         Button parametres = new Button("Paramètres");
         Button quitter = new Button("Quitter la Partie");
 
+        resumeButton.setFont(Font.font("Cardo", FontWeight.BOLD, 15));
+        regles.setFont(Font.font("Cardo", FontWeight.BOLD, 15));
+        parametres.setFont(Font.font("Cardo", FontWeight.BOLD, 15));
+        quitter.setFont(Font.font("Cardo", FontWeight.BOLD, 15));
+
         // Stylisation des boutons du menu pause
         resumeButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14pt;");
         regles.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 14pt;");
@@ -267,7 +267,7 @@ public class Party extends StackPane {
 
         // Action du bouton "Règles" pour afficher les règles
         regles.setOnAction(e -> {
-            afficherRegles(this); // Passer la racine de la scène pour ajouter la StackPane
+            ButtonPause.afficherRegles(this); // Passer la racine de la scène pour ajouter la StackPane
         });
 
         quitter.setOnAction(e -> {

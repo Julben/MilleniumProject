@@ -13,7 +13,11 @@ import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import java.io.File;
 import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
@@ -28,25 +32,28 @@ public class PreParty extends StackPane {
 
         Button retourButton = BackButtons.createBackButton(primaryStage);
 
-        BG ground = new BG("src/main/resources/BGAUDIO.png");
+        BG ground = new BG("src/main/resources/BackgroundPreParty.png");
         setBackground(ground.getCustomBackground());
 
-        VBox vbox = new VBox(30); // Création de la VBox
+        VBox vbox = new VBox(0.0625*screenHeight); // Création de la VBox
         vbox.setAlignment(Pos.CENTER); // Centrer les HBox verticalement
-        vbox.setPadding(new Insets(100, 0, 0, 0)); // Ajouter une marge en haut
+        vbox.setPadding(new Insets(0.13889*screenHeight, 0, 0, 0)); // Ajouter une marge en haut
 
         ToggleGroup toggleGroup2 = new ToggleGroup();
-        String[] imageUrls2 = {"Chrono30Test.png", "Chrono1Test.png", "ChronoXTest.png"}; // Remplacez les liens par vos propres URLs
+        String[] imageUrls2 = {"Chrono30sec.png", "Chrono1min.png", "ChronoNoTime.png"}; // Remplacez les liens par vos propres URLs
         HBox hbox2 = createImageToggleHBox(toggleGroup2, imageUrls2); // Appeler la méthode pour créer la HBox appropriée
         ToggleGroup toggleGroup3 = new ToggleGroup();
-        String[] imageUrls3 = {"Naboo.png", "Coruscant.png", "Mustafar.png"}; // Remplacez les liens par vos propres URLs
+        String[] imageUrls3 = {"NabooNoBG.png", "CoruscantNoBG.png", "MustafarNoBG.png"}; // Remplacez les liens par vos propres URLs
         HBox hbox3 = createImageToggleHBox(toggleGroup3, imageUrls3); // Appeler la méthode pour créer la HBox appropriée
-        HBox hbox4 = new HBox(10); // Création de la VBox pour le bouton "Lancer Partie"
+        HBox hbox4 = new HBox(0.0078*screenWidth); // Création de la VBox pour le bouton "Lancer Partie"
         hbox4.setAlignment(Pos.CENTER);
+        setMargin(hbox4, new Insets(0.111*screenHeight, 0, 0, 0));
 
         launchButton = new Button("Lancer Partie");
-        launchButton.setPrefSize(200, 50);
-        launchButton.setStyle("-fx-background-color: #9ed586  ; -fx-text-fill: black;");
+        launchButton.setPrefSize(0.15625*screenWidth, 0.06944*screenHeight);
+        launchButton.setBackground(new Background(new BackgroundFill(Color.rgb(85, 174, 47), new CornerRadii(50), javafx.geometry.Insets.EMPTY)));
+        launchButton.setTextFill(Color.WHITE); // Couleur du texte
+        launchButton.setFont(Font.font("Cardo", FontWeight.BOLD, 0.0333*screenHeight));
         launchButton.setDisable(true); // Désactiver le bouton au départ
 
         hbox4.getChildren().add(launchButton); // Ajouter le bouton à la HBox
@@ -165,7 +172,7 @@ public class PreParty extends StackPane {
     }
 
     private HBox createImageToggleHBox(ToggleGroup toggleGroup, String[] imageUrls) {
-        HBox hbox = new HBox(30); // Création de la HBox
+        HBox hbox = new HBox(0.04167*screenWidth); // Création de la HBox
         hbox.setAlignment(Pos.CENTER); // Centrer les boutons horizontalement
 
         for (int j = 0; j < 3; j++) {
@@ -176,19 +183,21 @@ public class PreParty extends StackPane {
             // Charger une image différente pour chaque bouton
             Image image = new Image(imageUrls[j]);
             ImageView imageView = new ImageView(image);
-            imageView.setFitWidth(150);
-            imageView.setFitHeight(75);
-            button.setGraphic(imageView);
-            button.setStyle("-fx-background-color: transparent;");
+            imageView.setFitWidth(0.1156*screenWidth);
+            imageView.setFitHeight(0.11527*screenHeight);
 
-            // Ajouter un style lorsque le bouton est sélectionné
+            // Ajouter un écouteur pour changer la couleur de la bordure de l'image
             button.selectedProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue) {
-                    button.setStyle("-fx-border-color: #9ed586; -fx-border-width: 2px; -fx-background-color: #9ed586;");
+                    Color intenseBlue = Color.rgb(0, 255, 0); // Intensité de la couleur verte
+                    imageView.setEffect(new javafx.scene.effect.DropShadow(40, intenseBlue));
                 } else {
-                    button.setStyle("-fx-background-color: transparent;");
+                    imageView.setEffect(null);
                 }
             });
+
+            button.setGraphic(imageView);
+            button.setStyle("-fx-background-color: transparent;");
 
             hbox.getChildren().add(button); // Ajouter le bouton à la HBox
         }

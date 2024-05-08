@@ -15,6 +15,9 @@ import org.example.milleniumproject.view.Profil;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import static org.example.milleniumproject.model.Constant.screenHeight;
+import static org.example.milleniumproject.model.Constant.screenWidth;
+
 /**
  * Carrousel est une classe personnalisée qui représente un composant permettant de naviguer
  * à travers une série d'éléments, qu'ils soient des images ou des textes.
@@ -45,13 +48,13 @@ public class Carrousel extends StackPane {
         } else {
             label = new Label();
             label.setTextFill(Color.WHITE);
-            label.setFont(Font.font("Cardo", FontWeight.BOLD, 30));
+            label.setFont(Font.font("Cardo", FontWeight.BOLD, 0.04167*screenHeight));
         }
 
         Button previousButton = createNavigationButton("<", event -> {SoundPlayer.soundPlay(); showPrevious();});
         Button nextButton = createNavigationButton(">", event -> {SoundPlayer.soundPlay(); showNext();});
 
-        HBox buttonsBox = new HBox(120, previousButton, nextButton);
+        HBox buttonsBox = new HBox(0.09375*screenWidth, previousButton, nextButton);
         buttonsBox.setAlignment(Pos.CENTER);
         this.getChildren().addAll(isImage ? imageView : label, buttonsBox);
 
@@ -69,10 +72,10 @@ public class Carrousel extends StackPane {
     private Button createNavigationButton(String text, EventHandler<ActionEvent> eventHandler) {
         Button button = new Button(text);
         button.setOnAction(eventHandler);
-        button.setPrefSize(20, 20);
+        button.setPrefSize(0.0156*screenWidth, 0.02778*screenHeight);
         button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, new CornerRadii(5), null)));
         button.setTextFill(Color.WHITE);
-        button.setFont(Font.font("Cardo", FontWeight.BOLD, 50));
+        button.setFont(Font.font("Cardo", FontWeight.BOLD, 0.0694*screenHeight));
         return button;
     }
 

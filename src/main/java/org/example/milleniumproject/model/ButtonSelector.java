@@ -42,11 +42,11 @@ public class ButtonSelector {
      */
     public static Button createStyledButton(String text) {
         Button button = new Button(text);
+        button.setMinHeight(65);
+        button.setMaxHeight(65);
+        button.setMaxWidth(65);
+        button.setMinWidth(65);
         button.setStyle("-fx-background-radius: 50%; " + // Rendre les coins ronds
-                "-fx-min-width: 65px; " + // Définir la largeur
-                "-fx-min-height: 65px; " + // Définir la hauteur
-                "-fx-max-width: 65px; " + // Limiter la largeur
-                "-fx-max-height: 65px;"+
                 "-fx-background-color: transparent; -fx-border-color: transparent;"); // Limiter la hauteur
         button.setTextFill(Color.TRANSPARENT);
 
