@@ -27,6 +27,8 @@ import static org.example.milleniumproject.model.ProfilParty.*;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 
+
+
 public class PartyIA extends StackPane {
 
     // Déclarations des variables d'instance
@@ -44,6 +46,9 @@ public class PartyIA extends StackPane {
     private List<Button> buttonsJ2 = new ArrayList<>();
     private ButtonUtils buttonUtils;
     private Random random = new Random();
+
+
+
 
     public PartyIA(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3) {
 
@@ -78,10 +83,12 @@ public class PartyIA extends StackPane {
         int[] colIndices = {0, 3, 6, 1, 3, 5, 2, 3, 4, 0, 1, 2, 4, 5, 6, 2, 3, 4, 1, 3, 5, 0, 3, 6, 6};
 
         for (int i = 0; i < buttonLabels.length; i++) {
-            Button button = ButtonSelector.createStyledButton(buttonLabels[i]);
+            Button button = createStyledButton(buttonLabels[i]);
 
             gridPane.add(button, colIndices[i], rowIndices[i]);
         }
+
+
 
         // Création des Vbox pour les images des joueurs
         String str = ProfileData.getShip(1);
@@ -203,7 +210,7 @@ public class PartyIA extends StackPane {
         // Vérifier et changer la couleur des boutons
         String[][] buttonCombinations = {{"A", "B", "C"}, {"D", "E", "F"}, {"G", "H", "I"}, {"J", "K", "L"}, {"M", "N", "O"}, {"P", "Q", "R"}, {"S", "T", "U"}, {"V", "W", "X"}, {"A", "J", "V"}, {"D", "K", "S"}, {"G", "L", "P"}, {"B", "E", "H"}, {"Q", "T", "W"}, {"I", "M", "R"}, {"F", "N", "U"}, {"C", "O", "X"}};
         for (String[] combination : buttonCombinations) {
-            ButtonColorChecker.checkAndChangeButtonColor(combination[0], combination[1], combination[2], gridpane);
+            checkAndChangeButtonColor(combination[0], combination[1], combination[2], gridpane);
         }
     }
 
@@ -211,7 +218,7 @@ public class PartyIA extends StackPane {
         while (true) {
             int randomRow = random.nextInt(7); // Choisir une ligne aléatoire
             int randomCol = random.nextInt(7); // Choisir une colonne aléatoire
-            Button randomButton = (Button) ButtonUtils.getNodeByRowColumnIndex(randomRow, randomCol, gridpane); // Obtenir le bouton correspondant à la ligne et à la colonne aléatoires
+            Button randomButton = (Button) getNodeByRowColumnIndex(randomRow, randomCol, gridpane); // Obtenir le bouton correspondant à la ligne et à la colonne aléatoires
             if (randomButton != null && randomButton.getGraphic() == null) { // Vérifier si le bouton n'est pas nul et s'il est vide
                 placePlayerImage(randomButton, rightVBox); // Placer le pion du joueur 2 sur le bouton aléatoire
                 buttonsJ2.add(randomButton); // Ajouter le bouton à la liste des boutons du joueur 2
@@ -263,10 +270,10 @@ public class PartyIA extends StackPane {
         if (selectedButton == null) {
             if (buttons.contains(clickedButton)) {
                 selectedButton = clickedButton;// Sélectionner le bouton actuel
-                ButtonSelector.selectButton(selectedButton);
+                selectButton(selectedButton);
             }} else {
             // Vérifier si le bouton actuel est voisin du bouton sélectionné
-            if (ButtonUtils.isNeighbourButton(selectedButton, clickedButton)) {
+            if (isNeighbourButton(selectedButton, clickedButton)) {
                 // Échanger les images des boutons
                 if (clickedButton.getGraphic() == null) {
                     ImageView imageView = (ImageView) selectedButton.getGraphic();
@@ -279,11 +286,14 @@ public class PartyIA extends StackPane {
                 }
             }
             // Désélectionner le bouton sélectionné
-            ButtonSelector.deselectButton(selectedButton);
+            deselectButton(selectedButton);
             selectedButton = null;
         }
 
     }
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private VBox createPauseMenu(Stage primaryStage) {
         VBox menu = new VBox(15); // Conteneur pour les boutons du menu pause
@@ -313,7 +323,7 @@ public class PartyIA extends StackPane {
 
         // Action du bouton "Règles" pour afficher les règles
         regles.setOnAction(e -> {
-            ButtonPause.afficherRegles(this); // Passer la racine de la scène pour ajouter la StackPane
+            afficherRegles(this); // Passer la racine de la scène pour ajouter la StackPane
         });
 
         quitter.setOnAction(e -> {
