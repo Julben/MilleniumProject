@@ -1,6 +1,5 @@
 package org.example.milleniumproject.model;
 
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -8,14 +7,11 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
-import org.example.milleniumproject.view.Menu;
-
 import static org.example.milleniumproject.model.ButtonColorChecker.checkAndChangeButtonColor;
 import static org.example.milleniumproject.model.ButtonPause.afficherRegles;
 import static org.example.milleniumproject.model.ButtonUtils.isNeighbourButton;
@@ -78,7 +74,7 @@ public class Party extends StackPane {
         int[] colIndices = {0, 3, 6, 1, 3, 5, 2, 3, 4, 0, 1, 2, 4, 5, 6, 2, 3, 4, 1, 3, 5, 0, 3, 6, 6};
 
         for (int i = 0; i < buttonLabels.length; i++) {
-            Button button = createStyledButton(buttonLabels[i]);
+            Button button = ButtonSelector.createStyledButton(buttonLabels[i]);
 
             gridPane.add(button, colIndices[i], rowIndices[i]);
         }
@@ -197,14 +193,12 @@ public class Party extends StackPane {
         }
     }
 
-
-
     // Méthode pour gérer la sélection du bouton
     private void handleSelection(List<Button> buttons ,Button clickedButton) {
         if (selectedButton == null) {
             if (buttons.contains(clickedButton)) {
                 selectedButton = clickedButton;// Sélectionner le bouton actuel
-                selectButton(selectedButton);
+                ButtonSelector.selectButton(selectedButton);
             }} else {
             // Vérifier si le bouton actuel est voisin du bouton sélectionné
             if (isNeighbourButton(selectedButton, clickedButton)) {
@@ -220,24 +214,10 @@ public class Party extends StackPane {
                 }
             }
             // Désélectionner le bouton sélectionné
-            deselectButton(selectedButton);
+            ButtonSelector.deselectButton(selectedButton);
             selectedButton = null;
         }
 
-    }
-
-    // Instance pour séléctionner un bouton
-    private void selectButton(Button button) {
-        ButtonSelector.selectButton(button);
-    }
-
-    // Instance pour désélectionner un bouton
-    private void deselectButton(Button button) {
-        ButtonSelector.deselectButton(button);
-    }
-    // Instance pour créer un bouton stylisé
-    private Button createStyledButton(String text) {
-        return ButtonSelector.createStyledButton(text);
     }
 
     // Méthode pour placer l'image du joueur sur un bouton
