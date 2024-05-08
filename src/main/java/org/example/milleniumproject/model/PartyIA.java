@@ -84,11 +84,8 @@ public class PartyIA extends StackPane {
 
         for (int i = 0; i < buttonLabels.length; i++) {
             Button button = createStyledButton(buttonLabels[i]);
-
             gridPane.add(button, colIndices[i], rowIndices[i]);
         }
-
-
 
         // Création des Vbox pour les images des joueurs
         String str = ProfileData.getShip(1);
