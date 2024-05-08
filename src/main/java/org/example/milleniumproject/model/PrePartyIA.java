@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -55,7 +56,7 @@ public class PrePartyIA extends StackPane {
 
         launchButton = new Button("Lancer Partie");
         launchButton.setPrefSize(0.15625*screenWidth, 0.0694*screenHeight);
-        launchButton.setBackground(new Background(new BackgroundFill(Color.rgb(85, 174, 47), new CornerRadii(50), javafx.geometry.Insets.EMPTY)));
+        launchButton.setBackground(new Background(new BackgroundFill(Color.rgb(61, 141, 230), new CornerRadii(50), javafx.geometry.Insets.EMPTY)));
         launchButton.setTextFill(Color.WHITE); // Couleur du texte
         launchButton.setFont(Font.font("Cardo", FontWeight.BOLD, 0.0333*screenHeight));
         launchButton.setDisable(true); // Désactiver le bouton au départ
@@ -187,11 +188,16 @@ public class PrePartyIA extends StackPane {
             button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, new CornerRadii(50), javafx.geometry.Insets.EMPTY)));
             button.setTextFill(Color.WHITE); // Couleur du texte
             button.setFont(Font.font("Cardo", FontWeight.BOLD, 45));
+            DropShadow dropShadow = new DropShadow();
+            dropShadow.setRadius(3);
+            dropShadow.setOffsetX(1);
+            dropShadow.setOffsetY(1);
+            button.setEffect(dropShadow);
 
             // Style lorsque le bouton est sélectionné
             button.selectedProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue) {
-                    button.setTextFill(Color.rgb(0, 255, 0));
+                    button.setTextFill(Color.rgb(0, 140, 255));
                 } else {
                     button.setTextFill(Color.WHITE);
                 }
@@ -219,10 +225,16 @@ public class PrePartyIA extends StackPane {
             imageView.setFitWidth(0.1156*screenWidth);
             imageView.setFitHeight(0.1153*screenHeight);
 
+            DropShadow dropShadow = new DropShadow();
+            dropShadow.setRadius(3);
+            dropShadow.setOffsetX(1);
+            dropShadow.setOffsetY(1);
+            imageView.setEffect(dropShadow);
+
             // Ajouter un écouteur pour changer la couleur de la bordure de l'image
             button.selectedProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue) {
-                    Color intenseGreen = Color.rgb(0, 255, 0); // Intensité de la couleur verte
+                    Color intenseGreen = Color.rgb(0, 140, 255); // Intensité de la couleur verte
                     imageView.setEffect(new javafx.scene.effect.DropShadow(40, intenseGreen));
                 } else {
                     imageView.setEffect(null);

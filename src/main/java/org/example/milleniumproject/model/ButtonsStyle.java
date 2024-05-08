@@ -1,6 +1,7 @@
 package org.example.milleniumproject.model;
 
 import javafx.scene.control.Button;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -25,6 +26,11 @@ public class ButtonsStyle {
         bouton.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, new CornerRadii(50), javafx.geometry.Insets.EMPTY)));
         bouton.setTextFill(Color.WHITE); // Couleur du texte
         bouton.setFont(Font.font("Cardo", FontWeight.BOLD, size)); // Police et taille du texte
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setRadius(3);
+        dropShadow.setOffsetX(2);
+        dropShadow.setOffsetY(2);
+        bouton.setEffect(dropShadow);
 
         // Changement de style lorsque survolé
         bouton.setOnMouseEntered(event -> {

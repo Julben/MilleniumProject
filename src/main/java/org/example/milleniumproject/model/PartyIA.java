@@ -11,7 +11,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
@@ -26,8 +25,6 @@ import static org.example.milleniumproject.model.Methodeia.disableMouseInteracti
 import static org.example.milleniumproject.model.ProfilParty.*;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
-
-
 
 public class PartyIA extends StackPane {
 
@@ -47,11 +44,6 @@ public class PartyIA extends StackPane {
     private ButtonUtils buttonUtils;
     private Random random = new Random();
     private List<String> player2Positions = new ArrayList<>();
-
-
-
-
-
 
     public PartyIA(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3) {
 
@@ -170,11 +162,7 @@ public class PartyIA extends StackPane {
                 button.setOnAction(e -> handleButtonClick(button, gridPane));
             }
         }
-
-
     }
-
-
 
     // Méthode pour gérer le clic sur le bouton
     private void handleButtonClick(Button button, GridPane gridpane) {

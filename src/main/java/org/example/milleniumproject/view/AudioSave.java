@@ -1,3 +1,4 @@
+/*
 package org.example.milleniumproject.view;
 
 import javafx.geometry.Insets;
@@ -195,3 +196,4 @@ public class Audio extends StackPane {
         }
     }
 }
+*/

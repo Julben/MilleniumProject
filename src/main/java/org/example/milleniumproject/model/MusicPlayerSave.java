@@ -1,3 +1,4 @@
+/*
 package org.example.milleniumproject.model;
 
 import javafx.scene.media.Media;
@@ -46,3 +47,4 @@ public class MusicPlayer {
         }
     }
 }
+*/

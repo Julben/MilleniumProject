@@ -7,6 +7,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import static org.example.milleniumproject.model.Constant.screenHeight;
+import static org.example.milleniumproject.model.Constant.screenWidth;
+
 /**
  * Classe représentant la vue pour les paramètres vidéo.
  * Cette vue affiche les paramètres vidéo et permet à l'utilisateur de les ajuster.
@@ -26,7 +29,8 @@ public class Video extends StackPane {
 
         // Créer un bouton retour
         Button retourButton = BackButtons.createBackButton(primaryStage);
-        StackPane.setAlignment(retourButton, Pos.TOP_RIGHT); // Positionner le bouton retour en haut à droite
+        setAlignment(retourButton, Pos.TOP_RIGHT); // Positionner le bouton retour en haut à droite
+        setMargin(retourButton, new javafx.geometry.Insets(0.0208*screenHeight, 0.0117*screenWidth, 0, 0));
         getChildren().add(retourButton); // Ajouter le bouton retour à la pile principale
     }
 }

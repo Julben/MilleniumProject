@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -185,6 +186,12 @@ public class PreParty extends StackPane {
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(0.1156*screenWidth);
             imageView.setFitHeight(0.11527*screenHeight);
+
+            DropShadow dropShadow = new DropShadow();
+            dropShadow.setRadius(3);
+            dropShadow.setOffsetX(1);
+            dropShadow.setOffsetY(1);
+            imageView.setEffect(dropShadow);
 
             // Ajouter un écouteur pour changer la couleur de la bordure de l'image
             button.selectedProperty().addListener((observable, oldValue, newValue) -> {
