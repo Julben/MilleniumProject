@@ -3,6 +3,7 @@ module org.example.milleniumproject {
     requires javafx.fxml;
     requires javafx.media;
     requires java.prefs;
+    requires java.desktop;
 
 
     opens org.example.milleniumproject to javafx.fxml;

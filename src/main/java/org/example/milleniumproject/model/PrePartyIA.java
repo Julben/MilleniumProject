@@ -32,30 +32,32 @@ public class PrePartyIA extends StackPane {
 
         Button retourButton = BackButtons.createBackButton(primaryStage);
 
-        BG ground = new BG("src/main/resources/BGAUDIO.png");
+        BG ground = new BG("src/main/resources/BackgroundPrePartyIA.png");
         setBackground(ground.getCustomBackground());
 
-        VBox vbox = new VBox(30); // Création de la VBox
+        VBox vbox = new VBox(0.0625*screenHeight); // Création de la VBox
         vbox.setAlignment(Pos.CENTER); // Centrer les HBox verticalement
-        vbox.setPadding(new Insets(100, 0, 0, 0)); // Ajouter une marge en haut
+        vbox.setPadding(new Insets(0.13889*screenHeight, 0, 0, 0)); // Ajouter une marge en haut
 
         String[] niveau = {"Facile", "Moyen", "Difficile"};
 
         ToggleGroup toggleGroup1 = new ToggleGroup();
         HBox hbox1 = createToggleHBox(niveau, toggleGroup1); // Appeler la méthode pour créer la HBox appropriée
         ToggleGroup toggleGroup2 = new ToggleGroup();
-        String[] imageUrls2 = {"Chrono30Test.png", "Chrono1Test.png", "ChronoXTest.png"}; // Remplacez les liens par vos propres URLs
+        String[] imageUrls2 = {"Chrono30sec.png", "Chrono1min.png", "ChronoNoTime.png"}; // Remplacez les liens par vos propres URLs
         HBox hbox2 = createImageToggleHBox(toggleGroup2, imageUrls2); // Appeler la méthode pour créer la HBox appropriée
         ToggleGroup toggleGroup3 = new ToggleGroup();
-        String[] imageUrls3 = {"Naboo.png", "Coruscant.png", "Mustafar.png"}; // Remplacez les liens par vos propres URLs
+        String[] imageUrls3 = {"NabooNoBG.png", "CoruscantNoBG.png", "MustafarNoBG.png"}; // Remplacez les liens par vos propres URLs
         HBox hbox3 = createImageToggleHBox(toggleGroup3, imageUrls3); // Appeler la méthode pour créer la HBox appropriée
-        HBox hbox4 = new HBox(10); // Création de la VBox pour le bouton "Lancer Partie"
+        HBox hbox4 = new HBox(0.0078*screenWidth); // Création de la VBox pour le bouton "Lancer Partie"
 
         hbox4.setAlignment(Pos.CENTER);
 
         launchButton = new Button("Lancer Partie");
-        launchButton.setPrefSize(200, 50);
-        launchButton.setStyle("-fx-background-color: #9ed586  ; -fx-text-fill: black;");
+        launchButton.setPrefSize(0.15625*screenWidth, 0.0694*screenHeight);
+        launchButton.setBackground(new Background(new BackgroundFill(Color.rgb(85, 174, 47), new CornerRadii(50), javafx.geometry.Insets.EMPTY)));
+        launchButton.setTextFill(Color.WHITE); // Couleur du texte
+        launchButton.setFont(Font.font("Cardo", FontWeight.BOLD, 0.0333*screenHeight));
         launchButton.setDisable(true); // Désactiver le bouton au départ
 
         hbox4.getChildren().add(launchButton); // Ajouter le bouton à la HBox
@@ -174,27 +176,24 @@ public class PrePartyIA extends StackPane {
     }
 
     private HBox createToggleHBox(String[] niveau, ToggleGroup toggleGroup) {
-        HBox hbox = new HBox(30); // Création de la HBox
+        HBox hbox = new HBox(0.0117*screenWidth); // Création de la HBox
         hbox.setAlignment(Pos.CENTER); // Centrer les boutons horizontalement
 
-        for (String niv: niveau) {
+        for (String niv : niveau) {
             ToggleButton button = new ToggleButton(niv);
             button.setToggleGroup(toggleGroup); // Associez le bouton au ToggleGroup
 
-            button.setPrefSize(150, 40); // Taille préférée des boutons (largeur x hauteur)
-            button.setFont(Font.font("Cardo", FontWeight.BOLD, 20)); // Police et taille du texte
-            button.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(50), Insets.EMPTY)));
-            button.setTextFill(Color.BLACK);
+            button.setPrefSize(0.1328*screenWidth, 0.0555*screenHeight);
+            button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, new CornerRadii(50), javafx.geometry.Insets.EMPTY)));
+            button.setTextFill(Color.WHITE); // Couleur du texte
+            button.setFont(Font.font("Cardo", FontWeight.BOLD, 0.04167*screenWidth));
 
-            // Ajouter un style différent pour les boutons sélectionnés
-            button.setStyle("-fx-background-color: white; -fx-text-fill: black;");
-
-            // Ajouter un style lorsque le bouton est sélectionné
+            // Style lorsque le bouton est sélectionné
             button.selectedProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue) {
-                    button.setStyle("-fx-background-color: #9ed586; -fx-text-fill: black;");
+                    button.setTextFill(Color.rgb(0, 255, 0));
                 } else {
-                    button.setStyle("-fx-background-color: white; -fx-text-fill: black;");
+                    button.setTextFill(Color.WHITE);
                 }
             });
 
@@ -204,8 +203,9 @@ public class PrePartyIA extends StackPane {
         return hbox;
     }
 
+
     private HBox createImageToggleHBox(ToggleGroup toggleGroup, String[] imageUrls) {
-        HBox hbox = new HBox(30); // Création de la HBox
+        HBox hbox = new HBox(0.0234*screenWidth); // Création de la HBox
         hbox.setAlignment(Pos.CENTER); // Centrer les boutons horizontalement
 
         for (int j = 0; j < 3; j++) {
@@ -216,24 +216,28 @@ public class PrePartyIA extends StackPane {
             // Charger une image différente pour chaque bouton
             Image image = new Image(imageUrls[j]);
             ImageView imageView = new ImageView(image);
-            imageView.setFitWidth(150);
-            imageView.setFitHeight(75);
-            button.setGraphic(imageView);
-            button.setStyle("-fx-background-color: transparent;");
+            imageView.setFitWidth(0.1156*screenWidth);
+            imageView.setFitHeight(0.1153*screenHeight);
 
-            // Ajouter un style lorsque le bouton est sélectionné
+            // Ajouter un écouteur pour changer la couleur de la bordure de l'image
             button.selectedProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue) {
-                    button.setStyle("-fx-border-color: #9ed586; -fx-border-width: 2px; -fx-background-color: #9ed586;");
+                    Color intenseGreen = Color.rgb(0, 255, 0); // Intensité de la couleur verte
+                    imageView.setEffect(new javafx.scene.effect.DropShadow(40, intenseGreen));
                 } else {
-                    button.setStyle("-fx-background-color: transparent;");
+                    imageView.setEffect(null);
                 }
             });
+
+            button.setGraphic(imageView);
+            button.setStyle("-fx-background-color: transparent;");
 
             hbox.getChildren().add(button); // Ajouter le bouton à la HBox
         }
         return hbox;
     }
+
+
 
     private void checkLaunchButtonState(ToggleGroup toggleGroup1, ToggleGroup toggleGroup2, ToggleGroup toggleGroup3) {
         if (toggleGroup1.getSelectedToggle() != null && toggleGroup2.getSelectedToggle() != null && toggleGroup3.getSelectedToggle() != null) {

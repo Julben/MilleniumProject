@@ -1,6 +1,5 @@
 package org.example.milleniumproject.model;
 
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -15,21 +14,12 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import org.example.milleniumproject.view.Menu;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import static org.example.milleniumproject.model.ButtonColorChecker.checkAndChangeButtonColor;
-import static org.example.milleniumproject.model.ButtonPause.afficherRegles;
-import static org.example.milleniumproject.model.ButtonUtils.getNodeByRowColumnIndex;
-import static org.example.milleniumproject.model.ButtonUtils.isNeighbourButton;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
-
-
 
 public class PartyIA extends StackPane {
 
@@ -49,15 +39,11 @@ public class PartyIA extends StackPane {
     private ButtonUtils buttonUtils;
     private Random random = new Random();
 
-
-
-
     public PartyIA(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3) {
         this.toggleGroup3 = toggleGroup3;
         this.hbox3 = hbox3;
-/////////////////////////////////////////////////////////////////////////////////////
+
         buttonUtils = new ButtonUtils();
-/////////////////////////////////////////////////////////////////////////////////////
 
         int selectedIndex = PrePartyIA.getSelectedIndex(toggleGroup3, hbox3);
 
@@ -85,12 +71,10 @@ public class PartyIA extends StackPane {
         int[] colIndices = {0, 3, 6, 1, 3, 5, 2, 3, 4, 0, 1, 2, 4, 5, 6, 2, 3, 4, 1, 3, 5, 0, 3, 6, 6};
 
         for (int i = 0; i < buttonLabels.length; i++) {
-            Button button = createStyledButton(buttonLabels[i]);
+            Button button = ButtonSelector.createStyledButton(buttonLabels[i]);
 
             gridPane.add(button, colIndices[i], rowIndices[i]);
         }
-
-
 
         // Création des Vbox pour les images des joueurs
         String str = ProfileData.getShip(1);
@@ -210,7 +194,7 @@ public class PartyIA extends StackPane {
         // Vérifier et changer la couleur des boutons
         String[][] buttonCombinations = {{"A", "B", "C"}, {"D", "E", "F"}, {"G", "H", "I"}, {"J", "K", "L"}, {"M", "N", "O"}, {"P", "Q", "R"}, {"S", "T", "U"}, {"V", "W", "X"}, {"A", "J", "V"}, {"D", "K", "S"}, {"G", "L", "P"}, {"B", "E", "H"}, {"Q", "T", "W"}, {"I", "M", "R"}, {"F", "N", "U"}, {"C", "O", "X"}};
         for (String[] combination : buttonCombinations) {
-            checkAndChangeButtonColor(combination[0], combination[1], combination[2], gridpane);
+            ButtonColorChecker.checkAndChangeButtonColor(combination[0], combination[1], combination[2], gridpane);
         }
     }
 
@@ -218,7 +202,7 @@ public class PartyIA extends StackPane {
         while (true) {
             int randomRow = random.nextInt(7); // Choisir une ligne aléatoire
             int randomCol = random.nextInt(7); // Choisir une colonne aléatoire
-            Button randomButton = (Button) getNodeByRowColumnIndex(randomRow, randomCol, gridpane); // Obtenir le bouton correspondant à la ligne et à la colonne aléatoires
+            Button randomButton = (Button) ButtonUtils.getNodeByRowColumnIndex(randomRow, randomCol, gridpane); // Obtenir le bouton correspondant à la ligne et à la colonne aléatoires
             if (randomButton != null && randomButton.getGraphic() == null) { // Vérifier si le bouton n'est pas nul et s'il est vide
                 placePlayerImage(randomButton, rightVBox); // Placer le pion du joueur 2 sur le bouton aléatoire
                 buttonsJ2.add(randomButton); // Ajouter le bouton à la liste des boutons du joueur 2
@@ -283,10 +267,10 @@ public class PartyIA extends StackPane {
         if (selectedButton == null) {
             if (buttons.contains(clickedButton)) {
                 selectedButton = clickedButton;// Sélectionner le bouton actuel
-                selectButton(selectedButton);
+                ButtonSelector.selectButton(selectedButton);
             }} else {
             // Vérifier si le bouton actuel est voisin du bouton sélectionné
-            if (isNeighbourButton(selectedButton, clickedButton)) {
+            if (ButtonUtils.isNeighbourButton(selectedButton, clickedButton)) {
                 // Échanger les images des boutons
                 if (clickedButton.getGraphic() == null) {
                     ImageView imageView = (ImageView) selectedButton.getGraphic();
@@ -299,34 +283,11 @@ public class PartyIA extends StackPane {
                 }
             }
             // Désélectionner le bouton sélectionné
-            deselectButton(selectedButton);
+            ButtonSelector.deselectButton(selectedButton);
             selectedButton = null;
         }
 
     }
-
-    // Instance pour séléctionner un bouton
-    private void selectButton(Button button) {
-        ButtonSelector.selectButton(button);
-    }
-
-    // Instance pour désélectionner un bouton
-    private void deselectButton(Button button) {
-        ButtonSelector.deselectButton(button);
-    }
-    // Instance pour créer un bouton stylisé
-    private Button createStyledButton(String text) {
-        return ButtonSelector.createStyledButton(text);
-    }
-
-
-
-
-
-
-
-
-
 
     // Méthode pour créer une VBox avec des images répétées
     private VBox createVBoxWithImages(String imageLink, int count) {
@@ -381,7 +342,7 @@ public class PartyIA extends StackPane {
             hbox.getChildren().add(avatarImageView);
         } else {
             // Pour le joueur 2, utiliser l'image constante
-            avatarImageView = new ImageView(new Image("9.png"));
+            avatarImageView = new ImageView(new Image("Robot.png"));
         }
         avatarImageView.setFitWidth(150); // Taille de l'avatar
         avatarImageView.setFitHeight(150);
@@ -445,7 +406,7 @@ public class PartyIA extends StackPane {
 
         // Action du bouton "Règles" pour afficher les règles
         regles.setOnAction(e -> {
-            afficherRegles(this); // Passer la racine de la scène pour ajouter la StackPane
+            ButtonPause.afficherRegles(this); // Passer la racine de la scène pour ajouter la StackPane
         });
 
         quitter.setOnAction(e -> {
@@ -465,10 +426,6 @@ public class PartyIA extends StackPane {
 
         return menu;
     }
-
-
-
-
 }
 
 
