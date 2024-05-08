@@ -18,6 +18,8 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+
 import static org.example.milleniumproject.model.ButtonColorChecker.checkAndChangeButtonColor;
 import static org.example.milleniumproject.model.ButtonPause.afficherRegles;
 import static org.example.milleniumproject.model.ButtonSelector.*;
@@ -48,6 +50,7 @@ public class PartyIA extends StackPane {
     private Random random = new Random();
     private List<String> player2Positions = new ArrayList<>();
     private List<String> player1Positions = new ArrayList<>();
+    private int turnMove = 1;
 
 
 
@@ -272,12 +275,13 @@ public class PartyIA extends StackPane {
     }
 
     // Méthode pour gérer la sélection du bouton
-    private void handleSelection(List<Button> buttons ,Button clickedButton) {
+    private void handleSelection(List<Button> buttons, Button clickedButton) {
         if (selectedButton == null) {
             if (buttons.contains(clickedButton)) {
-                selectedButton = clickedButton;// Sélectionner le bouton actuel
+                selectedButton = clickedButton; // Sélectionner le bouton actuel
                 selectButton(selectedButton);
-            }} else {
+            }
+        } else {
             // Vérifier si le bouton actuel est voisin du bouton sélectionné
             if (isNeighbourButton(selectedButton, clickedButton)) {
                 // Échanger les images des boutons
@@ -289,47 +293,45 @@ public class PartyIA extends StackPane {
                     buttons.add(clickedButton);
                     // Changer de joueur après avoir effectué l'échange
                     currentPlayer = (currentPlayer == 1) ? 2 : 1;
+                    turnMove++; // Incrémenter le compteur de mouvements
+
+                    // Si le compteur de mouvements est pair, sélectionner automatiquement un bouton avec l'image d'un joueur 1
+                    if (turnMove % 2 == 0 && currentPlayer == 2) {
+                        selectRandomButton(buttonsJ2);
+                    }
                 }
             }
             // Désélectionner le bouton sélectionné
             deselectButton(selectedButton);
             selectedButton = null;
         }
-
     }
 
-    private void savePlayer2Positions(GridPane gridpane) {
-        for (Node node : gridpane.getChildren()) {
-            if (node instanceof Button) {
-                Button button = (Button) node;
-                if (button.getGraphic() instanceof ImageView) {
-                    // Vérifier si le pion appartient au joueur 2
-                    if (buttonsJ2.contains(button)) {
-                        // Enregistrer la position du pion
-                        String position = GridPane.getRowIndex(button) + "-" + GridPane.getColumnIndex(button);
+    // Méthode pour sélectionner automatiquement un bouton avec l'image d'un joueur 2
+    // Méthode pour sélectionner automatiquement un bouton avec l'image d'un joueur 2
+    private void selectRandomButton(List<Button> buttons) {
+        // Vérifier si la liste de boutons n'est pas vide
+        if (!buttons.isEmpty()) {
+            // Filtrer les boutons avec l'image du joueur 2
+            List<Button> player2Buttons = buttons.stream()
+                    .filter(button -> buttonsJ2.contains(button) && button.getGraphic() != null)
+                    .collect(Collectors.toList());
 
-                    }
-                }
+            // Vérifier si la liste des boutons du joueur 2 n'est pas vide
+            if (!player2Buttons.isEmpty()) {
+                // Sélectionner un bouton aléatoire parmi les boutons du joueur 2
+                Button randomButton = player2Buttons.get(random.nextInt(player2Buttons.size()));
+
+                // Sélectionner le bouton
+                selectButton(randomButton);
             }
         }
     }
 
-    private void savePlayer1Positions(GridPane gridpane) {
-        for (Node node : gridpane.getChildren()) {
-            if (node instanceof Button) {
-                Button button = (Button) node;
-                if (button.getGraphic() instanceof ImageView) {
-                    // Vérifier si le pion appartient au joueur 1
-                    if (buttonsJ1.contains(button)) {
-                        // Enregistrer la position du pion
-                        String position = GridPane.getRowIndex(button) + "-" + GridPane.getColumnIndex(button);
 
 
-                    }
-                }
-            }
-        }
-    }
+
+
 
 
 
