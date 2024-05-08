@@ -8,10 +8,10 @@ import javafx.scene.control.Slider;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import org.example.milleniumproject.model.AudioData;
 import org.example.milleniumproject.model.BG;
 import org.example.milleniumproject.model.BackButtons;
 import org.example.milleniumproject.model.MusicPlayer;
+import org.example.milleniumproject.model.SoundPlayer;
 
 public class Audio extends StackPane {
 
@@ -161,8 +161,14 @@ public class Audio extends StackPane {
             valueLabel.setPrefWidth(40);
 
             // Ajout des écouteurs d'événements sur les boutons
-            btnLeft.setOnAction(event -> slider.setValue(slider.getValue() - 1));
-            btnRight.setOnAction(event -> slider.setValue(slider.getValue() + 1));
+            btnLeft.setOnAction(event -> {
+                SoundPlayer.soundPlay();
+                slider.setValue(slider.getValue() - 1);
+            });
+            btnRight.setOnAction(event -> {
+                SoundPlayer.soundPlay();
+                slider.setValue(slider.getValue() + 1);
+            });
 
             // Met à jour le label de valeur lorsque la valeur du slider change
             slider.valueProperty().addListener((observable, oldValue, newValue) -> valueLabel.setText(String.valueOf(newValue.intValue())));
