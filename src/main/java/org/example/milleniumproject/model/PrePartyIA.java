@@ -186,7 +186,7 @@ public class PrePartyIA extends StackPane {
             button.setPrefSize(0.1328*screenWidth, 0.0555*screenHeight);
             button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, new CornerRadii(50), javafx.geometry.Insets.EMPTY)));
             button.setTextFill(Color.WHITE); // Couleur du texte
-            button.setFont(Font.font("Cardo", FontWeight.BOLD, 35));
+            button.setFont(Font.font("Cardo", FontWeight.BOLD, 50));
 
             // Style lorsque le bouton est sélectionné
             button.selectedProperty().addListener((observable, oldValue, newValue) -> {

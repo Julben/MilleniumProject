@@ -46,6 +46,9 @@ public class PartyIA extends StackPane {
     private List<Button> buttonsJ2 = new ArrayList<>();
     private ButtonUtils buttonUtils;
     private Random random = new Random();
+    private List<String> player2Positions = new ArrayList<>();
+
+
 
 
 
@@ -167,7 +170,11 @@ public class PartyIA extends StackPane {
                 button.setOnAction(e -> handleButtonClick(button, gridPane));
             }
         }
+
+
     }
+
+
 
     // Méthode pour gérer le clic sur le bouton
     private void handleButtonClick(Button button, GridPane gridpane) {
@@ -288,6 +295,26 @@ public class PartyIA extends StackPane {
         }
 
     }
+
+    private void savePlayer2Positions(GridPane gridpane) {
+        for (Node node : gridpane.getChildren()) {
+            if (node instanceof Button) {
+                Button button = (Button) node;
+                if (button.getGraphic() instanceof ImageView) {
+                    // Vérifier si le pion appartient au joueur 2
+                    if (buttonsJ2.contains(button)) {
+                        // Enregistrer la position du pion
+                        String position = GridPane.getRowIndex(button) + "-" + GridPane.getColumnIndex(button);
+                        // Faites quelque chose avec la position enregistrée (par exemple, ajoutez-la à une liste)
+                        // Par exemple :
+                        player2Positions.add(position);
+                    }
+                }
+            }
+        }
+    }
+
+
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
