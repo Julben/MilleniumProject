@@ -27,16 +27,14 @@ public class Audio extends StackPane {
         Button retourButton = BackButtons.createBackButton(primaryStage);
 
         // Création des labels
-        Label volumePrincipalLabel = createStyledLabel("Volume Général");
         Label volumeMusiqueLabel = createStyledLabel("Volume de la Musique");
         Label volumeEffetsLabel = createStyledLabel("Volume des Sons");
 
         VBox leftbox = new VBox(80);
         leftbox.setAlignment(Pos.CENTER_LEFT);
-        leftbox.getChildren().addAll(volumePrincipalLabel, volumeMusiqueLabel, volumeEffetsLabel);
+        leftbox.getChildren().addAll(volumeMusiqueLabel, volumeEffetsLabel);
 
         // Création des boutons, du slider et du label de valeur
-        SliderWithControls sliderWithControls1 = new SliderWithControls();
         SliderWithControls sliderWithControls2 = new SliderWithControls();
         SliderWithControls sliderWithControls3 = new SliderWithControls();
 
@@ -68,43 +66,35 @@ public class Audio extends StackPane {
         });
 
         // Création des HBox
-        HBox hbox1 = new HBox(0, sliderWithControls1.getBtnLeft(), sliderWithControls1.getSlider(), sliderWithControls1.getBtnRight(), sliderWithControls1.getValueLabel());
         HBox hbox2 = new HBox(0, sliderWithControls2.getBtnLeft(), sliderWithControls2.getSlider(), sliderWithControls2.getBtnRight(), sliderWithControls2.getValueLabel());
         HBox hbox3 = new HBox(0, sliderWithControls3.getBtnLeft(), sliderWithControls3.getSlider(), sliderWithControls3.getBtnRight(), sliderWithControls3.getValueLabel());
 
         // Alignement horizontal des éléments dans les HBox
-        hbox1.setAlignment(Pos.CENTER);
         hbox2.setAlignment(Pos.CENTER);
         hbox3.setAlignment(Pos.CENTER);
 
         // Stylisation des boutons "<" et ">"
-        stylizeButton(sliderWithControls1.getBtnLeft());
-        stylizeButton(sliderWithControls1.getBtnRight());
         stylizeButton(sliderWithControls2.getBtnLeft());
         stylizeButton(sliderWithControls2.getBtnRight());
         stylizeButton(sliderWithControls3.getBtnLeft());
         stylizeButton(sliderWithControls3.getBtnRight());
 
         // Ajout d'un effet de drop shadow aux boutons
-        addDropShadowEffect(sliderWithControls1.getBtnLeft());
-        addDropShadowEffect(sliderWithControls1.getBtnRight());
         addDropShadowEffect(sliderWithControls2.getBtnLeft());
         addDropShadowEffect(sliderWithControls2.getBtnRight());
         addDropShadowEffect(sliderWithControls3.getBtnLeft());
         addDropShadowEffect(sliderWithControls3.getBtnRight());
 
         // Ajout d'un effet de drop shadow aux labels
-        addDropShadowEffect(volumePrincipalLabel);
         addDropShadowEffect(volumeMusiqueLabel);
         addDropShadowEffect(volumeEffetsLabel);
 
         // Ajout d'un effet de drop shadow aux nombres des sliders
-        addDropShadowEffect(sliderWithControls1.getSlider());
         addDropShadowEffect(sliderWithControls2.getSlider());
         addDropShadowEffect(sliderWithControls3.getSlider());
 
         // Création de la VBox et ajout des HBox
-        VBox rightbox = new VBox(43, hbox1, hbox2, hbox3);
+        VBox rightbox = new VBox(43, hbox2, hbox3);
         rightbox.setAlignment(Pos.CENTER_LEFT);
 
         HBox finalhbox = new HBox(30, leftbox, rightbox);
