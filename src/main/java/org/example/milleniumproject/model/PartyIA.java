@@ -200,6 +200,7 @@ public class PartyIA extends StackPane {
                 pause.setOnFinished(e -> {
                     placeRandomPlayerImage(gridpane); // Appel pour placer l'image du joueur 2
                     disableMouseInteractions(gridpane, false); // Réactiver les interactions avec la souris ou le pavé tactile
+
                 });
                 pause.play();
             } else {
@@ -274,6 +275,23 @@ public class PartyIA extends StackPane {
         }
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     // Méthode pour gérer la sélection du bouton
     private void handleSelection(List<Button> buttons, Button clickedButton) {
         if (selectedButton == null) {
@@ -301,13 +319,15 @@ public class PartyIA extends StackPane {
                     }
                 }
             }
-            // Désélectionner le bouton sélectionné
-            deselectButton(selectedButton);
-            selectedButton = null;
+            // Désélectionner le bouton sélectionné s'il n'est pas null
+            if (selectedButton != null) {
+                deselectButton(selectedButton);
+                selectedButton = null;
+            }
         }
     }
 
-    // Méthode pour sélectionner automatiquement un bouton avec l'image d'un joueur 2
+
     // Méthode pour sélectionner automatiquement un bouton avec l'image d'un joueur 2
     private void selectRandomButton(List<Button> buttons) {
         // Vérifier si la liste de boutons n'est pas vide
@@ -324,10 +344,14 @@ public class PartyIA extends StackPane {
 
                 // Sélectionner le bouton
                 selectButton(randomButton);
+
+                // Appeler handleSelection avec le bouton sélectionné
+                handleSelection(buttons, randomButton);
             }
         }
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -337,7 +361,27 @@ public class PartyIA extends StackPane {
 
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private VBox createPauseMenu(Stage primaryStage) {
         VBox menu = new VBox(15); // Conteneur pour les boutons du menu pause
