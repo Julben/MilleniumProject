@@ -3,16 +3,13 @@ package org.example.milleniumproject.model;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 
+
 /**
  * Classe pour sélectionner et désélectionner les boutons et pour créer des boutons stylisés.
  */
 public class ButtonSelector {
 
-    /**
-     * Sélectionne le bouton en lui appliquant un style jaune.
-     *
-     * @param button Le bouton à sélectionner.
-     */
+
     public static void selectButton(Button button) {
         button.setStyle("-fx-background-color: yellow;" +
                 "-fx-background-radius: 50%; " + // Rendre les coins ronds
@@ -55,4 +52,6 @@ public class ButtonSelector {
 
         return button;
     }
+
+
 }

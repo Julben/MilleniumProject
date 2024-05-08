@@ -1,19 +1,22 @@
 package org.example.milleniumproject.model;
 
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 import static org.example.milleniumproject.model.Constant.screenWidth;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+
 
 public class Party extends StackPane {
     // Déclarations des variables d'instance
@@ -209,18 +212,6 @@ public class Party extends StackPane {
             selectedButton = null;
         }
 
-    }
-
-    private Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
-        Node result = null;
-        ObservableList<Node> children = gridPane.getChildren();
-        for (Node node : children) {
-            if (gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
-                result = node;
-                break;
-            }
-        }
-        return result;
     }
 
     // Méthode pour placer l'image du joueur sur un bouton
