@@ -1,4 +1,4 @@
-package org.example.milleniumproject.model;
+package org.example.milleniumproject.view;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;

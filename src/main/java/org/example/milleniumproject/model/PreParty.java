@@ -195,6 +195,7 @@ public class PreParty extends StackPane {
 
             // Ajouter un écouteur pour changer la couleur de la bordure de l'image
             button.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                SoundPlayer.soundPlay();
                 if (newValue) {
                     Color intenseBlue = Color.rgb(0, 255, 0); // Intensité de la couleur verte
                     imageView.setEffect(new javafx.scene.effect.DropShadow(40, intenseBlue));

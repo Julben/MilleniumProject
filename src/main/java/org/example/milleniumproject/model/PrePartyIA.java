@@ -196,6 +196,7 @@ public class PrePartyIA extends StackPane {
 
             // Style lorsque le bouton est sélectionné
             button.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                SoundPlayer.soundPlay();
                 if (newValue) {
                     button.setTextFill(Color.rgb(0, 140, 255));
                 } else {
@@ -233,6 +234,7 @@ public class PrePartyIA extends StackPane {
 
             // Ajouter un écouteur pour changer la couleur de la bordure de l'image
             button.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                SoundPlayer.soundPlay();
                 if (newValue) {
                     Color intenseGreen = Color.rgb(0, 140, 255); // Intensité de la couleur verte
                     imageView.setEffect(new javafx.scene.effect.DropShadow(40, intenseGreen));

@@ -44,6 +44,7 @@ public class ButtonPause extends StackPane {
 
         // Action du bouton pour masquer l'image et le bouton
         fermerButton.setOnAction(e -> {
+            SoundPlayer.soundPlay();
             root.getChildren().remove(reglesPane); // Retirer la StackPane de la racine
         });
 
@@ -77,11 +78,12 @@ public class ButtonPause extends StackPane {
         nonButton.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white;");
 
         nonButton.setOnAction(e -> {
-            // Masquer le menu pause
+            SoundPlayer.soundPlay();
             vbox.setVisible(false);
         });
 
         ouiButton.setOnAction(e -> {
+            SoundPlayer.soundPlay();
             Menu menu = new Menu();
             menu.afficherMenu(primaryStage);
         });

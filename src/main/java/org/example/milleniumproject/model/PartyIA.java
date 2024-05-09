@@ -55,8 +55,6 @@ public class PartyIA extends StackPane {
         buttonUtils = new ButtonUtils();
         int selectedIndex = PrePartyIA.getSelectedIndex(toggleGroup3, hbox3);
 
-
-
         // Création du fond d'écran
         String backgroundImage = "";
         if (selectedIndex == 0) {
@@ -144,7 +142,7 @@ public class PartyIA extends StackPane {
 
         // Ajout d'une action pour afficher le menu pause lors du clic sur le bouton pause
         pauseButton.setOnAction(e -> {
-            // Afficher le menu pause
+            SoundPlayer.soundPlay();
             pauseMenu.setVisible(true);
         });
 
@@ -162,7 +160,10 @@ public class PartyIA extends StackPane {
         for (Node node : gridPane.getChildren()) {
             if (node instanceof Button) {
                 Button button = (Button) node;
-                button.setOnAction(e -> handleButtonClick(button, gridPane));
+                button.setOnAction(e -> {
+                    SoundPlayer.soundPlay();
+                    handleButtonClick(button, gridPane);
+                });
             }
         }
     }
@@ -378,16 +379,18 @@ public class PartyIA extends StackPane {
 
         // Ajout d'une action pour le bouton "Reprendre" pour masquer le menu pause
         resumeButton.setOnAction(e -> {
-            // Masquer le menu pause
+            SoundPlayer.soundPlay();
             menu.setVisible(false);
         });
 
         // Action du bouton "Règles" pour afficher les règles
         regles.setOnAction(e -> {
+            SoundPlayer.soundPlay();
             afficherRegles(this); // Passer la racine de la scène pour ajouter la StackPane
         });
 
         quitter.setOnAction(e -> {
+            SoundPlayer.soundPlay();
             quitterMenu.setVisible(true);
         });
 
