@@ -45,8 +45,6 @@ public class PartyIA extends StackPane {
     private List<Button> buttonsJ2 = new ArrayList<>();
     private ButtonUtils buttonUtils;
     private Random random = new Random();
-    private List<String> player2Positions = new ArrayList<>();
-    private List<String> player1Positions = new ArrayList<>();
     private int turnMove = 1;
 
 
@@ -133,10 +131,10 @@ public class PartyIA extends StackPane {
         setAlignment(profileBox2, Pos.BOTTOM_RIGHT);
 
         // Création du bouton pause avec une image
-        Image pauseImage = new Image("pause.png"); // Remplacez "chemin/vers/votre/image.png" par le chemin de votre image
+        Image pauseImage = new Image("pause.png");
         ImageView imageView = new ImageView(pauseImage);
-        imageView.setFitWidth(32); // Ajustez la largeur de l'image selon vos besoins
-        imageView.setFitHeight(32); // Ajustez la hauteur de l'image selon vos besoins
+        imageView.setFitWidth(32); // Ajustez la largeur de l'image
+        imageView.setFitHeight(32); // Ajustez la hauteur de l'image
 
         Button pauseButton = new Button();
         pauseButton.setGraphic(imageView); // Définit l'image comme graphique du bouton
@@ -278,66 +276,53 @@ public class PartyIA extends StackPane {
 
 
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////44//////////////////////////////////////////////////////////////////////
 
     // Méthode pour gérer la sélection du bouton
     private void handleSelection(List<Button> buttons, Button clickedButton) {
         if (selectedButton == null) {
             if (buttons.contains(clickedButton)) {
-                selectedButton = clickedButton; // Sélectionner le bouton actuel
+                selectedButton = clickedButton;
                 selectButton(selectedButton);
             }
         } else {
-            // Vérifier si le bouton actuel est voisin du bouton sélectionné
             if (isNeighbourButton(selectedButton, clickedButton)) {
-                // Échanger les images des boutons
                 if (clickedButton.getGraphic() == null) {
                     ImageView imageView = (ImageView) selectedButton.getGraphic();
                     clickedButton.setGraphic(imageView);
                     selectedButton.setGraphic(null);
                     buttons.remove(selectedButton);
                     buttons.add(clickedButton);
-                    // Changer de joueur après avoir effectué l'échange
                     currentPlayer = (currentPlayer == 1) ? 2 : 1;
-                    turnMove++; // Incrémenter le compteur de mouvements
+                    turnMove++;
 
-                    // Si le compteur de mouvements est pair, sélectionner automatiquement un bouton avec l'image d'un joueur 1
+                    // Si le mouvement est effectué par le joueur, déselectionner le bouton précédent
+                    deselectButton(selectedButton);
+                    selectedButton = null;
+
                     if (turnMove % 2 == 0 && currentPlayer == 2) {
                         selectRandomButton(buttonsJ2);
                     }
                 }
             }
-            // Désélectionner le bouton sélectionné s'il n'est pas null
-            if (selectedButton != null) {
-                deselectButton(selectedButton);
-                selectedButton = null;
-            }
         }
     }
 
 
-    // Méthode pour sélectionner automatiquement un bouton avec l'image d'un joueur 2
     private void selectRandomButton(List<Button> buttons) {
-        // Vérifier si la liste de boutons n'est pas vide
         if (!buttons.isEmpty()) {
-            // Filtrer les boutons avec l'image du joueur 2
             List<Button> player2Buttons = buttons.stream()
                     .filter(button -> buttonsJ2.contains(button) && button.getGraphic() != null)
                     .collect(Collectors.toList());
-
-            // Vérifier si la liste des boutons du joueur 2 n'est pas vide
             if (!player2Buttons.isEmpty()) {
-                // Sélectionner un bouton aléatoire parmi les boutons du joueur 2
                 Button randomButton = player2Buttons.get(random.nextInt(player2Buttons.size()));
-
-                // Sélectionner le bouton
                 selectButton(randomButton);
-
-                // Appeler handleSelection avec le bouton sélectionné
+                selectedButton = randomButton; // Mise à jour de selectedButton
                 handleSelection(buttons, randomButton);
             }
         }
     }
+
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
