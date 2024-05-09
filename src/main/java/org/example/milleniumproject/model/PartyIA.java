@@ -43,6 +43,7 @@ public class PartyIA extends StackPane {
     private VBox quitterMenu;
     private List<Button> buttonsJ1 = new ArrayList<>();
     private List<Button> buttonsJ2 = new ArrayList<>();
+    private List<Button> buttonsJ2neighboursempty = new ArrayList<>();
     private ButtonUtils buttonUtils;
     private Random random = new Random();
     private int turnMove = 1;
@@ -296,13 +297,19 @@ public class PartyIA extends StackPane {
                     buttons.add(clickedButton);
                     currentPlayer = (currentPlayer == 1) ? 2 : 1;
                     turnMove++;
-
-                    // Si le mouvement est effectué par le joueur, déselectionner le bouton précédent
-                    deselectButton(selectedButton);
+                    deselectButton(selectedButton);// Si le mouvement est effectué par le joueur, déselectionner le bouton précédent
                     selectedButton = null;
 
                     if (turnMove % 2 == 0 && currentPlayer == 2) {
-                        selectRandomButton(buttonsJ2);
+                        // Désactiver les interactions souris pendant une seconde avant que l'IA ne choisisse un pion au hasard
+                        Methodeia.disableMouseInteractions2(buttons, true);
+
+                        PauseTransition pause = new PauseTransition(Duration.seconds(1));
+                        pause.setOnFinished(e -> {
+                            selectRandomButton(buttonsJ2);
+                            Methodeia.disableMouseInteractions2(buttons, false);
+                        });
+                        pause.play();
                     }
                 }
             }
@@ -323,6 +330,10 @@ public class PartyIA extends StackPane {
             }
         }
     }
+
+
+
+
 
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -4,6 +4,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
+import java.util.List;
+
 public class Methodeia {
 
     public static void disableMouseInteractions(GridPane gridpane, boolean disable) {
@@ -19,6 +21,19 @@ public class Methodeia {
             }
         }
     }
+
+    public static void disableMouseInteractions2(List<Button> buttons, boolean disable) {
+        for (Button button : buttons) {
+            button.setMouseTransparent(disable);
+            if (disable) {
+                button.setOnMouseClicked(e -> e.consume()); // Consommer l'événement de clic pour empêcher l'action
+            } else {
+                button.setOnMouseClicked(null); // Réinitialiser l'événement de clic
+            }
+        }
+    }
+
+
 
 
 }
