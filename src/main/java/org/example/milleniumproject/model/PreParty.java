@@ -19,7 +19,12 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import org.example.milleniumproject.view.Video;
+import org.example.milleniumproject.view.VideoData;
+
 import java.io.File;
+import java.util.prefs.Preferences;
+
 import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 
@@ -132,45 +137,56 @@ public class PreParty extends StackPane {
         }
         return video;
     }
+    public boolean getVideoPreference() {
+        // Initialiser les préférences
+        Preferences preferences = Preferences.userNodeForPackage(Video.class);
 
+        // Récupérer la valeur de la clé "video" (false par défaut si la clé n'existe pas)
+        return preferences.getBoolean("video", false);
+    }
     public void VideoLoad(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3, ToggleGroup toggleGroup2, HBox hbox2) {
-        File file = new File(ChooseVideo(shipIndex1, shipIndex2, toggleGroup3, hbox3));
-        Media media = new Media(file.toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
-        MediaView mediaView = new MediaView(mediaPlayer);
+        if(VideoData.isVideoChoose()) {
+            File file = new File(ChooseVideo(shipIndex1, shipIndex2, toggleGroup3, hbox3));
+            Media media = new Media(file.toURI().toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(media);
+            MediaView mediaView = new MediaView(mediaPlayer);
 
-        // Ajustez la taille du MediaView
-        mediaView.setFitWidth(screenWidth);
-        mediaView.setFitHeight(screenHeight);
+            // Ajustez la taille du MediaView
+            mediaView.setFitWidth(screenWidth);
+            mediaView.setFitHeight(screenHeight);
 
-        // Ajoutez le MediaView à la scène
-        StackPane root = new StackPane();
-        root.getChildren().add(mediaView);
+            // Ajoutez le MediaView à la scène
+            StackPane root = new StackPane();
+            root.getChildren().add(mediaView);
 
-        // Créez une nouvelle scène avec le StackPane contenant le MediaView
-        Scene scene = new Scene(root, screenWidth, screenHeight);
+            // Créez une nouvelle scène avec le StackPane contenant le MediaView
+            Scene scene = new Scene(root, screenWidth, screenHeight);
 
-        // Mettez à jour la scène du primaryStage
-        primaryStage.setScene(scene);
-        primaryStage.setFullScreen(true);
-        primaryStage.show();
+            // Mettez à jour la scène du primaryStage
+            primaryStage.setScene(scene);
+            primaryStage.setFullScreen(true);
+            primaryStage.show();
 
-        primaryStage.getScene().setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.SPACE && !mediaPlayer.getCurrentTime().equals(mediaPlayer.getTotalDuration())) {
-                mediaPlayer.stop();
+            primaryStage.getScene().setOnKeyPressed(event -> {
+                if (event.getCode() == KeyCode.SPACE && !mediaPlayer.getCurrentTime().equals(mediaPlayer.getTotalDuration())) {
+                    mediaPlayer.stop();
+                    MusicPlayer.stopPlaying();
+                    Party party = new Party(primaryStage, toggleGroup3, hbox3, toggleGroup2, hbox2); // Supposons que primaryStage soit accessible ici
+                    primaryStage.getScene().setRoot(party);
+                }
+            });
+
+            mediaPlayer.setOnEndOfMedia(() -> {
                 MusicPlayer.stopPlaying();
                 Party party = new Party(primaryStage, toggleGroup3, hbox3, toggleGroup2, hbox2); // Supposons que primaryStage soit accessible ici
                 primaryStage.getScene().setRoot(party);
-            }
-        });
-
-        mediaPlayer.setOnEndOfMedia(() -> {
-            MusicPlayer.stopPlaying();
+            });
+            mediaPlayer.play();
+        }else{
             Party party = new Party(primaryStage, toggleGroup3, hbox3, toggleGroup2, hbox2); // Supposons que primaryStage soit accessible ici
             primaryStage.getScene().setRoot(party);
-        });
-        mediaPlayer.play();
     }
+}
 
     private HBox createImageToggleHBox(ToggleGroup toggleGroup, String[] imageUrls) {
         HBox hbox = new HBox(0.04167*screenWidth); // Création de la HBox
