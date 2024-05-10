@@ -184,7 +184,7 @@ public class PrePartyIA extends StackPane {
             ToggleButton button = new ToggleButton(niv);
             button.setToggleGroup(toggleGroup); // Associez le bouton au ToggleGroup
 
-            button.setPrefSize(220, 20);
+            button.setPrefSize(300, 20);
             button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, new CornerRadii(50), javafx.geometry.Insets.EMPTY)));
             button.setTextFill(Color.WHITE); // Couleur du texte
             button.setFont(Font.font("Cardo", FontWeight.BOLD, 45));
