@@ -43,10 +43,9 @@ public class PartyIA extends StackPane {
     private VBox quitterMenu;
     private List<Button> buttonsJ1 = new ArrayList<>();
     private List<Button> buttonsJ2 = new ArrayList<>();
+    private List<Button> buttonsJ2neighboursempty = new ArrayList<>();
     private ButtonUtils buttonUtils;
     private Random random = new Random();
-    private List<String> player2Positions = new ArrayList<>();
-    private List<String> player1Positions = new ArrayList<>();
     private int turnMove = 1;
 
 
@@ -131,10 +130,10 @@ public class PartyIA extends StackPane {
         setAlignment(profileBox2, Pos.BOTTOM_RIGHT);
 
         // Création du bouton pause avec une image
-        Image pauseImage = new Image("pause.png"); // Remplacez "chemin/vers/votre/image.png" par le chemin de votre image
+        Image pauseImage = new Image("pause.png");
         ImageView imageView = new ImageView(pauseImage);
-        imageView.setFitWidth(32); // Ajustez la largeur de l'image selon vos besoins
-        imageView.setFitHeight(32); // Ajustez la hauteur de l'image selon vos besoins
+        imageView.setFitWidth(32); // Ajustez la largeur de l'image
+        imageView.setFitHeight(32); // Ajustez la hauteur de l'image
 
         Button pauseButton = new Button();
         pauseButton.setGraphic(imageView); // Définit l'image comme graphique du bouton
@@ -279,66 +278,94 @@ public class PartyIA extends StackPane {
 
 
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////44//////////////////////////////////////////////////////////////////////
 
     // Méthode pour gérer la sélection du bouton
     private void handleSelection(List<Button> buttons, Button clickedButton) {
         if (selectedButton == null) {
             if (buttons.contains(clickedButton)) {
-                selectedButton = clickedButton; // Sélectionner le bouton actuel
+                selectedButton = clickedButton;
                 selectButton(selectedButton);
             }
         } else {
-            // Vérifier si le bouton actuel est voisin du bouton sélectionné
             if (isNeighbourButton(selectedButton, clickedButton)) {
-                // Échanger les images des boutons
                 if (clickedButton.getGraphic() == null) {
                     ImageView imageView = (ImageView) selectedButton.getGraphic();
                     clickedButton.setGraphic(imageView);
                     selectedButton.setGraphic(null);
                     buttons.remove(selectedButton);
                     buttons.add(clickedButton);
-                    // Changer de joueur après avoir effectué l'échange
                     currentPlayer = (currentPlayer == 1) ? 2 : 1;
-                    turnMove++; // Incrémenter le compteur de mouvements
+                    turnMove++;
+                    deselectButton(selectedButton);// Si le mouvement est effectué par le joueur, déselectionner le bouton précédent
+                    selectedButton = null;
 
-                    // Si le compteur de mouvements est pair, sélectionner automatiquement un bouton avec l'image d'un joueur 1
                     if (turnMove % 2 == 0 && currentPlayer == 2) {
-                        selectRandomButton(buttonsJ2);
+                        // Désactiver les interactions souris pendant une seconde avant que l'IA ne choisisse un pion au hasard
+                        Methodeia.disableMouseInteractions2(buttons, true);
+
+                        PauseTransition pause = new PauseTransition(Duration.seconds(1));
+                        pause.setOnFinished(e -> {
+                            selectRandomButton(buttonsJ2);
+                            Methodeia.disableMouseInteractions2(buttons, false);
+                        });
+                        pause.play();
                     }
                 }
-            }
-            // Désélectionner le bouton sélectionné s'il n'est pas null
-            if (selectedButton != null) {
-                deselectButton(selectedButton);
-                selectedButton = null;
             }
         }
     }
 
 
-    // Méthode pour sélectionner automatiquement un bouton avec l'image d'un joueur 2
     private void selectRandomButton(List<Button> buttons) {
-        // Vérifier si la liste de boutons n'est pas vide
         if (!buttons.isEmpty()) {
-            // Filtrer les boutons avec l'image du joueur 2
             List<Button> player2Buttons = buttons.stream()
-                    .filter(button -> buttonsJ2.contains(button) && button.getGraphic() != null)
+                    .filter(button -> buttonsJ2.contains(button) && button.getGraphic() != null && hasEmptyNeighbour(button))
                     .collect(Collectors.toList());
-
-            // Vérifier si la liste des boutons du joueur 2 n'est pas vide
             if (!player2Buttons.isEmpty()) {
-                // Sélectionner un bouton aléatoire parmi les boutons du joueur 2
                 Button randomButton = player2Buttons.get(random.nextInt(player2Buttons.size()));
-
-                // Sélectionner le bouton
                 selectButton(randomButton);
-
-                // Appeler handleSelection avec le bouton sélectionné
+                selectedButton = randomButton; // Mise à jour de selectedButton
                 handleSelection(buttons, randomButton);
             }
         }
     }
+
+    private boolean hasEmptyNeighbour(Button button) {
+        int row = GridPane.getRowIndex(button);
+        int col = GridPane.getColumnIndex(button);
+        GridPane gridPane = (GridPane) button.getParent();
+
+        // Vérifier chaque voisin (gauche, droite, haut, bas)
+        int[][] directions = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+        for (int[]  dir : directions) {
+            int newRow = row + dir[0];
+            int newCol = col + dir[1];
+
+            // Vérifier si la position est valide
+            if (isValidPosition(newRow, newCol, gridPane)) {
+                Button neighbourButton = (Button) getNodeByRowColumnIndex(newRow, newCol, gridPane);
+                // Vérifier si le voisin est vide
+                if (neighbourButton != null && neighbourButton.getGraphic() == null) {
+                    return true; // Au moins un voisin est vide
+                }
+            }
+        }
+        return false; // Aucun voisin n'est vide
+    }
+
+    private boolean isValidPosition(int row, int col, GridPane gridPane) {
+        return row >= 0 && row < gridPane.getRowCount() && col >= 0 && col < gridPane.getColumnCount();
+    }
+
+
+
+
+
+
+
+
+
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
