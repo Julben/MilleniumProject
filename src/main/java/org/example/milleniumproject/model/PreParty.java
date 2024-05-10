@@ -33,7 +33,7 @@ public class PreParty extends StackPane {
 
         Button retourButton = BackButtons.createBackButton(primaryStage);
 
-        BG ground = new BG("src/main/resources/BackgroundPreParty.png");
+        BG ground = new BG();
         setBackground(ground.getCustomBackground());
 
         VBox vbox = new VBox(0.0625*screenHeight); // Création de la VBox

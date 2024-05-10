@@ -33,7 +33,7 @@ public class PrePartyIA extends StackPane {
 
         Button retourButton = BackButtons.createBackButton(primaryStage);
 
-        BG ground = new BG("src/main/resources/BackgroundPrePartyIA.png");
+        BG ground = new BG();
         setBackground(ground.getCustomBackground());
 
         VBox vbox = new VBox(0.0625*screenHeight); // Création de la VBox
@@ -236,7 +236,7 @@ public class PrePartyIA extends StackPane {
             button.selectedProperty().addListener((observable, oldValue, newValue) -> {
                 SoundPlayer.soundPlay();
                 if (newValue) {
-                    Color intenseGreen = Color.rgb(0, 140, 255); // Intensité de la couleur verte
+                    Color intenseGreen = Color.rgb(0, 103, 255); // Intensité de la couleur verte
                     imageView.setEffect(new javafx.scene.effect.DropShadow(40, intenseGreen));
                 } else {
                     imageView.setEffect(null);

@@ -12,10 +12,8 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
-import static org.example.milleniumproject.model.ButtonColorChecker.checkAndChangeButtonColor;
-import static org.example.milleniumproject.model.ButtonPause.afficherRegles;
-import static org.example.milleniumproject.model.ButtonUtils.isNeighbourButton;
 import static org.example.milleniumproject.model.Constant.screenWidth;
+import static org.example.milleniumproject.model.Constant.screenHeight;
 
 public class Party extends StackPane {
     // Déclarations des variables d'instance
@@ -192,7 +190,7 @@ public class Party extends StackPane {
 
         String[][] buttonCombinations = {{"A", "B", "C"}, {"D", "E", "F"}, {"G", "H", "I"}, {"J", "K", "L"}, {"M", "N", "O"}, {"P", "Q", "R"}, {"S", "T", "U"}, {"V", "W", "X"}, {"A", "J", "V"}, {"D", "K", "S"}, {"G", "L", "P"}, {"B", "E", "H"}, {"Q", "T", "W"}, {"I", "M", "R"}, {"F", "N", "U"}, {"C", "O", "X"}};
         for (String[] combination : buttonCombinations) {
-            checkAndChangeButtonColor(combination[0], combination[1], combination[2], gridpane);
+            ButtonColorChecker.checkAndChangeButtonColor(combination[0], combination[1], combination[2], gridpane);
         }
     }
 
@@ -204,7 +202,7 @@ public class Party extends StackPane {
                 ButtonSelector.selectButton(selectedButton);
             }} else {
             // Vérifier si le bouton actuel est voisin du bouton sélectionné
-            if (isNeighbourButton(selectedButton, clickedButton)) {
+            if (ButtonUtils.isNeighbourButton(selectedButton, clickedButton)) {
                 // Échanger les images des boutons
                 if (clickedButton.getGraphic() == null) {
                     ImageView imageView = (ImageView) selectedButton.getGraphic();
@@ -276,7 +274,7 @@ public class Party extends StackPane {
         // Action du bouton "Règles" pour afficher les règles
         regles.setOnAction(e -> {
             SoundPlayer.soundPlay();
-            afficherRegles(this); // Passer la racine de la scène pour ajouter la StackPane
+            ButtonPause.afficherRegles(this); // Passer la racine de la scène pour ajouter la StackPane
         });
 
         quitter.setOnAction(e -> {
