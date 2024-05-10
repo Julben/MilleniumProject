@@ -320,7 +320,7 @@ public class PartyIA extends StackPane {
     private void selectRandomButton(List<Button> buttons) {
         if (!buttons.isEmpty()) {
             List<Button> player2Buttons = buttons.stream()
-                    .filter(button -> buttonsJ2.contains(button) && button.getGraphic() != null)
+                    .filter(button -> buttonsJ2.contains(button) && button.getGraphic() != null && hasEmptyNeighbour(button))
                     .collect(Collectors.toList());
             if (!player2Buttons.isEmpty()) {
                 Button randomButton = player2Buttons.get(random.nextInt(player2Buttons.size()));
@@ -330,6 +330,37 @@ public class PartyIA extends StackPane {
             }
         }
     }
+
+    private boolean hasEmptyNeighbour(Button button) {
+        int row = GridPane.getRowIndex(button);
+        int col = GridPane.getColumnIndex(button);
+        GridPane gridPane = (GridPane) button.getParent();
+
+        // Vérifier chaque voisin (gauche, droite, haut, bas)
+        int[][] directions = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+        for (int[]  dir : directions) {
+            int newRow = row + dir[0];
+            int newCol = col + dir[1];
+
+            // Vérifier si la position est valide
+            if (isValidPosition(newRow, newCol, gridPane)) {
+                Button neighbourButton = (Button) getNodeByRowColumnIndex(newRow, newCol, gridPane);
+                // Vérifier si le voisin est vide
+                if (neighbourButton != null && neighbourButton.getGraphic() == null) {
+                    return true; // Au moins un voisin est vide
+                }
+            }
+        }
+        return false; // Aucun voisin n'est vide
+    }
+
+    private boolean isValidPosition(int row, int col, GridPane gridPane) {
+        return row >= 0 && row < gridPane.getRowCount() && col >= 0 && col < gridPane.getColumnCount();
+    }
+
+
+
+
 
 
 
