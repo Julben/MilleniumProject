@@ -9,16 +9,23 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.milleniumproject.model.BG;
 import org.example.milleniumproject.model.BackButtons;
-import org.example.milleniumproject.view.VideoData;
-
 import java.util.prefs.Preferences;
-
 import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 
+
+/**
+ * La classe Video représente la vue de la page de configuration des vidéos et des animations.
+ * Cette page permet à l'utilisateur d'activer ou de désactiver les vidéos de pré-lancement et les animations.
+ */
 public class Video extends StackPane {
     private Preferences preferences;
 
+    /**
+     * Constructeur de la classe Video.
+     *
+     * @param primaryStage La fenêtre principale de l'application.
+     */
     public Video(Stage primaryStage) {
         // Initialiser les préférences
         preferences = Preferences.userNodeForPackage(this.getClass());

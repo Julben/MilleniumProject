@@ -1,16 +1,16 @@
 package org.example.milleniumproject;
 
-import org.example.milleniumproject.model.LoadVideo;
-import org.example.milleniumproject.model.MusicPlayer;
-import org.example.milleniumproject.view.Menu;
 import javafx.application.Application;
-import javafx.scene.input.KeyCode;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import org.example.milleniumproject.model.LoadVideo;
+import org.example.milleniumproject.view.Menu;
+import static org.example.milleniumproject.HelloApplicationmethod.showMenuAndPlayMusic;
+import static org.example.milleniumproject.HelloApplicationmethod.skipVideo;
 
 /**
- * Classe principale de l'application Millenium Project.
- * Cette classe lance l'application, charge une vidéo de démarrage et affiche le menu principal.
+ * La classe HelloApplication est la classe principale de l'application Millenium Project.
+ * Elle lance l'application, charge une vidéo de démarrage et affiche le menu principal.
  */
 public class HelloApplication extends Application {
 
@@ -22,31 +22,17 @@ public class HelloApplication extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-
-        // Instanciation de la vidéo de démarrage
         LoadVideo loadVideo = new LoadVideo();
-        // Instanciation du menu principal
         Menu menu = new Menu();
 
-        // Chemin de la vidéo de démarrage
         String videoPath = "src/main/resources/VideoChargement.mp4";
-        // Chargement de la vidéo
         MediaPlayer mediaPlayer = loadVideo.chargerVideo(primaryStage, videoPath);
 
         // Affiche le Menu et lance la musique lorsque la vidéo s'arrête
-        mediaPlayer.setOnEndOfMedia(() -> {
-            menu.afficherMenu(primaryStage);
-            MusicPlayer.musicPlay("src/main/resources/Star Wars_ Battlefront OST - Main Menu Music.mp3");
-        });
+        mediaPlayer.setOnEndOfMedia(() -> showMenuAndPlayMusic(primaryStage, menu));
 
         // Skip la vidéo lorsque la touche "Espace" est pressée
-        primaryStage.getScene().setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.SPACE && !mediaPlayer.getCurrentTime().equals(mediaPlayer.getTotalDuration())) {
-                mediaPlayer.stop();
-                menu.afficherMenu(primaryStage);
-                MusicPlayer.musicPlay("src/main/resources/Star Wars_ Battlefront OST - Main Menu Music.mp3");
-            }
-        });
+        primaryStage.getScene().setOnKeyPressed(event -> skipVideo(event, mediaPlayer, primaryStage, menu));
     }
 
     /**
