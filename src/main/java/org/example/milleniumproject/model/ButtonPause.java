@@ -20,7 +20,7 @@ import static org.example.milleniumproject.model.Constant.screenWidth;
 
 public class ButtonPause extends StackPane {
 
-    private VBox quitterMenu;
+    public static VBox quitterMenu;
 
     public static void afficherRegles(StackPane root) {
         // Création de la StackPane pour contenir l'image et le bouton
@@ -60,7 +60,7 @@ public class ButtonPause extends StackPane {
         root.getChildren().add(reglesPane);
     }
 
-    static VBox boutonquitter(Stage primaryStage){
+    public static VBox boutonquitter(Stage primaryStage){
         VBox vbox = new VBox(0.04167*screenHeight);
 
         Label confirmationLabel = new Label("Êtes-vous sûr de vouloir quitter la partie ?");

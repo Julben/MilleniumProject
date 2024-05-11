@@ -1,4 +1,4 @@
-/*package org.example.milleniumproject.model;
+package org.example.milleniumproject.model;
 
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -71,5 +71,5 @@ public class ButtonColorChecker {
             return null;
         }
     }
-}*/
+}
 

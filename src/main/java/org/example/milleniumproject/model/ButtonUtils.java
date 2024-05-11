@@ -9,10 +9,6 @@ import javafx.scene.layout.GridPane;
  */
 public class ButtonUtils
 {
-
-
-
-
     /**
      * Vérifie si deux boutons sont voisins dans la grille.
      *
@@ -20,7 +16,7 @@ public class ButtonUtils
      * @param button2 Le deuxième bouton.
      * @return true si les boutons sont voisins, sinon false.
      */
-    /*public static boolean isNeighbourButton(Button button1, Button button2) {
+    public static boolean isNeighbourButton(Button button1, Button button2) {
         GridPane gridPane = (GridPane) button1.getParent();
         Integer rowIndex1 = GridPane.getRowIndex(button1);
         Integer colIndex1 = GridPane.getColumnIndex(button1);
@@ -61,7 +57,7 @@ public class ButtonUtils
         }
 
         return false;
-    }*/
+    }
     /**
      * Obtient le nœud situé à la ligne et à la colonne spécifiées dans une grille.
      *
@@ -70,7 +66,7 @@ public class ButtonUtils
      * @param gridPane  La grille contenant les nœuds.
      * @return Le nœud à la position spécifiée.
      */
-    /*static Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
+    static Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
         Node result = null;
         for (Node node : gridPane.getChildren()) {
             if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column) {
@@ -79,7 +75,7 @@ public class ButtonUtils
             }
         }
         return result;
-    }*/
+    }
 
 
     
