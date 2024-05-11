@@ -117,8 +117,8 @@ public class PartyIA extends StackPane {
         String avatarFileName2 = avatar2.substring(avatar2.lastIndexOf('/') + 1);
 
         // Création des VBox pour afficher les profils
-        VBox profileBox1 = ProfilParty.createProfileBox2(avatarFileName1, playerName1, rank1, true);
-        VBox profileBox2 = ProfilParty.createProfileBox2(avatarFileName2, playerName2, rank2, false);
+        VBox profileBox1 = ProfilParty.createProfileBox(avatarFileName1, playerName1, rank1, true,true);
+        VBox profileBox2 = ProfilParty.createProfileBox(avatarFileName2, playerName2, rank2, false,false);
         setMargin(profileBox1, new Insets(0, 950, 20, 0));
         setMargin(profileBox2, new Insets(0, 0, 20, 950));
 
