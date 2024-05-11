@@ -18,10 +18,18 @@ import org.example.milleniumproject.view.Menu;
 import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 
+/**
+ * Cette classe gère le bouton pause et l'affichage des règles du jeu.
+ */
 public class ButtonPause extends StackPane {
 
     private VBox quitterMenu;
 
+    /**
+     * Affiche les règles du jeu sur une StackPane semi-transparente avec un bouton pour les fermer.
+     *
+     * @param root La StackPane racine où afficher les règles.
+     */
     public static void afficherRegles(StackPane root) {
         // Création de la StackPane pour contenir l'image et le bouton
         StackPane reglesPane = new StackPane();
@@ -32,14 +40,14 @@ public class ButtonPause extends StackPane {
         ImageView imageView = new ImageView(image);
 
         // Redimensionner l'image
-        imageView.setFitWidth(0.9765*screenWidth); // Largeur souhaitée
-        imageView.setFitHeight(1.04167*screenHeight); // Hauteur souhaitée
+        imageView.setFitWidth(0.9765 * screenWidth); // Largeur souhaitée
+        imageView.setFitHeight(1.04167 * screenHeight); // Hauteur souhaitée
 
         // Création du bouton pour masquer l'image et le bouton
         Button fermerButton = new Button();
 
-        fermerButton.setMinWidth(0.039*screenWidth);
-        fermerButton.setMinHeight(0.0694*screenHeight);
+        fermerButton.setMinWidth(0.039 * screenWidth);
+        fermerButton.setMinHeight(0.0694 * screenHeight);
         fermerButton.setStyle("-fx-background-color: transparent;"); // Fond transparent
 
         // Action du bouton pour masquer l'image et le bouton
@@ -48,7 +56,7 @@ public class ButtonPause extends StackPane {
             root.getChildren().remove(reglesPane); // Retirer la StackPane de la racine
         });
 
-        StackPane.setMargin(fermerButton, new Insets(0, 0, 0.6667*screenHeight, 0.796875*screenWidth)); // Marge de 10 pixels
+        StackPane.setMargin(fermerButton, new Insets(0, 0, 0.6667 * screenHeight, 0.796875 * screenWidth)); // Marge de 10 pixels
 
         // Ajout de l'image et du bouton à la StackPane
         reglesPane.getChildren().addAll(imageView, fermerButton);
@@ -60,14 +68,20 @@ public class ButtonPause extends StackPane {
         root.getChildren().add(reglesPane);
     }
 
-    static VBox boutonquitter(Stage primaryStage){
-        VBox vbox = new VBox(0.04167*screenHeight);
+    /**
+     * Crée un menu pour confirmer la sortie du jeu.
+     *
+     * @param primaryStage La fenêtre principale de l'application.
+     * @return Une VBox contenant le menu de confirmation.
+     */
+    static VBox boutonquitter(Stage primaryStage) {
+        VBox vbox = new VBox(0.04167 * screenHeight);
 
         Label confirmationLabel = new Label("Êtes-vous sûr de vouloir quitter la partie ?");
-        confirmationLabel.setFont(Font.font("Cardo", FontWeight.BOLD, 0.0305*screenHeight));
+        confirmationLabel.setFont(Font.font("Cardo", FontWeight.BOLD, 0.0305 * screenHeight));
         confirmationLabel.setTextFill(Color.WHITE);
 
-        HBox hbox = new HBox(0.05139*screenHeight);
+        HBox hbox = new HBox(0.05139 * screenHeight);
         Button ouiButton = new Button("Oui");
         Button nonButton = new Button("Non");
 
@@ -97,10 +111,8 @@ public class ButtonPause extends StackPane {
         // Positionnement du menu pause au centre de l'écran
         hbox.setAlignment(Pos.CENTER);
         vbox.setAlignment(Pos.TOP_CENTER);
-        vbox.setPadding(new Insets(0.02778*screenHeight, 0, 0, 0));
+        vbox.setPadding(new Insets(0.02778 * screenHeight, 0, 0, 0));
 
         return vbox;
     }
-
-
 }

@@ -11,15 +11,25 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import java.util.ArrayList;
 import java.util.List;
+
 import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 
+/**
+ * Cette classe contient des méthodes utilitaires pour la création de profils de joueur et de boîtes avec des images répétées.
+ */
 public class ProfilParty {
 
-    // Méthode pour créer une VBox avec des images répétées
+    /**
+     * Crée une VBox contenant des images répétées.
+     *
+     * @param imageLink Le lien vers l'image à répéter.
+     * @param count Le nombre d'images à afficher.
+     * @return Une VBox contenant les images répétées.
+     */
     static VBox createVBoxWithImages(String imageLink, int count) {
 
-        VBox vBox = new VBox(0.01389*screenHeight); // Espacement vertical entre les images
+        VBox vBox = new VBox(0.01389 * screenHeight); // Espacement vertical entre les images
         vBox.setAlignment(Pos.CENTER); // Centrer les images dans la VBox
 
         List<ImageView> imageViews = new ArrayList<>();
@@ -34,8 +44,8 @@ public class ProfilParty {
 
         // Création d'une grille de 3x3 images
         GridPane gridPane = new GridPane();
-        gridPane.setHgap(0.01389*screenHeight);
-        gridPane.setVgap(0.0078*screenWidth);
+        gridPane.setHgap(0.01389 * screenHeight);
+        gridPane.setVgap(0.0078 * screenWidth);
         int rowIndex = 0;
         int colIndex = 0;
         for (ImageView imageView : imageViews) {
@@ -52,7 +62,16 @@ public class ProfilParty {
         return vBox;
     }
 
-    // Méthode pour créer une VBox affichant le profil d'un joueur avec l'avatar à côté des labels
+    /**
+     * Crée une VBox affichant le profil d'un joueur avec l'avatar à côté des labels.
+     *
+     * @param avatarFileName Le nom du fichier d'avatar.
+     * @param playerName Le nom du joueur.
+     * @param rank Le rang du joueur.
+     * @param isPlayer1 Indique si le joueur est le joueur 1.
+     * @param isNotIA Indique si le joueur n'est pas une intelligence artificielle.
+     * @return Une VBox contenant le profil du joueur.
+     */
     static VBox createProfileBox(String avatarFileName, String playerName, String rank, boolean isPlayer1, boolean isNotIA) {
         VBox profileBox = new VBox(0); // Espacement vertical entre les éléments du profil
         profileBox.setAlignment(Pos.BOTTOM_CENTER); // Alignement au centre et en bas
