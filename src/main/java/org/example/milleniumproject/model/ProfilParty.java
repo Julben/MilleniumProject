@@ -53,7 +53,7 @@ public class ProfilParty {
     }
 
     // Méthode pour créer une VBox affichant le profil d'un joueur avec l'avatar à côté des labels
-    static VBox createProfileBox(String avatarFileName, String playerName, String rank, boolean isPlayer1, boolean suishumain) {
+    static VBox createProfileBox(String avatarFileName, String playerName, String rank, boolean isPlayer1, boolean isNotIA) {
         VBox profileBox = new VBox(0); // Espacement vertical entre les éléments du profil
         profileBox.setAlignment(Pos.BOTTOM_CENTER); // Alignement au centre et en bas
 
@@ -63,7 +63,7 @@ public class ProfilParty {
 
         // Création d'une ImageView pour l'avatar
         ImageView avatarImageView;
-        if (isPlayer1 || suishumain) {
+        if (isPlayer1 || isNotIA) {
             // Si c'est le joueur 1 ou si on utilise le profil précédent, charger l'image depuis le fichier
             avatarImageView = new ImageView(new Image(avatarFileName));
             hbox.getChildren().add(avatarImageView);
@@ -76,7 +76,7 @@ public class ProfilParty {
 
         // Création d'une VBox pour contenir le nom et le rang
         VBox labelsVBox = new VBox(0); // Espacement vertical entre les labels
-        if (isPlayer1 || suishumain) {
+        if (isPlayer1 || isNotIA) {
             labelsVBox.setAlignment(Pos.CENTER_LEFT); // Alignement à droite des labels pour le joueur 1
         } else {
             labelsVBox.setAlignment(Pos.CENTER_RIGHT); // Alignement à gauche des labels pour le joueur 2
@@ -100,7 +100,7 @@ public class ProfilParty {
         hbox.getChildren().add(labelsVBox); // Ajout de la VBox des labels à la HBox
 
         // Ajout de l'avatar à droite pour le joueur 2
-        if (!isPlayer1 && !suishumain) {
+        if (!isPlayer1 && !isNotIA) {
             hbox.getChildren().add(avatarImageView); // Ajout de l'avatar à droite pour le joueur 2
         }
 
