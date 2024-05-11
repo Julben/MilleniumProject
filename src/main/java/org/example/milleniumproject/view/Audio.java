@@ -12,12 +12,22 @@ import org.example.milleniumproject.model.BG;
 import org.example.milleniumproject.model.BackButtons;
 import org.example.milleniumproject.model.MusicPlayer;
 import org.example.milleniumproject.model.SoundPlayer;
+import javafx.scene.Node;
 
+/**
+ * La classe Audio représente la vue de la page de configuration audio de l'application.
+ * Elle permet à l'utilisateur de régler les volumes de la musique et des effets sonores.
+ */
 public class Audio extends StackPane {
 
     private SliderWithControls sliderWithControls2;
     private SliderWithControls sliderWithControls3;
 
+    /**
+     * Constructeur de la classe Audio.
+     *
+     * @param primaryStage La fenêtre principale de l'application.
+     */
     public Audio(Stage primaryStage) {
         // Créer un fond d'écran
         BG ground = new BG("src/main/resources/BGAUDIO.png");
@@ -118,30 +128,12 @@ public class Audio extends StackPane {
     }
 
     // Méthode pour ajouter un effet de drop shadow à un bouton
-    private void addDropShadowEffect(Button button) {
+    private void addDropShadowEffect(Node node) {
         DropShadow dropShadow = new DropShadow();
         dropShadow.setRadius(3);
         dropShadow.setOffsetX(3);
         dropShadow.setOffsetY(3);
-        button.setEffect(dropShadow);
-    }
-
-    // Méthode pour ajouter un effet de drop shadow à un label
-    private void addDropShadowEffect(Label label) {
-        DropShadow dropShadow = new DropShadow();
-        dropShadow.setRadius(3);
-        dropShadow.setOffsetX(3);
-        dropShadow.setOffsetY(3);
-        label.setEffect(dropShadow);
-    }
-
-    // Méthode pour ajouter un effet de drop shadow aux nombres des sliders
-    private void addDropShadowEffect(Slider slider) {
-        DropShadow dropShadow = new DropShadow();
-        dropShadow.setRadius(3);
-        dropShadow.setOffsetX(3);
-        dropShadow.setOffsetY(3);
-        slider.setEffect(dropShadow);
+        node.setEffect(dropShadow);
     }
 
     // Classe interne pour gérer le slider avec les boutons et le label de valeur

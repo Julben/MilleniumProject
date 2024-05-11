@@ -1,45 +1,52 @@
 package org.example.milleniumproject.model;
 
+
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import static org.example.milleniumproject.model.Constant.screenWidth;
-import static org.example.milleniumproject.model.Constant.screenHeight;
 
 public class Party extends StackPane {
-    // Déclarations des variables d'instance
+    // Déclarations des    variables d'instance
     private int currentPlayer = 1;
-    private boolean isPlayer1Turn = true; // Variable pour suivre le tour des joueurs
     private VBox leftVBox;
     private VBox rightVBox;
     private int turns = 0;
-    private int currentImageIndex = 0;
     private ToggleGroup toggleGroup3;
     private HBox hbox3;
     private ToggleGroup toggleGroup2;
     private HBox hbox2;
     private Button selectedButton = null;
-    private boolean isMovePhase = false;
     private List<Button> buttonsJ1 = new ArrayList<>();
     private List<Button> buttonsJ2 = new ArrayList<>();
-    private VBox pauseMenu; // Conteneur pour le menu pause
-    private VBox quitterMenu;
-    private ButtonUtils buttonUtils;
+    private GridPane gridPane;
+    private boolean isRemovePieceMode = false; // Variable pour activer/désactiver le mode de suppression de pion
+    private boolean isNewAlignment = true; // Variable pour suivre si un nouvel alignement de trois pions a été formé
+    boolean boutonlibre = false;
+    private static final List<String[]> neighbourList = Arrays.asList(
+            new String[]{"A", "B"}, new String[]{"A", "J"}, new String[]{"B", "C"}, new String[]{"B", "E"},
+            new String[]{"C", "O"}, new String[]{"D", "E"}, new String[]{"D", "K"}, new String[]{"E", "F"},
+            new String[]{"E", "H"}, new String[]{"F", "N"}, new String[]{"G", "H"}, new String[]{"G", "L"},
+            new String[]{"H", "I"}, new String[]{"I", "M"}, new String[]{"J", "K"}, new String[]{"J", "V"},
+            new String[]{"K", "L"}, new String[]{"K", "S"}, new String[]{"L", "P"}, new String[]{"M", "R"},
+            new String[]{"M", "N"}, new String[]{"N", "O"}, new String[]{"N", "U"}, new String[]{"O", "X"},
+            new String[]{"P", "Q"}, new String[]{"Q", "R"}, new String[]{"Q", "T"}, new String[]{"S", "T"},
+            new String[]{"T", "U"}, new String[]{"T", "W"}, new String[]{"V", "W"}, new String[]{"W", "X"}
+    );
 
     public Party(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3, ToggleGroup toggleGroup2, HBox hbox2) {
         this.toggleGroup3 = toggleGroup3;
         this.hbox3 = hbox3;
-
-        buttonUtils = new ButtonUtils();
 
         int selectedIndex = PreParty.getSelectedIndex(toggleGroup3, hbox3);
 
@@ -61,9 +68,9 @@ public class Party extends StackPane {
         System.out.println("selectedIndexchrono: " + selectedIndexchrono);
 
         // Création du GridPane
-        GridPane gridPane = new GridPane();
-        gridPane.setHgap(42); // Espacement horizontal entre les boutons
-        gridPane.setVgap(42); // Espacement vertical entre les boutons
+        gridPane = new GridPane();
+        gridPane.setHgap(22); // Espacement horizontal entre les boutons
+        gridPane.setVgap(22); // Espacement vertical entre les boutons
         gridPane.setAlignment(Pos.CENTER); // Positionnement au centre de la StackPane
 
         // Ajout des boutons au GridPane avec leurs positions
@@ -72,8 +79,7 @@ public class Party extends StackPane {
         int[] colIndices = {0, 3, 6, 1, 3, 5, 2, 3, 4, 0, 1, 2, 4, 5, 6, 2, 3, 4, 1, 3, 5, 0, 3, 6, 6};
 
         for (int i = 0; i < buttonLabels.length; i++) {
-            Button button = ButtonSelector.createStyledButton(buttonLabels[i]);
-
+            Button button = createStyledButton(buttonLabels[i]);
             gridPane.add(button, colIndices[i], rowIndices[i]);
         }
 
@@ -89,7 +95,7 @@ public class Party extends StackPane {
         leftVBox = ProfilParty.createVBoxWithImages(vaisseau1, 9);
         rightVBox = ProfilParty.createVBoxWithImages(vaisseau2, 9);
 
-        HBox hBox = new HBox(0.6 * screenWidth); // Espacement horizontal entre les Vbox
+        HBox hBox = new HBox(0.6 * Constant.screenWidth); // Espacement horizontal entre les Vbox
         hBox.getChildren().addAll(leftVBox, rightVBox);
         hBox.setAlignment(Pos.CENTER);
 
@@ -111,114 +117,74 @@ public class Party extends StackPane {
         String avatarFileName2 = avatar2.substring(avatar2.lastIndexOf('/') + 1);
 
         // Création des VBox pour afficher les profils
-        VBox profileBox1 = ProfilParty.createProfileBox(avatarFileName1, playerName1, rank1, true);
-        VBox profileBox2 = ProfilParty.createProfileBox(avatarFileName2, playerName2, rank2, false);
-        HBox hbox1 = new HBox(); // HBox pour le profil 1
-        HBox hbox4 = new HBox(); // HBox pour le profil 2
-        hbox1.getChildren().add(profileBox1);
-        hbox4.getChildren().add(profileBox2);
-        hbox1.setAlignment(Pos.BOTTOM_LEFT);
-        hbox4.setAlignment(Pos.BOTTOM_RIGHT);
-        setMargin(hbox1, new Insets(0, 0, 10, 15));
-        setMargin(hbox4, new Insets(0, 15, 10, 0));
+        VBox profileBox1 = ProfilParty.createProfileBox(avatarFileName1, playerName1, rank1, true,true);
+        VBox profileBox2 = ProfilParty.createProfileBox(avatarFileName2, playerName2, rank2, false,true);
+        setMargin(profileBox1, new Insets(0, 950, 20, 0));
+        setMargin(profileBox2, new Insets(0, 0, 20, 950));
 
-        // Création du bouton pause avec une image
-        Image pauseImage = new Image("pause.png"); // Remplacez "chemin/vers/votre/image.png" par le chemin de votre image
-        ImageView imageView = new ImageView(pauseImage);
-        imageView.setFitWidth(32); // Ajustez la largeur de l'image selon vos besoins
-        imageView.setFitHeight(32); // Ajustez la hauteur de l'image selon vos besoins
+        // Positionnement des VBox
+        setAlignment(profileBox1, Pos.BOTTOM_LEFT);
+        setAlignment(profileBox2, Pos.BOTTOM_RIGHT);
 
-        Button pauseButton = new Button();
-        pauseButton.setGraphic(imageView); // Définit l'image comme graphique du bouton
-
-        // Rendre l'arrière-plan du bouton invisible
-        pauseButton.setStyle("-fx-background-color: transparent; -fx-background-radius: 0; -fx-border-color: transparent;");
-
-        // Ajout d'une action pour afficher le menu pause lors du clic sur le bouton pause
-        pauseButton.setOnAction(e -> {
-            SoundPlayer.soundPlay();
-            pauseMenu.setVisible(true);
-        });
-
-        // Positionnement du bouton pause en haut à droite
-        StackPane.setAlignment(pauseButton, Pos.TOP_RIGHT);
-        setMargin(pauseButton, new Insets(10, 10, 0, 0));
-
-        pauseMenu = createPauseMenu(primaryStage);
-        pauseMenu.setVisible(false);
-        quitterMenu.setVisible(false);
-
-        getChildren().addAll(hBox, hbox1, hbox4, gridPane, pauseMenu, quitterMenu, pauseButton);
+        getChildren().addAll(hBox, profileBox1, profileBox2, gridPane);
 
         // Gestionnaire d'événements pour les boutons du GridPane
         for (Node node : gridPane.getChildren()) {
             if (node instanceof Button) {
                 Button button = (Button) node;
-                button.setOnAction(e -> {
-                    SoundPlayer.soundPlay();
-                    handleButtonClick(button, gridPane);
-                });
+                button.setOnAction(e -> handleButtonClick(button, gridPane));
             }
         }
     }
 
     // Méthode pour gérer le clic sur le bouton
     private void handleButtonClick(Button button, GridPane gridpane) {
-
-        // Vérifier si le bouton n'a pas déjà d'image et si tous les tours n'ont pas été joués
-        if (button.getGraphic() == null && turns < 9) {
-            // Placer l'image du joueur sur le bouton en fonction du joueur actuel
-            if (currentPlayer == 1) {
-                placePlayerImage(button, leftVBox);
-                buttonsJ1.add(button);
-                currentPlayer = 2;
-            } else {
-                placePlayerImage(button, rightVBox);
-                buttonsJ2.add(button);
-
-                currentPlayer = 1;
-                turns++;
-            }
+        System.out.print(currentPlayer);
+        System.out.print(isRemovePieceMode);
+        System.out.println(isNewAlignment);
+        System.out.println(turns);
+        if (isRemovePieceMode) {
+            // Si le mode de suppression de pion est activé
+            removePiece(button);
         } else {
-            // Vérifier si le bouton cliqué appartient à la liste des boutons autorisés à être sélectionnés par le joueur actuel
-            if (currentPlayer == 1 && (buttonsJ1.contains(button) || button.getGraphic() == null)) {
-                handleSelection(buttonsJ1, button);
-            } else if (currentPlayer == 2 && (buttonsJ2.contains(button) || button.getGraphic() == null) ) {
-                handleSelection(buttonsJ2, button);
-            }
-        }
+            // Vérifier si le bouton n'a pas déjà d'image et si tous les tours n'ont pas été joués
+            if (button.getGraphic() == null && turns < 18) {
+                // Placer l'image du joueur sur le bouton en fonction du joueur actuel
+                if (currentPlayer == 1) {
+                    placePlayerImage(button, leftVBox);
+                    buttonsJ1.add(button);
+                    // Vérifier les combinaisons après chaque placement de pion
+                    checkButtonCombinations();
+                    if(isRemovePieceMode){
+                        currentPlayer = 1;
+                    } else {
+                        currentPlayer = 2;
+                    }
 
-        String[][] buttonCombinations = {{"A", "B", "C"}, {"D", "E", "F"}, {"G", "H", "I"}, {"J", "K", "L"}, {"M", "N", "O"}, {"P", "Q", "R"}, {"S", "T", "U"}, {"V", "W", "X"}, {"A", "J", "V"}, {"D", "K", "S"}, {"G", "L", "P"}, {"B", "E", "H"}, {"Q", "T", "W"}, {"I", "M", "R"}, {"F", "N", "U"}, {"C", "O", "X"}};
-        for (String[] combination : buttonCombinations) {
-            ButtonColorChecker.checkAndChangeButtonColor(combination[0], combination[1], combination[2], gridpane);
-        }
-    }
-
-    // Méthode pour gérer la sélection du bouton
-    private void handleSelection(List<Button> buttons ,Button clickedButton) {
-        if (selectedButton == null) {
-            if (buttons.contains(clickedButton)) {
-                selectedButton = clickedButton;// Sélectionner le bouton actuel
-                ButtonSelector.selectButton(selectedButton);
-            }} else {
-            // Vérifier si le bouton actuel est voisin du bouton sélectionné
-            if (ButtonUtils.isNeighbourButton(selectedButton, clickedButton)) {
-                // Échanger les images des boutons
-                if (clickedButton.getGraphic() == null) {
-                    ImageView imageView = (ImageView) selectedButton.getGraphic();
-                    clickedButton.setGraphic(imageView);
-                    selectedButton.setGraphic(null);
-                    buttons.remove(selectedButton);
-                    buttons.add(clickedButton);
-                    // Changer de joueur après avoir effectué l'échange
-                    currentPlayer = (currentPlayer == 1) ? 2 : 1;
+                    turns++;
+                }
+                else {
+                    placePlayerImage(button, rightVBox);
+                    buttonsJ2.add(button);
+                    // Vérifier les combinaisons après chaque placement de pion
+                    checkButtonCombinations();
+                    if(isRemovePieceMode){
+                        currentPlayer = 2;
+                    } else {
+                        currentPlayer = 1;
+                    }
+                    turns++;
                 }
             }
-            // Désélectionner le bouton sélectionné
-            ButtonSelector.deselectButton(selectedButton);
-            selectedButton = null;
+            else {
+                // Vérifier si le bouton cliqué appartient à la liste des boutons autorisés à être sélectionnés par le joueur actuel
+                if (currentPlayer == 1 && (buttonsJ1.contains(button) || button.getGraphic() == null)) {
+                    handleSelection(buttonsJ1, button);
+                } else if (currentPlayer == 2 && (buttonsJ2.contains(button) || button.getGraphic() == null)) {
+                    handleSelection(buttonsJ2, button);
+                }
+            }
         }
-
     }
 
     // Méthode pour placer l'image du joueur sur un bouton
@@ -229,70 +195,239 @@ public class Party extends StackPane {
         // Vérifier si le GridPane contient des images
         if (!gridPane.getChildren().isEmpty()) {
             // Récupérer l'image correspondant à l'index du joueur actuel
-            ImageView imageView = (ImageView) gridPane.getChildren().get(currentImageIndex);
+            ImageView imageView = (ImageView) gridPane.getChildren().get(0);
 
             // Appliquer l'image sur le bouton
             button.setGraphic(imageView);
 
             // Supprimer l'image du GridPane
             gridPane.getChildren().remove(imageView);
+        }
+    }
 
-            // Passer au joueur suivant après chaque tour complet
-            if (currentImageIndex >= gridPane.getChildren().size()) {
-                currentPlayer = currentPlayer == 1 ? 2 : 1;
-                currentImageIndex = 0; // Réinitialiser l'index d'image
+    // Méthode pour gérer la sélection du bouton
+    private void handleSelection(List<Button> buttons, Button clickedButton) {
+        if (selectedButton == null) {
+            if (buttons.contains(clickedButton)) {
+                selectedButton = clickedButton;// Sélectionner le bouton actuel
+                selectButton(selectedButton);
+            }
+        }
+        else {
+            // Vérifier si le bouton actuel est voisin du bouton sélectionné
+            if (isNeighbourButton(selectedButton, clickedButton)) {
+                // Échanger les images des boutons
+                if (clickedButton.getGraphic() == null) {
+                    ImageView imageView = (ImageView) selectedButton.getGraphic();
+                    clickedButton.setGraphic(imageView);
+                    selectedButton.setGraphic(null);
+                    buttons.remove(selectedButton);
+                    buttons.add(clickedButton);
+
+                    // Après le déplacement, réinitialiser la couleur des boutons formant une ligne complète
+                    resetButtonColorsForMovedButton(selectedButton);
+
+                    // Vérifier si une nouvelle ligne de trois pions a été formée après le déplacement
+                    checkButtonCombinations();
+
+                    if(!isRemovePieceMode) {
+                        currentPlayer = currentPlayer == 1 ? 2 : 1;
+                    }
+                }
+            }
+            // Désélectionner le bouton sélectionné
+            deselectButton(selectedButton);
+            selectedButton = null;
+        }
+    }
+
+    // Méthode pour réinitialiser la couleur des boutons de la ligne où le dernier bouton a été déplacé
+    private void resetButtonColorsForMovedButton(Button movedButton) {
+        // Obtenir les coordonnées du dernier bouton déplacé
+        int rowIndex = GridPane.getRowIndex(movedButton);
+        int colIndex = GridPane.getColumnIndex(movedButton);
+
+        resetButtonColor(movedButton);
+
+        // Parcourir les boutons dans la même ligne que le bouton déplacé
+        ObservableList<Node> children = gridPane.getChildren();
+        for (Node node : children) {
+            if (node instanceof Button) {
+                Button button = (Button) node;
+                int buttonRowIndex = GridPane.getRowIndex(button);
+                int buttonColIndex = GridPane.getColumnIndex(button);
+                // Si le bouton est dans la même ligne que le bouton déplacé et n'est pas le bouton déplacé lui-même, réinitialiser sa couleur
+                if (buttonRowIndex == rowIndex && buttonColIndex != colIndex) {
+                    resetButtonColor(button);
+                }
             }
         }
     }
 
-    private VBox createPauseMenu(Stage primaryStage) {
-        VBox menu = new VBox(15); // Conteneur pour les boutons du menu pause
+    // Méthode pour réinitialiser la couleur d'un bouton
+    private void resetButtonColor(Button button) {
+        button.setStyle("-fx-background-radius: 50%; " +
+                "-fx-min-width: 50px; " +
+                "-fx-min-height: 50px; " +
+                "-fx-max-width: 50px; " +
+                "-fx-max-height: 50px;" +
+                "-fx-background-color: transparent; -fx-border-color: transparent;");
+    }
 
-        // Ajout des boutons nécessaires (Reprendre, Options, Quitter, etc.)
-        Button resumeButton = new Button("Reprendre");
-        Button regles = new Button("Règles");
-        Button parametres = new Button("Paramètres");
-        Button quitter = new Button("Quitter la Partie");
+    // Méthode pour vérifier les combinaisons de boutons et changer leur couleur si une combinaison est trouvée
+    private void checkButtonCombinations() {
+        String[][] buttonCombinations = {{"A", "B", "C"}, {"D", "E", "F"}, {"G", "H", "I"}, {"J", "K", "L"}, {"M", "N", "O"}, {"P", "Q", "R"}, {"S", "T", "U"}, {"V", "W", "X"}, {"A", "J", "V"}, {"D", "K", "S"}, {"G", "L", "P"}, {"B", "E", "H"}, {"Q", "T", "W"}, {"I", "M", "R"}, {"F", "N", "U"}, {"C", "O", "X"}};
+        for (String[] combination : buttonCombinations) {
+            if (checkAndChangeButtonColor(combination[0], combination[1], combination[2])) {
+                // Activer le mode de suppression de pion pour le joueur actuel uniquement si un nouvel alignement est formé
+                if (isNewAlignment) {
+                    isRemovePieceMode = true;
+                }
+            }
+        }
+    }
 
-        resumeButton.setFont(Font.font("Cardo", FontWeight.BOLD, 20));
-        regles.setFont(Font.font("Cardo", FontWeight.BOLD, 20));
-        parametres.setFont(Font.font("Cardo", FontWeight.BOLD, 20));
-        quitter.setFont(Font.font("Cardo", FontWeight.BOLD, 20));
+    // Méthode pour vérifier si deux boutons sont voisins
+    public static boolean isNeighbourButton(Button button1, Button button2) {
+        String id1 = button1.getId();
+        String id2 = button2.getId();
 
-        // Stylisation des boutons du menu pause
-        resumeButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
-        regles.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white;");
-        parametres.setStyle("-fx-background-color: #f44336; -fx-text-fill: white;");
-        quitter.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white;");
+        // Vérifier si les boutons sont dans la liste des voisins
+        for (String[] neighbours : neighbourList) {
+            if ((neighbours[0].equals(id1) && neighbours[1].equals(id2)) ||
+                    (neighbours[0].equals(id2) && neighbours[1].equals(id1))) {
+                return true;
+            }
+        }
 
-        // Ajout d'une action pour le bouton "Reprendre" pour masquer le menu pause
-        resumeButton.setOnAction(e -> {
-            SoundPlayer.soundPlay();
-            menu.setVisible(false);
-        });
+        return false;
+    }
 
-        // Action du bouton "Règles" pour afficher les règles
-        regles.setOnAction(e -> {
-            SoundPlayer.soundPlay();
-            ButtonPause.afficherRegles(this); // Passer la racine de la scène pour ajouter la StackPane
-        });
 
-        quitter.setOnAction(e -> {
-            SoundPlayer.soundPlay();
-            quitterMenu.setVisible(true);
-        });
+    // Méthode pour changer le style d'un bouton sélectionné
+    public static void selectButton(Button button) {
+        if(button.getStyle().contains("-fx-background-radius: 50%; -fx-min-width: 50px; -fx-min-height: 50px; -fx-max-width: 50px; -fx-max-height: 50px; -fx-background-color: green; -fx-border-color: transparent")){
+            button.setStyle("-fx-background-radius: 50%; -fx-min-width: 50px; -fx-min-height: 50px; -fx-max-width: 50px; -fx-max-height: 50px; -fx-background-color: #80DD1AFF; -fx-border-color: transparent");
+        }
+        else {
+            button.setStyle("-fx-background-radius: 50%; -fx-min-width: 50px; -fx-min-height: 50px; -fx-max-width: 50px; -fx-max-height: 50px; -fx-background-color: yellow; -fx-border-color: transparent");
+        }
 
-        quitterMenu = ButtonPause.boutonquitter(primaryStage);
+    }
 
-        // Ajout des boutons au menu
-        menu.getChildren().addAll(resumeButton, regles, parametres, quitter);
+    // Méthode pour changer le style d'un bouton désélectionné
+    public static void deselectButton(Button button) {
+        if(button.getStyle().contains("-fx-background-radius: 50%; -fx-min-width: 50px; -fx-min-height: 50px; -fx-max-width: 50px; -fx-max-height: 50px; -fx-background-color: #80DD1AFF; -fx-border-color: transparent")){
+            button.setStyle("-fx-background-radius: 50%; -fx-min-width: 50px; -fx-min-height: 50px; -fx-max-width: 50px; -fx-max-height: 50px; -fx-background-color: green; -fx-border-color: transparent");
+        }
+        else{
+            button.setStyle("-fx-background-radius: 50%; -fx-min-width: 50px; -fx-min-height: 50px; -fx-max-width: 50px; -fx-max-height: 50px; -fx-background-color: transparent; -fx-border-color: transparent"); // Bordure transparente
+        }
+    }
 
-        // Stylisation du menu pause avec un arrière-plan semi-transparent
-        menu.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7); -fx-padding: 20px;");
+    // Méthode pour vérifier les combinaisons de boutons et changer leur couleur si une combinaison est trouvée
+    private boolean checkAndChangeButtonColor(String buttonId1, String buttonId2, String buttonId3) {
+        Button button1 = getButtonById(buttonId1);
+        Button button2 = getButtonById(buttonId2);
+        Button button3 = getButtonById(buttonId3);
 
-        // Positionnement du menu pause au centre de l'écran
-        menu.setAlignment(Pos.CENTER);
+        if (button1.getGraphic() != null && button2.getGraphic() != null && button3.getGraphic() != null) {
+            if (((ImageView) button1.getGraphic()).getImage().getUrl().equals(((ImageView) button2.getGraphic()).getImage().getUrl()) &&
+                    ((ImageView) button2.getGraphic()).getImage().getUrl().equals(((ImageView) button3.getGraphic()).getImage().getUrl())) {
+                if (button1.getStyle().contains("-fx-background-radius: 50%; -fx-min-width: 50px; -fx-min-height: 50px; -fx-max-width: 50px; -fx-max-height: 50px; -fx-background-color: green; -fx-border-color: transparent") && button2.getStyle().contains("-fx-background-radius: 50%; -fx-min-width: 50px; -fx-min-height: 50px; -fx-max-width: 50px; -fx-max-height: 50px; -fx-background-color: green; -fx-border-color: transparent") && button3.getStyle().contains("-fx-background-radius: 50%; -fx-min-width: 50px; -fx-min-height: 50px; -fx-max-width: 50px; -fx-max-height: 50px; -fx-background-color: green; -fx-border-color: transparent")){
+                    // Si l'alignement n'était pas déjà formé lors du dernier tour, mettre isNewAlignment à true
+                    isNewAlignment = false;
+                } else {
+                    isNewAlignment = true;
+                }
+                // Si les trois boutons forment une ligne, changer leur couleur de fond
+                button1.setStyle("-fx-background-radius: 50%; -fx-min-width: 50px; -fx-min-height: 50px; -fx-max-width: 50px; -fx-max-height: 50px; -fx-background-color: green; -fx-border-color: transparent");
+                button2.setStyle("-fx-background-radius: 50%; -fx-min-width: 50px; -fx-min-height: 50px; -fx-max-width: 50px; -fx-max-height: 50px; -fx-background-color: green; -fx-border-color: transparent");
+                button3.setStyle("-fx-background-radius: 50%; -fx-min-width: 50px; -fx-min-height: 50px; -fx-max-width: 50px; -fx-max-height: 50px; -fx-background-color: green; -fx-border-color: transparent");
 
-        return menu;
+                // Renvoyer vrai pour indiquer qu'une rangée de 3 pions a été trouvée
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Méthode pour récupérer un bouton à partir de son identifiant
+    private Button getButtonById(String buttonId) {
+        ObservableList<Node> children = gridPane.getChildren();
+        for (Node node : children) {
+            if (node instanceof Button) {
+                Button button = (Button) node;
+                if (button.getId().equals(buttonId)) {
+                    return button;
+                }
+            }
+        }
+        return null;
+    }
+
+    // Méthode pour retirer un pion adverse
+    private void removePiece(Button button) {
+        // Vérifier si le bouton cliqué contient une image
+        if (button.getGraphic() instanceof ImageView) {
+            if(currentPlayer==1) {
+                for(Button b : buttonsJ2){
+                    if (!b.getStyle().contains("-fx-background-radius: 50%; -fx-min-width: 50px; -fx-min-height: 50px; -fx-max-width: 50px; -fx-max-height: 50px; -fx-background-color: green; -fx-border-color: transparent")){
+                        boutonlibre = true;
+                    }
+                }
+                if(boutonlibre && buttonsJ2.contains(button) && !button.getStyle().contains("-fx-background-radius: 50%; -fx-min-width: 50px; -fx-min-height: 50px; -fx-max-width: 50px; -fx-max-height: 50px; -fx-background-color: green; -fx-border-color: transparent")){
+                    button.setGraphic(null);
+                    buttonsJ2.remove(button);
+                    currentPlayer = currentPlayer == 1 ? 2 : 1;
+                    isRemovePieceMode = false;
+                    boutonlibre = false;
+                }
+                else if(!boutonlibre && buttonsJ2.contains(button)) {
+                    button.setGraphic(null);
+                    buttonsJ2.remove(button);
+                    resetButtonColorsForMovedButton(button);
+                    currentPlayer = currentPlayer == 1 ? 2 : 1;
+                    isRemovePieceMode = false;
+                    boutonlibre = false;
+                }
+            }
+            else if(currentPlayer==2) {
+                for(Button b : buttonsJ1){
+                    if (!b.getStyle().contains("-fx-background-radius: 50%; -fx-min-width: 50px; -fx-min-height: 50px; -fx-max-width: 50px; -fx-max-height: 50px; -fx-background-color: green; -fx-border-color: transparent")){
+                        boutonlibre = true;
+                    }
+                }
+                if(boutonlibre && buttonsJ1.contains(button) && !button.getStyle().contains("-fx-background-radius: 50%; -fx-min-width: 50px; -fx-min-height: 50px; -fx-max-width: 50px; -fx-max-height: 50px; -fx-background-color: green; -fx-border-color: transparent")){
+                    button.setGraphic(null);
+                    buttonsJ1.remove(button);
+                    currentPlayer = currentPlayer == 1 ? 2 : 1;
+                    isRemovePieceMode = false;
+                    boutonlibre = false;
+                }
+                else if(!boutonlibre && buttonsJ1.contains(button)) {
+                    button.setGraphic(null);
+                    buttonsJ1.remove(button);
+                    resetButtonColorsForMovedButton(button);
+                    currentPlayer = currentPlayer == 1 ? 2 : 1;
+                    isRemovePieceMode = false;
+                    boutonlibre = false;
+                }
+            }
+        }
+    }
+
+    // Méthode pour créer et styliser les boutons
+    private Button createStyledButton(String label) {
+        Button button = new Button(label);
+        button.setId(label);
+        button.setPrefSize(50, 50); // Taille préférée des boutons
+        button.setStyle("-fx-background-radius: 50%; " + // Rendre les coins ronds
+                "-fx-min-width: 50px; " + // Définir la largeur
+                "-fx-min-height: 50px; " + // Définir la hauteur
+                "-fx-max-width: 50px; " + // Limiter la largeur
+                "-fx-max-height: 50px;" +
+                "-fx-background-color: transparent; -fx-border-color: transparent;"); // Fond transparent
+        return button;
     }
 }
