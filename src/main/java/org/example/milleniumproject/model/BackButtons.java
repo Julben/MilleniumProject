@@ -1,12 +1,9 @@
 package org.example.milleniumproject.model;
 
-import javafx.scene.effect.DropShadow;
 import org.example.milleniumproject.view.Menu;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
 import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 
