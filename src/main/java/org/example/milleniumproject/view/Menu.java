@@ -35,7 +35,7 @@ public class Menu {
         root.getChildren().clear();
 
         // Ajout du fond d'écran du menu
-        BG ground = new BG("src/main/resources/TestBckgrnd.png");
+        BG ground = new BG("src/main/resources/BGMENU.png");
         root.getChildren().add(ground);
 
         // Création des boutons du menu

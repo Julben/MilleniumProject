@@ -1,6 +1,11 @@
 package org.example.milleniumproject.model;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.paint.Color;
 import javafx.geometry.Pos;
@@ -16,6 +21,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
 import java.util.*;
 
 import static org.example.milleniumproject.model.ButtonUtils.getNodeByRowColumnIndex;
@@ -32,10 +39,13 @@ public class PartyIA extends StackPane {
     private VBox leftVBox;
     private VBox rightVBox;
     private int turns = 0;
+    private boolean isNoChrono = false;
     private ToggleGroup toggleGroup3;
     private HBox hbox3;
     private ToggleGroup toggleGroup2;
     private HBox hbox2;
+    private int remainingSeconds = 30;
+    private Timeline timeline;
     private Button selectedButton = null;
     private List<Button> buttonsJ1 = new ArrayList<>();
     private List<Button> buttonsJ2 = new ArrayList<>();
@@ -57,9 +67,6 @@ public class PartyIA extends StackPane {
             new String[]{"S", "T", "U"}, new String[]{"V", "W", "X"}, new String[]{"A", "J", "V"}, new String[]{"D", "K", "S"}, new String[]{"G", "L", "P"}, new String[]{"B", "E", "H"},
             new String[]{"Q", "T", "W"}, new String[]{"I", "M", "R"}, new String[]{"F", "N", "U"}, new String[]{"C", "O", "X"}
     );
-    //private static final String jaune = "-fx-background-radius: 50%; -fx-min-width: 50px; -fx-min-height: 50px; -fx-max-width: 50px; -fx-max-height: 50px; -fx-background-color: yellow; -fx-border-color: transparent";
-    //private static final String transparent = "-fx-background-radius: 50%; -fx-min-width: 50px; -fx-min-height: 50px; -fx-max-width: 50px; -fx-max-height: 50px; -fx-background-color: transparent; -fx-border-color: transparent";
-
     RectangleConstructor abc = new RectangleConstructor(0.38125*screenWidth, 0.07639*screenHeight, 0.00078*screenWidth, -0.2986*screenHeight); Rectangle ABC = abc.getRectangle();
     RectangleConstructor vwx = new RectangleConstructor(0.38125*screenWidth, 0.07639*screenHeight, 0.00078*screenWidth, 0.29861*screenHeight); Rectangle VWX = vwx.getRectangle();
     RectangleConstructor ajv = new RectangleConstructor(0.04297*screenWidth, 0.67778*screenHeight, -0.1672*screenWidth, 0.00000*screenHeight); Rectangle AJV = ajv.getRectangle();
@@ -106,7 +113,26 @@ public class PartyIA extends StackPane {
         this.hbox2 = hbox2;
 
         int selectedIndexchrono = PreParty.getSelectedIndexchrono(toggleGroup2, hbox2);
-        //System.out.println("selectedIndexchrono: " + selectedIndexchrono);
+
+        String chrono;
+
+        if (selectedIndexchrono == 0){
+            chrono = "30";
+        } else if (selectedIndexchrono == 1){
+            chrono = "60";
+        } else {
+            chrono = "";
+            isNoChrono = true;
+        }
+
+        int[] remainingSeconds1 = {Integer.parseInt(chrono)};
+        int[] remainingSeconds2 = {Integer.parseInt(chrono)};
+        Label timerLabel1 = new Label(chrono);
+        Label timerLabel2 = new Label(chrono);
+        timerLabel1.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
+        timerLabel2.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
+        Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1);
+        Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2);
 
         gridPane = new GridPane();
         gridPane.setHgap(0.0171875*screenWidth); // Espacement horizontal entre les boutons
@@ -151,8 +177,8 @@ public class PartyIA extends StackPane {
         String avatarFileName1 = avatar1.substring(avatar1.lastIndexOf('/') + 1);
         String avatarFileName2 = avatar2.substring(avatar2.lastIndexOf('/') + 1);
 
-        VBox profileBox1 = ProfilParty.createProfileBox(avatarFileName1, playerName1, rank1, true, false);
-        VBox profileBox2 = ProfilParty.createProfileBox(avatarFileName2, playerName2, rank2, false, true);
+        VBox profileBox1 = ProfilParty.createProfileBox(avatarFileName1, playerName1, rank1, timerLabel1, true, false, isNoChrono);
+        VBox profileBox2 = ProfilParty.createProfileBox(avatarFileName2, playerName2, rank2, timerLabel2, false, true, isNoChrono);
         setMargin(profileBox1, new Insets(0, 0, 0.020833*screenHeight, 0.015625*screenWidth));
         setMargin(profileBox2, new Insets(0, 0.015625*screenWidth, 0.020833*screenHeight, 0));
 
@@ -174,6 +200,8 @@ public class PartyIA extends StackPane {
         // Ajout d'une action pour afficher le menu pause lors du clic sur le bouton pause
         pauseButton.setOnAction(e -> {
             SoundPlayer.soundPlay();
+            timeline1.pause();
+            timeline2.pause();
             pauseMenu.setVisible(true);
         });
 
@@ -181,11 +209,13 @@ public class PartyIA extends StackPane {
         StackPane.setAlignment(pauseButton, Pos.TOP_RIGHT);
         setMargin(pauseButton, new Insets(0.0138889*screenHeight, 0.0078*screenWidth, 0, 0));
 
-        pauseMenu = createPauseMenu(primaryStage);
+        pauseMenu = createPauseMenu(primaryStage, timeline1, timeline2);
         pauseMenu.setVisible(false);
         quitterMenu.setVisible(false);
 
         getChildren().addAll(hBox, profileBox1, profileBox2, ABC, VWX, AJV, COX, DEF, STU, DKS, FNU, GHI, PQR, GLP, IMR, BEH, JKL, MNO, QTW, gridPane, pauseMenu, quitterMenu, pauseButton);
+
+        timeline1.play();
 
         // Gestionnaire d'événements pour les boutons du GridPane
         for (Node node : gridPane.getChildren()) {
@@ -193,7 +223,7 @@ public class PartyIA extends StackPane {
                 Button button = (Button) node;
                 button.setOnAction(e -> {
                     SoundPlayer.soundPlay();
-                    handleButtonClick(button, gridPane);
+                    handleButtonClick(button, gridPane, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono);
                 });
             }
         }
@@ -235,7 +265,14 @@ public class PartyIA extends StackPane {
 
 
     // Méthode pour gérer le clic sur le bouton
-    private void handleButtonClick(Button button, GridPane gridpane) {
+    private void handleButtonClick(Button button, GridPane gridpane, Timeline timeline1, Timeline timeline2, Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2, String chrono) {
+
+        if (currentPlayer==1){
+            ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
+        } else {
+            ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+        }
+
         if (isRemovePieceMode) {
             // Si le mode de suppression de pion est activé
             removePiece(button);
@@ -573,7 +610,34 @@ public class PartyIA extends StackPane {
         }
     }
 
-    private VBox createPauseMenu(Stage primaryStage) {
+    private Timeline Chrono(Label timerLabel, int[] remainingSeconds){
+        timeline = new Timeline(
+                new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        remainingSeconds[0]--;
+                        timerLabel.setText(Integer.toString(remainingSeconds[0]));
+                        if (remainingSeconds[0] <= 0) {
+                            timeline.stop();
+                            // Mettez ici votre code à exécuter une fois le minuteur terminé
+                            System.out.println("Le temps est écoulé !");
+                        }
+                    }
+                })
+        );
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        return timeline;
+    }
+
+    public void ResetChrono(Timeline timeline1, Label timerLabel, String chrono, int[] remainingSeconds, Timeline timeline2){
+        int reset = Integer.parseInt(chrono);
+        timeline1.stop();
+        timerLabel.setText(chrono);
+        remainingSeconds[0] = reset;
+        timeline2.play();
+    }
+
+    private VBox createPauseMenu(Stage primaryStage, Timeline timeline1, Timeline timeline2) {
         VBox menu = new VBox(0.020833*screenHeight); // Conteneur pour les boutons du menu pause
 
         // Ajout des boutons nécessaires (Reprendre, Options, Quitter, etc.)
@@ -596,6 +660,12 @@ public class PartyIA extends StackPane {
         // Ajout d'une action pour le bouton "Reprendre" pour masquer le menu pause
         resumeButton.setOnAction(e -> {
             SoundPlayer.soundPlay();
+            if (currentPlayer==1){
+                timeline1.play();
+            }
+            else {
+                timeline2.play();
+            }
             menu.setVisible(false);
         });
 
