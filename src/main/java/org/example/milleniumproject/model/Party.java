@@ -658,6 +658,8 @@ public class Party extends StackPane {
         quitter.setOnAction(e -> {
             SoundPlayer.soundPlay();
             quitterMenu.setVisible(true);
+            SauvegardePartie sauvegardePartie = new SauvegardePartie(gridPane,ProfileData.getAvatar(1),ProfileData.getAvatar(2),ProfileData.getRank(1),ProfileData.getRank(2),ProfileData.getShip(1),ProfileData.getShip(2),ProfileData.getPlayerName(1),ProfileData.getPlayerName(2),currentPlayer,turns);
+            sauvegardePartie.sauvegarderDansFichier("Save/test.txt");
         });
 
         quitterMenu = ButtonPause.boutonquitter(primaryStage);
