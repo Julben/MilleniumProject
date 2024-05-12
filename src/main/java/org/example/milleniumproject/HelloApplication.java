@@ -45,17 +45,6 @@ public class HelloApplication extends Application {
     }
 
     /**
-     * Affiche le menu principal et lance la musique de fond.
-     *
-     * @param primaryStage La fenêtre principale de l'application.
-     * @param menu          Le menu à afficher.
-     */
-    public static void showMenuAndPlayMusic(Stage primaryStage, Menu menu) {
-        menu.afficherMenu(primaryStage);
-        MusicPlayer.musicPlay("src/main/resources/Star Wars_ Battlefront OST - Main Menu Music.mp3");
-    }
-
-    /**
      * Passe à la vidéo suivante ou affiche le menu principal en cas de pression de la touche "Espace".
      *
      * @param event        L'événement de pression de touche.
@@ -68,5 +57,16 @@ public class HelloApplication extends Application {
             mediaPlayer.stop();
             showMenuAndPlayMusic(primaryStage, menu);
         }
+    }
+
+    /**
+     * Affiche le menu principal et lance la musique de fond.
+     *
+     * @param primaryStage La fenêtre principale de l'application.
+     * @param menu          Le menu à afficher.
+     */
+    public static void showMenuAndPlayMusic(Stage primaryStage, Menu menu) {
+        menu.afficherMenu(primaryStage);
+        MusicPlayer.musicPlay("src/main/resources/MusicMenu.mp3");
     }
 }

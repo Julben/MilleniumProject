@@ -23,6 +23,9 @@ import org.example.milleniumproject.view.VideoData;
 
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 import java.util.prefs.Preferences;
 
 import static org.example.milleniumproject.model.Constant.screenHeight;
@@ -157,6 +160,11 @@ public class PrePartyIA extends StackPane {
 
     public void VideoLoad(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3,ToggleGroup toggleGroup2, HBox hbox2) {
         if(VideoData.isVideoChoose()) {
+            List<String> stringList = Arrays.asList("src/main/resources/MusicParty1.mp3", "src/main/resources/MusicParty2.mp3", "src/main/resources/MusicParty3.mp3");
+            Random rand = new Random();
+            int index = rand.nextInt(stringList.size());
+            String randomString = stringList.get(index);
+
             File file = new File(ChooseVideo(shipIndex1, shipIndex2, toggleGroup3, hbox3));
             Media media = new Media(file.toURI().toString());
             MediaPlayer mediaPlayer = new MediaPlayer(media);
@@ -181,12 +189,14 @@ public class PrePartyIA extends StackPane {
             primaryStage.getScene().setOnKeyPressed(event -> {
                 if (event.getCode() == KeyCode.SPACE && !mediaPlayer.getCurrentTime().equals(mediaPlayer.getTotalDuration())) {
                     mediaPlayer.stop();
+                    MusicPlayer.musicPlay(randomString);
                     PartyIA partyia = new PartyIA(primaryStage, toggleGroup3, hbox3, toggleGroup2, hbox2); // Supposons que primaryStage soit accessible ici
                     primaryStage.getScene().setRoot(partyia);
                 }
             });
 
             mediaPlayer.setOnEndOfMedia(() -> {
+                MusicPlayer.musicPlay(randomString);
                 PartyIA partyia = new PartyIA(primaryStage, toggleGroup3, hbox3, toggleGroup2, hbox2); // Supposons que primaryStage soit accessible ici
                 primaryStage.getScene().setRoot(partyia);
             });

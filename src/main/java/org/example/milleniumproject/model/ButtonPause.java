@@ -101,6 +101,7 @@ public class ButtonPause extends StackPane {
             SoundPlayer.soundPlay();
             Menu menu = new Menu();
             menu.afficherMenu(primaryStage);
+            MusicPlayer.musicPlay("src/main/resources/MusicMenu.mp3");
         });
 
         hbox.getChildren().addAll(ouiButton, nonButton);
