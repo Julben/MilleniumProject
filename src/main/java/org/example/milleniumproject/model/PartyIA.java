@@ -19,6 +19,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import java.util.*;
+import javafx.application.Platform;
+import javafx.scene.control.Button;
+import java.util.Random;
 import static javafx.scene.paint.Color.GREEN;
 import static javafx.scene.paint.Color.TRANSPARENT;
 
@@ -104,8 +107,8 @@ public class PartyIA extends StackPane {
         //System.out.println("selectedIndexchrono: " + selectedIndexchrono);
 
         gridPane = new GridPane();
-        gridPane.setHgap(22); // Espacement horizontal entre les boutons
-        gridPane.setVgap(22); // Espacement vertical entre les boutons
+        gridPane.setHgap(38); // Espacement horizontal entre les boutons
+        gridPane.setVgap(38); // Espacement vertical entre les boutons
         gridPane.setAlignment(Pos.CENTER); // Positionnement au centre de la StackPane
 
         String[] buttonLabels = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X"};
@@ -192,6 +195,8 @@ public class PartyIA extends StackPane {
                 });
             }
         }
+
+
     }
 
     // Méthode pour gérer le clic sur le bouton
