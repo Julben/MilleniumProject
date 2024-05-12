@@ -66,7 +66,7 @@ public class ProfilParty extends StackPane {
     }
 
     // Méthode pour créer une VBox affichant le profil d'un joueur avec l'avatar à côté des labels
-    static VBox createProfileBox(String avatarFileName, String playerName, String rank, Label timerlabel, boolean isPlayer1, boolean isIA, boolean isNoChrono) {
+    static VBox createProfileBox(String avatarFileName, String playerName, String rank, Label timerlabel, boolean isPlayer1, boolean isIA) {
 
         VBox profileBox = new VBox(0); // Espacement vertical entre les éléments du profil
         profileBox.setAlignment(Pos.BOTTOM_CENTER); // Alignement au centre et en bas
@@ -99,10 +99,9 @@ public class ProfilParty extends StackPane {
             }
         }
 
-        if (!isNoChrono && !isIA) {
-            labelsVBox.getChildren().add(timerlabel);
-            labelsVBox.setPadding(new Insets(0, 0, 0.055556*screenHeight, 0));
-        }
+
+        labelsVBox.getChildren().add(timerlabel);
+        labelsVBox.setPadding(new Insets(0, 0, 0.055556*screenHeight, 0));
 
         // Ajout du nom du joueur
         Label nameLabel = new Label(playerName);

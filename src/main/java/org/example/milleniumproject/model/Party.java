@@ -115,7 +115,7 @@ public class Party extends StackPane {
         } else if (selectedIndexchrono == 1){
             chrono = "60";
         } else {
-            chrono = "";
+            chrono = "0";
             isNoChrono = true;
         }
 
@@ -127,6 +127,7 @@ public class Party extends StackPane {
         timerLabel2.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
         Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1);
         Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2);
+
 
         gridPane = new GridPane();
         gridPane.setHgap(0.0171875*screenWidth); // Espacement horizontal entre les boutons
@@ -171,8 +172,8 @@ public class Party extends StackPane {
         String avatarFileName1 = avatar1.substring(avatar1.lastIndexOf('/') + 1);
         String avatarFileName2 = avatar2.substring(avatar2.lastIndexOf('/') + 1);
 
-        VBox profileBox1 = ProfilParty.createProfileBox(avatarFileName1, playerName1, rank1, timerLabel1, true, false, isNoChrono);
-        VBox profileBox2 = ProfilParty.createProfileBox(avatarFileName2, playerName2, rank2, timerLabel2, false, false, isNoChrono);
+        VBox profileBox1 = ProfilParty.createProfileBox(avatarFileName1, playerName1, rank1, timerLabel1, true, false);
+        VBox profileBox2 = ProfilParty.createProfileBox(avatarFileName2, playerName2, rank2, timerLabel2, false, false);
         setMargin(profileBox1, new Insets(0, 0, 0.020833*screenHeight, 0.015625*screenWidth));
         setMargin(profileBox2, new Insets(0, 0.015625*screenWidth, 0.020833*screenHeight, 0));
 
@@ -590,7 +591,11 @@ public class Party extends StackPane {
                 new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                        remainingSeconds[0]--;
+                        if(isNoChrono){
+                            remainingSeconds[0]++;
+                        } else {
+                            remainingSeconds[0]--;
+                        }
                         timerLabel.setText(Integer.toString(remainingSeconds[0]));
                         if (remainingSeconds[0] <= 0) {
                             timeline.stop();
