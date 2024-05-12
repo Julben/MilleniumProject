@@ -17,6 +17,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import java.util.*;
+
+import static org.example.milleniumproject.model.ButtonUtils.getNodeByRowColumnIndex;
 import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 import static javafx.scene.paint.Color.GREEN;
@@ -199,6 +201,33 @@ public class PartyIA extends StackPane {
 
     }
 
+    private void makeRandomMove() {
+        // Vérifier si c'est le tour de l'IA
+        if (currentPlayer == 2 && !isRemovePieceMode && turns < 18) {
+            // Sélectionner un bouton aléatoire parmi les boutons disponibles
+            Random random = new Random();
+            Button randomButton = null;
+            do {
+                int index = random.nextInt(gridPane.getChildren().size());
+                Node node = gridPane.getChildren().get(index);
+                if (node instanceof Button) {
+                    randomButton = (Button) node;
+                }
+            } while (randomButton == null || randomButton.getGraphic() != null);
+
+            // Placer l'image de l'IA sur le bouton sélectionné
+            placePlayerImage(randomButton, rightVBox);
+            buttonsJ2.add(randomButton);
+
+            // Vérifier les combinaisons après chaque placement de pion
+            checkButtonCombinations();
+
+            // Passer le tour au joueur 1
+            currentPlayer = 1;
+            turns++;
+        }
+    }
+
 
 
 
@@ -234,20 +263,12 @@ public class PartyIA extends StackPane {
                         currentPlayer = 2;
                     }
                     turns++;
+                    makeRandomMove();
+
+
+
                 }
-                else {
-                    Button randomButton = getRandomButton();
-                    placePlayerImage(randomButton, rightVBox);
-                    buttonsJ2.add(randomButton);
-                    // Vérifier les combinaisons après chaque placement de pion
-                    checkButtonCombinations();
-                    if(isRemovePieceMode){
-                        currentPlayer = 2;
-                    } else {
-                        currentPlayer = 1;
-                    }
-                    turns++;
-                }
+
             }
             else if ( turns >= 18) {
                 placementisfinished = true;
@@ -271,6 +292,9 @@ public class PartyIA extends StackPane {
 
 
 
+
+
+
     // Méthode pour placer l'image du joueur sur un bouton
     private void placePlayerImage(Button button, VBox playerVBox) {
         // Obtenir le GridPane enfant de la VBox
@@ -284,35 +308,6 @@ public class PartyIA extends StackPane {
             gridPane.getChildren().remove(imageView);
         }
     }
-
-    // Méthode pour obtenir un bouton aléatoire parmi ceux disponibles
-    private Button getRandomButton() {
-        List<Button> availableButtons = new ArrayList<>();
-
-        // Parcourir tous les boutons du GridPane pour trouver ceux qui n'ont pas d'image
-        for (Node node : gridPane.getChildren()) {
-            if (node instanceof Button) {
-                Button button = (Button) node;
-                if (button.getGraphic() == null) {
-                    availableButtons.add(button);
-                }
-            }
-        }
-
-        // Choisir aléatoirement un bouton parmi ceux disponibles
-        if (!availableButtons.isEmpty()) {
-            int randomIndex = (int) (Math.random() * availableButtons.size());
-            return availableButtons.get(randomIndex);
-        }
-
-        // Si aucun bouton disponible n'est trouvé, renvoyer null
-        return null;
-    }
-
-
-
-
-
 
 
 
@@ -421,10 +416,6 @@ public class PartyIA extends StackPane {
             originalImageView.setScaleY(1.0);
         }
     }
-
-
-
-
 
     // Méthode pour vérifier les combinaisons de boutons et changer leur couleur si une combinaison est trouvée
     private boolean checkAndChangeButtonColor(String buttonId1, String buttonId2, String buttonId3) {
