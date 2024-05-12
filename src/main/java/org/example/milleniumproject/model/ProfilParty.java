@@ -1,14 +1,17 @@
 package org.example.milleniumproject.model;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.animation.Timeline;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +21,7 @@ import static org.example.milleniumproject.model.Constant.screenWidth;
 /**
  * Cette classe contient des méthodes utilitaires pour la création de profils de joueur et de boîtes avec des images répétées.
  */
-public class ProfilParty {
+public class ProfilParty extends StackPane {
 
     /**
      * Crée une VBox contenant des images répétées.
@@ -63,7 +66,7 @@ public class ProfilParty {
     }
 
     // Méthode pour créer une VBox affichant le profil d'un joueur avec l'avatar à côté des labels
-    static VBox createProfileBox(String avatarFileName, String playerName, String rank, boolean isPlayer1, boolean isIA) {
+    static VBox createProfileBox(String avatarFileName, String playerName, String rank, Label timerlabel, boolean isPlayer1, boolean isIA, boolean isNoChrono) {
 
         VBox profileBox = new VBox(0); // Espacement vertical entre les éléments du profil
         profileBox.setAlignment(Pos.BOTTOM_CENTER); // Alignement au centre et en bas
@@ -94,6 +97,10 @@ public class ProfilParty {
                 playerName = "Robot";
                 rank = "IA";
             }
+        }
+
+        if (!isNoChrono) {
+            labelsVBox.getChildren().add(timerlabel);
         }
 
         // Ajout du nom du joueur
