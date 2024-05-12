@@ -17,11 +17,8 @@ public class MusicPlayer {
 
         Media sound = new Media(new File(musicFile).toURI().toString());
         mediaPlayer = new MediaPlayer(sound);
-
         mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.seek(Duration.ZERO));
-
         mediaPlayer.play();
-
         mediaPlayer.setVolume(AudioData.getMusicVolume());
     }
 
