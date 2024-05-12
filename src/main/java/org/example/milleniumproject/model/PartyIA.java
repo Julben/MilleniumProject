@@ -21,6 +21,9 @@ import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 import static javafx.scene.paint.Color.GREEN;
 import static javafx.scene.paint.Color.TRANSPARENT;
+import javafx.application.Platform;
+import javafx.scene.control.Button;
+import java.util.Random;
 
 public class PartyIA extends StackPane {
     private int currentPlayer = 1;
@@ -84,7 +87,7 @@ public class PartyIA extends StackPane {
         rectangleMap.put("AJV", ajv); rectangleMap.put("DKS", dks); rectangleMap.put("GLP", glp); rectangleMap.put("BEH", beh);
         rectangleMap.put("QTW", qtw); rectangleMap.put("IMR", imr); rectangleMap.put("FNU", fnu); rectangleMap.put("COX", cox);
 
-        int selectedIndex = PreParty.getSelectedIndex(toggleGroup3, hbox3);
+        int selectedIndex = PrePartyIA.getSelectedIndex(toggleGroup3, hbox3);
 
         String backgroundImage = "";
         if (selectedIndex == 0) {
@@ -196,6 +199,12 @@ public class PartyIA extends StackPane {
 
     }
 
+
+
+
+
+
+
     // Méthode pour gérer le clic sur le bouton
     private void handleButtonClick(Button button, GridPane gridpane) {
         if (isRemovePieceMode) {
@@ -227,8 +236,9 @@ public class PartyIA extends StackPane {
                     turns++;
                 }
                 else {
-                    placePlayerImage(button, rightVBox);
-                    buttonsJ2.add(button);
+                    Button randomButton = getRandomButton();
+                    placePlayerImage(randomButton, rightVBox);
+                    buttonsJ2.add(randomButton);
                     // Vérifier les combinaisons après chaque placement de pion
                     checkButtonCombinations();
                     if(isRemovePieceMode){
@@ -257,6 +267,10 @@ public class PartyIA extends StackPane {
         }
     }
 
+
+
+
+
     // Méthode pour placer l'image du joueur sur un bouton
     private void placePlayerImage(Button button, VBox playerVBox) {
         // Obtenir le GridPane enfant de la VBox
@@ -270,6 +284,39 @@ public class PartyIA extends StackPane {
             gridPane.getChildren().remove(imageView);
         }
     }
+
+    // Méthode pour obtenir un bouton aléatoire parmi ceux disponibles
+    private Button getRandomButton() {
+        List<Button> availableButtons = new ArrayList<>();
+
+        // Parcourir tous les boutons du GridPane pour trouver ceux qui n'ont pas d'image
+        for (Node node : gridPane.getChildren()) {
+            if (node instanceof Button) {
+                Button button = (Button) node;
+                if (button.getGraphic() == null) {
+                    availableButtons.add(button);
+                }
+            }
+        }
+
+        // Choisir aléatoirement un bouton parmi ceux disponibles
+        if (!availableButtons.isEmpty()) {
+            int randomIndex = (int) (Math.random() * availableButtons.size());
+            return availableButtons.get(randomIndex);
+        }
+
+        // Si aucun bouton disponible n'est trouvé, renvoyer null
+        return null;
+    }
+
+
+
+
+
+
+
+
+
 
     // Méthode pour gérer la sélection du bouton
     private void handleSelection(List<Button> buttons, Button clickedButton) {
@@ -374,6 +421,10 @@ public class PartyIA extends StackPane {
             originalImageView.setScaleY(1.0);
         }
     }
+
+
+
+
 
     // Méthode pour vérifier les combinaisons de boutons et changer leur couleur si une combinaison est trouvée
     private boolean checkAndChangeButtonColor(String buttonId1, String buttonId2, String buttonId3) {
@@ -483,17 +534,7 @@ public class PartyIA extends StackPane {
         return compteur > 0;
     }
 
-    // Méthode pour créer et styliser les boutons
-    private Button createStyledButton(String label) {
-        Button button = new Button(label);
-        button.setId(label);
-        button.setPrefSize(0.03906*screenWidth, 0.069444*screenHeight); // Taille préférée des boutons
-        button.setMinSize(0.03906*screenWidth, 0.069444*screenHeight);
-        button.setMaxSize(0.03906*screenWidth, 0.069444*screenHeight);
-        button.setStyle("-fx-background-color: transparent"); // Fond transparent
-        button.setTextFill(Color.TRANSPARENT);
-        return button;
-    }
+
 
     // Méthode pour vérifier si tous les pions d'un joueur ont au moins un voisin libre
     private boolean hasPlayerFreeNeighbours(List<Button> playerButtons) {
@@ -520,7 +561,7 @@ public class PartyIA extends StackPane {
         return false;
     }
 
-    // Méthode pour vérifier si la partie est terlinée
+    // Méthode pour vérifier si la partie est terminée
     private boolean isGameFinished() {
         // Vérifier si un joueur a moins de 3 pions restants
         if (currentPlayer == 1) {
@@ -590,5 +631,17 @@ public class PartyIA extends StackPane {
         menu.setAlignment(Pos.CENTER);
 
         return menu;
+    }
+
+    // Méthode pour créer et styliser les boutons
+    private Button createStyledButton(String label) {
+        Button button = new Button(label);
+        button.setId(label);
+        button.setPrefSize(0.03906*screenWidth, 0.069444*screenHeight); // Taille préférée des boutons
+        button.setMinSize(0.03906*screenWidth, 0.069444*screenHeight);
+        button.setMaxSize(0.03906*screenWidth, 0.069444*screenHeight);
+        button.setStyle("-fx-background-color: transparent"); // Fond transparent
+        button.setTextFill(Color.TRANSPARENT);
+        return button;
     }
 }
