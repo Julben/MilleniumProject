@@ -48,6 +48,7 @@ public class Party extends StackPane {
     boolean boutonlibre = false;
     private VBox pauseMenu; // Conteneur pour le menu pause
     private VBox quitterMenu;
+    private boolean selected = false;
     private boolean change = false;
     private static final List<String[]> neighbourList = Arrays.asList(
             new String[]{"A", "B"}, new String[]{"A", "J"}, new String[]{"B", "C"}, new String[]{"B", "E"}, new String[]{"C", "O"}, new String[]{"D", "E"}, new String[]{"D", "K"}, new String[]{"E", "F"},
@@ -224,15 +225,16 @@ public class Party extends StackPane {
     // Méthode pour gérer le clic sur le bouton
     private void handleButtonClick(Button button, GridPane gridpane, Timeline timeline1, Timeline timeline2, Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2, String chrono) {
 
-        if (currentPlayer==1){
-            ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
-        } else {
-            ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
-        }
-
         if (isRemovePieceMode) {
             // Si le mode de suppression de pion est activé
             removePiece(button);
+
+            if (currentPlayer==1){
+                ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+            } else {
+                ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
+            }
+
             // Vérifier si la partie est terminée
             if(placementisfinished){
                 if (isGameFinished()) {
@@ -255,6 +257,7 @@ public class Party extends StackPane {
                         currentPlayer = 1;
                     } else {
                         currentPlayer = 2;
+                        ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
                     }
                     turns++;
                 }
@@ -267,6 +270,7 @@ public class Party extends StackPane {
                         currentPlayer = 2;
                     } else {
                         currentPlayer = 1;
+                        ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                     }
                     turns++;
                 }
@@ -275,9 +279,9 @@ public class Party extends StackPane {
                 placementisfinished = true;
                 // Vérifier si le bouton cliqué appartient à la liste des boutons autorisés à être sélectionnés par le joueur actuel
                 if (currentPlayer == 1 && (buttonsJ1.contains(button) || button.getGraphic() == null)) {
-                    handleSelection(buttonsJ1, button);
+                    handleSelection(buttonsJ1, button, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono);
                 } else if (currentPlayer == 2 && (buttonsJ2.contains(button) || button.getGraphic() == null)) {
-                    handleSelection(buttonsJ2, button);
+                    handleSelection(buttonsJ2, button, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono);
                 }
                 // Vérifier si la partie est terminée
                 if (isGameFinished()) {
@@ -304,11 +308,12 @@ public class Party extends StackPane {
     }
 
     // Méthode pour gérer la sélection du bouton
-    private void handleSelection(List<Button> buttons, Button clickedButton) {
+    private void handleSelection(List<Button> buttons, Button clickedButton, Timeline timeline1, Timeline timeline2, Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2, String chrono) {
         if (selectedButton == null) {
             if (buttons.contains(clickedButton) && placementisfinished) {
                 selectedButton = clickedButton;// Sélectionner le bouton actuel
                 selectButton(selectedButton);
+                selected = true;
             }
         }
         else {
@@ -316,6 +321,7 @@ public class Party extends StackPane {
             if (isNeighbourButton(selectedButton, clickedButton) || (buttons.size() == 3 && placementisfinished)) {
                 // Échanger les images des boutons
                 if (clickedButton.getGraphic() == null) {
+
                     ImageView imageView = (ImageView) selectedButton.getGraphic();
                     clickedButton.setGraphic(imageView);
                     selectedButton.setGraphic(null);
@@ -332,6 +338,11 @@ public class Party extends StackPane {
 
                     if(!isRemovePieceMode) {
                         currentPlayer = currentPlayer == 1 ? 2 : 1;
+                        if (currentPlayer==1){
+                            ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                        } else {
+                            ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
+                        }
                     }
                 }
             }
@@ -340,6 +351,7 @@ public class Party extends StackPane {
             selectedButton = null;
             if (!change && buttons.contains(clickedButton)) {
                 selectButton(clickedButton);
+                selected = true;
                 selectedButton = clickedButton;
             }
             change = false;

@@ -99,8 +99,9 @@ public class ProfilParty extends StackPane {
             }
         }
 
-        if (!isNoChrono) {
+        if (!isNoChrono && !isIA) {
             labelsVBox.getChildren().add(timerlabel);
+            labelsVBox.setPadding(new Insets(0, 0, 0.055556*screenHeight, 0));
         }
 
         // Ajout du nom du joueur
