@@ -205,8 +205,8 @@ public class PreParty extends StackPane {
 
             DropShadow dropShadow = new DropShadow();
             dropShadow.setRadius(3);
-            dropShadow.setOffsetX(1);
-            dropShadow.setOffsetY(1);
+            dropShadow.setOffsetX(2);
+            dropShadow.setOffsetY(2);
             imageView.setEffect(dropShadow);
 
             // Ajouter un écouteur pour changer la couleur de la bordure de l'image
@@ -216,7 +216,7 @@ public class PreParty extends StackPane {
                     Color intenseBlue = Color.rgb(0, 255, 0); // Intensité de la couleur verte
                     imageView.setEffect(new javafx.scene.effect.DropShadow(40, intenseBlue));
                 } else {
-                    imageView.setEffect(null);
+                    imageView.setEffect(dropShadow);
                 }
             });
 

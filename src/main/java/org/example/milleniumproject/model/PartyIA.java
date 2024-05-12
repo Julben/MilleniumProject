@@ -2,9 +2,7 @@ package org.example.milleniumproject.model;
 
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.animation.TranslateTransition;
 import javafx.scene.paint.Color;
-import javafx.util.Duration;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -19,6 +17,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import java.util.*;
+import static org.example.milleniumproject.model.Constant.screenHeight;
+import static org.example.milleniumproject.model.Constant.screenWidth;
 import static javafx.scene.paint.Color.GREEN;
 import static javafx.scene.paint.Color.TRANSPARENT;
 
@@ -52,25 +52,25 @@ public class PartyIA extends StackPane {
             new String[]{"S", "T", "U"}, new String[]{"V", "W", "X"}, new String[]{"A", "J", "V"}, new String[]{"D", "K", "S"}, new String[]{"G", "L", "P"}, new String[]{"B", "E", "H"},
             new String[]{"Q", "T", "W"}, new String[]{"I", "M", "R"}, new String[]{"F", "N", "U"}, new String[]{"C", "O", "X"}
     );
-    private static final String jaune = "-fx-background-radius: 50%; -fx-min-width: 50px; -fx-min-height: 50px; -fx-max-width: 50px; -fx-max-height: 50px; -fx-background-color: yellow; -fx-border-color: transparent";
-    private static final String transparent = "-fx-background-radius: 50%; -fx-min-width: 50px; -fx-min-height: 50px; -fx-max-width: 50px; -fx-max-height: 50px; -fx-background-color: transparent; -fx-border-color: transparent";
+    //private static final String jaune = "-fx-background-radius: 50%; -fx-min-width: 50px; -fx-min-height: 50px; -fx-max-width: 50px; -fx-max-height: 50px; -fx-background-color: yellow; -fx-border-color: transparent";
+    //private static final String transparent = "-fx-background-radius: 50%; -fx-min-width: 50px; -fx-min-height: 50px; -fx-max-width: 50px; -fx-max-height: 50px; -fx-background-color: transparent; -fx-border-color: transparent";
 
-    RectangleConstructor abc = new RectangleConstructor(488, 55, 1, -215); Rectangle ABC = abc.getRectangle();
-    RectangleConstructor vwx = new RectangleConstructor(488, 55, 1, 215); Rectangle VWX = vwx.getRectangle();
-    RectangleConstructor ajv = new RectangleConstructor(55, 488, -214, 0); Rectangle AJV = ajv.getRectangle();
-    RectangleConstructor cox = new RectangleConstructor(55, 488, 216, 0); Rectangle COX = cox.getRectangle();
-    RectangleConstructor def = new RectangleConstructor(344, 55, 1, -143); Rectangle DEF = def.getRectangle();
-    RectangleConstructor stu = new RectangleConstructor(344, 55, 1, 143); Rectangle STU = stu.getRectangle();
-    RectangleConstructor dks = new RectangleConstructor(55, 344, -142, 0); Rectangle DKS = dks.getRectangle();
-    RectangleConstructor fnu = new RectangleConstructor(55, 344, 144, 0); Rectangle FNU = fnu.getRectangle();
-    RectangleConstructor ghi = new RectangleConstructor(203, 55, 1, -72); Rectangle GHI = ghi.getRectangle();
-    RectangleConstructor pqr = new RectangleConstructor(203, 55, 1, 72); Rectangle PQR = pqr.getRectangle();
-    RectangleConstructor glp = new RectangleConstructor(55, 203, -71, 0); Rectangle GLP = glp.getRectangle();
-    RectangleConstructor imr = new RectangleConstructor(55, 203, 73, 0); Rectangle IMR = imr.getRectangle();
-    RectangleConstructor beh = new RectangleConstructor(55, 201, 1, -143); Rectangle BEH = beh.getRectangle();
-    RectangleConstructor jkl = new RectangleConstructor(201, 55, -142, 0); Rectangle JKL = jkl.getRectangle();
-    RectangleConstructor mno = new RectangleConstructor(201, 55, 144, 0); Rectangle MNO = mno.getRectangle();
-    RectangleConstructor qtw = new RectangleConstructor(55, 201, 1, 143); Rectangle QTW = qtw.getRectangle();
+    RectangleConstructor abc = new RectangleConstructor(0.38125*screenWidth, 0.07639*screenHeight, 0.00078*screenWidth, -0.2986*screenHeight); Rectangle ABC = abc.getRectangle();
+    RectangleConstructor vwx = new RectangleConstructor(0.38125*screenWidth, 0.07639*screenHeight, 0.00078*screenWidth, 0.29861*screenHeight); Rectangle VWX = vwx.getRectangle();
+    RectangleConstructor ajv = new RectangleConstructor(0.04297*screenWidth, 0.67778*screenHeight, -0.1672*screenWidth, 0.00000*screenHeight); Rectangle AJV = ajv.getRectangle();
+    RectangleConstructor cox = new RectangleConstructor(0.04297*screenWidth, 0.67778*screenHeight, 0.16875*screenWidth, 0.00000*screenHeight); Rectangle COX = cox.getRectangle();
+    RectangleConstructor def = new RectangleConstructor(0.26875*screenWidth, 0.07639*screenHeight, 0.00078*screenWidth, -0.1986*screenHeight); Rectangle DEF = def.getRectangle();
+    RectangleConstructor stu = new RectangleConstructor(0.26875*screenWidth, 0.07639*screenHeight, 0.00078*screenWidth, 0.19861*screenHeight); Rectangle STU = stu.getRectangle();
+    RectangleConstructor dks = new RectangleConstructor(0.04297*screenWidth, 0.47778*screenHeight, -0.1109*screenWidth, 0.00000*screenHeight); Rectangle DKS = dks.getRectangle();
+    RectangleConstructor fnu = new RectangleConstructor(0.04297*screenWidth, 0.47778*screenHeight, 0.11250*screenWidth, 0.00000*screenHeight); Rectangle FNU = fnu.getRectangle();
+    RectangleConstructor ghi = new RectangleConstructor(0.15859*screenWidth, 0.07639*screenHeight, 0.00078*screenWidth, -0.1000*screenHeight); Rectangle GHI = ghi.getRectangle();
+    RectangleConstructor pqr = new RectangleConstructor(0.15859*screenWidth, 0.07639*screenHeight, 0.00078*screenWidth, 0.10000*screenHeight); Rectangle PQR = pqr.getRectangle();
+    RectangleConstructor glp = new RectangleConstructor(0.04297*screenWidth, 0.28194*screenHeight, -0.0555*screenWidth, 0.00000*screenHeight); Rectangle GLP = glp.getRectangle();
+    RectangleConstructor imr = new RectangleConstructor(0.04297*screenWidth, 0.28194*screenHeight, 0.05703*screenWidth, 0.00000*screenHeight); Rectangle IMR = imr.getRectangle();
+    RectangleConstructor beh = new RectangleConstructor(0.04297*screenWidth, 0.27917*screenHeight, 0.00078*screenWidth, -0.1986*screenHeight); Rectangle BEH = beh.getRectangle();
+    RectangleConstructor jkl = new RectangleConstructor(0.15703*screenWidth, 0.07639*screenHeight, -0.1109*screenWidth, 0.00000*screenHeight); Rectangle JKL = jkl.getRectangle();
+    RectangleConstructor mno = new RectangleConstructor(0.15703*screenWidth, 0.07639*screenHeight, 0.11250*screenWidth, 0.00000*screenHeight); Rectangle MNO = mno.getRectangle();
+    RectangleConstructor qtw = new RectangleConstructor(0.04297*screenWidth, 0.27917*screenHeight, 0.00078*screenWidth, 0.19861*screenHeight); Rectangle QTW = qtw.getRectangle();
 
     // Initialisez votre carte pour mapper les noms des rectangles à leurs instances
     Map<String, RectangleConstructor> rectangleMap = new HashMap<>();
@@ -104,8 +104,8 @@ public class PartyIA extends StackPane {
         //System.out.println("selectedIndexchrono: " + selectedIndexchrono);
 
         gridPane = new GridPane();
-        gridPane.setHgap(22); // Espacement horizontal entre les boutons
-        gridPane.setVgap(22); // Espacement vertical entre les boutons
+        gridPane.setHgap(0.0171875*screenWidth); // Espacement horizontal entre les boutons
+        gridPane.setVgap(0.0305556*screenHeight); // Espacement vertical entre les boutons
         gridPane.setAlignment(Pos.CENTER); // Positionnement au centre de la StackPane
 
         String[] buttonLabels = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X"};
@@ -148,8 +148,8 @@ public class PartyIA extends StackPane {
 
         VBox profileBox1 = ProfilParty.createProfileBox(avatarFileName1, playerName1, rank1, true, false);
         VBox profileBox2 = ProfilParty.createProfileBox(avatarFileName2, playerName2, rank2, false, true);
-        setMargin(profileBox1, new Insets(0, 0, 15, 20));
-        setMargin(profileBox2, new Insets(0, 20, 15, 0));
+        setMargin(profileBox1, new Insets(0, 0, 0.020833*screenHeight, 0.015625*screenWidth));
+        setMargin(profileBox2, new Insets(0, 0.015625*screenWidth, 0.020833*screenHeight, 0));
 
         setAlignment(profileBox1, Pos.BOTTOM_LEFT);
         setAlignment(profileBox2, Pos.BOTTOM_RIGHT);
@@ -157,14 +157,14 @@ public class PartyIA extends StackPane {
         // Création du bouton pause avec une image
         Image pauseImage = new Image("pause.png"); // Remplacez "chemin/vers/votre/image.png" par le chemin de votre image
         ImageView imageView = new ImageView(pauseImage);
-        imageView.setFitWidth(32); // Ajustez la largeur de l'image selon vos besoins
-        imageView.setFitHeight(32); // Ajustez la hauteur de l'image selon vos besoins
+        imageView.setFitWidth(0.025*screenWidth); // Ajustez la largeur de l'image selon vos besoins
+        imageView.setFitHeight(0.04444*screenHeight); // Ajustez la hauteur de l'image selon vos besoins
 
         Button pauseButton = new Button();
         pauseButton.setGraphic(imageView); // Définit l'image comme graphique du bouton
 
         // Rendre l'arrière-plan du bouton invisible
-        pauseButton.setStyle("-fx-background-color: transparent; -fx-background-radius: 0; -fx-border-color: transparent;");
+        pauseButton.setStyle("-fx-background-color: transparent");
 
         // Ajout d'une action pour afficher le menu pause lors du clic sur le bouton pause
         pauseButton.setOnAction(e -> {
@@ -174,7 +174,7 @@ public class PartyIA extends StackPane {
 
         // Positionnement du bouton pause en haut à droite
         StackPane.setAlignment(pauseButton, Pos.TOP_RIGHT);
-        setMargin(pauseButton, new Insets(10, 10, 0, 0));
+        setMargin(pauseButton, new Insets(0.0138889*screenHeight, 0.0078*screenWidth, 0, 0));
 
         pauseMenu = createPauseMenu(primaryStage);
         pauseMenu.setVisible(false);
@@ -356,7 +356,7 @@ public class PartyIA extends StackPane {
 
     // Méthode pour changer le style d'un bouton sélectionné
     public static void selectButton(Button button) {
-        button.setStyle(jaune);
+        button.setStyle("-fx-background-color: yellow; -fx-background-radius: 50%");
         ImageView originalImageView = (ImageView) button.getGraphic();
         originalImageView.setScaleX(1.5);
         originalImageView.setScaleY(1.5);
@@ -365,7 +365,7 @@ public class PartyIA extends StackPane {
 
     // Méthode pour changer le style d'un bouton désélectionné
     public static void deselectButton(Button button) {
-        button.setStyle(transparent); // Bordure transparente
+        button.setStyle("-fx-background-color: transparent"); // Bordure transparente
         if(button.getGraphic() != null){
             ImageView originalImageView = (ImageView) button.getGraphic();
             originalImageView.setScaleX(1.0);
@@ -485,8 +485,10 @@ public class PartyIA extends StackPane {
     private Button createStyledButton(String label) {
         Button button = new Button(label);
         button.setId(label);
-        button.setPrefSize(50, 50); // Taille préférée des boutons
-        button.setStyle(transparent); // Fond transparent
+        button.setPrefSize(0.03906*screenWidth, 0.069444*screenHeight); // Taille préférée des boutons
+        button.setMinSize(0.03906*screenWidth, 0.069444*screenHeight);
+        button.setMaxSize(0.03906*screenWidth, 0.069444*screenHeight);
+        button.setStyle("-fx-background-color: transparent"); // Fond transparent
         button.setTextFill(Color.TRANSPARENT);
         return button;
     }
@@ -538,7 +540,7 @@ public class PartyIA extends StackPane {
     }
 
     private VBox createPauseMenu(Stage primaryStage) {
-        VBox menu = new VBox(15); // Conteneur pour les boutons du menu pause
+        VBox menu = new VBox(0.020833*screenHeight); // Conteneur pour les boutons du menu pause
 
         // Ajout des boutons nécessaires (Reprendre, Options, Quitter, etc.)
         Button resumeButton = new Button("Reprendre");
@@ -546,10 +548,10 @@ public class PartyIA extends StackPane {
         Button parametres = new Button("Paramètres");
         Button quitter = new Button("Quitter la Partie");
 
-        resumeButton.setFont(Font.font("Cardo", FontWeight.BOLD, 20));
-        regles.setFont(Font.font("Cardo", FontWeight.BOLD, 20));
-        parametres.setFont(Font.font("Cardo", FontWeight.BOLD, 20));
-        quitter.setFont(Font.font("Cardo", FontWeight.BOLD, 20));
+        resumeButton.setFont(Font.font("Cardo", FontWeight.BOLD, 0.027778*screenHeight));
+        regles.setFont(Font.font("Cardo", FontWeight.BOLD, 0.027778*screenHeight));
+        parametres.setFont(Font.font("Cardo", FontWeight.BOLD, 0.027778*screenHeight));
+        quitter.setFont(Font.font("Cardo", FontWeight.BOLD, 0.027778*screenHeight));
 
         // Stylisation des boutons du menu pause
         resumeButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
@@ -580,7 +582,7 @@ public class PartyIA extends StackPane {
         menu.getChildren().addAll(resumeButton, regles, parametres, quitter);
 
         // Stylisation du menu pause avec un arrière-plan semi-transparent
-        menu.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7); -fx-padding: 20px;");
+        menu.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7)");
 
         // Positionnement du menu pause au centre de l'écran
         menu.setAlignment(Pos.CENTER);

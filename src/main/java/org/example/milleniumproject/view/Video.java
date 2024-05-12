@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -43,8 +44,15 @@ public class Video extends StackPane {
         CheckBox videoCheckBox = new CheckBox("Activer vidéos de pré-lancement");
         CheckBox animationCheckBox = new CheckBox("Activer animations");
 
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setRadius(3);
+        dropShadow.setOffsetX(2);
+        dropShadow.setOffsetY(2);
+        videoCheckBox.setEffect(dropShadow);
+        animationCheckBox.setEffect(dropShadow);
+
         // Mettre les CheckBox dans une VBox pour les organiser l'une au-dessus de l'autre
-        VBox choicesBox = new VBox(30); // Espacement vertical entre les CheckBox
+        VBox choicesBox = new VBox(0.069444*screenHeight); // Espacement vertical entre les CheckBox
         choicesBox.getChildren().addAll(videoCheckBox, animationCheckBox);
 
         // Positionner la VBox
@@ -53,13 +61,12 @@ public class Video extends StackPane {
         choicesBox.setTranslateX(vboxX);
         choicesBox.setTranslateY(vboxY);
 
+        setMargin(choicesBox, new Insets(0.097222*screenHeight, 0, 0, 0));
+
         getChildren().addAll(choicesBox, retourButton);
 
         // Définir le style des CheckBox
-        String checkBoxStyle = "-fx-text-fill: white; " +
-                "-fx-font-family: Cardo; " +
-                "-fx-font-weight: bold; " +
-                "-fx-font-size: 35px;";
+        String checkBoxStyle = "-fx-text-fill: white; -fx-font-family: Cardo; -fx-font-weight: bold; -fx-font-size: 35px;";
 
         // Appliquer le style aux CheckBox
         videoCheckBox.setStyle(checkBoxStyle);

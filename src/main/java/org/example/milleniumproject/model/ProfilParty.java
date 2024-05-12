@@ -98,7 +98,7 @@ public class ProfilParty {
 
         // Ajout du nom du joueur
         Label nameLabel = new Label(playerName);
-        nameLabel.setFont(Font.font("Cardo", 0.0486*screenHeight)); // Définition de la police et de la taille
+        nameLabel.setFont(Font.font("Cardo", 0.044444*screenHeight)); // Définition de la police et de la taille
         nameLabel.setTextFill(Color.WHITE); // Définition de la couleur du text
         labelsVBox.getChildren().add(nameLabel);
 

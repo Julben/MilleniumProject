@@ -7,7 +7,7 @@ import javafx.scene.shape.Rectangle;
 public class RectangleConstructor {
     private final Rectangle rectangle;
 
-    public RectangleConstructor(int width, int height, int translateX, int translateY) {
+    public RectangleConstructor(double width, double height, double translateX, double translateY) {
         rectangle = new Rectangle(width, height);
         rectangle.setArcWidth(50);
         rectangle.setArcHeight(50);
