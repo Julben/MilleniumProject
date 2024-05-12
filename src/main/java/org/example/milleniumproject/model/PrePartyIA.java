@@ -250,18 +250,18 @@ public class PrePartyIA extends StackPane {
 
             DropShadow dropShadow = new DropShadow();
             dropShadow.setRadius(3);
-            dropShadow.setOffsetX(1);
-            dropShadow.setOffsetY(1);
+            dropShadow.setOffsetX(2);
+            dropShadow.setOffsetY(2);
             imageView.setEffect(dropShadow);
 
             // Ajouter un écouteur pour changer la couleur de la bordure de l'image
             button.selectedProperty().addListener((observable, oldValue, newValue) -> {
                 SoundPlayer.soundPlay();
                 if (newValue) {
-                    Color intenseGreen = Color.rgb(0, 103, 255); // Intensité de la couleur verte
-                    imageView.setEffect(new javafx.scene.effect.DropShadow(40, intenseGreen));
+                    Color intenseBlue = Color.rgb(0, 103, 255); // Intensité de la couleur verte
+                    imageView.setEffect(new javafx.scene.effect.DropShadow(40, intenseBlue));
                 } else {
-                    imageView.setEffect(null);
+                    imageView.setEffect(dropShadow);
                 }
             });
 
