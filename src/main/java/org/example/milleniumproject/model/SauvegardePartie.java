@@ -2,6 +2,7 @@ package org.example.milleniumproject.model;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -12,7 +13,6 @@ import java.io.IOException;
 
 public class SauvegardePartie {
     private GridPane gridPane;
-    private VBox profileBox1;
     private int currentPlayer;
     private int turn;
     private String avatar1;
@@ -23,9 +23,12 @@ public class SauvegardePartie {
     private String ship2;
     private String name1;
     private String name2;
-    public SauvegardePartie(GridPane gridPane,String avatar1,String avatar2,String rank1,String rank2, String ship1, String ship2, String name1, String name2,int currentPlayer,int turn) {
+    private int chronoselect;
+    private int BGselect;
+
+
+    public SauvegardePartie(GridPane gridPane,String avatar1,String avatar2,String rank1,String rank2, String ship1, String ship2, String name1, String name2,int currentPlayer,int turn,int chronoselect,int BGselect) {
         this.gridPane = gridPane;
-        this.profileBox1 = profileBox1;
         this.currentPlayer = currentPlayer;
         this.turn = turn;
         this.avatar1 = avatar1;
@@ -36,6 +39,8 @@ public class SauvegardePartie {
         this.ship2 = ship2;
         this.name1 = name1;
         this.name2 = name2;
+        this.chronoselect=chronoselect;
+        this.BGselect=BGselect;
     }
 
     public void sauvegarderDansFichier(String nomFichier) {
@@ -74,6 +79,10 @@ public class SauvegardePartie {
             writer.write("Name1="+name1);
             writer.newLine();
             writer.write("Name2="+name2);
+            writer.newLine();
+            writer.write("ChronoSelect="+chronoselect);
+            writer.newLine();
+            writer.write("BGSelect="+BGselect);
         } catch (IOException e) {
             e.printStackTrace();
         }

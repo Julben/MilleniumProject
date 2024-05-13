@@ -2,6 +2,7 @@ package org.example.milleniumproject.model;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -30,6 +31,8 @@ import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 import static javafx.scene.paint.Color.GREEN;
 import static javafx.scene.paint.Color.TRANSPARENT;
+import static org.example.milleniumproject.model.Methodeia.disableMouseInteractions;
+
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import java.util.Random;
@@ -231,32 +234,58 @@ public class PartyIA extends StackPane {
 
     }
 
-    private void makeRandomMove() {
-        // Vérifier si c'est le tour de l'IA
-        if (currentPlayer == 2 && !isRemovePieceMode && turns < 18) {
-            // Sélectionner un bouton aléatoire parmi les boutons disponibles
-            Random random = new Random();
-            Button randomButton = null;
-            do {
-                int index = random.nextInt(gridPane.getChildren().size());
-                Node node = gridPane.getChildren().get(index);
-                if (node instanceof Button) {
-                    randomButton = (Button) node;
+    // Méthode pour retirer un pion adverse
+    private void removePiece(Button button) {
+        // Vérifier si le bouton cliqué contient une image
+        if (button.getGraphic() instanceof ImageView) {
+            if(currentPlayer==1) {
+                for(Button b : buttonsJ2){
+                    if (!isNotlibre(b)){
+                        boutonlibre = true;
+                    }
                 }
-            } while (randomButton == null || randomButton.getGraphic() != null);
-
-            // Placer l'image de l'IA sur le bouton sélectionné
-            placePlayerImage(randomButton, rightVBox);
-            buttonsJ2.add(randomButton);
-
-            // Vérifier les combinaisons après chaque placement de pion
-            checkButtonCombinations();
-
-            // Passer le tour au joueur 1
-            currentPlayer = 1;
-            turns++;
+                if(boutonlibre && buttonsJ2.contains(button) && !isNotlibre(button)){
+                    button.setGraphic(null);
+                    buttonsJ2.remove(button);
+                    currentPlayer = currentPlayer == 1 ? 2 : 1;
+                    isRemovePieceMode = false;
+                    boutonlibre = false;
+                }
+                else if(!boutonlibre && buttonsJ2.contains(button)){
+                    button.setGraphic(null);
+                    buttonsJ2.remove(button);
+                    resetButtonColorsForMovedButton(button);
+                    currentPlayer = currentPlayer == 1 ? 2 : 1;
+                    isRemovePieceMode = false;
+                    boutonlibre = false;
+                }
+            }
+            else if(currentPlayer==2) {
+                for(Button b : buttonsJ1){
+                    if (!isNotlibre(b)){
+                        boutonlibre = true;
+                    }
+                }
+                if(boutonlibre && buttonsJ1.contains(button) && !isNotlibre(button)){
+                    button.setGraphic(null);
+                    buttonsJ1.remove(button);
+                    currentPlayer = currentPlayer == 1 ? 2 : 1;
+                    isRemovePieceMode = false;
+                    boutonlibre = false;
+                }
+                else if(!boutonlibre && buttonsJ1.contains(button)){
+                    button.setGraphic(null);
+                    buttonsJ1.remove(button);
+                    resetButtonColorsForMovedButton(button);
+                    currentPlayer = currentPlayer == 1 ? 2 : 1;
+                    isRemovePieceMode = false;
+                    boutonlibre = false;
+                }
+            }
         }
     }
+
+
 
 
 
@@ -271,10 +300,45 @@ public class PartyIA extends StackPane {
             // Si le mode de suppression de pion est activé
             removePiece(button);
 
+
+
             if (currentPlayer==1){
                 ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+
+
             } else {
                 ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
+                // Désactiver la souris pendant une seconde
+                disableMouseInteractions(gridpane, true);
+
+                PauseTransition pause = new PauseTransition(Duration.seconds(1));
+                pause.setOnFinished(event -> {
+                Random random = new Random();
+                Button randomButton = null;
+                do {
+                    int index = random.nextInt(gridPane.getChildren().size());
+                    Node node = gridPane.getChildren().get(index);
+                    if (node instanceof Button) {
+                        randomButton = (Button) node;
+                    }
+                } while (randomButton == null || randomButton.getGraphic() != null);
+
+                // Placer l'image de l'IA sur le bouton sélectionné
+                placePlayerImage(randomButton, rightVBox);
+                buttonsJ2.add(randomButton);
+
+                // Vérifier les combinaisons après chaque placement de pion
+                checkButtonCombinations();
+                if(isRemovePieceMode){
+                    currentPlayer = 2;
+                } else {
+                    currentPlayer = 1;
+
+                }
+                turns++;
+                    disableMouseInteractions(gridpane, false);
+                });
+                pause.play();
             }
 
             // Vérifier si la partie est terminée
@@ -289,7 +353,7 @@ public class PartyIA extends StackPane {
         else {
             // Vérifier si le bouton n'a pas déjà d'image et si tous les tours n'ont pas été joués
             if (button.getGraphic() == null && turns < 18) {
-                // Placer l'image du joueur sur le bouton en fonction du joueur actuel
+                // Placer l'image du joueur sur le bouton en fonction du joueur 1
                 if (currentPlayer == 1) {
                     placePlayerImage(button, leftVBox);
                     buttonsJ1.add(button);
@@ -297,12 +361,22 @@ public class PartyIA extends StackPane {
                     checkButtonCombinations();
                     if(isRemovePieceMode){
                         currentPlayer = 1;
+
                     } else {
                         currentPlayer = 2;
-                        ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
+
                     }
                     turns++;
-                    makeRandomMove();
+                    // Désactiver la souris pendant une seconde
+                    disableMouseInteractions(gridpane, true);
+
+                    PauseTransition pause = new PauseTransition(Duration.seconds(1));
+                    pause.setOnFinished(event -> {
+                        makeRandomMove();
+                        // Réactiver la souris
+                        disableMouseInteractions(gridpane, false);
+                    });
+                    pause.play();
                 }
 
             }
@@ -324,9 +398,44 @@ public class PartyIA extends StackPane {
         }
     }
 
+    private void makeRandomMove() {
+        // Vérifier si c'est le tour de l'IA
+        if (currentPlayer == 2 && !isRemovePieceMode && turns < 18) {
+            // Sélectionner un bouton aléatoire parmi les boutons disponibles
+            Random random = new Random();
+            Button randomButton = null;
+            do {
+                int index = random.nextInt(gridPane.getChildren().size());
+                Node node = gridPane.getChildren().get(index);
+                if (node instanceof Button) {
+                    randomButton = (Button) node;
+                }
+            } while (randomButton == null || randomButton.getGraphic() != null);
 
+            // Placer l'image de l'IA sur le bouton sélectionné
+            placePlayerImage(randomButton, rightVBox);
+            buttonsJ2.add(randomButton);
 
+            // Vérifier les combinaisons après chaque placement de pion
+            checkButtonCombinations();
+            if(isRemovePieceMode){
+                currentPlayer = 2;
+            } else {
+                currentPlayer = 1;
 
+            }
+            turns++;
+        }
+    }
+
+    // Méthode pour vérifier les combinaisons de boutons et changer leur couleur si une combinaison est trouvée
+    private void checkButtonCombinations() {
+        for (String[] combination : alignments) {
+            if (checkAndChangeButtonColor(combination[0], combination[1], combination[2])) {
+                isRemovePieceMode = true;
+            }
+        }
+    }
 
 
 
@@ -414,14 +523,7 @@ public class PartyIA extends StackPane {
         }
     }
 
-    // Méthode pour vérifier les combinaisons de boutons et changer leur couleur si une combinaison est trouvée
-    private void checkButtonCombinations() {
-        for (String[] combination : alignments) {
-            if (checkAndChangeButtonColor(combination[0], combination[1], combination[2])) {
-                isRemovePieceMode = true;
-            }
-        }
-    }
+
 
     // Méthode pour vérifier si deux boutons sont voisins
     public static boolean isNeighbourButton(Button button1, Button button2) {
@@ -496,56 +598,7 @@ public class PartyIA extends StackPane {
         return null;
     }
 
-    // Méthode pour retirer un pion adverse
-    private void removePiece(Button button) {
-        // Vérifier si le bouton cliqué contient une image
-        if (button.getGraphic() instanceof ImageView) {
-            if(currentPlayer==1) {
-                for(Button b : buttonsJ2){
-                    if (!isNotlibre(b)){
-                        boutonlibre = true;
-                    }
-                }
-                if(boutonlibre && buttonsJ2.contains(button) && !isNotlibre(button)){
-                    button.setGraphic(null);
-                    buttonsJ2.remove(button);
-                    currentPlayer = currentPlayer == 1 ? 2 : 1;
-                    isRemovePieceMode = false;
-                    boutonlibre = false;
-                }
-                else if(!boutonlibre && buttonsJ2.contains(button)){
-                    button.setGraphic(null);
-                    buttonsJ2.remove(button);
-                    resetButtonColorsForMovedButton(button);
-                    currentPlayer = currentPlayer == 1 ? 2 : 1;
-                    isRemovePieceMode = false;
-                    boutonlibre = false;
-                }
-            }
-            else if(currentPlayer==2) {
-                for(Button b : buttonsJ1){
-                    if (!isNotlibre(b)){
-                        boutonlibre = true;
-                    }
-                }
-                if(boutonlibre && buttonsJ1.contains(button) && !isNotlibre(button)){
-                    button.setGraphic(null);
-                    buttonsJ1.remove(button);
-                    currentPlayer = currentPlayer == 1 ? 2 : 1;
-                    isRemovePieceMode = false;
-                    boutonlibre = false;
-                }
-                else if(!boutonlibre && buttonsJ1.contains(button)){
-                    button.setGraphic(null);
-                    buttonsJ1.remove(button);
-                    resetButtonColorsForMovedButton(button);
-                    currentPlayer = currentPlayer == 1 ? 2 : 1;
-                    isRemovePieceMode = false;
-                    boutonlibre = false;
-                }
-            }
-        }
-    }
+
 
     private boolean isNotlibre(Button b) {
         String nomButton = b.getText();
