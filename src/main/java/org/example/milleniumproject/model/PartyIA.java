@@ -121,7 +121,7 @@ public class PartyIA extends StackPane {
         } else if (selectedIndexchrono == 1){
             chrono = "60";
         } else {
-            chrono = "";
+            chrono = "0";
             isNoChrono = true;
         }
 
@@ -177,8 +177,8 @@ public class PartyIA extends StackPane {
         String avatarFileName1 = avatar1.substring(avatar1.lastIndexOf('/') + 1);
         String avatarFileName2 = avatar2.substring(avatar2.lastIndexOf('/') + 1);
 
-        VBox profileBox1 = ProfilParty.createProfileBox(avatarFileName1, playerName1, rank1, timerLabel1, true, false, isNoChrono);
-        VBox profileBox2 = ProfilParty.createProfileBox(avatarFileName2, playerName2, rank2, timerLabel2, false, true, isNoChrono);
+        VBox profileBox1 = ProfilParty.createProfileBox(avatarFileName1, playerName1, rank1, timerLabel1, true, false);
+        VBox profileBox2 = ProfilParty.createProfileBox(avatarFileName2, playerName2, rank2, timerLabel2, false, true);
         setMargin(profileBox1, new Insets(0, 0, 0.020833*screenHeight, 0.015625*screenWidth));
         setMargin(profileBox2, new Insets(0, 0.015625*screenWidth, 0.020833*screenHeight, 0));
 
@@ -619,7 +619,11 @@ public class PartyIA extends StackPane {
                 new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                        remainingSeconds[0]--;
+                        if(isNoChrono){
+                            remainingSeconds[0]++;
+                        } else {
+                            remainingSeconds[0]--;
+                        }
                         timerLabel.setText(Integer.toString(remainingSeconds[0]));
                         if (remainingSeconds[0] <= 0) {
                             timeline.stop();

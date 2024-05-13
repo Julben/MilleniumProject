@@ -161,7 +161,7 @@ public class PrePartyIA extends StackPane {
     public void VideoLoad(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3,ToggleGroup toggleGroup2, HBox hbox2) {
         if(VideoData.isVideoChoose()) {
             List<String> stringList = Arrays.asList("src/main/resources/MusicParty1.mp3", "src/main/resources/MusicParty2.mp3", "src/main/resources/MusicParty3.mp3",
-                    "src/main/resources/MusicParty5.mp3", "src/main/resources/MusicParty6.mp3");
+                    "src/main/resources/MusicParty5.mp3", "src/main/resources/MusicParty6.mp3", "src/main/resources/MusicParty6.mp3");
             Random rand = new Random();
             int index = rand.nextInt(stringList.size());
             String randomString = stringList.get(index);
