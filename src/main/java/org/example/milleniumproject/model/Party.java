@@ -307,8 +307,9 @@ public class Party extends StackPane {
             if(placementisfinished){
                 if (isGameFinished()) {
                     timeline.stop();
+                    timeline1.stop();
+                    timeline2.stop();
                     EndParty.afficherFinPartie(this, primaryStage, currentPlayer);
-                    timeline.stop();
                 }
             }
         }
@@ -354,8 +355,9 @@ public class Party extends StackPane {
                 // Vérifier si la partie est terminée
                 if (isGameFinished()) {
                     timeline.stop();
+                    timeline1.stop();
+                    timeline2.stop();
                     EndParty.afficherFinPartie(this, primaryStage, currentPlayer);
-                    timeline.stop();
                 }
             }
         }
