@@ -1,4 +1,4 @@
-package org.example.milleniumproject.model;
+/*package org.example.milleniumproject.model;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleGroup;
@@ -79,5 +79,5 @@ public class ChargerPartie {
         return new ArrayList<String>(Arrays.asList(avatar1, avatar2,rank1,rank2,ship1,ship2,name1,name2,String.valueOf(currentPlayer),String.valueOf(turn),String.valueOf(chronoselect),String.valueOf(BGselect)));
 
     }
-}
+}*/
 
