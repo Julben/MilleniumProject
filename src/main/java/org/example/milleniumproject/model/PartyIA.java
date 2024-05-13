@@ -267,16 +267,19 @@ public class PartyIA extends StackPane {
                     }
                 }
                 if(boutonlibre && buttonsJ1.contains(button) && !isNotlibre(button)){
-                    button.setGraphic(null);
-                    buttonsJ1.remove(button);
+
+                    Button randomFreeButtonJ1 = getRandomFreeButtonJ1();
+                    randomFreeButtonJ1.setGraphic(null);
+                    buttonsJ1.remove(randomFreeButtonJ1);
                     currentPlayer = currentPlayer == 1 ? 2 : 1;
                     isRemovePieceMode = false;
                     boutonlibre = false;
                 }
                 else if(!boutonlibre && buttonsJ1.contains(button)){
-                    button.setGraphic(null);
-                    buttonsJ1.remove(button);
-                    resetButtonColorsForMovedButton(button);
+                    Button randomButtonJ1 = getRandomButtonJ1();
+                    randomButtonJ1.setGraphic(null);
+                    buttonsJ1.remove(randomButtonJ1);
+                    resetButtonColorsForMovedButton(randomButtonJ1);
                     currentPlayer = currentPlayer == 1 ? 2 : 1;
                     isRemovePieceMode = false;
                     boutonlibre = false;
@@ -284,6 +287,65 @@ public class PartyIA extends StackPane {
             }
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+    // Méthode pour retourner un bouton du joueur 1 de manière aléatoire
+    public Button getRandomButtonJ1() {
+        // Vérifier si la liste des boutons du joueur 1 est vide
+        if (buttonsJ1.isEmpty()) {
+            return null; // Retourner null s'il n'y a aucun bouton
+        }
+
+        // Générer un index aléatoire dans la plage des boutons du joueur 1
+        Random random = new Random();
+        int randomIndex = random.nextInt(buttonsJ1.size());
+
+        // Récupérer le bouton à partir de l'index généré aléatoirement
+        return buttonsJ1.get(randomIndex);
+    }
+
+    public Button getRandomFreeButtonJ1() {
+        // Créer une liste pour stocker les boutons libres du joueur 1
+        List<Button> freeButtonsJ1 = new ArrayList<>();
+
+        // Parcourir tous les boutons du joueur 1 et ajouter les boutons libres à la liste
+        for (Button button : buttonsJ1) {
+            if (!isNotlibre(button)) {
+                freeButtonsJ1.add(button);
+            }
+        }
+
+        // Vérifier s'il y a des boutons libres du joueur 1
+        if (freeButtonsJ1.isEmpty()) {
+            return null; // Retourner null s'il n'y a aucun bouton libre
+        }
+
+        // Générer un index aléatoire dans la plage des boutons libres du joueur 1
+        Random random = new Random();
+        int randomIndex = random.nextInt(freeButtonsJ1.size());
+
+        // Récupérer le bouton libre à partir de l'index généré aléatoirement
+        return freeButtonsJ1.get(randomIndex);
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
 
 
 
@@ -301,7 +363,6 @@ public class PartyIA extends StackPane {
             removePiece(button);
 
 
-
             if (currentPlayer==1){
                 ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
 
@@ -313,29 +374,7 @@ public class PartyIA extends StackPane {
 
                 PauseTransition pause = new PauseTransition(Duration.seconds(1));
                 pause.setOnFinished(event -> {
-                Random random = new Random();
-                Button randomButton = null;
-                do {
-                    int index = random.nextInt(gridPane.getChildren().size());
-                    Node node = gridPane.getChildren().get(index);
-                    if (node instanceof Button) {
-                        randomButton = (Button) node;
-                    }
-                } while (randomButton == null || randomButton.getGraphic() != null);
-
-                // Placer l'image de l'IA sur le bouton sélectionné
-                placePlayerImage(randomButton, rightVBox);
-                buttonsJ2.add(randomButton);
-
-                // Vérifier les combinaisons après chaque placement de pion
-                checkButtonCombinations();
-                if(isRemovePieceMode){
-                    currentPlayer = 2;
-                } else {
-                    currentPlayer = 1;
-
-                }
-                turns++;
+                    makeRandomMove();
                     disableMouseInteractions(gridpane, false);
                 });
                 pause.play();
@@ -428,14 +467,11 @@ public class PartyIA extends StackPane {
         }
     }
 
-    // Méthode pour vérifier les combinaisons de boutons et changer leur couleur si une combinaison est trouvée
-    private void checkButtonCombinations() {
-        for (String[] combination : alignments) {
-            if (checkAndChangeButtonColor(combination[0], combination[1], combination[2])) {
-                isRemovePieceMode = true;
-            }
-        }
-    }
+
+
+
+
+
 
 
 
@@ -598,7 +634,14 @@ public class PartyIA extends StackPane {
         return null;
     }
 
-
+    // Méthode pour vérifier les combinaisons de boutons et changer leur couleur si une combinaison est trouvée
+    private void checkButtonCombinations() {
+        for (String[] combination : alignments) {
+            if (checkAndChangeButtonColor(combination[0], combination[1], combination[2])) {
+                isRemovePieceMode = true;
+            }
+        }
+    }
 
     private boolean isNotlibre(Button b) {
         String nomButton = b.getText();
