@@ -31,6 +31,6 @@ Rank2=Seigneur Sith
 Ship1=src/main/resources/PionDestroyer.png
 Ship2=src/main/resources/PionXwing.png
 Name1=Hadrienn
-Name2=Lucien
+Name2=Lucienn
 ChronoSelect=0
 BGSelect=0
