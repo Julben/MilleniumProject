@@ -2,6 +2,7 @@ package org.example.milleniumproject.model;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -31,6 +32,7 @@ import static javafx.scene.paint.Color.TRANSPARENT;
 public class Party extends StackPane {
     private ChargerPartie chargerPartie = new ChargerPartie();
     private int currentPlayer = 1;
+    private boolean end = false;
     private VBox leftVBox;
     private VBox rightVBox;
     private int turns = 0;
@@ -140,7 +142,6 @@ public class Party extends StackPane {
         timerLabel2.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
         Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1);
         Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2);
-
 
         gridPane = new GridPane();
         gridPane.setHgap(0.0171875*screenWidth); // Espacement horizontal entre les boutons
