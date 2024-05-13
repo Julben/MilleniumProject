@@ -53,6 +53,9 @@ public class Party extends StackPane {
     private VBox quitterMenu;
     private boolean selected = false;
     private boolean change = false;
+    private int[] rowIndices = {0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 6};
+    private int[] colIndices = {0, 3, 6, 1, 3, 5, 2, 3, 4, 0, 1, 2, 4, 5, 6, 2, 3, 4, 1, 3, 5, 0, 3, 6, 6};
+    private String[] buttonLabels = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X"};
     private static final List<String[]> neighbourList = Arrays.asList(
             new String[]{"A", "B"}, new String[]{"A", "J"}, new String[]{"B", "C"}, new String[]{"B", "E"}, new String[]{"C", "O"}, new String[]{"D", "E"}, new String[]{"D", "K"}, new String[]{"E", "F"},
             new String[]{"E", "H"}, new String[]{"F", "N"}, new String[]{"G", "H"}, new String[]{"G", "L"}, new String[]{"H", "I"}, new String[]{"I", "M"}, new String[]{"J", "K"}, new String[]{"J", "V"},
@@ -87,9 +90,63 @@ public class Party extends StackPane {
 
     }
 
-    public Party(Stage primaryStage,int selectedIndexchrono,int selectedIndex,String avatar1,String avatar2, String playerName1,String playerName2,String rank1,String rank2){
+    public Party(Stage primaryStage, int selectedIndexchrono, int selectedIndex, String avatar1, String avatar2, String playerName1, String playerName2, String rank1, String rank2, int currentPlayer, int turns, List<Button> buttonSave,List<Button> buttonsJ1,List<Button> buttonsJ2){
 
-        setPlayerInfo(primaryStage,selectedIndexchrono,selectedIndex,avatar1,avatar2,playerName1,playerName2,rank1,rank2);
+        rectangleMap.put("ABC", abc); rectangleMap.put("DEF", def); rectangleMap.put("GHI", ghi); rectangleMap.put("JKL", jkl);
+        rectangleMap.put("MNO", mno); rectangleMap.put("PQR", pqr); rectangleMap.put("STU", stu); rectangleMap.put("VWX", vwx);
+        rectangleMap.put("AJV", ajv); rectangleMap.put("DKS", dks); rectangleMap.put("GLP", glp); rectangleMap.put("BEH", beh);
+        rectangleMap.put("QTW", qtw); rectangleMap.put("IMR", imr); rectangleMap.put("FNU", fnu); rectangleMap.put("COX", cox);
+
+
+        setPlayerInfo(primaryStage,selectedIndexchrono,selectedIndex,avatar1,avatar2,playerName1,playerName2,rank1,rank2,currentPlayer,turns);
+
+        this.buttonsJ1 = buttonsJ1;
+        this.buttonsJ2 = buttonsJ2;
+        this.turns=turns;
+        this.currentPlayer=currentPlayer;
+
+        gridPane.getChildren().clear();
+
+
+        for (int i = 0; i < buttonLabels.length; i++) {
+            Button button = buttonSave.get(i);
+            button.setPrefSize(0.03906*Constant.screenWidth, 0.069444*Constant.screenHeight); // Taille préférée des boutons
+            button.setMinSize(0.03906*Constant.screenWidth, 0.069444*Constant.screenHeight);
+            button.setMaxSize(0.03906*Constant.screenWidth, 0.069444*Constant.screenHeight);
+            button.setStyle("-fx-background-color: transparent"); // Fond transparent
+            button.setTextFill(Color.TRANSPARENT);
+
+            gridPane.add(button, colIndices[i], rowIndices[i]);
+        }
+
+        String chrono;
+
+        if (selectedIndexchrono == 0){
+            chrono = "30";
+        } else if (selectedIndexchrono == 1){
+            chrono = "60";
+        } else {
+            chrono = "0";
+            isNoChrono = true;
+        }
+        int[] remainingSeconds1 = {Integer.parseInt(chrono)};
+        int[] remainingSeconds2 = {Integer.parseInt(chrono)};
+        Label timerLabel1 = new Label(chrono);
+        Label timerLabel2 = new Label(chrono);
+        timerLabel1.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
+        timerLabel2.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
+        Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1);
+        Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2);
+
+        for (Node node : gridPane.getChildren()) {
+            if (node instanceof Button) {
+                Button button = (Button) node;
+                button.setOnAction(e -> {
+                    SoundPlayer.soundPlay();
+                    handleButtonClick(button, gridPane, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono, primaryStage);
+                });
+            }
+        }
     }
 
     public Party(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3, ToggleGroup toggleGroup2, HBox hbox2) {
@@ -106,10 +163,14 @@ public class Party extends StackPane {
         int selectedIndex = PreParty.getSelectedIndex(toggleGroup3, hbox3);
         int selectedIndexchrono = PreParty.getSelectedIndexchrono(toggleGroup2, hbox2);
 
-        setPlayerInfo(primaryStage,selectedIndexchrono,selectedIndex,ProfileData.getAvatar(1),ProfileData.getAvatar(2),ProfileData.getPlayerName(1),ProfileData.getPlayerName(2),ProfileData.getRank(1),ProfileData.getRank(2));
+
+
+        setPlayerInfo(primaryStage,selectedIndexchrono,selectedIndex,ProfileData.getAvatar(1),ProfileData.getAvatar(2),ProfileData.getPlayerName(1),ProfileData.getPlayerName(2),ProfileData.getRank(1),ProfileData.getRank(2),currentPlayer,turns);
+
+
     }
 
-    private void setPlayerInfo(Stage primaryStage,int selectedIndexchrono,int selectedIndex,String avatar1,String avatar2, String playerName1,String playerName2,String rank1,String rank2)
+    private void setPlayerInfo(Stage primaryStage,int selectedIndexchrono,int selectedIndex,String avatar1,String avatar2, String playerName1,String playerName2,String rank1,String rank2, int currentPlayer,int turns)
     {
 
         String backgroundImage = "";
@@ -148,14 +209,14 @@ public class Party extends StackPane {
         gridPane.setVgap(0.0305556*screenHeight); // Espacement vertical entre les boutons
         gridPane.setAlignment(Pos.CENTER); // Positionnement au centre de la StackPane
 
-        String[] buttonLabels = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X"};
-        int[] rowIndices = {0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 6};
-        int[] colIndices = {0, 3, 6, 1, 3, 5, 2, 3, 4, 0, 1, 2, 4, 5, 6, 2, 3, 4, 1, 3, 5, 0, 3, 6, 6};
+
+
 
         for (int i = 0; i < buttonLabels.length; i++) {
             Button button = createStyledButton(buttonLabels[i]);
             gridPane.add(button, colIndices[i], rowIndices[i]);
         }
+
 
         String str = ProfileData.getShip(1);
         int lastIndex = str.lastIndexOf('/');
@@ -690,22 +751,44 @@ public class Party extends StackPane {
     }
 
     public void LoadParty(Stage primaryStage){
-        List<String> allInfo = chargerPartie.chargerPartieDepuisFichier();
-        String avatar1 = allInfo.get(0);
-        String avatar2 = allInfo.get(1);
-        String rank1 = allInfo.get(2);
-        String rank2 = allInfo.get(3);
-        String ship1 = allInfo.get(4);
-        String ship2 = allInfo.get(5);
-        String name1 = allInfo.get(6);
-        String name2 = allInfo.get(7);
-        currentPlayer = Integer.parseInt(allInfo.get(8));
-        turns = Integer.parseInt(allInfo.get(9));
-        int selectedIndexchrono=Integer.parseInt(allInfo.get(10));
-        int selectedIndex=Integer.parseInt(allInfo.get(11));
-        setPlayerInfo(primaryStage,selectedIndexchrono,selectedIndex,avatar1,avatar2,name1,name2,rank1,rank2);
+        List<Object> allInfo = chargerPartie.chargerPartieDepuisFichier();
+        String avatar1 = (String) allInfo.get(0);
+        String avatar2 = (String) allInfo.get(1);
+        String rank1 = (String) allInfo.get(2);
+        String rank2 = (String) allInfo.get(3);
+        String ship1 = (String) allInfo.get(4);
+        String ship2 = (String) allInfo.get(5);
+        String name1 = (String) allInfo.get(6);
+        String name2 = (String) allInfo.get(7);
+        int currentPlayer = (int) allInfo.get(8);
+        int turns = (int) allInfo.get(9);
+        int selectedIndexchrono =(int) allInfo.get(10);
+        int selectedIndex = (int) allInfo.get(11);
+        List<String> pictureButton = (List<String>) allInfo.get(12);
+        List<Button> buttonSave = new ArrayList<>();
+        //setPlayerInfo(primaryStage,selectedIndexchrono,selectedIndex,avatar1,avatar2,name1,name2,rank1,rank2,currentPlayer,turns);
 
-        Party party = new Party(primaryStage,selectedIndexchrono,selectedIndex,avatar1,avatar2,name1,name2,rank1,rank2);
+        for (int i = 0; i < buttonLabels.length; i++) {
+            Button button = createStyledButton(buttonLabels[i]);
+            if (pictureButton.get(i)!="null") {
+                Image image = new Image(pictureButton.get(i));
+                ImageView imageView = new ImageView(image);
+                imageView.setFitWidth(0.04*screenWidth);
+                imageView.setFitHeight(0.07104*screenHeight);
+                button.setGraphic(imageView);
+                buttonSave.add(button);
+                if(ship1.equals(pictureButton.get(i))){
+                    buttonsJ1.add(button);
+                }else{
+                    buttonsJ2.add(button);
+                }
+            } else {
+                button.setGraphic(null);
+                buttonSave.add(button);
+            }
+        }
+
+        Party party = new Party(primaryStage,selectedIndexchrono,selectedIndex,avatar1,avatar2,name1,name2,rank1,rank2,currentPlayer,turns, buttonSave, buttonsJ1 , buttonsJ2);
         primaryStage.getScene().setRoot(party);
     }
 }
