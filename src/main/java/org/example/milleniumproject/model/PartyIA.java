@@ -362,12 +362,12 @@ public class PartyIA extends StackPane {
             // Si le mode de suppression de pion est activé
             removePiece(button);
 
-
             if (currentPlayer==1){
                 ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
 
 
-            } else {
+            }
+            else {
                 ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
                 // Désactiver la souris pendant une seconde
                 disableMouseInteractions(gridpane, true);
