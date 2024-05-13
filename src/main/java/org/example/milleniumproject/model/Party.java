@@ -29,6 +29,7 @@ import static javafx.scene.paint.Color.GREEN;
 import static javafx.scene.paint.Color.TRANSPARENT;
 
 public class Party extends StackPane {
+    private ChargerPartie chargerPartie = new ChargerPartie();
     private int currentPlayer = 1;
     private VBox leftVBox;
     private VBox rightVBox;
@@ -80,10 +81,20 @@ public class Party extends StackPane {
 
     // Initialisez votre carte pour mapper les noms des rectangles à leurs instances
     Map<String, RectangleConstructor> rectangleMap = new HashMap<>();
+    public  Party(){
+
+    }
+
+    public Party(Stage primaryStage,int selectedIndexchrono,int selectedIndex,String avatar1,String avatar2, String playerName1,String playerName2,String rank1,String rank2){
+
+        setPlayerInfo(primaryStage,selectedIndexchrono,selectedIndex,avatar1,avatar2,playerName1,playerName2,rank1,rank2);
+    }
 
     public Party(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3, ToggleGroup toggleGroup2, HBox hbox2) {
         this.toggleGroup3 = toggleGroup3;
         this.hbox3 = hbox3;
+        this.toggleGroup2 = toggleGroup2;
+        this.hbox2 = hbox2;
 
         rectangleMap.put("ABC", abc); rectangleMap.put("DEF", def); rectangleMap.put("GHI", ghi); rectangleMap.put("JKL", jkl);
         rectangleMap.put("MNO", mno); rectangleMap.put("PQR", pqr); rectangleMap.put("STU", stu); rectangleMap.put("VWX", vwx);
@@ -91,6 +102,13 @@ public class Party extends StackPane {
         rectangleMap.put("QTW", qtw); rectangleMap.put("IMR", imr); rectangleMap.put("FNU", fnu); rectangleMap.put("COX", cox);
 
         int selectedIndex = PreParty.getSelectedIndex(toggleGroup3, hbox3);
+        int selectedIndexchrono = PreParty.getSelectedIndexchrono(toggleGroup2, hbox2);
+
+        setPlayerInfo(primaryStage,selectedIndexchrono,selectedIndex,ProfileData.getAvatar(1),ProfileData.getAvatar(2),ProfileData.getPlayerName(1),ProfileData.getPlayerName(2),ProfileData.getRank(1),ProfileData.getRank(2));
+    }
+
+    private void setPlayerInfo(Stage primaryStage,int selectedIndexchrono,int selectedIndex,String avatar1,String avatar2, String playerName1,String playerName2,String rank1,String rank2)
+    {
 
         String backgroundImage = "";
         if (selectedIndex == 0) {
@@ -102,11 +120,6 @@ public class Party extends StackPane {
         }
         BG ground = new BG(backgroundImage);
         setBackground(ground.getCustomBackground());
-
-        this.toggleGroup2 = toggleGroup2;
-        this.hbox2 = hbox2;
-
-        int selectedIndexchrono = PreParty.getSelectedIndexchrono(toggleGroup2, hbox2);
 
         String chrono;
 
@@ -161,13 +174,7 @@ public class Party extends StackPane {
         StackPane.setAlignment(leftVBox, Pos.CENTER_LEFT);
         StackPane.setAlignment(rightVBox, Pos.CENTER_RIGHT);
 
-        String avatar1 = ProfileData.getAvatar(1);
-        String playerName1 = ProfileData.getPlayerName(1);
-        String rank1 = ProfileData.getRank(1);
 
-        String avatar2 = ProfileData.getAvatar(2);
-        String playerName2 = ProfileData.getPlayerName(2);
-        String rank2 = ProfileData.getRank(2);
 
         String avatarFileName1 = avatar1.substring(avatar1.lastIndexOf('/') + 1);
         String avatarFileName2 = avatar2.substring(avatar2.lastIndexOf('/') + 1);
@@ -217,14 +224,14 @@ public class Party extends StackPane {
                 Button button = (Button) node;
                 button.setOnAction(e -> {
                     SoundPlayer.soundPlay();
-                    handleButtonClick(button, gridPane, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono);
+                    handleButtonClick(button, gridPane, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono, primaryStage);
                 });
             }
         }
     }
 
     // Méthode pour gérer le clic sur le bouton
-    private void handleButtonClick(Button button, GridPane gridpane, Timeline timeline1, Timeline timeline2, Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2, String chrono) {
+    private void handleButtonClick(Button button, GridPane gridpane, Timeline timeline1, Timeline timeline2, Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2, String chrono, Stage primaryStage) {
 
         if (isRemovePieceMode) {
             // Si le mode de suppression de pion est activé
@@ -239,9 +246,9 @@ public class Party extends StackPane {
             // Vérifier si la partie est terminée
             if(placementisfinished){
                 if (isGameFinished()) {
-                    // La partie est terminée, afficher un message ou prendre toute autre action nécessaire
-                    System.out.println("La partie est terminée.");
-                    // Vous pouvez ajouter du code pour afficher un message ou terminer la partie ici
+                    timeline.stop();
+                    EndParty.afficherFinPartie(this, primaryStage, currentPlayer);
+                    timeline.stop();
                 }
             }
         }
@@ -286,9 +293,9 @@ public class Party extends StackPane {
                 }
                 // Vérifier si la partie est terminée
                 if (isGameFinished()) {
-                    // La partie est terminée, afficher un message ou prendre toute autre action nécessaire
-                    System.out.println("La partie est terminée.");
-                    // Vous pouvez ajouter du code pour afficher un message ou terminer la partie ici
+                    timeline.stop();
+                    EndParty.afficherFinPartie(this, primaryStage, currentPlayer);
+                    timeline.stop();
                 }
             }
         }
@@ -595,12 +602,14 @@ public class Party extends StackPane {
                             remainingSeconds[0]++;
                         } else {
                             remainingSeconds[0]--;
+                            if(remainingSeconds[0] <= 5){
+                                SoundPlayer.soundPlay();
+                                timerLabel.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: red;");
+                            }
                         }
                         timerLabel.setText(Integer.toString(remainingSeconds[0]));
                         if (remainingSeconds[0] <= 0) {
                             timeline.stop();
-                            // Mettez ici votre code à exécuter une fois le minuteur terminé
-                            System.out.println("Le temps est écoulé !");
                         }
                     }
                 })
@@ -613,6 +622,7 @@ public class Party extends StackPane {
         int reset = Integer.parseInt(chrono);
         timeline1.stop();
         timerLabel.setText(chrono);
+        timerLabel.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
         remainingSeconds[0] = reset;
         timeline2.play();
     }
@@ -658,7 +668,7 @@ public class Party extends StackPane {
         quitter.setOnAction(e -> {
             SoundPlayer.soundPlay();
             quitterMenu.setVisible(true);
-            SauvegardePartie sauvegardePartie = new SauvegardePartie(gridPane,ProfileData.getAvatar(1),ProfileData.getAvatar(2),ProfileData.getRank(1),ProfileData.getRank(2),ProfileData.getShip(1),ProfileData.getShip(2),ProfileData.getPlayerName(1),ProfileData.getPlayerName(2),currentPlayer,turns);
+            SauvegardePartie sauvegardePartie = new SauvegardePartie(gridPane,ProfileData.getAvatar(1),ProfileData.getAvatar(2),ProfileData.getRank(1),ProfileData.getRank(2),ProfileData.getShip(1),ProfileData.getShip(2),ProfileData.getPlayerName(1),ProfileData.getPlayerName(2),currentPlayer,turns,0,0);
             sauvegardePartie.sauvegarderDansFichier("Save/test.txt");
         });
 
@@ -674,5 +684,25 @@ public class Party extends StackPane {
         menu.setAlignment(Pos.CENTER);
 
         return menu;
+    }
+
+    public void LoadParty(Stage primaryStage){
+        List<String> allInfo = chargerPartie.chargerPartieDepuisFichier();
+        String avatar1 = allInfo.get(0);
+        String avatar2 = allInfo.get(1);
+        String rank1 = allInfo.get(2);
+        String rank2 = allInfo.get(3);
+        String ship1 = allInfo.get(4);
+        String ship2 = allInfo.get(5);
+        String name1 = allInfo.get(6);
+        String name2 = allInfo.get(7);
+        currentPlayer = Integer.parseInt(allInfo.get(8));
+        turns = Integer.parseInt(allInfo.get(9));
+        int selectedIndexchrono=Integer.parseInt(allInfo.get(10));
+        int selectedIndex=Integer.parseInt(allInfo.get(11));
+        setPlayerInfo(primaryStage,selectedIndexchrono,selectedIndex,avatar1,avatar2,name1,name2,rank1,rank2);
+
+        Party party = new Party(primaryStage,selectedIndexchrono,selectedIndex,avatar1,avatar2,name1,name2,rank1,rank2);
+        primaryStage.getScene().setRoot(party);
     }
 }

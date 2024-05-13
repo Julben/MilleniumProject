@@ -41,6 +41,8 @@ public class Management {
                 }
                 else if (bouton.getText().equals("Charger une Partie")) {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
+                    LoadPartyCall loadPartyCall= new LoadPartyCall(primaryStage);
+                    primaryStage.getScene().equals(loadPartyCall);
                 } else if (bouton.getText().equals("Profil")) {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
                     Profil profil = new Profil(primaryStage);
