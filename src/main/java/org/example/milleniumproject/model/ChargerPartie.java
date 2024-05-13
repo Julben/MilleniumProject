@@ -1,4 +1,4 @@
-package org.example.milleniumproject.model;
+/*package org.example.milleniumproject.model;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleGroup;
@@ -72,5 +72,5 @@ public class ChargerPartie {
 // Créez une instance de Party avec les données chargées
         return new Party(gridPane, toggleGroup3, hbox3, toggleGroup2, hbox2);
     }
-}
+}*/
 
