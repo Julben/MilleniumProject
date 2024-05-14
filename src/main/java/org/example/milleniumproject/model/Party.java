@@ -22,6 +22,8 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.util.*;
+
+import static org.example.milleniumproject.model.ButtonSelector.*;
 import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 import static javafx.scene.paint.Color.GREEN;
@@ -463,26 +465,6 @@ public class Party extends StackPane {
         return false;
     }
 
-
-    // Méthode pour changer le style d'un bouton sélectionné
-    public static void selectButton(Button button) {
-        button.setStyle("-fx-background-color: yellow; -fx-background-radius: 50%");
-        ImageView originalImageView = (ImageView) button.getGraphic();
-        originalImageView.setScaleX(1.5);
-        originalImageView.setScaleY(1.5);
-
-    }
-
-    // Méthode pour changer le style d'un bouton désélectionné
-    public static void deselectButton(Button button) {
-        button.setStyle("-fx-background-color: transparent"); // Bordure transparente
-        if(button.getGraphic() != null){
-            ImageView originalImageView = (ImageView) button.getGraphic();
-            originalImageView.setScaleX(1.0);
-            originalImageView.setScaleY(1.0);
-        }
-    }
-
     // Méthode pour vérifier les combinaisons de boutons et changer leur couleur si une combinaison est trouvée
     private boolean checkAndChangeButtonColor(String buttonId1, String buttonId2, String buttonId3) {
         Button button1 = getButtonById(buttonId1);
@@ -521,6 +503,11 @@ public class Party extends StackPane {
         return null;
     }
 
+
+
+
+
+
     // Méthode pour retirer un pion adverse
     private void removePiece(Button button) {
         // Vérifier si le bouton cliqué contient une image
@@ -532,19 +519,10 @@ public class Party extends StackPane {
                     }
                 }
                 if(boutonlibre && buttonsJ2.contains(button) && !isNotlibre(button)){
-                    button.setGraphic(null);
-                    buttonsJ2.remove(button);
-                    currentPlayer = currentPlayer == 1 ? 2 : 1;
-                    isRemovePieceMode = false;
-                    boutonlibre = false;
+                   updateButtonState3(button,buttonsJ2);
                 }
                 else if(!boutonlibre && buttonsJ2.contains(button)){
-                    button.setGraphic(null);
-                    buttonsJ2.remove(button);
-                    resetButtonColorsForMovedButton(button);
-                    currentPlayer = currentPlayer == 1 ? 2 : 1;
-                    isRemovePieceMode = false;
-                    boutonlibre = false;
+                    updateButtonState4(button,buttonsJ2);
                 }
             }
             else if(currentPlayer==2) {
@@ -554,22 +532,26 @@ public class Party extends StackPane {
                     }
                 }
                 if(boutonlibre && buttonsJ1.contains(button) && !isNotlibre(button)){
-                    button.setGraphic(null);
-                    buttonsJ1.remove(button);
-                    currentPlayer = currentPlayer == 1 ? 2 : 1;
-                    isRemovePieceMode = false;
-                    boutonlibre = false;
+                    updateButtonState3(button,buttonsJ1);
+
                 }
                 else if(!boutonlibre && buttonsJ1.contains(button)){
-                    button.setGraphic(null);
-                    buttonsJ1.remove(button);
-                    resetButtonColorsForMovedButton(button);
-                    currentPlayer = currentPlayer == 1 ? 2 : 1;
-                    isRemovePieceMode = false;
-                    boutonlibre = false;
+                    updateButtonState4(button,buttonsJ1);
                 }
             }
         }
+    }
+
+    public void updateButtonState3(Button button,List<Button> buttonsList) {
+        button.setGraphic(null);
+        buttonsList.remove(button);
+        currentPlayer = currentPlayer == 1 ? 2 : 1;
+        isRemovePieceMode = false;
+        boutonlibre = false;
+    }
+    public void updateButtonState4(Button button,List<Button> buttonsList) {
+        updateButtonState3(button,buttonsList);
+        resetButtonColorsForMovedButton(button);
     }
 
     private boolean isNotlibre(Button b) {
@@ -591,17 +573,7 @@ public class Party extends StackPane {
         return compteur > 0;
     }
 
-    // Méthode pour créer et styliser les boutons
-    private Button createStyledButton(String label) {
-        Button button = new Button(label);
-        button.setId(label);
-        button.setPrefSize(0.03906*screenWidth, 0.069444*screenHeight); // Taille préférée des boutons
-        button.setMinSize(0.03906*screenWidth, 0.069444*screenHeight);
-        button.setMaxSize(0.03906*screenWidth, 0.069444*screenHeight);
-        button.setStyle("-fx-background-color: transparent"); // Fond transparent
-        button.setTextFill(Color.TRANSPARENT);
-        return button;
-    }
+
 
     // Méthode pour vérifier si tous les pions d'un joueur ont au moins un voisin libre
     private boolean hasPlayerFreeNeighbours(List<Button> playerButtons) {
