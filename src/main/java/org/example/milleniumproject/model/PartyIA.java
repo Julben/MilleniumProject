@@ -282,19 +282,6 @@ public class PartyIA extends StackPane {
         }
     }
 
-    public Button getRandomButtonJ2() {
-        // Vérifier si la liste des boutons du joueur 1 est vide
-        if (buttonsJ2.isEmpty()) {
-            return null; // Retourner null s'il n'y a aucun bouton
-        }
-        // Générer un index aléatoire dans la plage des boutons du joueur 1
-        Random random = new Random();
-        int randomIndex = random.nextInt(buttonsJ2.size());
-
-        // Récupérer le bouton à partir de l'index généré aléatoirement
-        return buttonsJ2.get(randomIndex);
-    }
-
     // Méthode pour retourner un bouton du joueur 1 de manière aléatoire
     public Button getRandomButtonJ1() {
         // Vérifier si la liste des boutons du joueur 1 est vide
@@ -465,19 +452,7 @@ public class PartyIA extends StackPane {
 
 
 
-    // Méthode pour placer l'image du joueur sur un bouton
-    private void placePlayerImage(Button button, VBox playerVBox) {
-        // Obtenir le GridPane enfant de la VBox
-        GridPane gridPane = (GridPane) playerVBox.getChildren().get(0);
 
-        // Vérifier si le GridPane contient des images
-        if (!gridPane.getChildren().isEmpty()) {
-            // Récupérer l'image correspondant à l'index du joueur actuel
-            ImageView imageView = (ImageView) gridPane.getChildren().get(0);
-            button.setGraphic(imageView);
-            gridPane.getChildren().remove(imageView);
-        }
-    }
 
     // Méthode pour gérer la sélection du bouton
     private void handleSelection(List<Button> buttons, Button clickedButton, Timeline timeline1, Timeline timeline2, Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2, String chrono) {
@@ -632,6 +607,20 @@ public class PartyIA extends StackPane {
                 selectedButton = clickedButton;
             }
             change = false;
+        }
+    }
+
+    // Méthode pour placer l'image du joueur sur un bouton
+    private void placePlayerImage(Button button, VBox playerVBox) {
+        // Obtenir le GridPane enfant de la VBox
+        GridPane gridPane = (GridPane) playerVBox.getChildren().get(0);
+
+        // Vérifier si le GridPane contient des images
+        if (!gridPane.getChildren().isEmpty()) {
+            // Récupérer l'image correspondant à l'index du joueur actuel
+            ImageView imageView = (ImageView) gridPane.getChildren().get(0);
+            button.setGraphic(imageView);
+            gridPane.getChildren().remove(imageView);
         }
     }
 
