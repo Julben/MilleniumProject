@@ -59,6 +59,8 @@ public class PartyIA extends StackPane {
     private VBox pauseMenu; // Conteneur pour le menu pause
     private VBox quitterMenu;
     private boolean change = false;
+    Button randomFreeButtonJ1 = getRandomFreeButtonJ1();
+    Button randomButtonJ1 = getRandomButtonJ1();
     private static final List<String[]> neighbourList = Arrays.asList(
             new String[]{"A", "B"}, new String[]{"A", "J"}, new String[]{"B", "C"}, new String[]{"B", "E"}, new String[]{"C", "O"}, new String[]{"D", "E"}, new String[]{"D", "K"}, new String[]{"E", "F"},
             new String[]{"E", "H"}, new String[]{"F", "N"}, new String[]{"G", "H"}, new String[]{"G", "L"}, new String[]{"H", "I"}, new String[]{"I", "M"}, new String[]{"J", "K"}, new String[]{"J", "V"},
@@ -230,9 +232,10 @@ public class PartyIA extends StackPane {
                 });
             }
         }
-
-
     }
+
+
+
 
     // Méthode pour retirer un pion adverse
     private void removePiece(Button button) {
@@ -267,19 +270,17 @@ public class PartyIA extends StackPane {
                     }
                 }
                 if(boutonlibre && buttonsJ1.contains(button) && !isNotlibre(button)){
-
-                    Button randomFreeButtonJ1 = getRandomFreeButtonJ1();
-                    randomFreeButtonJ1.setGraphic(null);
-                    buttonsJ1.remove(randomFreeButtonJ1);
+                    button.setGraphic(null);
+                    buttonsJ1.remove(button);
                     currentPlayer = currentPlayer == 1 ? 2 : 1;
                     isRemovePieceMode = false;
                     boutonlibre = false;
                 }
                 else if(!boutonlibre && buttonsJ1.contains(button)){
-                    Button randomButtonJ1 = getRandomButtonJ1();
-                    randomButtonJ1.setGraphic(null);
-                    buttonsJ1.remove(randomButtonJ1);
-                    resetButtonColorsForMovedButton(randomButtonJ1);
+
+                    button.setGraphic(null);
+                    buttonsJ1.remove(button);
+                    resetButtonColorsForMovedButton(button);
                     currentPlayer = currentPlayer == 1 ? 2 : 1;
                     isRemovePieceMode = false;
                     boutonlibre = false;
@@ -287,16 +288,6 @@ public class PartyIA extends StackPane {
             }
         }
     }
-
-
-
-
-
-
-
-
-
-
 
 
     // Méthode pour retourner un bouton du joueur 1 de manière aléatoire
