@@ -28,6 +28,7 @@ import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 import static javafx.scene.paint.Color.GREEN;
 import static javafx.scene.paint.Color.TRANSPARENT;
+import static org.example.milleniumproject.model.chrono.ResetChrono;
 
 public class Party extends StackPane {
     private ChargerPartie chargerPartie = new ChargerPartie();
@@ -644,15 +645,6 @@ public class Party extends StackPane {
         );
         timeline.setCycleCount(Timeline.INDEFINITE);
         return timeline;
-    }
-
-    public void ResetChrono(Timeline timeline1, Label timerLabel, String chrono, int[] remainingSeconds, Timeline timeline2){
-        int reset = Integer.parseInt(chrono);
-        timeline1.stop();
-        timerLabel.setText(chrono);
-        timerLabel.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
-        remainingSeconds[0] = reset;
-        timeline2.play();
     }
 
     private VBox createPauseMenu(Stage primaryStage, Timeline timeline1, Timeline timeline2) {
