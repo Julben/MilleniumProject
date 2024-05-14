@@ -277,7 +277,6 @@ public class PartyIA extends StackPane {
                     boutonlibre = false;
                 }
                 else if(!boutonlibre && buttonsJ1.contains(button)){
-
                     button.setGraphic(null);
                     buttonsJ1.remove(button);
                     resetButtonColorsForMovedButton(button);
