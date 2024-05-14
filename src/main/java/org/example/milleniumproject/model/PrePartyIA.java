@@ -284,8 +284,6 @@ public class PrePartyIA extends StackPane {
         return hbox;
     }
 
-
-
     private void checkLaunchButtonState(ToggleGroup toggleGroup1, ToggleGroup toggleGroup2, ToggleGroup toggleGroup3) {
         if (toggleGroup1.getSelectedToggle() != null && toggleGroup2.getSelectedToggle() != null && toggleGroup3.getSelectedToggle() != null) {
             launchButton.setDisable(false); // Activer le bouton si une sélection est faite dans chaque ToggleGroup

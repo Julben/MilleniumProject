@@ -1,6 +1,5 @@
 package org.example.milleniumproject.model;
 
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
@@ -23,17 +22,12 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.util.*;
-
-import static org.example.milleniumproject.model.ButtonUtils.getNodeByRowColumnIndex;
 import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 import static javafx.scene.paint.Color.GREEN;
 import static javafx.scene.paint.Color.TRANSPARENT;
 import static org.example.milleniumproject.model.Methodeia.disableMouseInteractions;
-
-import javafx.application.Platform;
 import javafx.scene.control.Button;
 import java.util.Random;
 
@@ -330,16 +324,6 @@ public class PartyIA extends StackPane {
 
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
 
 
 
