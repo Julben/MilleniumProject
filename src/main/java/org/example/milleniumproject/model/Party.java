@@ -209,14 +209,10 @@ public class Party extends StackPane {
         gridPane.setVgap(0.0305556*screenHeight); // Espacement vertical entre les boutons
         gridPane.setAlignment(Pos.CENTER); // Positionnement au centre de la StackPane
 
-
-
-
         for (int i = 0; i < buttonLabels.length; i++) {
             Button button = createStyledButton(buttonLabels[i]);
             gridPane.add(button, colIndices[i], rowIndices[i]);
         }
-
 
         String str = ProfileData.getShip(1);
         int lastIndex = str.lastIndexOf('/');
@@ -235,8 +231,6 @@ public class Party extends StackPane {
 
         StackPane.setAlignment(leftVBox, Pos.CENTER_LEFT);
         StackPane.setAlignment(rightVBox, Pos.CENTER_RIGHT);
-
-
 
         String avatarFileName1 = avatar1.substring(avatar1.lastIndexOf('/') + 1);
         String avatarFileName2 = avatar2.substring(avatar2.lastIndexOf('/') + 1);
