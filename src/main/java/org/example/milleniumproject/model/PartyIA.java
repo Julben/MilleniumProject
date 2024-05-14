@@ -232,22 +232,6 @@ public class PartyIA extends StackPane {
     }
 
 
-
-
-
-
-    // Méthode pour retourner un bouton du joueur 1 de manière aléatoire
-    public Button getRandomButtonJ1() {
-        // Vérifier si la liste des boutons du joueur 1 est vide
-        if (buttonsJ1.isEmpty()) {
-            return null;
-        }
-        Random random = new Random();
-        int randomIndex = random.nextInt(buttonsJ1.size());
-
-        return buttonsJ1.get(randomIndex); // Récupérer le bouton à partir de l'index généré aléatoirement
-    }
-
     // Méthode pour gérer le clic sur le bouton
     private void handleButtonClick(Button button, GridPane gridpane, Timeline timeline1, Timeline timeline2, Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2, String chrono) {
 
@@ -383,6 +367,18 @@ public class PartyIA extends StackPane {
             }
             turns++;
         }
+    }
+
+    // Méthode pour retourner un bouton du joueur 1 de manière aléatoire
+    public Button getRandomButtonJ1() {
+        // Vérifier si la liste des boutons du joueur 1 est vide
+        if (buttonsJ1.isEmpty()) {
+            return null;
+        }
+        Random random = new Random();
+        int randomIndex = random.nextInt(buttonsJ1.size());
+
+        return buttonsJ1.get(randomIndex); // Récupérer le bouton à partir de l'index généré aléatoirement
     }
 
     // Méthode pour gérer la sélection du bouton
