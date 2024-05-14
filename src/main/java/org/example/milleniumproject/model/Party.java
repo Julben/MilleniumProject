@@ -21,16 +21,19 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.util.*;
+
+import static org.example.milleniumproject.model.ButtonSelector.*;
 import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 import static javafx.scene.paint.Color.GREEN;
 import static javafx.scene.paint.Color.TRANSPARENT;
+import static org.example.milleniumproject.model.chrono.ResetChrono;
 
 public class Party extends StackPane {
     private ChargerPartie chargerPartie = new ChargerPartie();
     private int currentPlayer = 1;
+    private boolean end = false;
     private VBox leftVBox;
     private VBox rightVBox;
     private int turns = 0;
@@ -251,7 +254,6 @@ public class Party extends StackPane {
         gridPane.setHgap(0.0171875 * screenWidth); // Espacement horizontal entre les boutons
         gridPane.setVgap(0.0305556 * screenHeight); // Espacement vertical entre les boutons
         gridPane.setAlignment(Pos.CENTER); // Positionnement au centre de la StackPane
-
 
         for (int i = 0; i < buttonLabels.length; i++) {
             Button button = createStyledButton(buttonLabels[i]);
@@ -566,6 +568,11 @@ public class Party extends StackPane {
         return null;
     }
 
+
+
+
+
+
     // Méthode pour retirer un pion adverse
     private void removePiece(Button button) {
         // Vérifier si le bouton cliqué contient une image
@@ -576,19 +583,11 @@ public class Party extends StackPane {
                         boutonlibre = true;
                     }
                 }
-                if (boutonlibre && buttonsJ2.contains(button) && !isNotlibre(button)) {
-                    button.setGraphic(null);
-                    buttonsJ2.remove(button);
-                    currentPlayer = currentPlayer == 1 ? 2 : 1;
-                    isRemovePieceMode = false;
-                    boutonlibre = false;
-                } else if (!boutonlibre && buttonsJ2.contains(button)) {
-                    button.setGraphic(null);
-                    buttonsJ2.remove(button);
-                    resetButtonColorsForMovedButton(button);
-                    currentPlayer = currentPlayer == 1 ? 2 : 1;
-                    isRemovePieceMode = false;
-                    boutonlibre = false;
+                if(boutonlibre && buttonsJ2.contains(button) && !isNotlibre(button)){
+                   updateButtonState3(button,buttonsJ2);
+                }
+                else if(!boutonlibre && buttonsJ2.contains(button)){
+                    updateButtonState4(button,buttonsJ2);
                 }
             } else if (currentPlayer == 2) {
                 for (Button b : buttonsJ1) {
@@ -596,22 +595,27 @@ public class Party extends StackPane {
                         boutonlibre = true;
                     }
                 }
-                if (boutonlibre && buttonsJ1.contains(button) && !isNotlibre(button)) {
-                    button.setGraphic(null);
-                    buttonsJ1.remove(button);
-                    currentPlayer = currentPlayer == 1 ? 2 : 1;
-                    isRemovePieceMode = false;
-                    boutonlibre = false;
-                } else if (!boutonlibre && buttonsJ1.contains(button)) {
-                    button.setGraphic(null);
-                    buttonsJ1.remove(button);
-                    resetButtonColorsForMovedButton(button);
-                    currentPlayer = currentPlayer == 1 ? 2 : 1;
-                    isRemovePieceMode = false;
-                    boutonlibre = false;
+                if(boutonlibre && buttonsJ1.contains(button) && !isNotlibre(button)){
+                    updateButtonState3(button,buttonsJ1);
+
+                }
+                else if(!boutonlibre && buttonsJ1.contains(button)){
+                    updateButtonState4(button,buttonsJ1);
                 }
             }
         }
+    }
+
+    public void updateButtonState3(Button button,List<Button> buttonsList) {
+        button.setGraphic(null);
+        buttonsList.remove(button);
+        currentPlayer = currentPlayer == 1 ? 2 : 1;
+        isRemovePieceMode = false;
+        boutonlibre = false;
+    }
+    public void updateButtonState4(Button button,List<Button> buttonsList) {
+        updateButtonState3(button,buttonsList);
+        resetButtonColorsForMovedButton(button);
     }
 
     private boolean isNotlibre(Button b) {
