@@ -115,7 +115,7 @@ public class Audio extends StackPane {
     }
 
     // Méthode pour créer un label stylisé
-    private Label createStyledLabel(String text) {
+    private static Label createStyledLabel(String text) {
         Label label = new Label(text);
         label.setStyle("-fx-font-family: Cardo; -fx-text-fill: #FFFFFFFF; -fx-font-size: 24px;");
         addDropShadowEffect(label);
@@ -128,7 +128,7 @@ public class Audio extends StackPane {
     }
 
     // Méthode pour ajouter un effet de drop shadow à un bouton
-    private void addDropShadowEffect(Node node) {
+    private static void addDropShadowEffect(Node node) {
         DropShadow dropShadow = new DropShadow();
         dropShadow.setRadius(3);
         dropShadow.setOffsetX(3);
@@ -137,7 +137,7 @@ public class Audio extends StackPane {
     }
 
     // Classe interne pour gérer le slider avec les boutons et le label de valeur
-    private class SliderWithControls {
+    public static class SliderWithControls {
         private Slider slider;
         private Button btnLeft;
         private Button btnRight;

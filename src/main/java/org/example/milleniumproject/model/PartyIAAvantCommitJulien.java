@@ -1,3 +1,4 @@
+/*
 package org.example.milleniumproject.model;
 
 import javafx.animation.KeyFrame;
@@ -899,3 +900,4 @@ public class PartyIA extends StackPane {
         return button;
     }
 }
+ */

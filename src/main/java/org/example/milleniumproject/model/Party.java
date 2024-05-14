@@ -161,8 +161,6 @@ public class Party extends StackPane {
         int selectedIndex = PreParty.getSelectedIndex(toggleGroup3, hbox3);
         int selectedIndexchrono = PreParty.getSelectedIndexchrono(toggleGroup2, hbox2);
 
-
-
         setPlayerInfo(primaryStage,selectedIndexchrono,selectedIndex,ProfileData.getAvatar(1),ProfileData.getAvatar(2),ProfileData.getPlayerName(1),ProfileData.getPlayerName(2),ProfileData.getRank(1),ProfileData.getRank(2),currentPlayer,turns);
 
 
@@ -719,6 +717,11 @@ public class Party extends StackPane {
         regles.setOnAction(e -> {
             SoundPlayer.soundPlay();
             ButtonPause.afficherRegles(this); // Passer la racine de la scène pour ajouter la StackPane
+        });
+
+        parametres.setOnAction(e -> {
+            SoundPlayer.soundPlay();
+            ButtonPause.parametres(this);
         });
 
         quitter.setOnAction(e -> {

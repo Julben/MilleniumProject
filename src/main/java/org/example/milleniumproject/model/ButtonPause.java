@@ -2,8 +2,12 @@ package org.example.milleniumproject.model;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -13,7 +17,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import org.example.milleniumproject.view.Audio;
+import org.example.milleniumproject.view.AudioData;
 import org.example.milleniumproject.view.Menu;
+import org.example.milleniumproject.view.VideoData;
 
 import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
@@ -24,6 +31,8 @@ import static org.example.milleniumproject.model.Constant.screenWidth;
 public class ButtonPause extends StackPane {
 
     public static VBox quitterMenu;
+    private Audio.SliderWithControls sliderWithControls2;
+    private Audio.SliderWithControls sliderWithControls3;
 
     /**
      * Affiche les règles du jeu sur une StackPane semi-transparente avec un bouton pour les fermer.
@@ -66,6 +75,153 @@ public class ButtonPause extends StackPane {
 
         // Ajouter la StackPane à la racine de la scène
         root.getChildren().add(reglesPane);
+    }
+
+
+    public static void parametres(StackPane root) {
+        // Création de la StackPane pour contenir l'image et le bouton
+        StackPane parametrePane = new StackPane();
+        parametrePane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7);");
+
+        // Création de l'image
+        Image image = new Image("ParametresParty.png");
+        ImageView imageView = new ImageView(image);
+
+        // Redimensionner l'image
+        imageView.setFitWidth(0.9765 * screenWidth); // Largeur souhaitée
+        imageView.setFitHeight(1.04167 * screenHeight); // Hauteur souhaitée
+
+        VBox vboxVideo = new VBox(30);
+        vboxVideo.setAlignment(Pos.CENTER);
+
+        CheckBox animationCheckBox = new CheckBox("Activer animations");
+        addDropShadowEffect(animationCheckBox);
+        animationCheckBox.setStyle("-fx-text-fill: white; -fx-font-family: Cardo; -fx-font-weight: bold; -fx-font-size: 20px;");
+        vboxVideo.getChildren().add(animationCheckBox);
+
+        // Initialiser les CheckBox avec les valeurs sauvegardées
+        animationCheckBox.setSelected(VideoData.isAnimation());
+        animationCheckBox.setOnAction(event -> VideoData.setAnimation(animationCheckBox.isSelected()));
+
+        VBox vboxAudio = new VBox(30);
+        vboxAudio.setAlignment(Pos.CENTER);
+
+        // Création des labels
+        Label volumeMusiqueLabel = createStyledLabel("Musique");
+        Label volumeEffetsLabel = createStyledLabel("Sons");
+
+        VBox leftbox = new VBox(68);
+        leftbox.setAlignment(Pos.CENTER_LEFT);
+        leftbox.getChildren().addAll(volumeMusiqueLabel, volumeEffetsLabel);
+
+        // Création des boutons, du slider et du label de valeur
+        Audio.SliderWithControls sliderWithControls2 = new Audio.SliderWithControls();
+        Audio.SliderWithControls sliderWithControls3 = new Audio.SliderWithControls();
+
+        // Restaure le volume de la musique à partir de AudioData
+        sliderWithControls2.getSlider().setValue(AudioData.getMusicVolume() * 100);
+        sliderWithControls2.getSlider().valueProperty().addListener((observable, oldValue, newValue) -> {
+            double volume = newValue.doubleValue() / 100.0;
+            AudioData.setMusicVolume(volume);
+            MusicPlayer.setVolume(volume);
+        });
+
+        // Restaure le volume des sons à partir de AudioData
+        sliderWithControls3.getSlider().setValue(AudioData.getSoundVolume() * 100);
+        sliderWithControls3.getSlider().valueProperty().addListener((observable, oldValue, newValue) -> {
+            double volume = newValue.doubleValue() / 100.0;
+            AudioData.setSoundVolume(volume);
+        });
+
+        // Restaure la position du slider à partir de AudioData
+        sliderWithControls3.getSlider().setValue(AudioData.getSliderPosition() * 100);
+        sliderWithControls3.getSlider().valueProperty().addListener((observable, oldValue, newValue) -> {
+            AudioData.setSliderPosition(newValue.doubleValue() / 100.0);
+        });
+
+        // Création des HBox
+        HBox hbox2 = new HBox(0, sliderWithControls2.getBtnLeft(), sliderWithControls2.getSlider(), sliderWithControls2.getBtnRight(), sliderWithControls2.getValueLabel());
+        HBox hbox3 = new HBox(0, sliderWithControls3.getBtnLeft(), sliderWithControls3.getSlider(), sliderWithControls3.getBtnRight(), sliderWithControls3.getValueLabel());
+
+        // Alignement horizontal des éléments dans les HBox
+        hbox2.setAlignment(Pos.CENTER);
+        hbox3.setAlignment(Pos.CENTER);
+
+        // Stylisation des boutons "<" et ">"
+        stylizeButton(sliderWithControls2.getBtnLeft());
+        stylizeButton(sliderWithControls2.getBtnRight());
+        stylizeButton(sliderWithControls3.getBtnLeft());
+        stylizeButton(sliderWithControls3.getBtnRight());
+
+        // Ajout d'un effet de drop shadow aux boutons
+        addDropShadowEffect(sliderWithControls2.getBtnLeft());
+        addDropShadowEffect(sliderWithControls2.getBtnRight());
+        addDropShadowEffect(sliderWithControls3.getBtnLeft());
+        addDropShadowEffect(sliderWithControls3.getBtnRight());
+
+        // Ajout d'un effet de drop shadow aux labels
+        addDropShadowEffect(volumeMusiqueLabel);
+        addDropShadowEffect(volumeEffetsLabel);
+
+        // Ajout d'un effet de drop shadow aux nombres des sliders
+        addDropShadowEffect(sliderWithControls2.getSlider());
+        addDropShadowEffect(sliderWithControls3.getSlider());
+
+        // Création de la VBox et ajout des HBox
+        VBox rightbox = new VBox(43, hbox2, hbox3);
+        rightbox.setAlignment(Pos.CENTER_LEFT);
+
+        HBox hbox = new HBox(10);
+        hbox.getChildren().addAll(leftbox, rightbox);
+        setMargin(hbox, new Insets(0, 0, 0, 100));
+
+        vboxAudio.getChildren().add(hbox);
+
+        // Création du bouton pour masquer l'image et le bouton
+        Button fermerButton = new Button();
+        fermerButton.setMinWidth(70);
+        fermerButton.setMinHeight(70);
+        StackPane.setMargin(fermerButton, new Insets(0, 0, 615, 1050));
+        fermerButton.setStyle("-fx-background-color: transparrent");
+        fermerButton.setOnAction(e -> {
+            SoundPlayer.soundPlay();
+            root.getChildren().remove(parametrePane);
+        });
+
+        HBox hboxfinal = new HBox(180, vboxVideo, vboxAudio);
+        hboxfinal.setAlignment(Pos.CENTER);
+        setMargin(hboxfinal, new Insets(0, 0, 10, 80));
+
+        // Ajout de l'image et du bouton à la StackPane
+        parametrePane.getChildren().addAll(imageView, hboxfinal, fermerButton);
+
+        // Centrer la StackPane dans la fenêtre
+        StackPane.setAlignment(parametrePane, Pos.CENTER);
+
+        // Ajouter la StackPane à la racine de la scène
+        root.getChildren().add(parametrePane);
+    }
+
+    // Méthode pour créer un label stylisé
+    private static Label createStyledLabel(String text) {
+        Label label = new Label(text);
+        label.setStyle("-fx-font-family: Cardo; -fx-text-fill: #FFFFFFFF; -fx-font-size: 20px;");
+        addDropShadowEffect(label);
+        return label;
+    }
+
+    // Méthode pour styliser un bouton
+    private static void stylizeButton(Button button) {
+        button.setStyle("-fx-font-family: Cardo; -fx-background-color: transparent; -fx-text-fill: #FFFFFFFF; -fx-font-size: 25px;");
+    }
+
+    // Méthode pour ajouter un effet de drop shadow à un bouton
+    private static void addDropShadowEffect(Node node) {
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setRadius(3);
+        dropShadow.setOffsetX(3);
+        dropShadow.setOffsetY(3);
+        node.setEffect(dropShadow);
     }
 
 

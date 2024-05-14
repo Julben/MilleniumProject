@@ -55,11 +55,8 @@ public class Video extends StackPane {
         VBox choicesBox = new VBox(0.069444*screenHeight); // Espacement vertical entre les CheckBox
         choicesBox.getChildren().addAll(videoCheckBox, animationCheckBox);
 
-        // Positionner la VBox
-        double vboxX = (0.1*screenWidth); // Calculer la position X
-        double vboxY = (0.35*screenHeight); // Calculer la position Y
-        choicesBox.setTranslateX(vboxX);
-        choicesBox.setTranslateY(vboxY);
+        choicesBox.setTranslateX(0.1*screenWidth);
+        choicesBox.setTranslateY(0.35*screenHeight);
 
         setMargin(choicesBox, new Insets(0.097222*screenHeight, 0, 0, 0));
 
