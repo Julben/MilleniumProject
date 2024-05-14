@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ChargerPartie {
 
-    public List<Object> chargerPartieDepuisFichier() {
+    public List<Object> chargerPartieDepuisFichier(String nomfichier) {
         String avatar1 = "";
         String avatar2 = "";
         String rank1 = "";
@@ -28,7 +28,7 @@ public class ChargerPartie {
         int chronoselect = 0;
         int BGselect = 0;
 
-        try (BufferedReader reader = new BufferedReader(new FileReader("Save/test.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("Save/"+nomfichier+".txt"))) {
             String ligne;
             while ((ligne = reader.readLine()) != null) {
                 if (ligne.startsWith("setgraphique=true")) {
@@ -57,7 +57,7 @@ public class ChargerPartie {
                     name2 = ligne.split("=")[1].trim();
                 } else if (ligne.startsWith("ChronoSelect=")) {
                     chronoselect = Integer.parseInt(ligne.split("=")[1].trim());
-                } else if (ligne.startsWith("BGselect=")) {
+                } else if (ligne.startsWith("BGSelect=")) {
                     BGselect = Integer.parseInt(ligne.split("=")[1].trim());
                 }
             }
