@@ -88,13 +88,13 @@ public class Chargement extends StackPane {
         vbox2.setAlignment(Pos.TOP_LEFT);
 
         // Créer une HBox pour placer les deux VBox horizontalement
-        HBox hbox = new HBox(500);
+        HBox hbox = new HBox(0.35*Constant.screenWidth);
         hbox.setAlignment(Pos.CENTER);
         hbox.getChildren().addAll(vbox2, vbox1);
 
         // Ajouter la HBox à la StackPane
         getChildren().add(hbox);
-        HBox.setMargin(vbox1, new Insets(0,1000 , 0, 0));
+        HBox.setMargin(vbox1, new Insets(0.1*Constant.screenHeight,0.42*Constant.screenWidth , 0, 0));
         HBox.setMargin(vbox2, new Insets(0, 0, 0, 0));
 
     }
