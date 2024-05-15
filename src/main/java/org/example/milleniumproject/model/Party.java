@@ -23,14 +23,13 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.util.*;
 
-import static org.example.milleniumproject.model.ButtonSelector.*;
 import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 import static javafx.scene.paint.Color.GREEN;
 import static javafx.scene.paint.Color.TRANSPARENT;
-import static org.example.milleniumproject.model.chrono.ResetChrono;
 
 public class Party extends StackPane {
+
     private ChargerPartie chargerPartie = new ChargerPartie();
     private int currentPlayer = 1;
     private boolean end = false;
@@ -54,6 +53,7 @@ public class Party extends StackPane {
     private VBox pauseMenu; // Conteneur pour le menu pause
     private VBox quitterMenu;
     private int selectIndexBG;
+    private EndParty endparty = new EndParty();
     private boolean selected = false;
     private boolean change = false;
     private int[] rowIndices = {0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 6};
@@ -169,8 +169,8 @@ public class Party extends StackPane {
         Label timerLabel2 = new Label(chrono);
         timerLabel1.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
         timerLabel2.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
-        Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1);
-        Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2);
+        Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1, endparty, primaryStage, currentPlayer);
+        Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2, endparty, primaryStage, currentPlayer);
 
         for (Node node : gridPane.getChildren()) {
             if (node instanceof Button) {
@@ -248,8 +248,8 @@ public class Party extends StackPane {
         Label timerLabel2 = new Label(chrono);
         timerLabel1.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
         timerLabel2.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
-        Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1);
-        Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2);
+        Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1, endparty, primaryStage, currentPlayer);
+        Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2, endparty, primaryStage, currentPlayer);
 
         gridPane = new GridPane();
         gridPane.setHgap(0.0171875 * screenWidth); // Espacement horizontal entre les boutons
@@ -696,8 +696,12 @@ public class Party extends StackPane {
         }
     }
 
-    private Timeline Chrono(Label timerLabel, int[] remainingSeconds) {
-        timeline = new Timeline(
+    private Timeline Chrono(Label timerLabel, int[] remainingSeconds, StackPane root, Stage primaryStage, int currentPlayer) {
+        // Déclarez la variable timeline ici
+        final Timeline[] timeline = new Timeline[1];
+
+        // Initialisez la variable timeline
+        timeline[0] = new Timeline(
                 new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
@@ -712,13 +716,15 @@ public class Party extends StackPane {
                         }
                         timerLabel.setText(Integer.toString(remainingSeconds[0]));
                         if (remainingSeconds[0] <= 0) {
-                            timeline.stop();
+                            timeline[0].stop();
+                            System.out.println(currentPlayer);
+                            EndParty.afficherFinPartie(root, primaryStage, currentPlayer);
                         }
                     }
                 })
         );
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        return timeline;
+        timeline[0].setCycleCount(Timeline.INDEFINITE);
+        return timeline[0];
     }
 
     public void ResetChrono(Timeline timeline1, Label timerLabel, String chrono, int[] remainingSeconds, Timeline timeline2) {
