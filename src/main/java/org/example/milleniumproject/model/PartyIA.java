@@ -514,6 +514,7 @@ public class PartyIA extends StackPane {
             Random randomPion = new Random();
             int indexPion = randomPion.nextInt(buttonsJ2.size());
             Button pionRestantJ2 = buttonsJ2.get(indexPion);
+            selectButton(pionRestantJ2);
 
             // Sélectionner un bouton vide
             Button boutonVide = getEmptyButton(gridPane);
@@ -531,8 +532,8 @@ public class PartyIA extends StackPane {
                 pionRestantJ2.setGraphic(null);
                 buttons.remove(pionRestantJ2);
                 buttons.add(boutonVide);
-
                 deselectButton(pionRestantJ2);
+                deselectButton(boutonVide);
                 change = true;
 
                 resetButtonColorsForMovedButton(pionRestantJ2);
