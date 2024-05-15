@@ -271,7 +271,10 @@ public class PartyIA extends StackPane {
                 if (isGameFinished()) {
                     // La partie est terminée, afficher un message ou prendre toute autre action nécessaire
                     System.out.println("La partie est terminée.");
-                    // Vous pouvez ajouter du code pour afficher un message ou terminer la partie ici
+                    timeline.stop();
+                    timeline1.stop();
+                    timeline2.stop();
+                    EndParty.afficherFinPartie(this, primaryStage, currentPlayer);
                 }
             }
         }
