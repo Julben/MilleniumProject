@@ -224,7 +224,7 @@ public class PartyIA extends StackPane {
                 Button button = (Button) node;
                 button.setOnAction(e -> {
                     SoundPlayer.soundPlay();
-                    handleButtonClick(button, gridPane, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono);
+                    handleButtonClick(button, gridPane, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono,primaryStage);
                 });
             }
         }
@@ -232,7 +232,7 @@ public class PartyIA extends StackPane {
 
 
     // Méthode pour gérer le clic sur le bouton
-    private void handleButtonClick(Button button, GridPane gridpane, Timeline timeline1, Timeline timeline2, Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2, String chrono) {
+    private void handleButtonClick(Button button, GridPane gridpane, Timeline timeline1, Timeline timeline2, Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2, String chrono,Stage primaryStage) {
 
         if (isRemovePieceMode) {
             // Si le mode de suppression de pion est activé
@@ -312,7 +312,10 @@ public class PartyIA extends StackPane {
                 if (isGameFinished()) {
                     // La partie est terminée, afficher un message ou prendre toute autre action nécessaire
                     System.out.println("La partie est terminée.");
-                    // Vous pouvez ajouter du code pour afficher un message ou terminer la partie ici
+                    timeline.stop();
+                    timeline1.stop();
+                    timeline2.stop();
+                    EndParty.afficherFinPartie(this, primaryStage, currentPlayer);
                 }
             }
         }
