@@ -491,13 +491,13 @@ public class PartyIA extends StackPane {
                             }
                         }
 
-                        Random random = new Random();
-                        int index = random.nextInt(FreeButtonsJ1.size());
-                        Button randomFreeButton = FreeButtonsJ1.get(index);
+                        if (!FreeButtonsJ1.isEmpty()) {
+                            Random random = new Random();
+                            int index = random.nextInt(FreeButtonsJ1.size());
+                            Button randomFreeButton = FreeButtonsJ1.get(index);
 
-                        FreeButtonsJ1.clear();
-
-                        removePiece(randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                            removePiece(randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                        }
                     }
 
                     // Réactiver la souris
