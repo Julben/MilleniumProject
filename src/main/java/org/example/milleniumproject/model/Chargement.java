@@ -84,12 +84,16 @@ public class Chargement extends StackPane {
                 }
             }
         });
-
         Button lancerPartieButton = new Button("Lancer la partie");
         lancerPartieButton.setFont(Font.font("Cardo", FontWeight.BOLD, 20));
         lancerPartieButton.setStyle("-fx-background-color: white; -fx-text-fill: black;");
 
-        // Ajouter un événement pour gérer le clic sur le bouton "Lancer la partie"
+        Label messageLabel = new Label();
+        messageLabel.setFont(Font.font("Cardo", FontWeight.NORMAL, 20));
+        messageLabel.setStyle("-fx-text-fill: white;");
+        messageLabel.setPrefWidth(250);
+        messageLabel.setPrefHeight(30);
+
         lancerPartieButton.setOnAction(e -> {
             String fileChoisi = comboBox.getValue();
             if (fileChoisi != null) {
@@ -97,7 +101,7 @@ public class Chargement extends StackPane {
                 primaryStage.getScene().equals(loadPartyCall);
             } else {
                 // Aucun fichier sélectionné dans la ComboBox
-                System.err.println("Aucun fichier sélectionné.");
+                messageLabel.setText("Aucun fichier sélectionné.");
             }
         });
 
