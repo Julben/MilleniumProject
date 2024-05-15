@@ -1,7 +1,9 @@
 package org.example.milleniumproject.model;
 
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -47,7 +49,7 @@ public class Chargement extends StackPane {
         // Appliquer un style CSS au ComboBox
         comboBox.setStyle("-fx-pref-width: 200px; " + // Largeur préférée
                 "-fx-pref-height: 50px; " + // Hauteur préférée
-                "-fx-background-color: transparent; " + // Couleur de fond transparente
+                "-fx-background-color: rgba(0,0,0,0.3); " + // Couleur de fond transparente
                 "-fx-border-color: white; " + // Couleur de contour blanc
                 "-fx-border-width: 3px;"); // Épaisseur du contour
 
@@ -83,12 +85,12 @@ public class Chargement extends StackPane {
         Button lancerPartieButton = new Button("Lancer la partie");
         lancerPartieButton.setFont(Font.font("Cardo", FontWeight.BOLD, 20));
         lancerPartieButton.setStyle("-fx-background-color: white; -fx-text-fill: black;");
+        addDropShadowEffect(lancerPartieButton);
 
         Label messageLabel = new Label();
-        messageLabel.setFont(Font.font("Cardo", FontWeight.NORMAL, 20));
+        messageLabel.setFont(Font.font("Cardo", FontWeight.BOLD, 25));
         messageLabel.setStyle("-fx-text-fill: white;");
-        messageLabel.setPrefWidth(250);
-        messageLabel.setPrefHeight(30);
+        addDropShadowEffect(messageLabel);
 
         lancerPartieButton.setOnAction(e -> {
             String fileChoisi = comboBox.getValue();
@@ -97,16 +99,25 @@ public class Chargement extends StackPane {
                 primaryStage.getScene().equals(loadPartyCall);
             } else {
                 // Aucun fichier sélectionné dans la ComboBox
-                messageLabel.setText("Aucun fichier sélectionné.");
+                messageLabel.setText("Aucun fichier sélectionné");
             }
         });
 
         // Créer un VBox pour organiser les éléments verticalement
         VBox vbox = new VBox(20); // Espacement de 10 entre les éléments
-        vbox.getChildren().addAll(comboBox, lancerPartieButton); // Ajouter le ComboBox et le bouton au VBox
+        vbox.getChildren().addAll(messageLabel, comboBox, lancerPartieButton); // Ajouter le ComboBox et le bouton au VBox
         vbox.setAlignment(Pos.CENTER);
 
         // Ajouter la VBox et le bouton retour au StackPane
         getChildren().addAll(vbox, retourButton);
     }
+
+    private static void addDropShadowEffect(Node node) {
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setRadius(3);
+        dropShadow.setOffsetX(2);
+        dropShadow.setOffsetY(2);
+        node.setEffect(dropShadow);
+    }
 }
+
