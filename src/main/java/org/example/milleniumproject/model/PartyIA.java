@@ -246,12 +246,10 @@ public class PartyIA extends StackPane {
                 // Désactiver la souris pendant une seconde
                 disableMouseInteractions(gridpane, true);
 
-                System.out.println("Poulet");
-
                 if(turns < 18){
                     PauseTransition pause = new PauseTransition(Duration.seconds(1));
                     pause.setOnFinished(event -> {
-                        makeRandomMove(gridpane);
+                        makeRandomPlacement(gridpane);
                         disableMouseInteractions(gridpane, false);
                     });
                     pause.play();
@@ -288,7 +286,7 @@ public class PartyIA extends StackPane {
 
                         PauseTransition pause = new PauseTransition(Duration.seconds(1));
                         pause.setOnFinished(event -> {
-                            makeRandomMove(gridpane);
+                            makeRandomPlacement(gridpane);
                             // Réactiver la souris
                             disableMouseInteractions(gridpane, false);
                         });
@@ -328,7 +326,7 @@ public class PartyIA extends StackPane {
         }
     }
 
-    private void makeRandomMove(GridPane gridPane) {
+    private void makeRandomPlacement(GridPane gridPane) {
         // Vérifier si c'est le tour de l'IA
         if (currentPlayer == 2 && !isRemovePieceMode && turns <18) {
             // Sélectionner un bouton aléatoire parmi les boutons disponibles
@@ -346,13 +344,15 @@ public class PartyIA extends StackPane {
             placePlayerImage(randomButton, rightVBox);
             buttonsJ2.add(randomButton);
 
+
+
             // Vérifier les combinaisons après chaque placement de pion
             checkButtonCombinations();
             if(isRemovePieceMode){
-                currentPlayer = 2;
+
                 // Désactiver la souris pendant une seconde
                 disableMouseInteractions(gridPane, true);
-
+                currentPlayer = 2;
                 PauseTransition pause = new PauseTransition(Duration.seconds(1));
                 pause.setOnFinished(event -> {
                     Button randombutton = getRandomButtonJ1();
@@ -361,7 +361,9 @@ public class PartyIA extends StackPane {
                     disableMouseInteractions(gridPane, false);
                 });
                 pause.play();
-            } else {
+            }
+
+            else {
                 currentPlayer = 1;
             }
             turns++;
@@ -442,14 +444,14 @@ public class PartyIA extends StackPane {
         selectButton(buttonJ2avecvoisinlibre);
         System.out.println(buttonJ2avecvoisinlibre.getText());
 
-        //séléctionner le voisin en question du bouton qui a"t" choisi au hazard
+        //séléctionner le voisin en question du bouton qui a été choisi au hazard
         List<Button> voisinsquiestlibre = new ArrayList<>();
         Button voisinChoisi = getSelectedNeighbourButton(buttonJ2avecvoisinlibre);
 
 
         disableMouseInteractions(gridPane, true);// Désactiver la souris pendant une seconde
 
-        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        PauseTransition pause = new PauseTransition(Duration.seconds(1));
         pause.setOnFinished(event -> {
 
             ImageView imageView1 = (ImageView) buttonJ2avecvoisinlibre.getGraphic();
@@ -477,17 +479,8 @@ public class PartyIA extends StackPane {
             }
             else {
                 currentPlayer = 2;
-                // Désactiver la souris pendant une seconde
-                disableMouseInteractions(gridPane, true);
-
-                PauseTransition pause1 = new PauseTransition(Duration.seconds(2));
-                pause1.setOnFinished(e -> {
-                    Button randombutton = getRandomButtonJ1();
-                    removePiece(randombutton);
-                    // Réactiver la souris
-                    disableMouseInteractions(gridPane, false);
-                });
-                pause1.play();
+                Button randombutton = getRandomButtonJ1();
+                removePiece(randombutton);
             }
 
             // Réactiver la souris
@@ -571,13 +564,26 @@ public class PartyIA extends StackPane {
                 else if(!boutonlibre && buttonsJ2.contains(button)){updateButtonState2(2,button,buttonsJ2);}
             }
             else if(currentPlayer==2) {
+
+                disableMouseInteractions(gridPane, true);// Désactiver la souris pendant une seconde
+
+                PauseTransition pause = new PauseTransition(Duration.seconds(1));
+                pause.setOnFinished(event -> {
                 for(Button b : buttonsJ1){
                     if (!isNotlibre(b)){
                         boutonlibre = true;
                     }
                 }
-                if(boutonlibre && buttonsJ1.contains(button) && !isNotlibre(button)){updateButtonState(1,button,buttonsJ1);}
-                else if(!boutonlibre && buttonsJ1.contains(button)){updateButtonState2(1,button,buttonsJ1);}
+                if(boutonlibre && buttonsJ1.contains(button) && !isNotlibre(button)){
+                    updateButtonState(1,button,buttonsJ1);
+                }
+                else if(!boutonlibre && buttonsJ1.contains(button)) {
+                    updateButtonState2(1,button,buttonsJ1);
+                }
+                    // Réactiver la souris
+                    disableMouseInteractions(gridPane, false);
+                });
+                pause.play();
             }
         }
     }
