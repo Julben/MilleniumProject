@@ -7,7 +7,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -40,13 +39,13 @@ public class PartyIA extends StackPane {
     private VBox leftVBox;
     private VBox rightVBox;
     private int turns = 0;
-    private boolean isNoChrono = false;
+    static boolean isNoChrono = false;
     private ToggleGroup toggleGroup3;
     private HBox hbox3;
     private ToggleGroup toggleGroup2;
     private HBox hbox2;
     private int remainingSeconds = 30;
-    private Timeline timeline;
+    static Timeline timeline;
     private Button selectedButton = null;
     private List<Button> buttonsJ1 = new ArrayList<>();
     private List<Button> buttonsJ2 = new ArrayList<>();
@@ -371,7 +370,6 @@ public class PartyIA extends StackPane {
 
     // Méthode pour retourner un bouton du joueur 1 de manière aléatoire
     public Button getRandomButtonJ1() {
-        // Vérifier si la liste des boutons du joueur 1 est vide
         if (buttonsJ1.isEmpty()) {
             return null;
         }
@@ -432,43 +430,24 @@ public class PartyIA extends StackPane {
         }
     }
 
+
+
     private void deplacement(List<Button> buttons){
 
+        //obtenir les boutons du J2 avec un voisin libre et le sélectionner au hazard
         List<Button> buttonsvoisinlibres = getFreeNeighbourButtons(buttonsJ2);
-
         Random random1 = new Random();
         int randomIndex1 = random1.nextInt(buttonsvoisinlibres.size());
         Button buttonJ2avecvoisinlibre = buttonsvoisinlibres.get(randomIndex1);
         selectButton(buttonJ2avecvoisinlibre);
-
         System.out.println(buttonJ2avecvoisinlibre.getText());
 
+        //séléctionner le voisin en question du bouton qui a"t" choisi au hazard
+        List<Button> voisinsquiestlibre = new ArrayList<>();
+        Button voisinChoisi = getSelectedNeighbourButton(buttonJ2avecvoisinlibre);
 
 
-        List<Button> voisinslibres = new ArrayList<>();
-
-        String id =  buttonJ2avecvoisinlibre.getId();
-
-        for (String[] neighbours : neighbourList) {
-            if (neighbours[0].equals(id)){
-                Button button = getButtonById(neighbours[1]);
-                if (button.getGraphic() == null){
-                    voisinslibres.add(button);
-                }
-            } else if (neighbours[1].equals(id)){
-                Button button = getButtonById(neighbours[0]);
-                if (button.getGraphic() == null){
-                    voisinslibres.add(button);
-                }
-            }
-        }
-
-        Random random = new Random();
-        int randomIndex = random.nextInt(voisinslibres.size());
-        Button voisinChoisi = voisinslibres.get(randomIndex);
-
-        // Désactiver la souris pendant une seconde
-        disableMouseInteractions(gridPane, true);
+        disableMouseInteractions(gridPane, true);// Désactiver la souris pendant une seconde
 
         PauseTransition pause = new PauseTransition(Duration.seconds(2));
         pause.setOnFinished(event -> {
@@ -482,7 +461,7 @@ public class PartyIA extends StackPane {
             deselectButton(voisinChoisi);
             change = true;
 
-            voisinslibres.clear();
+            voisinsquiestlibre.clear();
 
             resetButtonColorsForMovedButton(buttonJ2avecvoisinlibre);
             checkButtonCombinations();
@@ -516,6 +495,37 @@ public class PartyIA extends StackPane {
         });
         pause.play();
     }
+
+    private Button getSelectedNeighbourButton(Button button) {
+        List<Button> neighbours = new ArrayList<>();
+
+        String id = button.getId();
+
+        for (String[] neighbour : neighbourList) {
+            if (neighbour[0].equals(id)) {
+                Button neighbourButton = getButtonById(neighbour[1]);
+                if (neighbourButton.getGraphic() == null) {
+                    neighbours.add(neighbourButton);
+                }
+            } else if (neighbour[1].equals(id)) {
+                Button neighbourButton = getButtonById(neighbour[0]);
+                if (neighbourButton.getGraphic() == null) {
+                    neighbours.add(neighbourButton);
+                }
+            }
+        }
+
+        if (!neighbours.isEmpty()) {
+            Random random = new Random();
+            int randomIndex = random.nextInt(neighbours.size());
+            return neighbours.get(randomIndex);
+        }
+
+        return null;
+    }
+
+
+
 
     private List<Button> getFreeNeighbourButtons(List<Button> buttonsJ2) {
 
@@ -551,21 +561,14 @@ public class PartyIA extends StackPane {
     private void removePiece(Button button) {
         // Vérifier si le bouton cliqué contient une image
         if (button.getGraphic() instanceof ImageView) {
-
             if(currentPlayer==1) {
                 for(Button b : buttonsJ2){
                     if (!isNotlibre(b)){
                         boutonlibre = true;
                     }
                 }
-                if(boutonlibre && buttonsJ2.contains(button) && !isNotlibre(button)){
-
-                    updateButtonState(2,button,buttonsJ2);
-                }
-                else if(!boutonlibre && buttonsJ2.contains(button)){
-
-                    updateButtonState2(2,button,buttonsJ2);
-                }
+                if(boutonlibre && buttonsJ2.contains(button) && !isNotlibre(button)){updateButtonState(2,button,buttonsJ2);}
+                else if(!boutonlibre && buttonsJ2.contains(button)){updateButtonState2(2,button,buttonsJ2);}
             }
             else if(currentPlayer==2) {
                 for(Button b : buttonsJ1){
@@ -573,14 +576,8 @@ public class PartyIA extends StackPane {
                         boutonlibre = true;
                     }
                 }
-                if(boutonlibre && buttonsJ1.contains(button) && !isNotlibre(button)){
-
-                    updateButtonState(1,button,buttonsJ1);
-                }
-                else if(!boutonlibre && buttonsJ1.contains(button)){
-
-                    updateButtonState2(1,button,buttonsJ1);
-                }
+                if(boutonlibre && buttonsJ1.contains(button) && !isNotlibre(button)){updateButtonState(1,button,buttonsJ1);}
+                else if(!boutonlibre && buttonsJ1.contains(button)){updateButtonState2(1,button,buttonsJ1);}
             }
         }
     }
@@ -743,12 +740,6 @@ public class PartyIA extends StackPane {
             return !hasPlayerFreeNeighbours(buttonsJ2);
         }
     }
-
-
-
-
-
-
     private Timeline Chrono(Label timerLabel, int[] remainingSeconds){
         timeline = new Timeline(
                 new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
