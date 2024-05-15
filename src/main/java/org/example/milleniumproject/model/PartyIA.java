@@ -232,11 +232,11 @@ public class PartyIA extends StackPane {
 
 
     // Méthode pour gérer le clic sur le bouton
-    private void handleButtonClick(Button button, GridPane gridpane, Timeline timeline1, Timeline timeline2, Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2, String chrono,Stage primaryStage) {
+    private void handleButtonClick(Button button, GridPane gridpane, Timeline timeline1, Timeline timeline2, Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2, String chrono, Stage primaryStage) {
 
         if (isRemovePieceMode) {
             // Si le mode de suppression de pion est activé
-            removePiece(button);
+            removePiece(button, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
 
             if (currentPlayer==1){
                 ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
@@ -249,7 +249,7 @@ public class PartyIA extends StackPane {
                 if(turns < 18){
                     PauseTransition pause = new PauseTransition(Duration.seconds(1));
                     pause.setOnFinished(event -> {
-                        makeRandomPlacement(gridpane);
+                        makeRandomPlacement(gridpane, timeline1, timeline2, remainingSeconds2, timerLabel2, chrono);
                         disableMouseInteractions(gridpane, false);
                     });
                     pause.play();
@@ -257,13 +257,11 @@ public class PartyIA extends StackPane {
                 else{
                     PauseTransition pause = new PauseTransition(Duration.seconds(1));
                     pause.setOnFinished(event -> {
-                    deplacement(buttonsJ2);
+                    deplacement(buttonsJ2, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                         disableMouseInteractions(gridpane, false);
                     });
                     pause.play();
                 }
-
-
             }
 
             // Vérifier si la partie est terminée
@@ -283,7 +281,7 @@ public class PartyIA extends StackPane {
             if (button.getGraphic() == null && turns < 18) {
                 // Placer l'image du joueur sur le bouton en fonction du joueur 1
                 if (currentPlayer == 1) {
-                    placePlayerImage(button, leftVBox);
+                    placePlayerImage(button, leftVBox, timeline1, timeline2, remainingSeconds2, timerLabel2, chrono);
                     buttonsJ1.add(button);
                     // Vérifier les combinaisons après chaque placement de pion
                     checkButtonCombinations();
@@ -291,12 +289,13 @@ public class PartyIA extends StackPane {
                         currentPlayer = 1;
                     } else {
                         currentPlayer = 2;
+                        ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
                         // Désactiver la souris pendant une seconde
                         disableMouseInteractions(gridpane, true);
 
                         PauseTransition pause = new PauseTransition(Duration.seconds(1));
                         pause.setOnFinished(event -> {
-                            makeRandomPlacement(gridpane);
+                            makeRandomPlacement(gridpane, timeline1, timeline2, remainingSeconds2, timerLabel2, chrono);
                             disableMouseInteractions(gridpane, false);
                         });
                         pause.play();
@@ -325,7 +324,7 @@ public class PartyIA extends StackPane {
     }
 
     // Méthode pour placer l'image du joueur sur un bouton
-    private void placePlayerImage(Button button, VBox playerVBox) {
+    private void placePlayerImage(Button button, VBox playerVBox, Timeline timeline1, Timeline timeline2, int[] remainingSeconds2, Label timerLabel2, String chrono) {
         // Obtenir le GridPane enfant de la VBox
         GridPane gridPane = (GridPane) playerVBox.getChildren().get(0);
 
@@ -334,21 +333,21 @@ public class PartyIA extends StackPane {
             // Récupérer l'image correspondant à l'index du joueur actuel
             ImageView imageView = (ImageView) gridPane.getChildren().get(0);
             button.setGraphic(imageView);
+            SoundPlayer.soundPlay();
             gridPane.getChildren().remove(imageView);
         }
     }
 
 
-    private void makeRandomPlacement(GridPane gridPane) {
+    private void makeRandomPlacement(GridPane gridPane, Timeline timeline1, Timeline timeline2, int[] remainingSeconds2, Label timerLabel2, String chrono) {
         // Vérifier si c'est le tour de l'IA
         if (currentPlayer == 2 && !isRemovePieceMode && turns <18) {
 
             Button randomButton = getEmptyButton(gridPane);
 
             // Placer l'image de l'IA sur le bouton sélectionné
-            placePlayerImage(randomButton, rightVBox);
+            placePlayerImage(randomButton, rightVBox, timeline1, timeline2, remainingSeconds2, timerLabel2, chrono);
             buttonsJ2.add(randomButton);
-
 
 
             // Vérifier les combinaisons après chaque placement de pion
@@ -361,7 +360,7 @@ public class PartyIA extends StackPane {
                 PauseTransition pause = new PauseTransition(Duration.seconds(1));
                 pause.setOnFinished(event -> {
                     Button randombutton = getRandomButtonJ1();
-                    removePiece(randombutton);
+                    removePiece(randombutton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                     // Réactiver la souris
                     disableMouseInteractions(gridPane, false);
                 });
@@ -370,6 +369,7 @@ public class PartyIA extends StackPane {
 
             else {
                 currentPlayer = 1;
+                ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
             }
             turns++;
         }
@@ -435,7 +435,7 @@ public class PartyIA extends StackPane {
                             ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                         } else {
                             ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
-                            deplacement(buttonsJ2);
+                            deplacement(buttonsJ2, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                         }
                     }
                 }
@@ -454,7 +454,7 @@ public class PartyIA extends StackPane {
 
 
 
-    private void deplacement(List<Button> buttons){
+    private void deplacement(List<Button> buttons, Timeline timeline2, Label timerLabel2, String chrono, int[] remainingSeconds2, Timeline timeline1){
 
         if (buttonsJ2.size()>3){
             //obtenir les boutons du J2 avec un voisin libre et le sélectionner au hazard
@@ -492,16 +492,30 @@ public class PartyIA extends StackPane {
             if(!isRemovePieceMode){
                 currentPlayer = currentPlayer == 1 ? 2 : 1;
                 if(currentPlayer == 1){
-                    //ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
-                }
-                else{
-                    //ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
+                    ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                 }
             }
             else {
                 currentPlayer = 2;
-                Button randombutton = getRandomButtonJ1();
-                removePiece(randombutton);
+
+                List<Button> FreeButtonsJ1 = new ArrayList<>();
+
+                for(Button i : buttonsJ1){
+                    if(!isNotlibre(i)){
+                        FreeButtonsJ1.add(i);
+                    }
+                }
+
+                Random random = new Random();
+                int index = random.nextInt(FreeButtonsJ1.size());
+                Button randomFreeButton = FreeButtonsJ1.get(index);
+
+                FreeButtonsJ1.clear();
+
+                System.out.println("Cest ce que je veux : ");
+                System.out.print(randomFreeButton.getText());
+
+                removePiece(randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
             }
 
             // Réactiver la souris
@@ -510,6 +524,7 @@ public class PartyIA extends StackPane {
         pause.play();
         }
         else if (buttonsJ2.size()==3 && placementisfinished) {
+
             // Sélectionner aléatoirement l'un des trois pions restants du joueur 2
             Random randomPion = new Random();
             int indexPion = randomPion.nextInt(buttonsJ2.size());
@@ -546,7 +561,7 @@ public class PartyIA extends StackPane {
                 else {
                     currentPlayer = 2;
                     Button randombutton = getRandomButtonJ1();
-                    removePiece(randombutton);
+                    removePiece(randombutton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                 }
                     // Réactiver la souris
                     disableMouseInteractions(gridPane, false);
@@ -619,7 +634,7 @@ public class PartyIA extends StackPane {
     }
 
     // Méthode pour retirer un pion adverse
-    private void removePiece(Button button) {
+    private void removePiece(Button button, Timeline timeline2, Label timerLabel2, String chrono, int[] remainingSeconds2, Timeline timeline1) {
         // Vérifier si le bouton cliqué contient une image
         if (button.getGraphic() instanceof ImageView) {
             if(currentPlayer==1) {
@@ -637,21 +652,25 @@ public class PartyIA extends StackPane {
 
                 PauseTransition pause = new PauseTransition(Duration.seconds(1));
                 pause.setOnFinished(event -> {
-                for(Button b : buttonsJ1){
-                    if (!isNotlibre(b)){
-                        boutonlibre = true;
+                    for(Button b : buttonsJ1){
+                        if (!isNotlibre(b)){
+                            boutonlibre = true;
+                        }
                     }
-                }
-                if(boutonlibre && buttonsJ1.contains(button) && !isNotlibre(button)){
-                    updateButtonState(1,button,buttonsJ1);
-                }
-                else if(!boutonlibre && buttonsJ1.contains(button)) {
-                    updateButtonState2(1,button,buttonsJ1);
-                }
+                    if(boutonlibre && buttonsJ1.contains(button) && !isNotlibre(button)){
+                        updateButtonState(1,button,buttonsJ1);
+                    }
+                    else if(!boutonlibre && buttonsJ1.contains(button)) {
+                        updateButtonState2(1,button,buttonsJ1);
+                    }
+                    else{
+                        System.out.println("Aucune option choisie");
+                    }
                     // Réactiver la souris
                     disableMouseInteractions(gridPane, false);
                 });
                 pause.play();
+                ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
             }
         }
     }
