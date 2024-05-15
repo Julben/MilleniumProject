@@ -99,9 +99,10 @@ public class ProfilParty extends StackPane {
             }
         }
 
-
-        labelsVBox.getChildren().add(timerlabel);
-        labelsVBox.setPadding(new Insets(0, 0, 0.055556*screenHeight, 0));
+        if(!isIA){
+            labelsVBox.getChildren().add(timerlabel);
+            labelsVBox.setPadding(new Insets(0, 0, 0.055556*screenHeight, 0));
+        }
 
         // Ajout du nom du joueur
         Label nameLabel = new Label(playerName);

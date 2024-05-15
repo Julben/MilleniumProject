@@ -519,7 +519,6 @@ public class Party extends StackPane {
         ImageView originalImageView = (ImageView) button.getGraphic();
         originalImageView.setScaleX(1.5);
         originalImageView.setScaleY(1.5);
-
     }
 
     // Méthode pour changer le style d'un bouton désélectionné
