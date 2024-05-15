@@ -3,10 +3,7 @@ package org.example.milleniumproject.model;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -240,33 +237,33 @@ public class ButtonPause extends StackPane {
     static VBox boutonquitter(Stage primaryStage) {
         VBox vbox = new VBox(0.04167 * screenHeight);
 
-        Label confirmationLabel = new Label("Si vous quittez maintenant, vous ne pouvez pas sauvegarder la partie. Veuillez terminer le placement des pions avant de sauvegarder.");
+        Label confirmationLabel = new Label("Pour sauvegarder la partie le placement des pions doit être terminé. Voulez-vous vraiment quitter ?");
         confirmationLabel.setFont(Font.font("Cardo", FontWeight.BOLD, 0.0305 * screenHeight));
         confirmationLabel.setTextFill(Color.WHITE);
 
         HBox hbox = new HBox(0.05139 * screenHeight);
-        Button ouiButton = new Button("Oui");
-        Button nonButton = new Button("Non");
+        Button quitterButton = new Button("Quitter");
+        Button annulerButton = new Button("Annuler");
 
-        ouiButton.setFont(Font.font("Cardo", FontWeight.BOLD, 17));
-        nonButton.setFont(Font.font("Cardo", FontWeight.BOLD, 17));
+        quitterButton.setFont(Font.font("Cardo", FontWeight.BOLD, 17));
+        annulerButton.setFont(Font.font("Cardo", FontWeight.BOLD, 17));
 
-        ouiButton.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white;");
-        nonButton.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white;");
+        quitterButton.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white;");
+        annulerButton.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white;");
 
-        nonButton.setOnAction(e -> {
+        annulerButton.setOnAction(e -> {
             SoundPlayer.soundPlay();
             vbox.setVisible(false);
         });
 
-        ouiButton.setOnAction(e -> {
+        quitterButton.setOnAction(e -> {
             SoundPlayer.soundPlay();
             Menu menu = new Menu();
             menu.afficherMenu(primaryStage);
             MusicPlayer.musicPlay("src/main/resources/MusicMenu.mp3");
         });
 
-        hbox.getChildren().addAll(ouiButton, nonButton);
+        hbox.getChildren().addAll(quitterButton, annulerButton);
         vbox.getChildren().addAll(confirmationLabel, hbox);
 
         // Stylisation du menu pause avec un arrière-plan semi-transparent
@@ -283,7 +280,7 @@ public class ButtonPause extends StackPane {
     static VBox boutonquittersave(Stage primaryStage, GridPane gridPane, int currentPlayer, int turns, int chrono, int bg) {
         VBox vbox = new VBox(0.04167 * screenHeight);
 
-        Label confirmationLabelsave = new Label("Voulez-vous sauvegarder la partie ?");
+        Label confirmationLabelsave = new Label("Souhaitez-vous sauvegarder la partie ?");
         confirmationLabelsave.setFont(Font.font("Cardo", FontWeight.BOLD, 0.0305 * screenHeight));
         confirmationLabelsave.setTextFill(Color.WHITE);
 
@@ -312,16 +309,16 @@ public class ButtonPause extends StackPane {
             dialogBox.setAlignment(Pos.CENTER);
 
             Label fileNameLabel = new Label("Nom du fichier de sauvegarde:");
-            fileNameLabel.setFont(Font.font("Cardo", FontWeight.BOLD, 20));
+            fileNameLabel.setFont(Font.font("Cardo", FontWeight.BOLD, 0.0305 * screenHeight));
             fileNameLabel.setTextFill(Color.WHITE);
             TextField fileNameField = new TextField();
             fileNameField.setPrefSize(100,50);
 
-            fileNameField.setStyle("-fx-background-color: transparent; " +
+            fileNameField.setStyle("-fx-background-color: rgba(0,0,0,0.5); " +
                     "-fx-border-color: #FF9800; " +
                     "-fx-text-fill: white; " +
                     "-fx-font-family: 'Cardo'; " +
-                    "-fx-font-size: 20; " +
+                    "-fx-font-size: 25; " +
                     "-fx-alignment: center;");
 
 
@@ -389,19 +386,18 @@ public class ButtonPause extends StackPane {
 
             dialogBox.getChildren().addAll(fileNameLabel, fileNameField, saveButton, cancelButton);
             vbox.getChildren().clear();
-            vbox.getChildren().addAll(confirmationLabelsave, dialogBox);
+            vbox.getChildren().addAll(dialogBox);
         });
 
         hbox.getChildren().addAll(ouiButton, nonButton);
         vbox.getChildren().addAll(confirmationLabelsave, hbox);
 
         // Stylisation du menu pause avec un arrière-plan semi-transparent
-        vbox.setStyle("-fx-background-color: rgba(0, 0, 0, 0.6); -fx-padding: 20px;");
+        vbox.setStyle("-fx-background-color: rgba(0, 0, 0, 0.6); -fx-padding: 20px");
 
         // Positionnement du menu pause au centre de l'écran
         hbox.setAlignment(Pos.CENTER);
         vbox.setAlignment(Pos.TOP_CENTER);
-        vbox.setPadding(new Insets(0.02778 * screenHeight, 0, 0, 0));
 
         return vbox;
     }

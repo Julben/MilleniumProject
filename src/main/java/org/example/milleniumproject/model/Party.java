@@ -774,7 +774,7 @@ public class Party extends StackPane {
 
         quitter.setOnAction(e -> {
             SoundPlayer.soundPlay();
-            menu.setVisible(false);
+            //menu.setVisible(false);
             quitterMenu = quitterMenuChoose(primaryStage,gridPane,currentPlayer,turns,selectedIndexchrono,selectIndexBG);
             quitterMenu.setVisible(true);
         });
