@@ -255,8 +255,15 @@ public class PartyIA extends StackPane {
                     pause.play();
                 }
                 else{
+                    PauseTransition pause = new PauseTransition(Duration.seconds(1));
+                    pause.setOnFinished(event -> {
                     deplacement(buttonsJ2);
+                        disableMouseInteractions(gridpane, false);
+                    });
+                    pause.play();
                 }
+
+
             }
 
             // Vérifier si la partie est terminée
@@ -287,7 +294,6 @@ public class PartyIA extends StackPane {
                         PauseTransition pause = new PauseTransition(Duration.seconds(1));
                         pause.setOnFinished(event -> {
                             makeRandomPlacement(gridpane);
-                            // Réactiver la souris
                             disableMouseInteractions(gridpane, false);
                         });
                         pause.play();
@@ -326,19 +332,28 @@ public class PartyIA extends StackPane {
         }
     }
 
+    private Button getEmptyButton(GridPane gridPane) {
+        Random random = new Random();
+        Button emptyButton = null;
+        do {
+            int index = random.nextInt(gridPane.getChildren().size());
+            Node node = gridPane.getChildren().get(index);
+            if (node instanceof Button) {
+                emptyButton = (Button) node;
+                if (emptyButton.getGraphic() != null) {
+                    emptyButton = null; // Réinitialiser si le bouton n'est pas vide
+                }
+            }
+        } while (emptyButton == null);
+        return emptyButton;
+    }
+
+
     private void makeRandomPlacement(GridPane gridPane) {
         // Vérifier si c'est le tour de l'IA
         if (currentPlayer == 2 && !isRemovePieceMode && turns <18) {
-            // Sélectionner un bouton aléatoire parmi les boutons disponibles
-            Random random = new Random();
-            Button randomButton = null;
-            do {
-                int index = random.nextInt(gridPane.getChildren().size());
-                Node node = gridPane.getChildren().get(index);
-                if (node instanceof Button) {
-                    randomButton = (Button) node;
-                }
-            } while (randomButton == null || randomButton.getGraphic() != null);
+
+            Button randomButton = getEmptyButton(gridPane);
 
             // Placer l'image de l'IA sur le bouton sélectionné
             placePlayerImage(randomButton, rightVBox);
@@ -349,10 +364,10 @@ public class PartyIA extends StackPane {
             // Vérifier les combinaisons après chaque placement de pion
             checkButtonCombinations();
             if(isRemovePieceMode){
-
+                currentPlayer = 2;
                 // Désactiver la souris pendant une seconde
                 disableMouseInteractions(gridPane, true);
-                currentPlayer = 2;
+
                 PauseTransition pause = new PauseTransition(Duration.seconds(1));
                 pause.setOnFinished(event -> {
                     Button randombutton = getRandomButtonJ1();
@@ -436,7 +451,8 @@ public class PartyIA extends StackPane {
 
     private void deplacement(List<Button> buttons){
 
-        //obtenir les boutons du J2 avec un voisin libre et le sélectionner au hazard
+        if (buttonsJ2.size()>3){
+            //obtenir les boutons du J2 avec un voisin libre et le sélectionner au hazard
         List<Button> buttonsvoisinlibres = getFreeNeighbourButtons(buttonsJ2);
         Random random1 = new Random();
         int randomIndex1 = random1.nextInt(buttonsvoisinlibres.size());
@@ -487,7 +503,12 @@ public class PartyIA extends StackPane {
             disableMouseInteractions(gridPane, false);
         });
         pause.play();
+        }
+        else if (buttonsJ2.size()==3 && placementisfinished) {
+
+        }
     }
+
 
     private Button getSelectedNeighbourButton(Button button) {
         List<Button> neighbours = new ArrayList<>();
