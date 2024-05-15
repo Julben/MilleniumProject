@@ -94,7 +94,7 @@ public class ButtonPause extends StackPane {
         imageView.setFitWidth(0.9765 * screenWidth); // Largeur souhaitée
         imageView.setFitHeight(1.04167 * screenHeight); // Hauteur souhaitée
 
-        VBox vboxVideo = new VBox(30);
+        VBox vboxVideo = new VBox(0.0416667*screenHeight);
         vboxVideo.setAlignment(Pos.CENTER);
 
         CheckBox animationCheckBox = new CheckBox("Activer animations");
@@ -106,14 +106,14 @@ public class ButtonPause extends StackPane {
         animationCheckBox.setSelected(VideoData.isAnimation());
         animationCheckBox.setOnAction(event -> VideoData.setAnimation(animationCheckBox.isSelected()));
 
-        VBox vboxAudio = new VBox(30);
+        VBox vboxAudio = new VBox(0.416667*screenHeight);
         vboxAudio.setAlignment(Pos.CENTER);
 
         // Création des labels
         Label volumeMusiqueLabel = createStyledLabel("Musique");
         Label volumeEffetsLabel = createStyledLabel("Sons");
 
-        VBox leftbox = new VBox(68);
+        VBox leftbox = new VBox(0.094444*screenHeight);
         leftbox.setAlignment(Pos.CENTER_LEFT);
         leftbox.getChildren().addAll(volumeMusiqueLabel, volumeEffetsLabel);
 
@@ -171,29 +171,29 @@ public class ButtonPause extends StackPane {
         addDropShadowEffect(sliderWithControls3.getSlider());
 
         // Création de la VBox et ajout des HBox
-        VBox rightbox = new VBox(43, hbox2, hbox3);
+        VBox rightbox = new VBox(0.059722*screenHeight, hbox2, hbox3);
         rightbox.setAlignment(Pos.CENTER_LEFT);
 
-        HBox hbox = new HBox(10);
+        HBox hbox = new HBox(0.0078125*screenWidth);
         hbox.getChildren().addAll(leftbox, rightbox);
-        setMargin(hbox, new Insets(0, 0, 0, 100));
+        setMargin(hbox, new Insets(0, 0, 0, 0.078125*screenHeight));
 
         vboxAudio.getChildren().add(hbox);
 
         // Création du bouton pour masquer l'image et le bouton
         Button fermerButton = new Button();
-        fermerButton.setMinWidth(70);
-        fermerButton.setMinHeight(70);
-        StackPane.setMargin(fermerButton, new Insets(0, 0, 615, 1050));
+        fermerButton.setMinWidth(0.0546875*screenWidth);
+        fermerButton.setMinHeight(0.097222*screenHeight);
+        StackPane.setMargin(fermerButton, new Insets(0, 0, 0.8541667*screenHeight, 0.8203125*screenWidth));
         fermerButton.setStyle("-fx-background-color: transparrent");
         fermerButton.setOnAction(e -> {
             SoundPlayer.soundPlay();
             root.getChildren().remove(parametrePane);
         });
 
-        HBox hboxfinal = new HBox(180, vboxVideo, vboxAudio);
+        HBox hboxfinal = new HBox(0.140625*screenWidth, vboxVideo, vboxAudio);
         hboxfinal.setAlignment(Pos.CENTER);
-        setMargin(hboxfinal, new Insets(0, 0, 10, 80));
+        setMargin(hboxfinal, new Insets(0, 0, 0.01388*screenHeight, 0.0625*screenWidth));
 
         // Ajout de l'image et du bouton à la StackPane
         parametrePane.getChildren().addAll(imageView, hboxfinal, fermerButton);
@@ -242,11 +242,11 @@ public class ButtonPause extends StackPane {
         confirmationLabel.setTextFill(Color.WHITE);
 
         HBox hbox = new HBox(0.05139 * screenHeight);
-        Button quitterButton = new Button("Quitter");
-        Button annulerButton = new Button("Annuler");
+        Button quitterButton = new Button("Oui");
+        Button annulerButton = new Button("Non");
 
-        quitterButton.setFont(Font.font("Cardo", FontWeight.BOLD, 17));
-        annulerButton.setFont(Font.font("Cardo", FontWeight.BOLD, 17));
+        quitterButton.setFont(Font.font("Cardo", FontWeight.BOLD, 0.023611*screenHeight));
+        annulerButton.setFont(Font.font("Cardo", FontWeight.BOLD, 0.023611*screenHeight));
 
         quitterButton.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white;");
         annulerButton.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white;");
@@ -288,8 +288,8 @@ public class ButtonPause extends StackPane {
         Button ouiButton = new Button("Oui");
         Button nonButton = new Button("Non");
 
-        ouiButton.setFont(Font.font("Cardo", FontWeight.BOLD, 17));
-        nonButton.setFont(Font.font("Cardo", FontWeight.BOLD, 17));
+        ouiButton.setFont(Font.font("Cardo", FontWeight.BOLD, 0.023611*screenHeight));
+        nonButton.setFont(Font.font("Cardo", FontWeight.BOLD, 0.023611*screenHeight));
 
         ouiButton.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white;");
         nonButton.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white;");
@@ -305,7 +305,7 @@ public class ButtonPause extends StackPane {
         ouiButton.setOnAction(e -> {
             save = true;
             SoundPlayer.soundPlay();
-            VBox dialogBox = new VBox(10);
+            VBox dialogBox = new VBox(0.0138889*screenHeight);
             dialogBox.setAlignment(Pos.CENTER);
 
             Label fileNameLabel = new Label("Nom du fichier de sauvegarde:");
@@ -325,8 +325,8 @@ public class ButtonPause extends StackPane {
             Button saveButton = new Button("Sauvegarder");
             Button cancelButton = new Button("Annuler");
 
-            saveButton.setFont(Font.font("Cardo", FontWeight.BOLD, 17));
-            cancelButton.setFont(Font.font("Cardo", FontWeight.BOLD, 17));
+            saveButton.setFont(Font.font("Cardo", FontWeight.BOLD, 0.023611*screenHeight));
+            cancelButton.setFont(Font.font("Cardo", FontWeight.BOLD, 0.023611*screenHeight));
 
             saveButton.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white;");
             cancelButton.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white;");
@@ -342,14 +342,14 @@ public class ButtonPause extends StackPane {
                     File file = new File(filePath);
                     if (file.exists()) {
                         Label fileExistsLabel = new Label("Le fichier existe déjà. Voulez-vous écraser le fichier existant ?");
-                        fileExistsLabel.setFont(Font.font("Cardo", FontWeight.BOLD, 20));
+                        fileExistsLabel.setFont(Font.font("Cardo", FontWeight.BOLD, 0.027778*screenHeight));
                         fileExistsLabel.setTextFill(Color.WHITE);
 
                         Button overwriteButton = new Button("Écraser");
                         Button cancelButton2 = new Button("Annuler");
 
-                        overwriteButton.setFont(Font.font("Cardo", FontWeight.BOLD, 17));
-                        cancelButton2.setFont(Font.font("Cardo", FontWeight.BOLD, 17));
+                        overwriteButton.setFont(Font.font("Cardo", FontWeight.BOLD, 0.023611*screenHeight));
+                        cancelButton2.setFont(Font.font("Cardo", FontWeight.BOLD, 0.023611*screenHeight));
 
                         overwriteButton.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white;");
                         cancelButton2.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white;");
