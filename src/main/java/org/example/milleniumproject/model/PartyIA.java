@@ -795,6 +795,11 @@ public class PartyIA extends StackPane {
             menu.setVisible(false);
         });
 
+        parametres.setOnAction(e -> {
+            SoundPlayer.soundPlay();
+            ButtonPause.parametres(this);
+        });
+
         // Action du bouton "Règles" pour afficher les règles
         regles.setOnAction(e -> {
             SoundPlayer.soundPlay();
