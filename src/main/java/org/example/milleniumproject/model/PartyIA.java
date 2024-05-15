@@ -332,22 +332,6 @@ public class PartyIA extends StackPane {
         }
     }
 
-    private Button getEmptyButton(GridPane gridPane) {
-        Random random = new Random();
-        Button emptyButton = null;
-        do {
-            int index = random.nextInt(gridPane.getChildren().size());
-            Node node = gridPane.getChildren().get(index);
-            if (node instanceof Button) {
-                emptyButton = (Button) node;
-                if (emptyButton.getGraphic() != null) {
-                    emptyButton = null; // Réinitialiser si le bouton n'est pas vide
-                }
-            }
-        } while (emptyButton == null);
-        return emptyButton;
-    }
-
 
     private void makeRandomPlacement(GridPane gridPane) {
         // Vérifier si c'est le tour de l'IA
@@ -383,6 +367,21 @@ public class PartyIA extends StackPane {
             }
             turns++;
         }
+    }
+    private Button getEmptyButton(GridPane gridPane) {
+        Random random = new Random();
+        Button emptyButton = null;
+        do {
+            int index = random.nextInt(gridPane.getChildren().size());
+            Node node = gridPane.getChildren().get(index);
+            if (node instanceof Button) {
+                emptyButton = (Button) node;
+                if (emptyButton.getGraphic() != null) {
+                    emptyButton = null; // Réinitialiser si le bouton n'est pas vide
+                }
+            }
+        } while (emptyButton == null);
+        return emptyButton;
     }
 
     // Méthode pour retourner un bouton du joueur 1 de manière aléatoire
@@ -505,7 +504,48 @@ public class PartyIA extends StackPane {
         pause.play();
         }
         else if (buttonsJ2.size()==3 && placementisfinished) {
+            // Sélectionner aléatoirement l'un des trois pions restants du joueur 2
+            Random randomPion = new Random();
+            int indexPion = randomPion.nextInt(buttonsJ2.size());
+            Button pionRestantJ2 = buttonsJ2.get(indexPion);
 
+            // Sélectionner un bouton vide
+            Button boutonVide = getEmptyButton(gridPane);
+
+            // Si on trouve un bouton vide et un pion restant
+            if (boutonVide != null && pionRestantJ2 != null) {
+
+                disableMouseInteractions(gridPane, true);// Désactiver la souris pendant une seconde
+
+                PauseTransition pause = new PauseTransition(Duration.seconds(1));
+                pause.setOnFinished(event -> {
+                // Placer l'image du pion restant sur le bouton vide
+                ImageView imageViewPion = (ImageView) pionRestantJ2.getGraphic();
+                boutonVide.setGraphic(imageViewPion);
+                pionRestantJ2.setGraphic(null);
+                buttons.remove(pionRestantJ2);
+                buttons.add(boutonVide);
+
+                deselectButton(pionRestantJ2);
+                change = true;
+
+                resetButtonColorsForMovedButton(pionRestantJ2);
+                checkButtonCombinations();
+
+                if(!isRemovePieceMode){
+                    currentPlayer = currentPlayer == 1 ? 2 : 1;
+                    //ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                }
+                else {
+                    currentPlayer = 2;
+                    Button randombutton = getRandomButtonJ1();
+                    removePiece(randombutton);
+                }
+                    // Réactiver la souris
+                    disableMouseInteractions(gridPane, false);
+                });
+                pause.play();
+            }
         }
     }
 
