@@ -431,9 +431,11 @@ public class PartyIA extends StackPane {
 
             List<Button> buttonsvoisinlibres = getFreeNeighbourButtons(buttonsJ2);
 
-            Random random1 = new Random();
-            int randomIndex1 = random1.nextInt(buttonsvoisinlibres.size());
-            Button buttonJ2avecvoisinlibre = buttonsvoisinlibres.get(randomIndex1);
+            if (!buttonsvoisinlibres.isEmpty()) {
+                Random random1 = new Random();
+                int randomIndex1 = random1.nextInt(buttonsvoisinlibres.size());
+                Button buttonJ2avecvoisinlibre = buttonsvoisinlibres.get(randomIndex1);
+
 
             disableMouseInteractions(gridPane, true);// Désactiver la souris pendant une seconde
 
@@ -450,46 +452,53 @@ public class PartyIA extends StackPane {
                     ImageView imageView1 = (ImageView) buttonJ2avecvoisinlibre.getGraphic();
                     voisinChoisi.setGraphic(imageView1);
                     SoundPlayer.soundPlay();
-                    buttonJ2avecvoisinlibre.setGraphic(null);
-                    buttons.remove(buttonJ2avecvoisinlibre);
-                    buttons.add(voisinChoisi);
-                    deselectButton(buttonJ2avecvoisinlibre);
-                    deselectButton(voisinChoisi);
 
-                    buttonsvoisinlibres.clear();
+                    PauseTransition pause = new PauseTransition(Duration.seconds(1));
+                    pause.setOnFinished(e -> {
+                        Button voisinChoisi = getSelectedNeighbourButton(buttonJ2avecvoisinlibre);
 
-                    resetButtonColorsForMovedButton(buttonJ2avecvoisinlibre);
-                    checkButtonCombinations();
+                        ImageView imageView1 = (ImageView) buttonJ2avecvoisinlibre.getGraphic();
+                        voisinChoisi.setGraphic(imageView1);
+                        SoundPlayer.soundPlay();
+                        buttonJ2avecvoisinlibre.setGraphic(null);
+                        buttons.remove(buttonJ2avecvoisinlibre);
+                        buttons.add(voisinChoisi);
+                        deselectButton(buttonJ2avecvoisinlibre);
+                        deselectButton(voisinChoisi);
 
-                    if(!isRemovePieceMode){
-                        currentPlayer = 1;
-                        ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
-                    }
-                    else {
+                        buttonsvoisinlibres.clear();
 
-                        List<Button> FreeButtonsJ1 = new ArrayList<>();
+                        resetButtonColorsForMovedButton(buttonJ2avecvoisinlibre);
+                        checkButtonCombinations();
 
-                        for(Button i : buttonsJ1){
-                            if(!isNotlibre(i)){
-                                FreeButtonsJ1.add(i);
+                        if (!isRemovePieceMode) {
+                            currentPlayer = 1;
+                            ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                        } else {
+                            List<Button> FreeButtonsJ1 = new ArrayList<>();
+
+                            for (Button i : buttonsJ1) {
+                                if (!isNotlibre(i)) {
+                                    FreeButtonsJ1.add(i);
+                                }
+                            }
+
+                            if (!FreeButtonsJ1.isEmpty()) {
+                                Random random = new Random();
+                                int index = random.nextInt(FreeButtonsJ1.size());
+                                Button randomFreeButton = FreeButtonsJ1.get(index);
+
+                                removePiece(randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                             }
                         }
 
-                        Random random = new Random();
-                        int index = random.nextInt(FreeButtonsJ1.size());
-                        Button randomFreeButton = FreeButtonsJ1.get(index);
-
-                        FreeButtonsJ1.clear();
-
-                        removePiece(randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
-                    }
-
-                    // Réactiver la souris
-                    disableMouseInteractions(gridPane, false);
+                        // Réactiver la souris
+                        disableMouseInteractions(gridPane, false);
+                    });
+                    pause.play();
                 });
-                pause.play();
-            });
-            pausee.play();
+                pausee.play();
+            }
         }
         else if (buttonsJ2.size()==3 && placementisfinished) {
 
