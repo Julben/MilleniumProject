@@ -14,7 +14,7 @@ repositories {
 }
 
 ext {
-    junitVersion = '5.10.0'
+    junitVersion = '5.8.1'
 }
 
 sourceCompatibility = '21'
@@ -31,17 +31,35 @@ application {
 
 javafx {
     version = '21'
-    modules = ['javafx.controls', 'javafx.fxml']
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.media', 'javafx.swing']
 }
 
 dependencies {
-
-    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testImplementation("org.junit.jupiter:junit-jupiter:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }
 
 test {
     useJUnitPlatform()
+}
+
+tasks.test {
+    inputs.property("moduleName", "org.example.milleniumproject")
+
+    doFirst {
+        def moduleName = inputs.properties["moduleName"]
+        def classpathString = files(project.sourceSets.test.output).asPath
+
+        println "classpathString: ${classpathString}"
+
+        jvmArgs = [
+                '--module-path', classpath.asPath,
+                '--add-modules', 'org.junit.jupiter.api',
+                '--add-reads', "${moduleName}=org.junit.jupiter.api",
+                '--patch-module', "${moduleName}=${classpathString}"
+        ]
+        classpath = files()
+    }
 }
 
 jlink {

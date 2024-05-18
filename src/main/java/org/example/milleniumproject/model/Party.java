@@ -2,10 +2,12 @@ package org.example.milleniumproject.model;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -23,6 +25,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.util.*;
 
+import static org.example.milleniumproject.model.ButtonSelector.deselectButton;
 import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 import static javafx.scene.paint.Color.GREEN;
@@ -216,7 +219,7 @@ public class Party extends StackPane {
 
     }
 
-    private void setPlayerInfo(Stage primaryStage, int selectedIndexchrono, int selectedIndex, String avatar1, String avatar2, String playerName1, String playerName2, String rank1, String rank2, int currentPlayer, int turns) {
+    public void setPlayerInfo(Stage primaryStage, int selectedIndexchrono, int selectedIndex, String avatar1, String avatar2, String playerName1, String playerName2, String rank1, String rank2, int currentPlayer, int turns) {
 
         String backgroundImage = "";
         if (selectedIndex == 0) {
@@ -393,9 +396,12 @@ public class Party extends StackPane {
                 // Vérifier si le bouton cliqué appartient à la liste des boutons autorisés à être sélectionnés par le joueur actuel
                 if (currentPlayer == 1 && (buttonsJ1.contains(button) || button.getGraphic() == null)) {
                     handleSelection(buttonsJ1, button, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono);
+                    ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                 } else if (currentPlayer == 2 && (buttonsJ2.contains(button) || button.getGraphic() == null)) {
                     handleSelection(buttonsJ2, button, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono);
+                    ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
                 }
+
                 // Vérifier si la partie est terminée
                 if (isGameFinished()) {
                     timeline.stop();
@@ -421,34 +427,26 @@ public class Party extends StackPane {
         }
     }
 
-    // Méthode pour gérer la sélection du bouton
-    private void handleSelection(List<Button> buttons, Button clickedButton, Timeline timeline1, Timeline timeline2, Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2, String chrono) {
+    private void handleSelection(List<Button> buttons, Button clickedButton, Timeline timeline1, Timeline timeline2,
+                                 Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2,
+                                 String chrono) {
         if (selectedButton == null) {
             if (buttons.contains(clickedButton) && placementisfinished) {
-                selectedButton = clickedButton;// Sélectionner le bouton actuel
+                selectedButton = clickedButton; // Sélectionner le bouton actuel
                 selectButton(selectedButton);
                 selected = true;
             }
         } else {
-            // Vérifier si le bouton actuel est voisin du bouton sélectionné
             if (isNeighbourButton(selectedButton, clickedButton) || (buttons.size() == 3 && placementisfinished)) {
-                // Échanger les images des boutons
-                if (clickedButton.getGraphic() == null) {
-
-                    ImageView imageView = (ImageView) selectedButton.getGraphic();
-                    clickedButton.setGraphic(imageView);
-                    selectedButton.setGraphic(null);
-                    buttons.remove(selectedButton);
-                    buttons.add(clickedButton);
+                Button finalSelectedButton = selectedButton;
+                ButtonTransitionHandler.performTransition(selectedButton, clickedButton, buttons, () -> {
                     deselectButton(clickedButton);
                     change = true;
 
-                    // Après le déplacement, réinitialiser la couleur des boutons formant une ligne complète
-                    resetButtonColorsForMovedButton(selectedButton);
-
-                    // Vérifier si une nouvelle ligne de trois pions a été formée après le déplacement
+                    resetButtonColorsForMovedButton(finalSelectedButton);
                     checkButtonCombinations();
 
+                    // Réinitialiser le chronomètre après une transition réussie
                     if (!isRemovePieceMode) {
                         currentPlayer = currentPlayer == 1 ? 2 : 1;
                         if (currentPlayer == 1) {
@@ -457,9 +455,8 @@ public class Party extends StackPane {
                             ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
                         }
                     }
-                }
+                });
             }
-            // Désélectionner le bouton sélectionné
             deselectButton(selectedButton);
             selectedButton = null;
             if (!change && buttons.contains(clickedButton)) {
@@ -695,7 +692,7 @@ public class Party extends StackPane {
         }
     }
 
-    private Timeline Chrono(Label timerLabel, int[] remainingSeconds, StackPane root, Stage primaryStage, int currentPlayer) {
+    public Timeline Chrono(Label timerLabel, int[] remainingSeconds, StackPane root, Stage primaryStage, int currentPlayer) {
         // Déclarez la variable timeline ici
         final Timeline[] timeline = new Timeline[1];
 
@@ -859,5 +856,70 @@ public class Party extends StackPane {
 
         Party party = new Party(primaryStage,selectedIndexchrono,selectedIndex,avatar1,avatar2,name1,name2,rank1,rank2,currentPlayer,turns, buttonSave, buttonsJ1 , buttonsJ2);
         primaryStage.getScene().setRoot(party);
+    }
+
+    public int getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+
+
+
+
+
+    public int getTurns() {
+        return turns;
+    }
+
+
+    public ToggleGroup getToggleGroup3() {
+        return toggleGroup3;
+    }
+
+    public HBox getHbox3() {
+        return hbox3;
+    }
+
+    public ToggleGroup getToggleGroup2() {
+        return toggleGroup2;
+    }
+
+    public HBox getHbox2() {
+        return hbox2;
+    }
+
+    public Timeline getTimeline() {
+        return timeline;
+    }
+
+
+
+    public GridPane getGridPane() {
+        return gridPane;
+    }
+
+    public boolean isPlacementisfinished() {
+        return placementisfinished;
+    }
+
+    public boolean isRemovePieceMode() {
+        return isRemovePieceMode;
+    }
+
+    public Map<String, RectangleConstructor> getRectangleMap() {
+        return rectangleMap;
+    }
+
+
+    public StackPane getEndParty() {
+        return null;
+    }
+
+    public void setRemovePieceMode(boolean removePieceMode) {
+        isRemovePieceMode = removePieceMode;
+    }
+
+    public void setPlacementisfinished(boolean placementisfinished) {
+        this.placementisfinished = placementisfinished;
     }
 }
