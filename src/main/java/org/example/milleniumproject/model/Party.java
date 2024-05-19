@@ -144,18 +144,6 @@ public class Party extends StackPane {
 
         gridPane.getChildren().clear();
 
-
-        for (int i = 0; i < buttonLabels.length; i++) {
-            Button button = buttonSave.get(i);
-            button.setPrefSize(0.03906 * Constant.screenWidth, 0.069444 * Constant.screenHeight); // Taille préférée des boutons
-            button.setMinSize(0.03906 * Constant.screenWidth, 0.069444 * Constant.screenHeight);
-            button.setMaxSize(0.03906 * Constant.screenWidth, 0.069444 * Constant.screenHeight);
-            button.setStyle("-fx-background-color: transparent"); // Fond transparent
-            button.setTextFill(Color.TRANSPARENT);
-
-            gridPane.add(button, colIndices[i], rowIndices[i]);
-        }
-
         String chrono;
 
         if (selectedIndexchrono == 0) {
@@ -174,6 +162,19 @@ public class Party extends StackPane {
         timerLabel2.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
         Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1, primaryStage, endparty);
         Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2, primaryStage, endparty);
+
+        for (int i = 0; i < buttonLabels.length; i++) {
+            Button button = buttonSave.get(i);
+            button.setPrefSize(0.03906 * Constant.screenWidth, 0.069444 * Constant.screenHeight); // Taille préférée des boutons
+            button.setMinSize(0.03906 * Constant.screenWidth, 0.069444 * Constant.screenHeight);
+            button.setMaxSize(0.03906 * Constant.screenWidth, 0.069444 * Constant.screenHeight);
+            button.setStyle("-fx-background-color: transparent"); // Fond transparent
+            button.setTextFill(Color.TRANSPARENT);
+
+            gridPane.add(button, colIndices[i], rowIndices[i]);
+        }
+
+
 
         for (Node node : gridPane.getChildren()) {
             if (node instanceof Button) {
@@ -396,9 +397,12 @@ public class Party extends StackPane {
                 // Vérifier si le bouton cliqué appartient à la liste des boutons autorisés à être sélectionnés par le joueur actuel
                 if (currentPlayer == 1 && (buttonsJ1.contains(button) || button.getGraphic() == null)) {
                     handleSelection(buttonsJ1, button, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono);
+                    ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                 } else if (currentPlayer == 2 && (buttonsJ2.contains(button) || button.getGraphic() == null)) {
                     handleSelection(buttonsJ2, button, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono);
+                    ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
                 }
+
                 // Vérifier si la partie est terminée
                 if (isGameFinished()) {
                     timeline.stop();
@@ -438,7 +442,6 @@ public class Party extends StackPane {
                 Button finalSelectedButton = selectedButton;
                 ButtonTransitionHandler.performTransition(selectedButton, clickedButton, buttons, () -> {
                     deselectButton(clickedButton);
-                    change = true;
 
                     resetButtonColorsForMovedButton(finalSelectedButton);
                     checkButtonCombinations();
@@ -452,6 +455,7 @@ public class Party extends StackPane {
                             ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
                         }
                     }
+                    change = true;
                 });
             }
             deselectButton(selectedButton);
@@ -689,7 +693,7 @@ public class Party extends StackPane {
         }
     }
 
-    public Timeline Chrono(Label timerLabel, int[] remainingSeconds, Stage primaryStage,StackPane root) {
+    public Timeline Chrono(Label timerLabel, int[] remainingSeconds, StackPane root, Stage primaryStage, int currentPlayer) {
         // Déclarez la variable timeline ici
         final Timeline[] timeline = new Timeline[1];
 
@@ -859,16 +863,64 @@ public class Party extends StackPane {
         return currentPlayer;
     }
 
+
+
+
+
+
+    public int getTurns() {
+        return turns;
+    }
+
+
+    public ToggleGroup getToggleGroup3() {
+        return toggleGroup3;
+    }
+
     public HBox getHbox3() {
         return hbox3;
+    }
+
+    public ToggleGroup getToggleGroup2() {
+        return toggleGroup2;
     }
 
     public HBox getHbox2() {
         return hbox2;
     }
 
+    public Timeline getTimeline() {
+        return timeline;
+    }
+
+
+
     public GridPane getGridPane() {
         return gridPane;
     }
 
+    public boolean isPlacementisfinished() {
+        return placementisfinished;
+    }
+
+    public boolean isRemovePieceMode() {
+        return isRemovePieceMode;
+    }
+
+    public Map<String, RectangleConstructor> getRectangleMap() {
+        return rectangleMap;
+    }
+
+
+    public StackPane getEndParty() {
+        return null;
+    }
+
+    public void setRemovePieceMode(boolean removePieceMode) {
+        isRemovePieceMode = removePieceMode;
+    }
+
+    public void setPlacementisfinished(boolean placementisfinished) {
+        this.placementisfinished = placementisfinished;
+    }
 }

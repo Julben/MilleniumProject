@@ -20,8 +20,8 @@ import javafx.scene.Node;
  */
 public class Audio extends StackPane {
 
-    private SliderWithControls sliderWithControls2;
-    private SliderWithControls sliderWithControls3;
+    public SliderWithControls sliderWithControls2;
+    public SliderWithControls sliderWithControls3;
 
     /**
      * Constructeur de la classe Audio.

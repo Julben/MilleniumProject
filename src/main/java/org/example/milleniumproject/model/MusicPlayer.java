@@ -35,4 +35,12 @@ public class MusicPlayer {
             mediaPlayer.setVolume(volume);
         }
     }
+
+    public static MediaPlayer getMediaPlayer() {
+        return mediaPlayer;
+    }
+
+    public static void setMediaPlayer(MediaPlayer mediaPlayer) {
+        MusicPlayer.mediaPlayer = mediaPlayer;
+    }
 }
