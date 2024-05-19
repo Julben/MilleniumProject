@@ -144,18 +144,6 @@ public class Party extends StackPane {
 
         gridPane.getChildren().clear();
 
-
-        for (int i = 0; i < buttonLabels.length; i++) {
-            Button button = buttonSave.get(i);
-            button.setPrefSize(0.03906 * Constant.screenWidth, 0.069444 * Constant.screenHeight); // Taille préférée des boutons
-            button.setMinSize(0.03906 * Constant.screenWidth, 0.069444 * Constant.screenHeight);
-            button.setMaxSize(0.03906 * Constant.screenWidth, 0.069444 * Constant.screenHeight);
-            button.setStyle("-fx-background-color: transparent"); // Fond transparent
-            button.setTextFill(Color.TRANSPARENT);
-
-            gridPane.add(button, colIndices[i], rowIndices[i]);
-        }
-
         String chrono;
 
         if (selectedIndexchrono == 0) {
@@ -174,6 +162,19 @@ public class Party extends StackPane {
         timerLabel2.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
         Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1, endparty, primaryStage, currentPlayer);
         Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2, endparty, primaryStage, currentPlayer);
+
+        for (int i = 0; i < buttonLabels.length; i++) {
+            Button button = buttonSave.get(i);
+            button.setPrefSize(0.03906 * Constant.screenWidth, 0.069444 * Constant.screenHeight); // Taille préférée des boutons
+            button.setMinSize(0.03906 * Constant.screenWidth, 0.069444 * Constant.screenHeight);
+            button.setMaxSize(0.03906 * Constant.screenWidth, 0.069444 * Constant.screenHeight);
+            button.setStyle("-fx-background-color: transparent"); // Fond transparent
+            button.setTextFill(Color.TRANSPARENT);
+
+            gridPane.add(button, colIndices[i], rowIndices[i]);
+        }
+
+
 
         for (Node node : gridPane.getChildren()) {
             if (node instanceof Button) {
@@ -441,7 +442,7 @@ public class Party extends StackPane {
                 Button finalSelectedButton = selectedButton;
                 ButtonTransitionHandler.performTransition(selectedButton, clickedButton, buttons, () -> {
                     deselectButton(clickedButton);
-                    change = true;
+
 
                     resetButtonColorsForMovedButton(finalSelectedButton);
                     checkButtonCombinations();
@@ -455,6 +456,7 @@ public class Party extends StackPane {
                             ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
                         }
                     }
+                    change = true;
                 });
             }
             deselectButton(selectedButton);
