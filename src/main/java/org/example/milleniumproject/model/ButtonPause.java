@@ -42,6 +42,11 @@ public class ButtonPause extends StackPane {
      *
      * @param root La StackPane racine où afficher les règles.
      */
+
+
+
+
+
     public static void afficherRegles(StackPane root) {
         // Création de la StackPane pour contenir l'image et le bouton
         StackPane reglesPane = new StackPane();

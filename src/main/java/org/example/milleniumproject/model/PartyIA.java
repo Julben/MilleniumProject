@@ -27,16 +27,22 @@ import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 import static javafx.scene.paint.Color.GREEN;
 import static javafx.scene.paint.Color.TRANSPARENT;
+import static org.example.milleniumproject.model.EndParty.*;
 import static org.example.milleniumproject.model.Methodeia.disableMouseInteractions;
+import static org.example.milleniumproject.model.Movement.*;
+import static org.example.milleniumproject.model.Placement.*;
 
 import javafx.scene.control.Button;
 import java.util.Random;
 
 public class PartyIA extends StackPane {
-    private int currentPlayer = 1;
-    private VBox leftVBox;
-    private VBox rightVBox;
-    private int turns = 0;
+    static List<String[]> finalValidAlignments = new ArrayList<>();
+    static List<String[]> finalValidAlignmentsJ1 = new ArrayList<>();
+    static List<String[]> finalAlignments = new ArrayList<>();
+    static int currentPlayer = 1;
+    static VBox leftVBox;
+    static VBox rightVBox;
+    static int turns = 0;
     static boolean isNoChrono = false;
     private ToggleGroup toggleGroup3;
     private HBox hbox3;
@@ -45,23 +51,23 @@ public class PartyIA extends StackPane {
     private int remainingSeconds = 30;
     static Timeline timeline;
     private Button selectedButton = null;
-    private List<Button> buttonsJ1 = new ArrayList<>();
-    private List<Button> buttonsJ2 = new ArrayList<>();
-    private GridPane gridPane;
-    private boolean placementisfinished = false;
-    private boolean isRemovePieceMode = false;
-    boolean boutonlibre = false;
+    static List<Button> buttonsJ1 = new ArrayList<>();
+    static List<Button> buttonsJ2 = new ArrayList<>();
+    static GridPane gridPane;
+    static boolean placementisfinished = false;
+    static boolean isRemovePieceMode = false;
+    static boolean boutonlibre = false;
     private VBox pauseMenu; // Conteneur pour le menu pause
     private VBox quitterMenu;
     private boolean selected = false;
     private boolean change = false;
-    private static final List<String[]> neighbourList = Arrays.asList(
+    static final List<String[]> neighbourList = Arrays.asList(
             new String[]{"A", "B"}, new String[]{"A", "J"}, new String[]{"B", "C"}, new String[]{"B", "E"}, new String[]{"C", "O"}, new String[]{"D", "E"}, new String[]{"D", "K"}, new String[]{"E", "F"},
             new String[]{"E", "H"}, new String[]{"F", "N"}, new String[]{"G", "H"}, new String[]{"G", "L"}, new String[]{"H", "I"}, new String[]{"I", "M"}, new String[]{"J", "K"}, new String[]{"J", "V"},
             new String[]{"K", "L"}, new String[]{"K", "S"}, new String[]{"L", "P"}, new String[]{"M", "R"}, new String[]{"M", "N"}, new String[]{"N", "O"}, new String[]{"N", "U"}, new String[]{"O", "X"},
             new String[]{"P", "Q"}, new String[]{"Q", "R"}, new String[]{"Q", "T"}, new String[]{"S", "T"}, new String[]{"T", "U"}, new String[]{"T", "W"}, new String[]{"V", "W"}, new String[]{"W", "X"}
     );
-    private static final List<String[]> alignments = Arrays.asList(
+    static final List<String[]> alignments = Arrays.asList(
             new String[]{"A", "B", "C"}, new String[]{"D", "E", "F"}, new String[]{"G", "H", "I"}, new String[]{"J", "K", "L"}, new String[]{"M", "N", "O"}, new String[]{"P", "Q", "R"},
             new String[]{"S", "T", "U"}, new String[]{"V", "W", "X"}, new String[]{"A", "J", "V"}, new String[]{"D", "K", "S"}, new String[]{"G", "L", "P"}, new String[]{"B", "E", "H"},
             new String[]{"Q", "T", "W"}, new String[]{"I", "M", "R"}, new String[]{"F", "N", "U"}, new String[]{"C", "O", "X"}
@@ -84,9 +90,9 @@ public class PartyIA extends StackPane {
     RectangleConstructor qtw = new RectangleConstructor(0.04297*screenWidth, 0.27917*screenHeight, 0.00078*screenWidth, 0.19861*screenHeight); Rectangle QTW = qtw.getRectangle();
 
     // Initialisez votre carte pour mapper les noms des rectangles à leurs instances
-    Map<String, RectangleConstructor> rectangleMap = new HashMap<>();
+    static Map<String, RectangleConstructor> rectangleMap = new HashMap<>();
 
-    public PartyIA(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3, ToggleGroup toggleGroup2, HBox hbox2) {
+    public PartyIA(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3, ToggleGroup toggleGroup2, HBox hbox2, ToggleGroup toggleGroup1, HBox hbox1) {
         this.toggleGroup3 = toggleGroup3;
         this.hbox3 = hbox3;
 
@@ -108,10 +114,12 @@ public class PartyIA extends StackPane {
         BG ground = new BG(backgroundImage);
         setBackground(ground.getCustomBackground());
 
+        int difficulty = PrePartyIA.getSelectedIndexDifficulty(toggleGroup1, hbox1);
+
         this.toggleGroup2 = toggleGroup2;
         this.hbox2 = hbox2;
 
-        int selectedIndexchrono = PreParty.getSelectedIndexchrono(toggleGroup2, hbox2);
+        int selectedIndexchrono = PrePartyIA.getSelectedIndexchrono(toggleGroup2, hbox2);
 
         String chrono;
 
@@ -130,8 +138,8 @@ public class PartyIA extends StackPane {
         Label timerLabel2 = new Label(chrono);
         timerLabel1.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
         timerLabel2.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
-        Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1);
-        Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2);
+        Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1, primaryStage,this);
+        Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2, primaryStage,this);
 
         gridPane = new GridPane();
         gridPane.setHgap(0.0171875*screenWidth); // Espacement horizontal entre les boutons
@@ -222,56 +230,53 @@ public class PartyIA extends StackPane {
                 Button button = (Button) node;
                 button.setOnAction(e -> {
                     SoundPlayer.soundPlay();
-                    handleButtonClick(button, gridPane, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono,primaryStage);
+                    handleButtonClick(button, gridPane, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono,primaryStage, difficulty);
                 });
             }
         }
     }
 
     // Méthode pour gérer le clic sur le bouton
-    private void handleButtonClick(Button button, GridPane gridpane, Timeline timeline1, Timeline timeline2, Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2, String chrono, Stage primaryStage) {
+    private void handleButtonClick(Button button, GridPane gridpane, Timeline timeline1, Timeline timeline2, Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2, String chrono, Stage primaryStage, int difficulty) {
 
         disableMouseInteractions(gridpane, false);
 
         if (isRemovePieceMode) {
 
             if(buttonsJ2.contains(button) && !isNotlibre(button)){
-                // Si le mode de suppression de pion est activé
-                removePiece(button, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
 
-
-                ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
+                RemovePiece.CheckRemovedifficulty(this, button, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1, primaryStage, difficulty);
 
                 if(turns < 18){
 
                     PauseTransition pause = new PauseTransition(Duration.seconds(1));
                     pause.setOnFinished(event -> {
-                        makeRandomPlacement(gridpane, timeline1, timeline2, remainingSeconds2, timerLabel2, chrono,primaryStage);
-
+                        if(difficulty == 0){
+                            makeEasyPlacement(this,gridpane, timeline1, timeline2, remainingSeconds2, timerLabel2, chrono, primaryStage, difficulty);
+                        } else {
+                            makeHardPlacement(this,gridpane, timeline1, timeline2, remainingSeconds2, timerLabel2, chrono, primaryStage, difficulty);
+                        }
                     });
                     pause.play();
                 }
                 else{
-                    deplacement(buttonsJ2, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1, primaryStage);
-
+                    CheckMovementDifficulty(this,timeline2,timerLabel2,chrono, remainingSeconds2,  timeline1,  primaryStage,  gridPane, difficulty);
                 }
 
                 // Vérifier si la partie est terminée
                 if(placementisfinished){
-                    if (isGameFinished()) {
-                        FinPartie(timeline1, timeline2, primaryStage);
+                        if (isGameFinished()) {
+                        FinPartie(this,timeline1, timeline2, primaryStage);
                     }
                 }
             }
         }
         else {
-            // Vérifier si le bouton n'a pas déjà d'image et si tous les tours n'ont pas été joués
             if (button.getGraphic() == null && turns < 18) {
-                // Placer l'image du joueur sur le bouton en fonction du joueur 1
                 if (currentPlayer == 1) {
                     placePlayerImage(button, leftVBox, timeline1, timeline2, remainingSeconds2, timerLabel2, chrono);
                     buttonsJ1.add(button);
-                    // Vérifier les combinaisons après chaque placement de pion
+
                     checkButtonCombinations();
                     if(isRemovePieceMode){
                         currentPlayer = 1;
@@ -281,12 +286,14 @@ public class PartyIA extends StackPane {
                         disableMouseInteractions(gridpane, true);
                         ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
                         timerLabel1.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
-                        // Désactiver la souris pendant une seconde
-
 
                         PauseTransition pause = new PauseTransition(Duration.seconds(1));
                         pause.setOnFinished(event -> {
-                            makeRandomPlacement(gridpane, timeline1, timeline2, remainingSeconds2, timerLabel2, chrono,primaryStage);
+                            if(difficulty == 0){
+                                makeEasyPlacement(this,gridpane, timeline1, timeline2, remainingSeconds2, timerLabel2, chrono, primaryStage, difficulty);
+                            } else {
+                                makeHardPlacement(this,gridpane, timeline1, timeline2, remainingSeconds2, timerLabel2, chrono, primaryStage, difficulty);
+                            }
                             disableMouseInteractions(gridpane, false);
                         });
                         pause.play();
@@ -299,18 +306,18 @@ public class PartyIA extends StackPane {
                 placementisfinished = true;
                 // Vérifier si le bouton cliqué appartient à la liste des boutons autorisés à être sélectionnés par le joueur actuel
                 if (currentPlayer == 1 && (buttonsJ1.contains(button) || button.getGraphic() == null)) {
-                    handleSelection(buttonsJ1, button, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono, primaryStage);
+                    handleSelection(buttonsJ1, button, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono, primaryStage, difficulty);
                 }
                 // Vérifier si la partie est terminée
                 if (isGameFinished()) {
-                    FinPartie(timeline1, timeline2, primaryStage);
+                    FinPartie(this,timeline1, timeline2, primaryStage);
                 }
             }
         }
     }
 
     // Méthode pour placer l'image du joueur sur un bouton
-    private void placePlayerImage(Button button, VBox playerVBox, Timeline timeline1, Timeline timeline2, int[] remainingSeconds2, Label timerLabel2, String chrono) {
+    static void placePlayerImage(Button button, VBox playerVBox, Timeline timeline1, Timeline timeline2, int[] remainingSeconds2, Label timerLabel2, String chrono) {
         // Obtenir le GridPane enfant de la VBox
         GridPane gridPane = (GridPane) playerVBox.getChildren().get(0);
 
@@ -324,53 +331,7 @@ public class PartyIA extends StackPane {
         }
     }
 
-
-
-
-
-
-    private void makeRandomPlacement(GridPane gridPane, Timeline timeline1, Timeline timeline2, int[] remainingSeconds2, Label timerLabel2, String chrono, Stage primaryStage) {
-
-        Button randomButton = getEmptyButton(gridPane);
-
-        // Placer l'image de l'IA sur le bouton sélectionné
-        placePlayerImage(randomButton, rightVBox, timeline1, timeline2, remainingSeconds2, timerLabel2, chrono);
-        buttonsJ2.add(randomButton);
-
-        // Vérifier les combinaisons après chaque placement de pion
-        checkButtonCombinations();
-
-        if (isRemovePieceMode) {
-            Button randomFreeButton = getRandomFreeButtonJ1(buttonsJ1);
-            removePiece(randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1, primaryStage);
-        } else {
-            currentPlayer = 1;
-            System.out.println("Joueur 1");
-            ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
-        }
-        turns++;
-    }
-    private Button getRandomFreeButtonJ1(List<Button> buttonsList) {
-        List<Button> freeButtons = new ArrayList<>();
-        for (Button button : buttonsList) {
-            if (!isNotlibre(button)) {
-                freeButtons.add(button);
-            }
-        }
-
-        if (freeButtons.isEmpty()) {
-            Random random = new Random();
-            int index = random.nextInt(buttonsList.size());
-            return buttonsList.get(index);
-        } else {
-            Random random = new Random();
-            int index = random.nextInt(freeButtons.size());
-            return freeButtons.get(index);
-        }
-    }
-
-
-    private Button getEmptyButton(GridPane gridPane) {
+    static Button getEmptyButton(GridPane gridPane) {
         Random random = new Random();
         Button emptyButton = null;
         do {
@@ -386,8 +347,22 @@ public class PartyIA extends StackPane {
         return emptyButton;
     }
 
+    // Méthode pour récupérer un bouton à partir de son identifiant
+    static  Button getButtonById(String buttonId) {
+        ObservableList<Node> children = gridPane.getChildren();
+        for (Node node : children) {
+            if (node instanceof Button) {
+                Button button = (Button) node;
+                if (button.getId().equals(buttonId)) {
+                    return button;
+                }
+            }
+        }
+        return null;
+    }
+
     // Méthode pour gérer la sélection du bouton
-    private void handleSelection(List<Button> buttons, Button clickedButton, Timeline timeline1, Timeline timeline2, Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2, String chrono, Stage primaryStage) {
+    private void handleSelection(List<Button> buttons, Button clickedButton, Timeline timeline1, Timeline timeline2, Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2, String chrono, Stage primaryStage, int difficulty) {
         if (selectedButton == null) {
             if (buttons.contains(clickedButton) && placementisfinished) {
                 selectedButton = clickedButton;// Sélectionner le bouton actuel
@@ -398,6 +373,7 @@ public class PartyIA extends StackPane {
         else {
             // Vérifier si le bouton actuel est voisin du bouton sélectionné
             if (isNeighbourButton(selectedButton, clickedButton) || (buttons.size() == 3 && placementisfinished)) {
+
                 // Échanger les images des boutons
                 if (clickedButton.getGraphic() == null) {
                     ImageView imageView = (ImageView) selectedButton.getGraphic();
@@ -417,7 +393,7 @@ public class PartyIA extends StackPane {
                     if(!isRemovePieceMode) {
                         currentPlayer = 2;
                         ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
-                        deplacement(buttonsJ2, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1, primaryStage);
+                        CheckMovementDifficulty(this, timeline2, timerLabel2, chrono, remainingSeconds2,  timeline1,  primaryStage,  gridPane, difficulty);
                     }
                 }
             }
@@ -432,295 +408,8 @@ public class PartyIA extends StackPane {
             change = false;
         }
     }
-
-    private void deplacement(List<Button> buttons, Timeline timeline2, Label timerLabel2, String chrono, int[] remainingSeconds2, Timeline timeline1, Stage primaryStage){
-
-        if (buttonsJ2.size()>3 && placementisfinished){
-
-            PauseTransition pause1 = new PauseTransition(Duration.seconds(1));
-            pause1.setOnFinished(e -> {
-                List<Button> buttonsvoisinlibres = getFreeNeighbourButtons(buttonsJ2);
-
-                Random random1 = new Random();
-                int randomIndex1 = random1.nextInt(buttonsvoisinlibres.size());
-                Button buttonJ2avecvoisinlibre = buttonsvoisinlibres.get(randomIndex1);
-
-                selectButton(buttonJ2avecvoisinlibre);
-                SoundPlayer.soundPlay();
-
-                PauseTransition pause = new PauseTransition(Duration.seconds(1));
-                pause.setOnFinished(event -> {
-                    Button voisinChoisi = getSelectedNeighbourButton(buttonJ2avecvoisinlibre);
-
-                    ImageView imageView1 = (ImageView) buttonJ2avecvoisinlibre.getGraphic();
-                    voisinChoisi.setGraphic(imageView1);
-                    SoundPlayer.soundPlay();
-                    buttonJ2avecvoisinlibre.setGraphic(null);
-                    buttons.remove(buttonJ2avecvoisinlibre);
-                    buttons.add(voisinChoisi);
-                    deselectButton(buttonJ2avecvoisinlibre);
-                    deselectButton(voisinChoisi);
-
-                    buttonsvoisinlibres.clear();
-
-                    resetButtonColorsForMovedButton(buttonJ2avecvoisinlibre);
-                    checkButtonCombinations();
-
-                    if (!isRemovePieceMode) {
-                        currentPlayer = 1;
-                        System.out.println("On est bien dans ce cas");
-                        ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
-                        if (isGameFinished()) {
-                            FinPartie(timeline1, timeline2, primaryStage);
-                        }
-                    }
-                    else {
-                        List<Button> FreeButtonsJ1 = new ArrayList<>();
-
-                        for (Button i : buttonsJ1) {
-                            if (!isNotlibre(i)) {
-                                FreeButtonsJ1.add(i);
-                            }
-                        }
-
-                        Button randomFreeButton;
-
-                        if(FreeButtonsJ1.isEmpty()){
-                            Random random = new Random();
-                            int index = random.nextInt(buttonsJ1.size());
-                            randomFreeButton = buttonsJ1.get(index);
-                        }
-                        else{
-                            Random random = new Random();
-                            int index = random.nextInt(FreeButtonsJ1.size());
-                            randomFreeButton = FreeButtonsJ1.get(index);
-                        }
-
-                        FreeButtonsJ1.clear();
-
-                        removePiece(randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
-                        System.out.println("On est la mtn");
-                        if (isGameFinished()) {
-                            FinPartie(timeline1, timeline2, primaryStage);
-                        }
-
-                    }
-                });
-                pause.play();
-            });
-            pause1.play();
-        }
-        else if (buttonsJ2.size()==3 && placementisfinished) {
-
-            // Sélectionner aléatoirement l'un des trois pions restants du joueur 2
-            Random randomPion = new Random();
-            int indexPion = randomPion.nextInt(buttonsJ2.size());
-            Button pionRestantJ2 = buttonsJ2.get(indexPion);
-            selectButton(pionRestantJ2);
-
-            // Sélectionner un bouton vide
-            Button boutonVide = getEmptyButton(gridPane);
-
-            // Si on trouve un bouton vide et un pion restant
-            if (boutonVide != null && pionRestantJ2 != null) {
-
-                PauseTransition pause = new PauseTransition(Duration.seconds(1));
-                pause.setOnFinished(event -> {
-                    // Placer l'image du pion restant sur le bouton vide
-                    ImageView imageViewPion = (ImageView) pionRestantJ2.getGraphic();
-                    boutonVide.setGraphic(imageViewPion);
-                    pionRestantJ2.setGraphic(null);
-                    buttons.remove(pionRestantJ2);
-                    buttons.add(boutonVide);
-                    deselectButton(pionRestantJ2);
-                    deselectButton(boutonVide);
-
-                    resetButtonColorsForMovedButton(pionRestantJ2);
-                    checkButtonCombinations();
-
-                    if(!isRemovePieceMode){
-                        currentPlayer = 1;
-                        ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
-                        if (isGameFinished()) {
-                            FinPartie(timeline1, timeline2, primaryStage);
-                        }
-                    }
-                    else {
-                        currentPlayer = 2;
-
-                        List<Button> FreeButtonsJ1 = new ArrayList<>();
-
-                        for(Button i : buttonsJ1){
-                            if(!isNotlibre(i)){
-                                FreeButtonsJ1.add(i);
-                            }
-                        }
-
-                        Button randomFreeButton;
-
-                        if(FreeButtonsJ1.isEmpty()){
-                            Random random = new Random();
-                            int index = random.nextInt(buttonsJ1.size());
-                            randomFreeButton = buttonsJ1.get(index);
-                        }
-                        else{
-                            Random random = new Random();
-                            int index = random.nextInt(FreeButtonsJ1.size());
-                            randomFreeButton = FreeButtonsJ1.get(index);
-                        }
-
-                        FreeButtonsJ1.clear();
-
-                        removePiece(randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
-                        if (isGameFinished()) {
-                            FinPartie(timeline1, timeline2, primaryStage);
-                        }
-                    }
-
-                });
-                pause.play();
-            }
-        }
-    }
-
-
-    private Button getSelectedNeighbourButton(Button button) {
-        List<Button> neighbours = new ArrayList<>();
-
-        String id = button.getId();
-
-        for (String[] neighbour : neighbourList) {
-            if (neighbour[0].equals(id)) {
-                Button neighbourButton = getButtonById(neighbour[1]);
-                if (neighbourButton.getGraphic() == null) {
-                    neighbours.add(neighbourButton);
-                }
-            } else if (neighbour[1].equals(id)) {
-                Button neighbourButton = getButtonById(neighbour[0]);
-                if (neighbourButton.getGraphic() == null) {
-                    neighbours.add(neighbourButton);
-                }
-            }
-        }
-
-        if (!neighbours.isEmpty()) {
-            Random random = new Random();
-            int randomIndex = random.nextInt(neighbours.size());
-            return neighbours.get(randomIndex);
-        }
-
-        return null;
-    }
-
-
-
-
-    private List<Button> getFreeNeighbourButtons(List<Button> buttonsJ2) {
-
-        List<Button> buttonsvoisinlibres = new ArrayList<>();
-
-        for (Button b : buttonsJ2) {
-            String id = b.getId();
-
-            for (String[] neighbours : neighbourList) {
-                if (neighbours[0].equals(id)) {
-                    Button button = getButtonById(neighbours[1]);
-                    if (button.getGraphic() == null) {
-                        buttonsvoisinlibres.add(b);
-                    }
-                } else if (neighbours[1].equals(id)) {
-                    Button button = getButtonById(neighbours[0]);
-                    if (button.getGraphic() == null) {
-                        buttonsvoisinlibres.add(b);
-                    }
-                }
-            }
-        }
-
-        for (Button i : buttonsvoisinlibres) {
-            System.out.print(i.getText());
-        }
-        System.out.println(" ");
-
-        return buttonsvoisinlibres;
-    }
-
-    private void removePiece(Button button, Timeline timeline2, Label timerLabel2, String chrono, int[] remainingSeconds2, Timeline timeline1,Stage primaryStage) {
-        // Vérifier si le bouton cliqué contient une image
-        if (button.getGraphic() instanceof ImageView) {
-            if(currentPlayer==1) {
-                for(Button b : buttonsJ2){
-                    if (!isNotlibre(b)){
-                        boutonlibre = true;
-                    }
-                }
-                if(boutonlibre && buttonsJ2.contains(button) && !isNotlibre(button)){
-                    updateButtonState(button,buttonsJ2);
-                    currentPlayer = 2;
-                }
-                else if(!boutonlibre && buttonsJ2.contains(button)){
-                    updateButtonState2(button,buttonsJ2);
-                    currentPlayer = 2;
-                }
-                else{
-                    System.out.println("aucun des choix");
-                }
-            }
-            else if(currentPlayer==2) {
-                for(Button b : buttonsJ1){
-                    if (!isNotlibre(b)){
-                        boutonlibre = true;
-                    }
-                }
-                if(boutonlibre && buttonsJ1.contains(button) && !isNotlibre(button)){
-                    PauseTransition pause = new PauseTransition(Duration.seconds(1));
-                    pause.setOnFinished(event -> {
-                        updateButtonState(button,buttonsJ1);
-                        ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
-                        if (isGameFinished()) {
-                            FinPartie(timeline1, timeline2, primaryStage);
-                        }
-                    });
-                    pause.play();
-                    currentPlayer = 1;
-                }
-                else if(!boutonlibre && buttonsJ1.contains(button)) {
-                    PauseTransition pause = new PauseTransition(Duration.seconds(1));
-                    pause.setOnFinished(event -> {
-                        updateButtonState2(button,buttonsJ1);
-                        ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
-                        if (isGameFinished()) {
-                            FinPartie(timeline1, timeline2, primaryStage);
-                        }
-                    });
-                    pause.play();
-                    currentPlayer = 1;
-                }
-                else{
-                    System.out.println("Aucune option choisie");
-                }
-            }
-        }
-    }
-
-
-    public void updateButtonState(Button button,List<Button> buttonsList) {
-        button.setGraphic(null);
-        SoundPlayer.soundPlay();
-        buttonsList.remove(button);
-        isRemovePieceMode = false;
-        boutonlibre = false;
-    }
-
-    public void updateButtonState2(Button button,List<Button> buttonsList) {
-        updateButtonState(button,buttonsList);
-        resetButtonColorsForMovedButton(button);
-    }
-
-
-
     // Méthode pour réinitialiser la couleur des boutons de la ligne/colonne où le dernier bouton a été déplacé si les trois boutons de l'alignement sont verts
-    private void resetButtonColorsForMovedButton(Button movedButton) {
+    static void resetButtonColorsForMovedButton(Button movedButton) {
         String nomButton = movedButton.getText();
         for (Map.Entry<String, RectangleConstructor> entry : rectangleMap.entrySet()) {
             String rectangleName = entry.getKey();
@@ -737,7 +426,7 @@ public class PartyIA extends StackPane {
     }
 
     // Méthode pour vérifier les combinaisons de boutons et changer leur couleur si une combinaison est trouvée
-    private boolean checkAndChangeButtonColor(String buttonId1, String buttonId2, String buttonId3) {
+    static boolean checkAndChangeButtonColor(String buttonId1, String buttonId2, String buttonId3) {
         Button button1 = getButtonById(buttonId1);
         Button button2 = getButtonById(buttonId2);
         Button button3 = getButtonById(buttonId3);
@@ -760,22 +449,8 @@ public class PartyIA extends StackPane {
         return false;
     }
 
-    // Méthode pour récupérer un bouton à partir de son identifiant
-    private Button getButtonById(String buttonId) {
-        ObservableList<Node> children = gridPane.getChildren();
-        for (Node node : children) {
-            if (node instanceof Button) {
-                Button button = (Button) node;
-                if (button.getId().equals(buttonId)) {
-                    return button;
-                }
-            }
-        }
-        return null;
-    }
-
     // Méthode pour vérifier les combinaisons de boutons et changer leur couleur si une combinaison est trouvée
-    private void checkButtonCombinations() {
+    static void checkButtonCombinations() {
         int compteur = 0;
         for (String[] combination : alignments) {
             if (checkAndChangeButtonColor(combination[0], combination[1], combination[2])) {
@@ -787,7 +462,7 @@ public class PartyIA extends StackPane {
         }
     }
 
-    private boolean isNotlibre(Button b) {
+    static boolean isNotlibre(Button b) {
         String nomButton = b.getText();
         int compteur = 0;
         for (Map.Entry<String, RectangleConstructor> entry : rectangleMap.entrySet()) {
@@ -821,61 +496,7 @@ public class PartyIA extends StackPane {
         return false;
     }
 
-    // Méthode pour vérifier si tous les pions d'un joueur ont au moins un voisin libre
-    private boolean hasPlayerFreeNeighbours(List<Button> playerButtons) {
-        for (Button button : playerButtons) {
-            if (hasFreeNeighbour(button)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // Méthode pour vérifier si un bouton a au moins un voisin libre
-    private boolean hasFreeNeighbour(Button button) {
-        String id = button.getId();
-        for (String[] neighbours : neighbourList) {
-            if (neighbours[0].equals(id) || neighbours[1].equals(id)) {
-                Button neighbourButton1 = getButtonById(neighbours[0]);
-                Button neighbourButton2 = getButtonById(neighbours[1]);
-                if (neighbourButton1.getGraphic() == null || neighbourButton2.getGraphic() == null) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-
-
-    private boolean isGameFinished() {
-        // Vérifier si un joueur a moins de 3 pions restants
-        if (currentPlayer == 1) {
-            if (buttonsJ1.size() < 3 || buttonsJ2.size() < 3) {
-                return true; // La partie est terminée si le joueur 1 a moins de 3 pions
-            }
-        } else {
-            if (buttonsJ2.size() < 3) {
-                return true; // La partie est terminée si le joueur 2 a moins de 3 pions
-            }
-        }
-
-        // Vérifier si un joueur n'a plus de voisins libres
-        if (currentPlayer == 1 && (buttonsJ1.size() != 3 || buttonsJ2.size() != 3)) {
-            return !hasPlayerFreeNeighbours(buttonsJ1);
-        } else if (currentPlayer == 2 && (buttonsJ1.size() != 3 || buttonsJ2.size() != 3)) {
-            return !hasPlayerFreeNeighbours(buttonsJ2);
-        }
-        return false; // Si aucune condition ci-dessus n'est remplie, la partie n'est pas terminée
-    }
-
-    private void FinPartie(Timeline timeline1, Timeline timeline2, Stage primaryStage){
-        timeline1.stop();
-        timeline2.stop();
-        EndParty.afficherFinPartie(this, primaryStage, currentPlayer);
-    }
-
-    private Timeline Chrono(Label timerLabel, int[] remainingSeconds) {
+    private Timeline Chrono(Label timerLabel, int[] remainingSeconds, Stage primaryStage,StackPane root) {
         // Déclarez la variable timeline ici
         final Timeline[] timeline = new Timeline[1];
 
@@ -896,6 +517,7 @@ public class PartyIA extends StackPane {
                         timerLabel.setText(Integer.toString(remainingSeconds[0]));
                         if (remainingSeconds[0] <= 0) {
                             timeline[0].stop();
+                            afficherFinPartie(root,primaryStage,currentPlayer);
                         }
                     }
                 })
@@ -904,7 +526,7 @@ public class PartyIA extends StackPane {
         return timeline[0];
     }
 
-    public void ResetChrono(Timeline timeline1, Label timerLabel, String chrono, int[] remainingSeconds, Timeline timeline2) {
+    static void ResetChrono(Timeline timeline1, Label timerLabel, String chrono, int[] remainingSeconds, Timeline timeline2) {
         int reset = Integer.parseInt(chrono);
         timeline1.stop();
         timerLabel.setText(chrono);

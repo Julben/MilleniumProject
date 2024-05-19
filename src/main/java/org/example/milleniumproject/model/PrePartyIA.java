@@ -83,7 +83,7 @@ public class PrePartyIA extends StackPane {
 
         launchButton.setOnAction(event -> {
             MusicPlayer.stopPlaying();
-            VideoLoad(primaryStage, toggleGroup3, hbox3, toggleGroup2,  hbox2);
+            VideoLoad(primaryStage, toggleGroup3, hbox3, toggleGroup2,  hbox2, toggleGroup1,  hbox1);
         });
 
         getChildren().addAll(retourButton);
@@ -155,10 +155,7 @@ public class PrePartyIA extends StackPane {
         return preferences.getBoolean("video", false);
     }
 
-
-
-
-    public void VideoLoad(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3,ToggleGroup toggleGroup2, HBox hbox2) {
+    public void VideoLoad(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3,ToggleGroup toggleGroup2, HBox hbox2, ToggleGroup toggleGroup1, HBox hbox1) {
         if(VideoData.isVideoChoose()) {
             List<String> stringList = Arrays.asList("src/main/resources/MusicParty1.mp3", "src/main/resources/MusicParty2.mp3", "src/main/resources/MusicParty3.mp3",
                     "src/main/resources/MusicParty5.mp3", "src/main/resources/MusicParty6.mp3", "src/main/resources/MusicParty6.mp3");
@@ -191,19 +188,19 @@ public class PrePartyIA extends StackPane {
                 if (event.getCode() == KeyCode.SPACE && !mediaPlayer.getCurrentTime().equals(mediaPlayer.getTotalDuration())) {
                     mediaPlayer.stop();
                     MusicPlayer.musicPlay(randomString);
-                    PartyIA partyia = new PartyIA(primaryStage, toggleGroup3, hbox3, toggleGroup2, hbox2); // Supposons que primaryStage soit accessible ici
+                    PartyIA partyia = new PartyIA(primaryStage, toggleGroup3, hbox3, toggleGroup2, hbox2, toggleGroup1, hbox1); // Supposons que primaryStage soit accessible ici
                     primaryStage.getScene().setRoot(partyia);
                 }
             });
 
             mediaPlayer.setOnEndOfMedia(() -> {
                 MusicPlayer.musicPlay(randomString);
-                PartyIA partyia = new PartyIA(primaryStage, toggleGroup3, hbox3, toggleGroup2, hbox2); // Supposons que primaryStage soit accessible ici
+                PartyIA partyia = new PartyIA(primaryStage, toggleGroup3, hbox3, toggleGroup2, hbox2, toggleGroup1, hbox1); // Supposons que primaryStage soit accessible ici
                 primaryStage.getScene().setRoot(partyia);
             });
             mediaPlayer.play();
         }else{
-            PartyIA partyia = new PartyIA(primaryStage, toggleGroup3, hbox3, toggleGroup2, hbox2); // Supposons que primaryStage soit accessible ici
+            PartyIA partyia = new PartyIA(primaryStage, toggleGroup3, hbox3, toggleGroup2, hbox2, toggleGroup1, hbox1); // Supposons que primaryStage soit accessible ici
             primaryStage.getScene().setRoot(partyia);
         }
 
@@ -297,6 +294,15 @@ public class PrePartyIA extends StackPane {
         ToggleButton selectedButton = (ToggleButton) toggleGroup3.getSelectedToggle();
         if(selectedButton != null) {
             selectedIndex = hbox3.getChildren().indexOf(selectedButton);
+        }
+        return selectedIndex;
+    }
+
+    public static int getSelectedIndexDifficulty(ToggleGroup toggleGroup1, HBox hbox1) {
+        int selectedIndex = -1;
+        ToggleButton selectedButton = (ToggleButton) toggleGroup1.getSelectedToggle();
+        if(selectedButton != null) {
+            selectedIndex = hbox1.getChildren().indexOf(selectedButton);
         }
         return selectedIndex;
     }
