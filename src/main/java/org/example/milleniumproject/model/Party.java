@@ -216,6 +216,27 @@ public class Party extends StackPane {
         this.selectIndexBG = selectedIndex;
         this.selectedIndexchrono = selectedIndexchrono;
 
+        String str = ProfileData.getShip(1);
+        int lastIndex = str.lastIndexOf('/');
+        String vaisseau1 = str.substring(lastIndex + 1);
+
+        String str2 = ProfileData.getShip(2);
+        int lastIndex2 = str2.lastIndexOf('/');
+        String vaisseau2 = str2.substring(lastIndex2 + 1);
+
+        leftVBox = ProfilParty.createVBoxWithImages(vaisseau1, 9);
+        rightVBox = ProfilParty.createVBoxWithImages(vaisseau2, 9);
+
+        HBox hBox = new HBox(0.6 * Constant.screenWidth); // Espacement horizontal entre les Vbox
+        hBox.getChildren().addAll(leftVBox, rightVBox);
+        hBox.setAlignment(Pos.CENTER);
+
+        StackPane.setAlignment(leftVBox, Pos.CENTER_LEFT);
+        StackPane.setAlignment(rightVBox, Pos.CENTER_RIGHT);
+
+        getChildren().addAll(hBox);
+
+
         setPlayerInfo(primaryStage, selectedIndexchrono, selectedIndex, ProfileData.getAvatar(1), ProfileData.getAvatar(2), ProfileData.getPlayerName(1), ProfileData.getPlayerName(2), ProfileData.getRank(1), ProfileData.getRank(2), currentPlayer, turns);
 
     }
@@ -265,23 +286,6 @@ public class Party extends StackPane {
             gridPane.add(button, colIndices[i], rowIndices[i]);
         }
 
-        String str = ProfileData.getShip(1);
-        int lastIndex = str.lastIndexOf('/');
-        String vaisseau1 = str.substring(lastIndex + 1);
-
-        String str2 = ProfileData.getShip(2);
-        int lastIndex2 = str2.lastIndexOf('/');
-        String vaisseau2 = str2.substring(lastIndex2 + 1);
-
-        leftVBox = ProfilParty.createVBoxWithImages(vaisseau1, 9);
-        rightVBox = ProfilParty.createVBoxWithImages(vaisseau2, 9);
-
-        HBox hBox = new HBox(0.6 * Constant.screenWidth); // Espacement horizontal entre les Vbox
-        hBox.getChildren().addAll(leftVBox, rightVBox);
-        hBox.setAlignment(Pos.CENTER);
-
-        StackPane.setAlignment(leftVBox, Pos.CENTER_LEFT);
-        StackPane.setAlignment(rightVBox, Pos.CENTER_RIGHT);
 
         String avatarFileName1 = avatar1.substring(avatar1.lastIndexOf('/') + 1);
         String avatarFileName2 = avatar2.substring(avatar2.lastIndexOf('/') + 1);
@@ -323,7 +327,7 @@ public class Party extends StackPane {
         quitterMenu.setVisible(false);
 
 
-        getChildren().addAll(hBox, profileBox1, profileBox2, ABC, VWX, AJV, COX, DEF, STU, DKS, FNU, GHI, PQR, GLP, IMR, BEH, JKL, MNO, QTW, gridPane, quitterMenu, pauseMenu, pauseButton);
+        getChildren().addAll( profileBox1, profileBox2, ABC, VWX, AJV, COX, DEF, STU, DKS, FNU, GHI, PQR, GLP, IMR, BEH, JKL, MNO, QTW, gridPane, quitterMenu, pauseMenu, pauseButton);
 
         timeline1.play();
 
