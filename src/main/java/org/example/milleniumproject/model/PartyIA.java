@@ -8,17 +8,18 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.util.*;
@@ -31,11 +32,13 @@ import static org.example.milleniumproject.model.EndParty.*;
 import static org.example.milleniumproject.model.Methodeia.disableMouseInteractions;
 import static org.example.milleniumproject.model.Movement.*;
 import static org.example.milleniumproject.model.Placement.*;
+import static org.example.milleniumproject.model.ProfilParty.createProfileBox;
 
 import javafx.scene.control.Button;
 import java.util.Random;
 
 public class PartyIA extends StackPane {
+    private Stage primaryStage;
     static List<String[]> finalValidAlignments = new ArrayList<>();
     static List<String[]> finalValidAlignmentsJ1 = new ArrayList<>();
     static List<String[]> finalAlignments = new ArrayList<>();
@@ -48,6 +51,8 @@ public class PartyIA extends StackPane {
     private HBox hbox3;
     private ToggleGroup toggleGroup2;
     private HBox hbox2;
+    private HBox hbox1;
+    private ToggleGroup toggleGroup1;
     private int remainingSeconds = 30;
     static Timeline timeline;
     private Button selectedButton = null;
@@ -91,6 +96,157 @@ public class PartyIA extends StackPane {
 
     // Initialisez votre carte pour mapper les noms des rectangles à leurs instances
     static Map<String, RectangleConstructor> rectangleMap = new HashMap<>();
+
+
+    public PartyIA(Stage primaryStage,int currentRound) {
+
+        rectangleMap.put("ABC", abc); rectangleMap.put("DEF", def); rectangleMap.put("GHI", ghi); rectangleMap.put("JKL", jkl);
+        rectangleMap.put("MNO", mno); rectangleMap.put("PQR", pqr); rectangleMap.put("STU", stu); rectangleMap.put("VWX", vwx);
+        rectangleMap.put("AJV", ajv); rectangleMap.put("DKS", dks); rectangleMap.put("GLP", glp); rectangleMap.put("BEH", beh);
+        rectangleMap.put("QTW", qtw); rectangleMap.put("IMR", imr); rectangleMap.put("FNU", fnu); rectangleMap.put("COX", cox);
+
+        int selectedIndex;
+
+        if (currentRound == 0){
+            selectedIndex = 0;
+        }else if (currentRound == 1){
+            selectedIndex = 1;
+        }else {
+            selectedIndex = 2;
+        }
+
+        String backgroundImage = "";
+        if (selectedIndex == 0) {
+            backgroundImage = "src/main/resources/FENABOO.png";
+        } else if (selectedIndex == 1) {
+            backgroundImage = "src/main/resources/FECORUSCANT.png";
+        } else if (selectedIndex == 2) {
+            backgroundImage = "src/main/resources/FEMUSTAPHAR.png";
+        }
+        BG ground = new BG(backgroundImage);
+        setBackground(ground.getCustomBackground());
+
+        int selectedIndexchrono;
+
+        String chrono;
+
+        if(currentRound == 0){
+            selectedIndexchrono = 1;
+        }else if (currentRound == 1){
+            selectedIndexchrono = 1;
+        }else{
+            selectedIndexchrono = 0;
+        }
+
+        if (selectedIndexchrono == 0){
+            chrono = "30";
+        } else{
+            chrono = "60";
+        }
+
+        int[] remainingSeconds1 = {Integer.parseInt(chrono)};
+        int[] remainingSeconds2 = {Integer.parseInt(chrono)};
+        Label timerLabel1 = new Label(chrono);
+        Label timerLabel2 = new Label(chrono);
+        timerLabel1.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
+        timerLabel2.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
+        Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1, primaryStage,this);
+        Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2, primaryStage,this);
+
+        gridPane = new GridPane();
+        gridPane.setHgap(0.0171875*screenWidth); // Espacement horizontal entre les boutons
+        gridPane.setVgap(0.0305556*screenHeight); // Espacement vertical entre les boutons
+        gridPane.setAlignment(Pos.CENTER); // Positionnement au centre de la StackPane
+
+        String[] buttonLabels = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X"};
+        int[] rowIndices = {0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 6};
+        int[] colIndices = {0, 3, 6, 1, 3, 5, 2, 3, 4, 0, 1, 2, 4, 5, 6, 2, 3, 4, 1, 3, 5, 0, 3, 6, 6};
+
+        for (int i = 0; i < buttonLabels.length; i++) {
+            Button button = createStyledButton(buttonLabels[i]);
+            gridPane.add(button, colIndices[i], rowIndices[i]);
+        }
+
+        String str = ProfileData.getShip(1);
+        int lastIndex = str.lastIndexOf('/');
+        String vaisseau1 = str.substring(lastIndex + 1);
+
+        String str2 = ProfileData.getShip(2);
+        int lastIndex2 = str2.lastIndexOf('/');
+        String vaisseau2 = str2.substring(lastIndex2 + 1);
+
+        leftVBox = ProfilParty.createVBoxWithImages(vaisseau1, 9);
+        rightVBox = ProfilParty.createVBoxWithImages(vaisseau2, 9);
+
+        HBox hBox = new HBox(0.6 * Constant.screenWidth); // Espacement horizontal entre les Vbox
+        hBox.getChildren().addAll(leftVBox, rightVBox);
+        hBox.setAlignment(Pos.CENTER);
+
+        StackPane.setAlignment(leftVBox, Pos.CENTER_LEFT);
+        StackPane.setAlignment(rightVBox, Pos.CENTER_RIGHT);
+
+        String avatar1 = ProfileData.getAvatar(1);
+        String playerName1 = ProfileData.getPlayerName(1);
+        String rank1 = ProfileData.getRank(1);
+
+        String avatar2 = ProfileData.getAvatar(2);
+        String playerName2 = ProfileData.getPlayerName(2);
+        String rank2 = ProfileData.getRank(2);
+
+        String avatarFileName1 = avatar1.substring(avatar1.lastIndexOf('/') + 1);
+        String avatarFileName2 = avatar2.substring(avatar2.lastIndexOf('/') + 1);
+
+        VBox profileBox1 = ProfilParty.createProfileBox(avatarFileName1, playerName1, rank1, timerLabel1, true, false);
+        VBox profileBox2 = ProfilParty.createProfileBox(avatarFileName2, playerName2, rank2, timerLabel2, false, true);
+        setMargin(profileBox1, new Insets(0, 0, 0.020833*screenHeight, 0.015625*screenWidth));
+        setMargin(profileBox2, new Insets(0, 0.015625*screenWidth, 0.020833*screenHeight, 0));
+
+        setAlignment(profileBox1, Pos.BOTTOM_LEFT);
+        setAlignment(profileBox2, Pos.BOTTOM_RIGHT);
+
+        // Création du bouton pause avec une image
+        Image pauseImage = new Image("pause.png"); // Remplacez "chemin/vers/votre/image.png" par le chemin de votre image
+        ImageView imageView = new ImageView(pauseImage);
+        imageView.setFitWidth(0.025*screenWidth); // Ajustez la largeur de l'image selon vos besoins
+        imageView.setFitHeight(0.04444*screenHeight); // Ajustez la hauteur de l'image selon vos besoins
+
+        Button pauseButton = new Button();
+        pauseButton.setGraphic(imageView); // Définit l'image comme graphique du bouton
+
+        // Rendre l'arrière-plan du bouton invisible
+        pauseButton.setStyle("-fx-background-color: transparent");
+
+        // Ajout d'une action pour afficher le menu pause lors du clic sur le bouton pause
+        pauseButton.setOnAction(e -> {
+            SoundPlayer.soundPlay();
+            timeline1.pause();
+            timeline2.pause();
+            pauseMenu.setVisible(true);
+        });
+
+        // Positionnement du bouton pause en haut à droite
+        StackPane.setAlignment(pauseButton, Pos.TOP_RIGHT);
+        setMargin(pauseButton, new Insets(0.0138889*screenHeight, 0.0078*screenWidth, 0, 0));
+
+        pauseMenu = createPauseMenu(primaryStage, timeline1, timeline2);
+        pauseMenu.setVisible(false);
+        quitterMenu.setVisible(false);
+
+        getChildren().addAll(hBox, profileBox1, profileBox2, ABC, VWX, AJV, COX, DEF, STU, DKS, FNU, GHI, PQR, GLP, IMR, BEH, JKL, MNO, QTW, gridPane, pauseMenu, quitterMenu, pauseButton);
+
+        timeline1.play();
+
+        // Gestionnaire d'événements pour les boutons du GridPane
+        for (Node node : gridPane.getChildren()) {
+            if (node instanceof Button) {
+                Button button = (Button) node;
+                button.setOnAction(e -> {
+                    SoundPlayer.soundPlay();
+                    handleButtonClick(button, gridPane, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono,primaryStage, 1);
+                });
+            }
+        }
+    }
 
     public PartyIA(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3, ToggleGroup toggleGroup2, HBox hbox2, ToggleGroup toggleGroup1, HBox hbox1) {
         this.toggleGroup3 = toggleGroup3;

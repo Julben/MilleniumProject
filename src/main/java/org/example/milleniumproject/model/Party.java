@@ -160,8 +160,8 @@ public class Party extends StackPane {
         Label timerLabel2 = new Label(chrono);
         timerLabel1.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
         timerLabel2.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
-        Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1, primaryStage, endparty);
-        Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2, primaryStage, endparty);
+        Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1, endparty, primaryStage, currentPlayer);
+        Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2, endparty, primaryStage, currentPlayer);
 
         for (int i = 0; i < buttonLabels.length; i++) {
             Button button = buttonSave.get(i);
@@ -252,8 +252,8 @@ public class Party extends StackPane {
         Label timerLabel2 = new Label(chrono);
         timerLabel1.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
         timerLabel2.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
-        Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1, primaryStage, endparty);
-        Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2, primaryStage, endparty);
+        Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1, endparty,primaryStage ,currentPlayer);
+        Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2, endparty, primaryStage,currentPlayer);
 
         gridPane = new GridPane();
         gridPane.setHgap(0.0171875 * screenWidth); // Espacement horizontal entre les boutons
@@ -567,10 +567,6 @@ public class Party extends StackPane {
     }
 
 
-
-
-
-
     // Méthode pour retirer un pion adverse
     private void removePiece(Button button) {
         // Vérifier si le bouton cliqué contient une image
@@ -829,7 +825,7 @@ public class Party extends StackPane {
         String name2 = (String) allInfo.get(7);
         int currentPlayer = (int) allInfo.get(8);
         int turns = (int) allInfo.get(9);
-        int selectedIndexchrono =(int) allInfo.get(10);
+        int selectedIndexchrono =2;
         int selectedIndex = (int) allInfo.get(11);
         List<String> pictureButton = (List<String>) allInfo.get(12);
         List<Button> buttonSave = new ArrayList<>();

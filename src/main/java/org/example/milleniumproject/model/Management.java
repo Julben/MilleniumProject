@@ -1,9 +1,11 @@
 package org.example.milleniumproject.model;
 
 import javafx.application.Platform;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import org.example.milleniumproject.view.Audio;
+import org.example.milleniumproject.view.Campagne;
 import org.example.milleniumproject.view.Profil;
 import org.example.milleniumproject.view.Video;
 import java.util.List;
@@ -28,6 +30,11 @@ public class Management {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
                 } else if (bouton.getText().equals("Campagne")) {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
+                    Campagne campagne=new Campagne(primaryStage);
+                    primaryStage.getScene().setRoot(campagne);
+                    campagne.startCampagne();
+
+
                 }
                 else if (bouton.getText().equals("Jouer contre l'ordinateur")) {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
