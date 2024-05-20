@@ -15,9 +15,10 @@ import org.example.milleniumproject.presentation.BG;
 import java.util.Arrays;
 import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
+
 /**
- * Classe gérant l'affichage et la gestion des profils des joueurs.
- * Elle permet la configuration des avatars, des rangs et des vaisseaux spatiaux des joueurs.
+ * Classe gérant l'affichage des profils des joueurs durant la partie.
+ * Elle permet de gérer le choix des avatars, des rangs et des pions des deux joueurs.
  */
 public class Profil extends StackPane {
 
@@ -32,11 +33,12 @@ public class Profil extends StackPane {
     private Carrousel vaisseauCarrousel1;
     private Carrousel vaisseauCarrousel2;
     private Label erreurLabel;
+
     /**
-     * Constructeur de la classe Profil.
-     * Permet de configurer et d'afficher les profils des joueurs.
+     * Crée la classe Profil.
+     * Permet de configurer les profils des deux joueurs.
      *
-     * @param primaryStage La fenêtre principale de l'application.
+     * @param primaryStage La scène en premier plan.
      */
 
     public Profil(Stage primaryStage) {
@@ -114,24 +116,23 @@ public class Profil extends StackPane {
         getChildren().addAll(hBox, retourButton);
     }
     /**
-     * Crée une VBox contenant les éléments du profil d'un joueur.
+     * Affiche les éléments du profil de chaque joueur durant la partie.
      *
      * @param playerNum       Le numéro du joueur.
-     * @param avatar          Les chemins des images d'avatar disponibles.
-     * @param rang            Les rangs disponibles.
-     * @param vaisseau        Les vaisseaux spatiaux disponibles.
-     * @param playerName      Le nom du joueur.
-     * @param savedAvatarIndex L'index de l'avatar enregistré pour ce joueur.
-     * @param savedRankIndex  L'index du rang enregistré pour ce joueur.
-     * @param savedShipIndex  L'index du vaisseau enregistré pour ce joueur.
-     * @return La VBox contenant les éléments du profil du joueur.
+     * @param avatar          L'avatar du joueur.
+     * @param rang            Le rang du joueur.
+     * @param vaisseau        Le vaisseau(pion) du joueur.
+     * @param playerName      Le pseudo du joueur.
+     * @param savedAvatarIndex L'enregistrement de l'index de l'avatar.
+     * @param savedRankIndex  L'enregistrement de l'index du rang enregistré.
+     * @param savedShipIndex  L'enregistrement de l'index du vaisseau.
+     * @return L'affichage durant la partie des éléments du profil du joueur.
      */
     private VBox createPlayerBox(String playerNum, String[] avatar, String[] rang, String[] vaisseau, String playerName, int savedAvatarIndex, int savedRankIndex, int savedShipIndex) {
         Label label = new Label(playerNum);
         label.setTextFill(Color.WHITE);
         label.setFont(Font.font("Cardo", 0.0833*screenHeight));
 
-        //Création des Carrousel pour les vaisseaux
         Carrousel avatarCarrousel = new Carrousel(avatar, true, savedAvatarIndex);
         Carrousel rangCarrousel = new Carrousel(rang, false, savedRankIndex);
         Carrousel vaisseauCarrousel = new Carrousel(vaisseau, true, savedShipIndex);
@@ -156,35 +157,19 @@ public class Profil extends StackPane {
         return vBox;
     }
 
-    /**
-     * Crée un champ de texte pour entrer le nom du joueur.
-     *
-     * @param playerName Le nom du joueur.
-     * @return Le champ de texte pour le nom du joueur.
-     */
-    private TextField createTextField(String playerName) {
-        TextField textField = new TextField();
-        textField.setPromptText("Entrez votre pseudo");
-        textField.setPrefSize(0.2344*screenWidth, 0.0625*screenHeight);
-        textField.setAlignment(Pos.CENTER);
-        textField.setFont(Font.font("Cardo", FontWeight.BOLD, 0.04167*screenHeight));
-        textField.setBackground(new Background(new BackgroundFill(Color.rgb(240, 240, 240, 0.35), CornerRadii.EMPTY, Insets.EMPTY)));
-        textField.setStyle("-fx-text-fill: white;");
-        textField.setText(playerName);
-        return textField;
-    }
+
 
     /**
-     * Récupère les données du profil du joueur.
+     * Obtiens les données du profil du joueur.
      *
      * @param playerNumber   Le numéro du joueur.
-     * @param playerNameField Le champ de texte contenant le nom du joueur.
+     * @param playerNameField Le champ de texte avec le pseudo du joueur.
      * @param avatarCarrousel Le carrousel d'avatar du joueur.
      * @param rankCarrousel  Le carrousel de rang du joueur.
-     * @param shipCarrousel  Le carrousel de vaisseau du joueur.
-     * @param avatar         Les chemins des images d'avatar disponibles.
-     * @param rang           Les rangs disponibles.
-     * @param vaisseau       Les vaisseaux spatiaux disponibles.
+     * @param shipCarrousel  Le carrousel de vaisseau(pion) du joueur.
+     * @param avatar         L'avatar du joueur.
+     * @param rang           Le rang du joueur.
+     * @param vaisseau       Le vaisseau spatial .
      */
     private void getProfileData(int playerNumber, TextField playerNameField, Carrousel avatarCarrousel, Carrousel rankCarrousel, Carrousel shipCarrousel, String[] avatar, String[] rang, String[] vaisseau) {
         String playerName = playerNameField.getText();
@@ -198,18 +183,35 @@ public class Profil extends StackPane {
      * Sauvegarde les données du profil du joueur.
      *
      * @param playerNumber  Le numéro du joueur.
-     * @param playerName    Le nom du joueur.
+     * @param playerName    Le pseudo du joueur.
      * @param avatarIndex   L'index de l'avatar du joueur.
      * @param rankIndex     L'index du rang du joueur.
      * @param shipIndex     L'index du vaisseau du joueur.
-     * @param avatar        Les chemins des images d'avatar disponibles.
-     * @param rang          Les rangs disponibles.
-     * @param vaisseau      Les vaisseaux spatiaux disponibles.
+     * @param avatar        L'image d'avatar du joueur.
+     * @param rang          Le rang du joueur.
+     * @param vaisseau      Le vaisseaux(pion) du joueur.
      */
     private void saveProfileData(int playerNumber, String playerName, int avatarIndex, int rankIndex, int shipIndex, String[] avatar, String[] rang, String[] vaisseau) {
         String selectedAvatar = avatar[avatarIndex];
         String selectedRank = rang[rankIndex];
         String selectedShip = vaisseau[shipIndex];
         ProfileData.saveProfile(playerNumber, playerName, selectedAvatar, selectedRank, selectedShip);
+    }
+    /**
+     * Crée un champ de texte pour le pseudo du joueur.
+     *
+     * @param playerName Le pseudo du joueur.
+     * @return Le champ de texte pour le pseudo.
+     */
+    private TextField createTextField(String playerName) {
+        TextField textField = new TextField();
+        textField.setPromptText("Entrez votre pseudo");
+        textField.setPrefSize(0.2344*screenWidth, 0.0625*screenHeight);
+        textField.setAlignment(Pos.CENTER);
+        textField.setFont(Font.font("Cardo", FontWeight.BOLD, 0.04167*screenHeight));
+        textField.setBackground(new Background(new BackgroundFill(Color.rgb(240, 240, 240, 0.35), CornerRadii.EMPTY, Insets.EMPTY)));
+        textField.setStyle("-fx-text-fill: white;");
+        textField.setText(playerName);
+        return textField;
     }
 }
