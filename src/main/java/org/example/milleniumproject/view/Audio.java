@@ -8,7 +8,8 @@ import javafx.scene.control.Slider;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import org.example.milleniumproject.model.BG;
+import org.example.milleniumproject.model.AudioData;
+import org.example.milleniumproject.presentation.BG;
 import org.example.milleniumproject.model.BackButtons;
 import org.example.milleniumproject.model.MusicPlayer;
 import org.example.milleniumproject.model.SoundPlayer;
@@ -20,8 +21,8 @@ import javafx.scene.Node;
  */
 public class Audio extends StackPane {
 
-    public SliderWithControls sliderWithControls2;
-    public SliderWithControls sliderWithControls3;
+    private SliderWithControls sliderWithControls2;
+    private SliderWithControls sliderWithControls3;
 
     /**
      * Constructeur de la classe Audio.

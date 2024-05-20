@@ -11,7 +11,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.animation.Timeline;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class ProfilParty extends StackPane {
      * @param count Le nombre d'images à afficher.
      * @return Une VBox contenant les images répétées.
      */
-    static VBox createVBoxWithImages(String imageLink, int count) {
+    public static VBox createVBoxWithImages(String imageLink, int count) {
 
         VBox vBox = new VBox(0.01389 * screenHeight); // Espacement vertical entre les images
         vBox.setAlignment(Pos.CENTER); // Centrer les images dans la VBox
@@ -66,7 +66,7 @@ public class ProfilParty extends StackPane {
     }
 
     // Méthode pour créer une VBox affichant le profil d'un joueur avec l'avatar à côté des labels
-    static VBox createProfileBox(String avatarFileName, String playerName, String rank, Label timerlabel, boolean isPlayer1, boolean isIA) {
+    public static VBox createProfileBox(String avatarFileName, String playerName, String rank, Label timerlabel, boolean isPlayer1, boolean isIA) {
 
         VBox profileBox = new VBox(0); // Espacement vertical entre les éléments du profil
         profileBox.setAlignment(Pos.BOTTOM_CENTER); // Alignement au centre et en bas

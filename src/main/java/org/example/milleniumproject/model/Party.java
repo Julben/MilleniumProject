@@ -2,12 +2,10 @@ package org.example.milleniumproject.model;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.animation.TranslateTransition;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -23,8 +21,12 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.example.milleniumproject.presentation.BG;
+import org.example.milleniumproject.presentation.ButtonTransitionHandler;
+import org.example.milleniumproject.view.PreParty;
+
 import java.util.*;
-import static org.example.milleniumproject.model.ButtonSelector.deselectButton;
+
 import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 import static javafx.scene.paint.Color.GREEN;
@@ -160,8 +162,8 @@ public class Party extends StackPane {
         Label timerLabel2 = new Label(chrono);
         timerLabel1.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
         timerLabel2.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
-        Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1, primaryStage, endparty);
-        Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2, primaryStage, endparty);
+        Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1, endparty, primaryStage, currentPlayer);
+        Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2, endparty, primaryStage, currentPlayer);
 
         for (int i = 0; i < buttonLabels.length; i++) {
             Button button = buttonSave.get(i);
@@ -216,6 +218,27 @@ public class Party extends StackPane {
         this.selectIndexBG = selectedIndex;
         this.selectedIndexchrono = selectedIndexchrono;
 
+        String str = ProfileData.getShip(1);
+        int lastIndex = str.lastIndexOf('/');
+        String vaisseau1 = str.substring(lastIndex + 1);
+
+        String str2 = ProfileData.getShip(2);
+        int lastIndex2 = str2.lastIndexOf('/');
+        String vaisseau2 = str2.substring(lastIndex2 + 1);
+
+        leftVBox = ProfilParty.createVBoxWithImages(vaisseau1, 9);
+        rightVBox = ProfilParty.createVBoxWithImages(vaisseau2, 9);
+
+        HBox hBox = new HBox(0.6 * Constant.screenWidth); // Espacement horizontal entre les Vbox
+        hBox.getChildren().addAll(leftVBox, rightVBox);
+        hBox.setAlignment(Pos.CENTER);
+
+        StackPane.setAlignment(leftVBox, Pos.CENTER_LEFT);
+        StackPane.setAlignment(rightVBox, Pos.CENTER_RIGHT);
+
+        getChildren().addAll(hBox);
+
+
         setPlayerInfo(primaryStage, selectedIndexchrono, selectedIndex, ProfileData.getAvatar(1), ProfileData.getAvatar(2), ProfileData.getPlayerName(1), ProfileData.getPlayerName(2), ProfileData.getRank(1), ProfileData.getRank(2), currentPlayer, turns);
 
     }
@@ -252,8 +275,8 @@ public class Party extends StackPane {
         Label timerLabel2 = new Label(chrono);
         timerLabel1.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
         timerLabel2.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
-        Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1, primaryStage, endparty);
-        Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2, primaryStage, endparty);
+        Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1, endparty,primaryStage ,currentPlayer);
+        Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2, endparty, primaryStage,currentPlayer);
 
         gridPane = new GridPane();
         gridPane.setHgap(0.0171875 * screenWidth); // Espacement horizontal entre les boutons
@@ -265,23 +288,6 @@ public class Party extends StackPane {
             gridPane.add(button, colIndices[i], rowIndices[i]);
         }
 
-        String str = ProfileData.getShip(1);
-        int lastIndex = str.lastIndexOf('/');
-        String vaisseau1 = str.substring(lastIndex + 1);
-
-        String str2 = ProfileData.getShip(2);
-        int lastIndex2 = str2.lastIndexOf('/');
-        String vaisseau2 = str2.substring(lastIndex2 + 1);
-
-        leftVBox = ProfilParty.createVBoxWithImages(vaisseau1, 9);
-        rightVBox = ProfilParty.createVBoxWithImages(vaisseau2, 9);
-
-        HBox hBox = new HBox(0.6 * Constant.screenWidth); // Espacement horizontal entre les Vbox
-        hBox.getChildren().addAll(leftVBox, rightVBox);
-        hBox.setAlignment(Pos.CENTER);
-
-        StackPane.setAlignment(leftVBox, Pos.CENTER_LEFT);
-        StackPane.setAlignment(rightVBox, Pos.CENTER_RIGHT);
 
         String avatarFileName1 = avatar1.substring(avatar1.lastIndexOf('/') + 1);
         String avatarFileName2 = avatar2.substring(avatar2.lastIndexOf('/') + 1);
@@ -323,7 +329,7 @@ public class Party extends StackPane {
         quitterMenu.setVisible(false);
 
 
-        getChildren().addAll(hBox, profileBox1, profileBox2, ABC, VWX, AJV, COX, DEF, STU, DKS, FNU, GHI, PQR, GLP, IMR, BEH, JKL, MNO, QTW, gridPane, quitterMenu, pauseMenu, pauseButton);
+        getChildren().addAll( profileBox1, profileBox2, ABC, VWX, AJV, COX, DEF, STU, DKS, FNU, GHI, PQR, GLP, IMR, BEH, JKL, MNO, QTW, gridPane, quitterMenu, pauseMenu, pauseButton);
 
         timeline1.play();
 
@@ -358,7 +364,7 @@ public class Party extends StackPane {
                     timeline.stop();
                     timeline1.stop();
                     timeline2.stop();
-                    afficherFinPartie(this, primaryStage, currentPlayer);
+                    afficherFinPartie(this, primaryStage);
                 }
             }
         } else {
@@ -408,7 +414,7 @@ public class Party extends StackPane {
                     timeline.stop();
                     timeline1.stop();
                     timeline2.stop();
-                    afficherFinPartie(this, primaryStage, currentPlayer);
+                    afficherFinPartie(this, primaryStage);
                 }
             }
         }
@@ -567,10 +573,6 @@ public class Party extends StackPane {
     }
 
 
-
-
-
-
     // Méthode pour retirer un pion adverse
     private void removePiece(Button button) {
         // Vérifier si le bouton cliqué contient une image
@@ -715,7 +717,7 @@ public class Party extends StackPane {
                         if (remainingSeconds[0] <= 0) {
                             timeline[0].stop();
                             System.out.println(currentPlayer);
-                            afficherFinPartie(root, primaryStage, currentPlayer);
+                            afficherFinPartie(root, primaryStage);
                         }
                     }
                 })
@@ -803,7 +805,7 @@ public class Party extends StackPane {
         if (turns <= 17) {
             newQuitterMenu = ButtonPause.boutonquitter(primaryStage);
         } else {
-            newQuitterMenu = ButtonPause.boutonquittersave(primaryStage,gridPane,currentPlayer,turns,chrono,bg);
+            newQuitterMenu = ButtonPause.boutonquittersave(primaryStage, gridPane, chrono, bg);
         }
 
         // Mettre à jour quitterMenu en supprimant l'ancien et en ajoutant le nouveau
@@ -829,7 +831,7 @@ public class Party extends StackPane {
         String name2 = (String) allInfo.get(7);
         int currentPlayer = (int) allInfo.get(8);
         int turns = (int) allInfo.get(9);
-        int selectedIndexchrono =(int) allInfo.get(10);
+        int selectedIndexchrono =2;
         int selectedIndex = (int) allInfo.get(11);
         List<String> pictureButton = (List<String>) allInfo.get(12);
         List<Button> buttonSave = new ArrayList<>();
@@ -862,10 +864,6 @@ public class Party extends StackPane {
     public int getCurrentPlayer() {
         return currentPlayer;
     }
-
-
-
-
 
 
     public int getTurns() {

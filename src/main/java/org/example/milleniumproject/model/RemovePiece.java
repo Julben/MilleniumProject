@@ -12,15 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import static org.example.milleniumproject.model.EndParty.FinPartie;
-import static org.example.milleniumproject.model.EndParty.isGameFinished;
 import static org.example.milleniumproject.model.PartyIA.*;
 
 public class RemovePiece {
 
-    private static List<Button> FreeButtonsJ1 = new ArrayList<>();
-
-    static void RemovePiece(StackPane root, Button button, Timeline timeline2, Label timerLabel2, String chrono, int[] remainingSeconds2, Timeline timeline1, Stage primaryStage) {
-
+    static void removePiece(StackPane root, Button button, Timeline timeline2, Label timerLabel2, String chrono, int[] remainingSeconds2, Timeline timeline1, Stage primaryStage) {
+        // Vérifier si le bouton cliqué contient une image
         if (button.getGraphic() instanceof ImageView) {
             if(currentPlayer==1) {
                 for(Button b : buttonsJ2){
@@ -29,11 +26,11 @@ public class RemovePiece {
                     }
                 }
                 if(boutonlibre && buttonsJ2.contains(button) && !isNotlibre(button)){
-                    updateButtonState(button,buttonsJ2);
+                    updateButtonState(button, buttonsJ2, root, timeline1, timeline2, primaryStage);
                     currentPlayer = 2;
                 }
                 else if(!boutonlibre && buttonsJ2.contains(button)){
-                    updateButtonState2(button,buttonsJ2);
+                    updateButtonState2(button, buttonsJ2, root, timeline1, timeline2, primaryStage);
                     currentPlayer = 2;
                 }
             }
@@ -45,12 +42,11 @@ public class RemovePiece {
                 }
                 if(boutonlibre && buttonsJ1.contains(button) && !isNotlibre(button)){
                     PauseTransition pause = new PauseTransition(Duration.seconds(1));
-                    Button finalButton1 = button;
                     pause.setOnFinished(event -> {
-                        updateButtonState(finalButton1, buttonsJ1);
+                        updateButtonState(button, buttonsJ1, root, timeline1, timeline2, primaryStage);
                         ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
-                        if (isGameFinished()) {
-                            FinPartie(root, timeline1, timeline2, primaryStage);
+                        if (isGameFinished() && placementisfinished) {
+                            FinPartie(root,timeline1, timeline2, primaryStage);
                         }
                     });
                     pause.play();
@@ -58,12 +54,11 @@ public class RemovePiece {
                 }
                 else if(!boutonlibre && buttonsJ1.contains(button)) {
                     PauseTransition pause = new PauseTransition(Duration.seconds(1));
-                    Button finalButton = button;
                     pause.setOnFinished(event -> {
-                        updateButtonState2(finalButton, buttonsJ1);
+                        updateButtonState2(button, buttonsJ1, root, timeline1, timeline2, primaryStage);
                         ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
-                        if (isGameFinished()) {
-                            FinPartie(root, timeline1, timeline2, primaryStage);
+                        if (isGameFinished() && placementisfinished) {
+                            FinPartie(root,timeline1, timeline2, primaryStage);
                         }
                     });
                     pause.play();
@@ -71,10 +66,10 @@ public class RemovePiece {
                 }
             }
         }
-        FreeButtonsJ1.clear();
     }
 
-    public static void updateButtonState(Button button, List<Button> buttonsList) {
+
+    static void updateButtonState(Button button, List<Button> buttonsList, StackPane root, Timeline timeline1, Timeline timeline2, Stage primaryStage) {
         button.setGraphic(null);
         SoundPlayer.soundPlay();
         buttonsList.remove(button);
@@ -82,17 +77,17 @@ public class RemovePiece {
         boutonlibre = false;
     }
 
-    public static void updateButtonState2(Button button, List<Button> buttonsList) {
-        updateButtonState(button,buttonsList);
+    static void updateButtonState2(Button button,List<Button> buttonsList, StackPane root, Timeline timeline1, Timeline timeline2, Stage primaryStage) {
+        updateButtonState(button, buttonsList, root, timeline1, timeline2, primaryStage);
         resetButtonColorsForMovedButton(button);
     }
 
-    static void CheckRemovedifficulty(StackPane root, Button button, Timeline timeline2, Label timerLabel2, String chrono, int[] remainingSeconds2, Timeline timeline1, Stage primaryStage, int difficulty) {
+    static void HardRemove(StackPane root, Button button, Timeline timeline2, Label timerLabel2, Label timerLabel1, String chrono, int[] remainingSeconds2, Timeline timeline1, Stage primaryStage) {
 
         checkPerfectAlignments();
         checkAlignments();
 
-        if(!finalValidAlignments.isEmpty() && difficulty == 1 && currentPlayer == 2){
+        if(!finalValidAlignments.isEmpty() && currentPlayer == 2){
             Random random = new Random();
             String[] randomAlignment = finalValidAlignments.get(random.nextInt(finalValidAlignments.size()));
 
@@ -106,11 +101,12 @@ public class RemovePiece {
             }
 
             Button randomJ1Button = j1ButtonsInAlignment.get(random.nextInt(j1ButtonsInAlignment.size()));
-            RemovePiece(root, randomJ1Button, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
+            removePiece(root, randomJ1Button, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
 
+            j1ButtonsInAlignment.clear();
             finalValidAlignments.clear();
         }
-        else if(!finalAlignments.isEmpty() && difficulty == 1 && currentPlayer == 2){
+        else if(!finalAlignments.isEmpty() && currentPlayer == 2){
             Random random = new Random();
             String[] randomAlignment = finalAlignments.get(random.nextInt(finalAlignments.size()));
 
@@ -124,15 +120,13 @@ public class RemovePiece {
             }
 
             Button randomJ1Button = j1ButtonsInAlignment.get(random.nextInt(j1ButtonsInAlignment.size()));
-            RemovePiece(root, randomJ1Button, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
+            removePiece(root, randomJ1Button, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
 
+            j1ButtonsInAlignment.clear();
             finalAlignments.clear();
         }
         else {
-            if(currentPlayer==2) {
-                button = RemovePiece.RandomFreeJ1();
-            }
-            RemovePiece.RemovePiece(root, button, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
+            removePiece(root, button, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
         }
     }
 
@@ -206,29 +200,5 @@ public class RemovePiece {
                 finalAlignments.add(alignment);
             }
         }
-    }
-
-    public static Button RandomFreeJ1(){
-
-        for(Button i : buttonsJ1){
-            if(!isNotlibre(i)){
-                FreeButtonsJ1.add(i);
-            }
-        }
-
-        Button randomFreeButton;
-
-        if(FreeButtonsJ1.isEmpty()){
-            Random random = new Random();
-            int index = random.nextInt(buttonsJ1.size());
-            randomFreeButton = buttonsJ1.get(index);
-        }
-        else{
-            Random random = new Random();
-            int index = random.nextInt(FreeButtonsJ1.size());
-            randomFreeButton = FreeButtonsJ1.get(index);
-        }
-
-        return randomFreeButton;
     }
 }

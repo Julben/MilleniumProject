@@ -6,9 +6,7 @@ import javafx.scene.paint.Color;
 import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 
-
 public class ButtonSelector {
-
 
     static void selectButton(Button button) {
         button.setStyle("-fx-background-color: yellow; -fx-background-radius: 50%");
@@ -19,9 +17,8 @@ public class ButtonSelector {
         }
     }
 
-
     // Méthode pour changer le style d'un bouton désélectionné
-     static void deselectButton(Button button) {
+    static void deselectButton(Button button) {
         button.setStyle("-fx-background-color: transparent"); // Bordure transparente
         if(button.getGraphic() != null){
             ImageView originalImageView = (ImageView) button.getGraphic();
@@ -29,7 +26,6 @@ public class ButtonSelector {
             originalImageView.setScaleY(1.0);
         }
     }
-
 
     // Méthode pour créer et styliser les boutons
     static Button createStyledButton(String label) {
@@ -42,6 +38,4 @@ public class ButtonSelector {
         button.setTextFill(Color.TRANSPARENT);
         return button;
     }
-
-
 }

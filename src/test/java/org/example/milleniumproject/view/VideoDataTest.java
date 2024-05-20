@@ -1,7 +1,7 @@
 package org.example.milleniumproject.view;
 
 import javafx.beans.property.BooleanProperty;
-import org.example.milleniumproject.view.VideoData;
+import org.example.milleniumproject.model.VideoData;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;

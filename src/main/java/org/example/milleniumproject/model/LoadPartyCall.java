@@ -1,7 +1,5 @@
 package org.example.milleniumproject.model;
 
-import javafx.scene.Parent;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class LoadPartyCall {
@@ -11,5 +9,4 @@ public class LoadPartyCall {
 
         party.LoadParty(primaryStage, nameFile);
     }
-
 }

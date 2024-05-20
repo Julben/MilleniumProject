@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import org.example.milleniumproject.presentation.BG;
 import java.util.Arrays;
 import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
@@ -135,7 +136,7 @@ public class Profil extends StackPane {
      * @param savedShipIndex  L'index du vaisseau enregistré pour ce joueur.
      * @return La VBox contenant les éléments du profil du joueur.
      */
-    public VBox createPlayerBox(String playerNum, String[] avatar, String[] rang, String[] vaisseau, String playerName, int savedAvatarIndex, int savedRankIndex, int savedShipIndex) {
+    private VBox createPlayerBox(String playerNum, String[] avatar, String[] rang, String[] vaisseau, String playerName, int savedAvatarIndex, int savedRankIndex, int savedShipIndex) {
         Label label = new Label(playerNum);
         label.setTextFill(Color.WHITE); // Couleur du texte
         label.setFont(Font.font("Cardo", 0.0833*screenHeight)); // Police et taille du texte
@@ -172,7 +173,7 @@ public class Profil extends StackPane {
      * @param playerName Le nom du joueur.
      * @return Le champ de texte pour le nom du joueur.
      */
-    public TextField createTextField(String playerName) {
+    private TextField createTextField(String playerName) {
         TextField textField = new TextField();
         textField.setPromptText("Entrez votre pseudo");
         textField.setPrefSize(0.2344*screenWidth, 0.0625*screenHeight);
@@ -216,7 +217,7 @@ public class Profil extends StackPane {
      * @param rang          Les rangs disponibles.
      * @param vaisseau      Les vaisseaux spatiaux disponibles.
      */
-    public void saveProfileData(int playerNumber, String playerName, int avatarIndex, int rankIndex, int shipIndex, String[] avatar, String[] rang, String[] vaisseau) {
+    private void saveProfileData(int playerNumber, String playerName, int avatarIndex, int rankIndex, int shipIndex, String[] avatar, String[] rang, String[] vaisseau) {
         String selectedAvatar = avatar[avatarIndex];
         String selectedRank = rang[rankIndex];
         String selectedShip = vaisseau[shipIndex];

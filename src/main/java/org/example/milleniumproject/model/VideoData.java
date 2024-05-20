@@ -1,4 +1,4 @@
-package org.example.milleniumproject.view;
+package org.example.milleniumproject.model;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;

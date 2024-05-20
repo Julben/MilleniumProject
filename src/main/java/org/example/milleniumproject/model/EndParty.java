@@ -16,10 +16,11 @@ import java.util.Random;
 import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 import static org.example.milleniumproject.model.PartyIA.*;
+import static org.example.milleniumproject.model.PartyIA.currentPlayer;
 
 public class EndParty extends StackPane {
 
-     static void afficherFinPartie(StackPane root, Stage primaryStage, int currentPlayer){
+    static void afficherFinPartie(StackPane root, Stage primaryStage){
         // Création de la StackPane pour contenir l'image et le bouton
         StackPane reglesPane = new StackPane();
         reglesPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7);"); // Fond semi-transparent
@@ -56,6 +57,13 @@ public class EndParty extends StackPane {
 
         // Action du bouton pour masquer l'image et le bouton
         quitterButton.setOnAction(e -> {
+            turns = 0;
+            isNoChrono = false;
+            currentPlayer = 1;
+            placementisfinished = false;
+            isRemovePieceMode = false;
+            buttonsJ1.clear();
+            buttonsJ2.clear();
             SoundPlayer.soundPlay();
             MusicPlayer.musicPlay("src/main/resources/MusicMenu.mp3");
             Menu menu = new Menu();
@@ -81,28 +89,7 @@ public class EndParty extends StackPane {
     static void FinPartie(StackPane root, Timeline timeline1, Timeline timeline2, Stage primaryStage){
         timeline1.stop();
         timeline2.stop();
-        afficherFinPartie(root, primaryStage, currentPlayer);
-    }
-
-    static boolean isGameFinished() {
-        // Vérifier si un joueur a moins de 3 pions restants
-        if (currentPlayer == 1) {
-            if (buttonsJ1.size() < 3 || buttonsJ2.size() < 3) {
-                return true; // La partie est terminée si le joueur 1 a moins de 3 pions
-            }
-        } else {
-            if (buttonsJ2.size() < 3) {
-                return true; // La partie est terminée si le joueur 2 a moins de 3 pions
-            }
-        }
-
-        // Vérifier si un joueur n'a plus de voisins libres
-        if (currentPlayer == 1 && (buttonsJ1.size() != 3 || buttonsJ2.size() != 3)) {
-            return !hasPlayerFreeNeighbours(buttonsJ1);
-        } else if (currentPlayer == 2 && (buttonsJ1.size() != 3 || buttonsJ2.size() != 3)) {
-            return !hasPlayerFreeNeighbours(buttonsJ2);
-        }
-        return false; // Si aucune condition ci-dessus n'est remplie, la partie n'est pas terminée
+        afficherFinPartie(root, primaryStage);
     }
 
     // Méthode pour vérifier si tous les pions d'un joueur ont au moins un voisin libre
