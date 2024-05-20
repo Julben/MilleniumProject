@@ -197,8 +197,8 @@ public class PreParty extends StackPane {
         }else{
             Party party = new Party(primaryStage, toggleGroup3, hbox3, toggleGroup2, hbox2); // Supposons que primaryStage soit accessible ici
             primaryStage.getScene().setRoot(party);
+        }
     }
-}
 
     private HBox createImageToggleHBox(ToggleGroup toggleGroup, String[] imageUrls) {
         HBox hbox = new HBox(0.04167*screenWidth); // Création de la HBox

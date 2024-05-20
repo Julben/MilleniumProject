@@ -18,7 +18,7 @@ public class ButtonSelector {
     }
 
     // Méthode pour changer le style d'un bouton désélectionné
-     static void deselectButton(Button button) {
+    static void deselectButton(Button button) {
         button.setStyle("-fx-background-color: transparent"); // Bordure transparente
         if(button.getGraphic() != null){
             ImageView originalImageView = (ImageView) button.getGraphic();

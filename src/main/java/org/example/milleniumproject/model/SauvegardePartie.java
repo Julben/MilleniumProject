@@ -27,6 +27,8 @@ public class SauvegardePartie {
     private String name2;
     private int chronoselect;
     private int BGselect;
+    private boolean ia;
+    private int difficulty;
 
     /**
      * Constructeur de la classe SauvegardePartie.
@@ -45,7 +47,8 @@ public class SauvegardePartie {
      * @param chronoselect  La sélection du chronomètre.
      * @param BGselect      La sélection de l'arrière-plan.
      */
-    public SauvegardePartie(GridPane gridPane,String avatar1,String avatar2,String rank1,String rank2, String ship1, String ship2, String name1, String name2,int currentPlayer,int turn,int chronoselect,int BGselect) {
+    
+    public SauvegardePartie(GridPane gridPane,String avatar1,String avatar2,String rank1,String rank2, String ship1, String ship2, String name1, String name2,int currentPlayer,int turn,int chronoselect,int BGselect,boolean ia, int difficulty) {
         this.gridPane = gridPane;
         this.currentPlayer = currentPlayer;
         this.turn = turn;
@@ -59,6 +62,8 @@ public class SauvegardePartie {
         this.name2 = name2;
         this.chronoselect=chronoselect;
         this.BGselect=BGselect;
+        this.ia=ia;
+        this.difficulty=difficulty;
     }
     /**
      * Sauvegarde l'état actuel de la partie dans un fichier.
@@ -105,6 +110,10 @@ public class SauvegardePartie {
             writer.write("ChronoSelect="+chronoselect);
             writer.newLine();
             writer.write("BGSelect="+BGselect);
+            writer.newLine();
+            writer.write("Ia="+ia);
+            writer.newLine();
+            writer.write("Difficulté="+difficulty);
         } catch (IOException e) {
             e.printStackTrace();
         }

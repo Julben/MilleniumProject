@@ -283,7 +283,7 @@ public class ButtonPause extends StackPane {
         return vbox;
     }
 
-    static VBox boutonquittersave(Stage primaryStage, GridPane gridPane, int chrono, int bg) {
+    static VBox boutonquittersave(Stage primaryStage, GridPane gridPane, int chrono, int bg,boolean ia,int difficulty) {
         VBox vbox = new VBox(0.04167 * screenHeight);
 
         Label confirmationLabelsave = new Label("Souhaitez-vous sauvegarder la partie ?");
@@ -361,7 +361,7 @@ public class ButtonPause extends StackPane {
                         cancelButton2.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white;");
 
                         overwriteButton.setOnAction(event1 -> {
-                            SauvegardePartie sauvegardePartie = new SauvegardePartie(gridPane, ProfileData.getAvatar(1), ProfileData.getAvatar(2), ProfileData.getRank(1), ProfileData.getRank(2), ProfileData.getShip(1), ProfileData.getShip(2), ProfileData.getPlayerName(1), ProfileData.getPlayerName(2), currentPlayer, turns, chrono, bg);
+                            SauvegardePartie sauvegardePartie = new SauvegardePartie(gridPane, ProfileData.getAvatar(1), ProfileData.getAvatar(2), ProfileData.getRank(1), ProfileData.getRank(2), ProfileData.getShip(1), ProfileData.getShip(2), ProfileData.getPlayerName(1), ProfileData.getPlayerName(2), currentPlayer, turns, chrono, bg,ia,difficulty);
                             sauvegardePartie.sauvegarderDansFichier(filePath);
                             Menu menu = new Menu();
                             menu.afficherMenu(primaryStage);
@@ -377,7 +377,7 @@ public class ButtonPause extends StackPane {
                         dialogBox.getChildren().clear();
                         dialogBox.getChildren().addAll(fileExistsLabel, overwriteButton, cancelButton2);
                     } else {
-                        SauvegardePartie sauvegardePartie = new SauvegardePartie(gridPane, ProfileData.getAvatar(1), ProfileData.getAvatar(2), ProfileData.getRank(1), ProfileData.getRank(2), ProfileData.getShip(1), ProfileData.getShip(2), ProfileData.getPlayerName(1), ProfileData.getPlayerName(2), currentPlayer, turns, chrono, bg);
+                        SauvegardePartie sauvegardePartie = new SauvegardePartie(gridPane, ProfileData.getAvatar(1), ProfileData.getAvatar(2), ProfileData.getRank(1), ProfileData.getRank(2), ProfileData.getShip(1), ProfileData.getShip(2), ProfileData.getPlayerName(1), ProfileData.getPlayerName(2), currentPlayer, turns, chrono, bg,ia,difficulty);
                         sauvegardePartie.sauvegarderDansFichier(filePath);
                         Menu menu = new Menu();
                         menu.afficherMenu(primaryStage);
