@@ -9,6 +9,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import org.example.milleniumproject.model.AudioData;
+import org.example.milleniumproject.presentation.BG;
 import org.example.milleniumproject.model.BackButtons;
 import org.example.milleniumproject.model.MusicPlayer;
 import org.example.milleniumproject.model.SoundPlayer;

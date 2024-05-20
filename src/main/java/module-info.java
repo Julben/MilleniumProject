@@ -7,7 +7,6 @@ module org.example.milleniumproject {
     requires javafx.swing;
     requires java.sql;
 
-
     opens org.example.milleniumproject to javafx.fxml;
     exports org.example.milleniumproject;
     exports org.example.milleniumproject.model;
@@ -17,4 +16,3 @@ module org.example.milleniumproject {
     exports org.example.milleniumproject.presentation;
     opens org.example.milleniumproject.presentation to javafx.fxml;
 }
-

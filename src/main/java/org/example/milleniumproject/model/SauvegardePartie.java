@@ -47,6 +47,7 @@ public class SauvegardePartie {
      * @param chronoselect  La sélection du chronomètre.
      * @param BGselect      La sélection de l'arrière-plan.
      */
+    
     public SauvegardePartie(GridPane gridPane,String avatar1,String avatar2,String rank1,String rank2, String ship1, String ship2, String name1, String name2,int currentPlayer,int turn,int chronoselect,int BGselect,boolean ia, int difficulty) {
         this.gridPane = gridPane;
         this.currentPlayer = currentPlayer;

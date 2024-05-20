@@ -53,7 +53,7 @@ public class Campagne extends Pane {
 
         } else {
             System.out.println("Campaign finished, playing end video.");
-            playVideo("/VideoChargement.mp4", () -> {
+            playVideo("src/main/resources/VideoFinCampagne.mp4", () -> {
                 primaryStage.close();
             });
         }

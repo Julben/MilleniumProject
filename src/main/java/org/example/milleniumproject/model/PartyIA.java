@@ -33,7 +33,6 @@ import static org.example.milleniumproject.model.Methodeia.disableMouseInteracti
 import static org.example.milleniumproject.model.Movement.*;
 import static org.example.milleniumproject.model.Placement.*;
 import static org.example.milleniumproject.model.RemovePiece.*;
-
 import javafx.scene.control.Button;
 import org.example.milleniumproject.presentation.BG;
 import org.example.milleniumproject.presentation.RectangleConstructor;
