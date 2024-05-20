@@ -54,6 +54,9 @@ public class PartyIA extends StackPane {
     private HBox hbox2;
     private int remainingSeconds = 30;
     static Timeline timeline;
+    private int difficulty;
+    private int selectedIndexchrono;
+    private int selectedIndex;
     private Button selectedButton = null;
     static List<Button> buttonsJ1 = new ArrayList<>();
     static List<Button> buttonsJ2 = new ArrayList<>();
@@ -106,8 +109,6 @@ public class PartyIA extends StackPane {
         rectangleMap.put("AJV", ajv); rectangleMap.put("DKS", dks); rectangleMap.put("GLP", glp); rectangleMap.put("BEH", beh);
         rectangleMap.put("QTW", qtw); rectangleMap.put("IMR", imr); rectangleMap.put("FNU", fnu); rectangleMap.put("COX", cox);
 
-        int selectedIndex;
-
         if (currentRound == 0){
             selectedIndex = 0;
         }else if (currentRound == 1){
@@ -127,8 +128,6 @@ public class PartyIA extends StackPane {
         BG ground = new BG(backgroundImage);
         setBackground(ground.getCustomBackground());
 
-        int selectedIndexchrono;
-
         String chrono;
 
         if(currentRound == 0){
@@ -143,6 +142,12 @@ public class PartyIA extends StackPane {
             chrono = "30";
         } else{
             chrono = "60";
+        }
+
+        if (currentRound == 0){
+            difficulty=0;
+        }else{
+            difficulty=1;
         }
 
         int[] remainingSeconds1 = {Integer.parseInt(chrono)};
@@ -276,7 +281,7 @@ public class PartyIA extends StackPane {
 
         int selectedIndexchrono = PreParty.getSelectedIndexchrono(toggleGroup2, hbox2);
 
-        int diffliculty = PrePartyIA.getSelectedIndexDifficulty(toggleGroup1, hbox1);
+        difficulty = PrePartyIA.getSelectedIndexDifficulty(toggleGroup1, hbox1);
 
         String chrono;
 
@@ -387,7 +392,7 @@ public class PartyIA extends StackPane {
                 Button button = (Button) node;
                 button.setOnAction(e -> {
                     SoundPlayer.soundPlay();
-                    handleButtonClick(button, gridPane, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono, primaryStage, diffliculty);
+                    handleButtonClick(button, gridPane, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono, primaryStage, difficulty);
                 });
             }
         }
@@ -878,13 +883,16 @@ public class PartyIA extends StackPane {
 
         quitter.setOnAction(e -> {
             SoundPlayer.soundPlay();
+            //menu.setVisible(false);
+            quitterMenu = quitterMenuChoose(primaryStage,gridPane,currentPlayer,turns,selectedIndexchrono,selectedIndex,difficulty);
             quitterMenu.setVisible(true);
         });
 
-        quitterMenu = ButtonPause.boutonquitter(primaryStage);
+        //quitterMenu = ButtonPause.boutonquittersave(primaryStage);
+        quitterMenu = quitterMenuChoose(primaryStage,gridPane,currentPlayer,turns,selectedIndexchrono,selectedIndex,difficulty);
 
         // Ajout des boutons au menu
-        menu.getChildren().addAll(resumeButton, regles, parametres, quitter);
+        menu.getChildren().addAll(resumeButton, regles, parametres, quitter,quitterMenu);
 
         // Stylisation du menu pause avec un arrière-plan semi-transparent
         menu.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7)");
@@ -894,4 +902,61 @@ public class PartyIA extends StackPane {
 
         return menu;
     }
+
+    public VBox quitterMenuChoose(Stage primaryStage,GridPane gridPane, int currentPlayer , int turns, int chrono , int bg, int difficulty) {
+        VBox newQuitterMenu;
+
+        if (turns <= 17) {
+            newQuitterMenu = ButtonPause.boutonquitter(primaryStage);
+        } else {
+            newQuitterMenu = ButtonPause.boutonquittersave(primaryStage,gridPane,chrono,bg,true,difficulty);
+        }
+
+        // Mettre à jour quitterMenu en supprimant l'ancien et en ajoutant le nouveau
+        if (quitterMenu != null) {
+            getChildren().remove(quitterMenu);
+        }
+        quitterMenu = newQuitterMenu;
+        getChildren().add(quitterMenu);
+
+        return quitterMenu;
+    }
+
+    /*public void LoadParty(Stage primaryStage, String nameFile){
+        List<Object> allInfo = chargerPartie.chargerPartieDepuisFichier(nameFile);
+        String avatar1 = (String) allInfo.get(0);
+        String rank1 = (String) allInfo.get(2);
+        String ship1 = (String) allInfo.get(4);
+        String name1 = (String) allInfo.get(6);
+        int currentPlayer = (int) allInfo.get(8);
+        int turns = (int) allInfo.get(9);
+        int selectedIndexchrono =2;
+        int selectedIndex = (int) allInfo.get(11);
+        List<String> pictureButton = (List<String>) allInfo.get(12);
+        List<Button> buttonSave = new ArrayList<>();
+        //setPlayerInfo(primaryStage,selectedIndexchrono,selectedIndex,avatar1,avatar2,name1,name2,rank1,rank2,currentPlayer,turns);
+
+        for (int i = 0; i < buttonLabels.length; i++) {
+            Button button = createStyledButton(buttonLabels[i]);
+            if (pictureButton.get(i)!="null") {
+                Image image = new Image(pictureButton.get(i));
+                ImageView imageView = new ImageView(image);
+                imageView.setFitWidth(0.04*screenWidth);
+                imageView.setFitHeight(0.07104*screenHeight);
+                button.setGraphic(imageView);
+                buttonSave.add(button);
+                if(ship1.equals(pictureButton.get(i))){
+                    buttonsJ1.add(button);
+                }else{
+                    buttonsJ2.add(button);
+                }
+            } else {
+                button.setGraphic(null);
+                buttonSave.add(button);
+            }
+        }
+
+        Party party = new Party(primaryStage,selectedIndexchrono,selectedIndex,avatar1,name1,rank1,currentPlayer,turns, buttonSave, buttonsJ1 , buttonsJ2);
+        primaryStage.getScene().setRoot(party);
+    }*/
 }

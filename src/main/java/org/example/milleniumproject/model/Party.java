@@ -806,7 +806,7 @@ public class Party extends StackPane {
         if (turns <= 17) {
             newQuitterMenu = ButtonPause.boutonquitter(primaryStage);
         } else {
-            newQuitterMenu = ButtonPause.boutonquittersave(primaryStage,gridPane,chrono,bg);
+            newQuitterMenu = ButtonPause.boutonquittersave(primaryStage,gridPane,chrono,bg,false,0);
         }
 
         // Mettre à jour quitterMenu en supprimant l'ancien et en ajoutant le nouveau
