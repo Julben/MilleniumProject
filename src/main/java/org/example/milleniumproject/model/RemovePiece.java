@@ -17,7 +17,6 @@ import static org.example.milleniumproject.model.PartyIA.*;
 public class RemovePiece {
 
     static void removePiece(StackPane root, Button button, Timeline timeline2, Label timerLabel2, String chrono, int[] remainingSeconds2, Timeline timeline1, Stage primaryStage) {
-        // Vérifier si le bouton cliqué contient une image
         if (button.getGraphic() instanceof ImageView) {
             if(currentPlayer==1) {
                 for(Button b : buttonsJ2){
@@ -91,7 +90,6 @@ public class RemovePiece {
             Random random = new Random();
             String[] randomAlignment = finalValidAlignments.get(random.nextInt(finalValidAlignments.size()));
 
-            // Filtrer les boutons appartenant à buttonsJ1 dans l'alignement sélectionné
             List<Button> j1ButtonsInAlignment = new ArrayList<>();
             for (String buttonId : randomAlignment) {
                 Button button1 = getButtonById(buttonId);
@@ -110,7 +108,6 @@ public class RemovePiece {
             Random random = new Random();
             String[] randomAlignment = finalAlignments.get(random.nextInt(finalAlignments.size()));
 
-            // Filtrer les boutons appartenant à buttonsJ1 dans l'alignement sélectionné
             List<Button> j1ButtonsInAlignment = new ArrayList<>();
             for (String buttonId : randomAlignment) {
                 Button button1 = getButtonById(buttonId);
@@ -131,13 +128,11 @@ public class RemovePiece {
     }
 
     public static void checkPerfectAlignments() {
-        // Boucle sur chaque élément de alignments
         for (String[] alignment : alignments) {
             int count = 0;
             Button buttonWithoutImage = null;
             List<Button> buttonsInAlignment = new ArrayList<>();
 
-            // Identifier le bouton sans image et collecter les boutons présents dans l'alignement
             for (String buttonId : alignment) {
                 Button button = getButtonById(buttonId);
                 if (button != null && button.getGraphic() == null) {
@@ -151,26 +146,21 @@ public class RemovePiece {
                 }
             }
 
-            // Si on a exactement deux boutons dans buttonsJ2 et un bouton sans image
             if (count == 2 && buttonWithoutImage != null) {
                 String buttonIdWithoutImage = buttonWithoutImage.getId();
                 boolean hasValidNeighbour = false;
 
-                // Vérifier les voisins du bouton sans image dans neighbourList
                 for (String[] neighbourPair : neighbourList) {
                     if (neighbourPair[0].equals(buttonIdWithoutImage) || neighbourPair[1].equals(buttonIdWithoutImage)) {
                         String neighbourId = neighbourPair[0].equals(buttonIdWithoutImage) ? neighbourPair[1] : neighbourPair[0];
                         Button neighbourButton = getButtonById(neighbourId);
 
-                        // Vérifier si le voisin appartient à buttonsJ2 et n'est pas déjà dans l'alignement
                         if (neighbourButton != null && buttonsJ1.contains(neighbourButton) && !buttonsInAlignment.contains(neighbourButton)) {
                             hasValidNeighbour = true;
                             break;
                         }
                     }
                 }
-
-                // Si un voisin valide est trouvé, ajouter l'alignement à la liste finale
                 if (hasValidNeighbour) {
                     finalValidAlignments.add(alignment);
                 }
@@ -179,12 +169,10 @@ public class RemovePiece {
     }
 
     public static void checkAlignments(){
-        // Boucle sur chaque élément de alignments
         for (String[] alignment : alignments) {
             int count = 0;
             Button buttonWithoutImage = null;
 
-            // Identifier le bouton sans image et compter les boutons présents dans buttonsJ1
             for (String buttonId : alignment) {
                 Button button = getButtonById(buttonId);
                 if (button != null && button.getGraphic() == null) {
@@ -194,8 +182,6 @@ public class RemovePiece {
                     count++;
                 }
             }
-
-            // Si on a exactement deux boutons dans buttonsJ1 et un bouton sans image
             if (count == 2 && buttonWithoutImage != null) {
                 finalAlignments.add(alignment);
             }

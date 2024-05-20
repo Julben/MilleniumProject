@@ -7,10 +7,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.example.milleniumproject.model.Party;
-import org.example.milleniumproject.model.PartyIA;
 
 public class VideoPlayer extends StackPane {
     private MediaPlayer mediaPlayer;
@@ -41,7 +38,6 @@ public class VideoPlayer extends StackPane {
             }
         }
     }
-
     public void playVideo(Runnable onEnd) {
         mediaPlayer.setOnEndOfMedia(() -> {
             mediaPlayer.seek(Duration.ZERO);

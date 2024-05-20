@@ -8,7 +8,6 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import java.util.Arrays;
 import java.util.List;
-
 import static org.example.milleniumproject.model.EndParty.FinPartie;
 import static org.example.milleniumproject.model.PartyIA.*;
 import static org.example.milleniumproject.model.RemovePiece.*;
@@ -19,11 +18,9 @@ public class Placement {
 
         Button randomButton = getEmptyButton(gridPane);
 
-        // Placer l'image de l'IA sur le bouton sélectionné
         placePlayerImage(randomButton, rightVBox, timeline1, timeline2, remainingSeconds2, timerLabel2, chrono);
         buttonsJ2.add(randomButton);
 
-        // Vérifier les combinaisons après chaque placement de pion
         checkButtonCombinations();
         if (isRemovePieceMode) {
             Button randomFreeButton = getRandomFreeButtonJ1();
@@ -46,7 +43,6 @@ public class Placement {
 
     static void makeHardPlacement(StackPane root, Button button,GridPane gridPane, Timeline timeline1, Timeline timeline2, int[] remainingSeconds2, Label timerLabel2, Label timerLabel1, String chrono, Stage primaryStage, int difficulty) {
 
-        // Vérifier si le joueur 1 est sur le point de faire un alignement
         String buttonToFill =  checkAlignment(buttonsJ2);
         String buttonToBlock = checkAlignment(buttonsJ1);
 
@@ -61,19 +57,15 @@ public class Placement {
             buttonsJ2.add(buttonToPlace);
         }
         else {
-            // Si aucun alignement à bloquer, utiliser la méthode précédente pour placer le pion
             Button buttonToPlace = getPriorityButtonToPlace();
 
-            // Si aucun bouton prioritaire n'est disponible, placer un pion aléatoire comme avant
             if (buttonToPlace == null) {
                 buttonToPlace = getEmptyButton(gridPane);
             }
 
-            // Placer l'image de l'IA sur le bouton sélectionné
             placePlayerImage(buttonToPlace, rightVBox, timeline1, timeline2, remainingSeconds2, timerLabel2, chrono);
             buttonsJ2.add(buttonToPlace);
         }
-        // Vérifier les combinaisons après chaque placement de pion
         checkButtonCombinations();
 
         if (isRemovePieceMode) {
@@ -99,22 +91,17 @@ public class Placement {
             int emptyCount = 0;
             String emptyButton = null;
 
-            // Parcourir les boutons de l'alignement
             for (String buttonId : alignment) {
                 Button button = getButtonById(buttonId);
                 if (button != null) {
                     if (isButtonOccupiedByPlayer(button, playerButtons)) {
-                        // Si le joueur a déjà placé un pion dans cette case, incrémenter le compteur
                         playerCount++;
                     } else if (!isButtonOccupied(button)) {
-                        // Sinon, enregistrer le bouton vide
                         emptyCount++;
                         emptyButton = buttonId;
                     }
                 }
             }
-
-            // Si le joueur a deux pions alignés et une case vide dans cet alignement, retourner la case vide pour bloquer l'alignement
             if (playerCount == 2 && emptyCount == 1) {
                 return emptyButton;
             }
@@ -124,28 +111,24 @@ public class Placement {
 
 
     static boolean isButtonOccupiedByPlayer(Button button, List<Button> playerButtons) {
-        // Vérifier si le bouton est occupé par le joueur correspondant à la liste spécifiée
         return playerButtons.contains(button);
     }
 
 
 
     static Button getPriorityButtonToPlace() {
-        // Liste des boutons prioritaires à placer
         List<Button> priorityButtons = Arrays.asList(getButtonById("K"), getButtonById("E"), getButtonById("N"), getButtonById("T"));
 
-        // Parcourir la liste des boutons prioritaires
         for (Button button : priorityButtons) {
             if (button != null && !isButtonOccupied(button)) {
-                return button; // Retourner le premier bouton disponible trouvé
+                return button;
             }
         }
 
-        return null; // Aucun bouton prioritaire disponible
+        return null;
     }
 
     static boolean isButtonOccupied(Button button) {
-        // Vérifier si le bouton est occupé par un joueur
         return button.getGraphic() != null;
     }
 }

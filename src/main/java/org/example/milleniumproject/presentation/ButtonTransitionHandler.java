@@ -14,7 +14,6 @@ public class ButtonTransitionHandler {
         if (clickedButton.getGraphic() == null && selectedButton != null) {
             ImageView imageView = (ImageView) selectedButton.getGraphic();
             if (imageView != null) {
-                // Ajouter l'animation de déplacement
                 Point2D start = selectedButton.localToScene(selectedButton.getWidth() / 2 - imageView.getFitWidth() / 2,
                         selectedButton.getHeight() / 2 - imageView.getFitHeight() / 2);
                 Point2D end = clickedButton.localToScene(clickedButton.getWidth() / 2 - imageView.getFitWidth() / 2,
@@ -35,7 +34,6 @@ public class ButtonTransitionHandler {
                     buttons.add(clickedButton);
                     onComplete.run();
                 });
-
                 transition.play();
             }
         }

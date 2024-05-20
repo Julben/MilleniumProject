@@ -6,7 +6,6 @@ import java.util.prefs.Preferences;
  * Classe permettant de gérer les données des profils des joueurs.
  */
 public class ProfileData {
-    // Préférences pour stocker les données des profils
     private static final Preferences preferences = Preferences.userNodeForPackage(ProfileData.class);
 
     /**

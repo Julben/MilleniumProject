@@ -56,7 +56,7 @@ public class Party extends StackPane {
     private boolean placementisfinished = false;
     private boolean isRemovePieceMode = false;
     boolean boutonlibre = false;
-    private VBox pauseMenu; // Conteneur pour le menu pause
+    private VBox pauseMenu;
     private VBox quitterMenu;
     private int selectIndexBG;
     private EndParty endparty = new EndParty();
@@ -109,7 +109,6 @@ public class Party extends StackPane {
     RectangleConstructor qtw = new RectangleConstructor(0.04297 * screenWidth, 0.27917 * screenHeight, 0.00078 * screenWidth, 0.19861 * screenHeight);
     Rectangle QTW = qtw.getRectangle();
 
-    // Initialisez votre carte pour mapper les noms des rectangles à leurs instances
     Map<String, RectangleConstructor> rectangleMap = new HashMap<>();
 
     public Party() {
@@ -168,10 +167,10 @@ public class Party extends StackPane {
 
         for (int i = 0; i < buttonLabels.length; i++) {
             Button button = buttonSave.get(i);
-            button.setPrefSize(0.03906 * Constant.screenWidth, 0.069444 * Constant.screenHeight); // Taille préférée des boutons
+            button.setPrefSize(0.03906 * Constant.screenWidth, 0.069444 * Constant.screenHeight);
             button.setMinSize(0.03906 * Constant.screenWidth, 0.069444 * Constant.screenHeight);
             button.setMaxSize(0.03906 * Constant.screenWidth, 0.069444 * Constant.screenHeight);
-            button.setStyle("-fx-background-color: transparent"); // Fond transparent
+            button.setStyle("-fx-background-color: transparent");
             button.setTextFill(Color.TRANSPARENT);
 
             gridPane.add(button, colIndices[i], rowIndices[i]);
@@ -230,7 +229,7 @@ public class Party extends StackPane {
         leftVBox = ProfilParty.createVBoxWithImages(vaisseau1, 9);
         rightVBox = ProfilParty.createVBoxWithImages(vaisseau2, 9);
 
-        HBox hBox = new HBox(0.6 * Constant.screenWidth); // Espacement horizontal entre les Vbox
+        HBox hBox = new HBox(0.6 * Constant.screenWidth);
         hBox.getChildren().addAll(leftVBox, rightVBox);
         hBox.setAlignment(Pos.CENTER);
 
@@ -280,9 +279,9 @@ public class Party extends StackPane {
         Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2, endparty, primaryStage,currentPlayer);
 
         gridPane = new GridPane();
-        gridPane.setHgap(0.0171875 * screenWidth); // Espacement horizontal entre les boutons
-        gridPane.setVgap(0.0305556 * screenHeight); // Espacement vertical entre les boutons
-        gridPane.setAlignment(Pos.CENTER); // Positionnement au centre de la StackPane
+        gridPane.setHgap(0.0171875 * screenWidth);
+        gridPane.setVgap(0.0305556 * screenHeight);
+        gridPane.setAlignment(Pos.CENTER);
 
         for (int i = 0; i < buttonLabels.length; i++) {
             Button button = createStyledButton(buttonLabels[i]);
@@ -302,15 +301,14 @@ public class Party extends StackPane {
         setAlignment(profileBox2, Pos.BOTTOM_RIGHT);
 
         // Création du bouton pause avec une image
-        Image pauseImage = new Image("pause.png"); // Remplacez "chemin/vers/votre/image.png" par le chemin de votre image
+        Image pauseImage = new Image("pause.png");
         ImageView imageView = new ImageView(pauseImage);
-        imageView.setFitWidth(0.025 * screenWidth); // Ajustez la largeur de l'image selon vos besoins
-        imageView.setFitHeight(0.04444 * screenHeight); // Ajustez la hauteur de l'image selon vos besoins
+        imageView.setFitWidth(0.025 * screenWidth);
+        imageView.setFitHeight(0.04444 * screenHeight);
 
         Button pauseButton = new Button();
-        pauseButton.setGraphic(imageView); // Définit l'image comme graphique du bouton
+        pauseButton.setGraphic(imageView);
 
-        // Rendre l'arrière-plan du bouton invisible
         pauseButton.setStyle("-fx-background-color: transparent");
 
         pauseButton.setOnAction(ev -> {
@@ -318,10 +316,8 @@ public class Party extends StackPane {
             timeline1.pause();
             timeline2.pause();
             pauseMenu.setVisible(true);
-            //quitterMenuChoose(primaryStage);
         });
 
-        // Positionnement du bouton pause en haut à droite
         StackPane.setAlignment(pauseButton, Pos.TOP_RIGHT);
         setMargin(pauseButton, new Insets(0.0138889 * screenHeight, 0.0078 * screenWidth, 0, 0));
 
@@ -334,7 +330,6 @@ public class Party extends StackPane {
 
         timeline1.play();
 
-        // Gestionnaire d'événements pour les boutons du GridPane
         for (Node node : gridPane.getChildren()) {
             if (node instanceof Button) {
                 Button button = (Button) node;
@@ -346,11 +341,9 @@ public class Party extends StackPane {
         }
     }
 
-    // Méthode pour gérer le clic sur le bouton
     private void handleButtonClick(Button button, GridPane gridpane, Timeline timeline1, Timeline timeline2, Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2, String chrono, Stage primaryStage) {
 
         if (isRemovePieceMode) {
-            // Si le mode de suppression de pion est activé
             removePiece(button);
 
             if (currentPlayer == 1) {
@@ -359,7 +352,6 @@ public class Party extends StackPane {
                 ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
             }
 
-            // Vérifier si la partie est terminée
             if (placementisfinished) {
                 if (isGameFinished()) {
                     timeline.stop();
@@ -369,13 +361,10 @@ public class Party extends StackPane {
                 }
             }
         } else {
-            // Vérifier si le bouton n'a pas déjà d'image et si tous les tours n'ont pas été joués
             if (button.getGraphic() == null && turns < 18) {
-                // Placer l'image du joueur sur le bouton en fonction du joueur actuel
                 if (currentPlayer == 1) {
                     placePlayerImage(button, leftVBox);
                     buttonsJ1.add(button);
-                    // Vérifier les combinaisons après chaque placement de pion
                     checkButtonCombinations();
                     if (isRemovePieceMode) {
                         currentPlayer = 1;
@@ -388,7 +377,6 @@ public class Party extends StackPane {
                 } else {
                     placePlayerImage(button, rightVBox);
                     buttonsJ2.add(button);
-                    // Vérifier les combinaisons après chaque placement de pion
                     checkButtonCombinations();
                     if (isRemovePieceMode) {
                         currentPlayer = 2;
@@ -401,7 +389,6 @@ public class Party extends StackPane {
                 }
             } else if (turns >= 18) {
                 placementisfinished = true;
-                // Vérifier si le bouton cliqué appartient à la liste des boutons autorisés à être sélectionnés par le joueur actuel
                 if (currentPlayer == 1 && (buttonsJ1.contains(button) || button.getGraphic() == null)) {
                     handleSelection(buttonsJ1, button, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono);
                     ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
@@ -410,7 +397,6 @@ public class Party extends StackPane {
                     ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
                 }
 
-                // Vérifier si la partie est terminée
                 if (isGameFinished()) {
                     timeline.stop();
                     timeline1.stop();
@@ -421,14 +407,10 @@ public class Party extends StackPane {
         }
     }
 
-    // Méthode pour placer l'image du joueur sur un bouton
     private void placePlayerImage(Button button, VBox playerVBox) {
-        // Obtenir le GridPane enfant de la VBox
         GridPane gridPane = (GridPane) playerVBox.getChildren().get(0);
 
-        // Vérifier si le GridPane contient des images
         if (!gridPane.getChildren().isEmpty()) {
-            // Récupérer l'image correspondant à l'index du joueur actuel
             ImageView imageView = (ImageView) gridPane.getChildren().get(0);
             button.setGraphic(imageView);
             gridPane.getChildren().remove(imageView);
@@ -453,7 +435,6 @@ public class Party extends StackPane {
                     resetButtonColorsForMovedButton(finalSelectedButton);
                     checkButtonCombinations();
 
-                    // Réinitialiser le chronomètre après une transition réussie
                     if (!isRemovePieceMode) {
                         currentPlayer = currentPlayer == 1 ? 2 : 1;
                         if (currentPlayer == 1) {
@@ -476,16 +457,13 @@ public class Party extends StackPane {
         }
     }
 
-    // Méthode pour réinitialiser la couleur des boutons de la ligne/colonne où le dernier bouton a été déplacé si les trois boutons de l'alignement sont verts
     private void resetButtonColorsForMovedButton(Button movedButton) {
         String nomButton = movedButton.getText();
         for (Map.Entry<String, RectangleConstructor> entry : rectangleMap.entrySet()) {
             String rectangleName = entry.getKey();
             RectangleConstructor rectangleConstructor = entry.getValue();
 
-            // Itérer sur chaque caractère du nom du rectangle
             for (int i = 0; i < rectangleName.length(); i++) {
-                // Vérifier si le caractère du nom du rectangle est égal au nom du bouton et si le rectangle est vert
                 if (rectangleName.charAt(i) == nomButton.charAt(0) && rectangleConstructor.getStrokeColor() == GREEN) {
                     rectangleConstructor.setStrokeColor(TRANSPARENT);
                 }
@@ -493,7 +471,6 @@ public class Party extends StackPane {
         }
     }
 
-    // Méthode pour vérifier les combinaisons de boutons et changer leur couleur si une combinaison est trouvée
     private void checkButtonCombinations() {
         for (String[] combination : alignments) {
             if (checkAndChangeButtonColor(combination[0], combination[1], combination[2])) {
@@ -502,12 +479,10 @@ public class Party extends StackPane {
         }
     }
 
-    // Méthode pour vérifier si deux boutons sont voisins
     public static boolean isNeighbourButton(Button button1, Button button2) {
         String id1 = button1.getId();
         String id2 = button2.getId();
 
-        // Vérifier si les boutons sont dans la liste des voisins
         for (String[] neighbours : neighbourList) {
             if ((neighbours[0].equals(id1) && neighbours[1].equals(id2)) ||
                     (neighbours[0].equals(id2) && neighbours[1].equals(id1))) {
@@ -518,7 +493,6 @@ public class Party extends StackPane {
     }
 
 
-    // Méthode pour changer le style d'un bouton sélectionné
     public static void selectButton(Button button) {
         button.setStyle("-fx-background-color: yellow; -fx-background-radius: 50%");
         ImageView originalImageView = (ImageView) button.getGraphic();
@@ -526,7 +500,6 @@ public class Party extends StackPane {
         originalImageView.setScaleY(1.5);
     }
 
-    // Méthode pour changer le style d'un bouton désélectionné
     public static void deselectButton(Button button) {
         button.setStyle("-fx-background-color: transparent"); // Bordure transparente
         if (button.getGraphic() != null) {
@@ -536,7 +509,6 @@ public class Party extends StackPane {
         }
     }
 
-    // Méthode pour vérifier les combinaisons de boutons et changer leur couleur si une combinaison est trouvée
     private boolean checkAndChangeButtonColor(String buttonId1, String buttonId2, String buttonId3) {
         Button button1 = getButtonById(buttonId1);
         Button button2 = getButtonById(buttonId2);
@@ -559,7 +531,6 @@ public class Party extends StackPane {
         return false;
     }
 
-    // Méthode pour récupérer un bouton à partir de son identifiant
     private Button getButtonById(String buttonId) {
         ObservableList<Node> children = gridPane.getChildren();
         for (Node node : children) {
@@ -574,9 +545,7 @@ public class Party extends StackPane {
     }
 
 
-    // Méthode pour retirer un pion adverse
     private void removePiece(Button button) {
-        // Vérifier si le bouton cliqué contient une image
         if (button.getGraphic() instanceof ImageView) {
             if (currentPlayer == 1) {
                 for (Button b : buttonsJ2) {
@@ -626,31 +595,26 @@ public class Party extends StackPane {
             String rectangleName = entry.getKey();
             RectangleConstructor rectangleConstructor = entry.getValue();
 
-            // Itérer sur chaque caractère du nom du rectangle
             for (int i = 0; i < rectangleName.length(); i++) {
-                // Vérifier si le caractère du nom du rectangle est égal au nom du bouton et si le rectangle est vert
                 if (rectangleName.charAt(i) == nomButton.charAt(0) && rectangleConstructor.getStrokeColor() == GREEN) {
                     compteur++;
                 }
             }
         }
-        // Vérifier si le compteur atteint 2 (ce qui signifie que les deux bords verts sont trouvés)
         return compteur > 0;
     }
 
-    // Méthode pour créer et styliser les boutons
     private Button createStyledButton(String label) {
         Button button = new Button(label);
         button.setId(label);
-        button.setPrefSize(0.03906 * screenWidth, 0.069444 * screenHeight); // Taille préférée des boutons
+        button.setPrefSize(0.03906 * screenWidth, 0.069444 * screenHeight);
         button.setMinSize(0.03906 * screenWidth, 0.069444 * screenHeight);
         button.setMaxSize(0.03906 * screenWidth, 0.069444 * screenHeight);
-        button.setStyle("-fx-background-color: transparent"); // Fond transparent
+        button.setStyle("-fx-background-color: transparent");
         button.setTextFill(Color.TRANSPARENT);
         return button;
     }
 
-    // Méthode pour vérifier si tous les pions d'un joueur ont au moins un voisin libre
     private boolean hasPlayerFreeNeighbours(List<Button> playerButtons) {
         for (Button button : playerButtons) {
             if (hasFreeNeighbour(button)) {
@@ -660,7 +624,6 @@ public class Party extends StackPane {
         return false;
     }
 
-    // Méthode pour vérifier si un bouton a au moins un voisin libre
     private boolean hasFreeNeighbour(Button button) {
         String id = button.getId();
         for (String[] neighbours : neighbourList) {
@@ -675,20 +638,17 @@ public class Party extends StackPane {
         return false;
     }
 
-    // Méthode pour vérifier si la partie est terlinée
     private boolean isGameFinished() {
-        // Vérifier si un joueur a moins de 3 pions restants
         if (currentPlayer == 1) {
             if (buttonsJ1.size() < 3) {
-                return true; // La partie est terminée si le joueur 1 a moins de 3 pions
+                return true;
             }
         } else {
             if (buttonsJ2.size() < 3) {
-                return true; // La partie est terminée si le joueur 2 a moins de 3 pions
+                return true;
             }
         }
 
-        // Vérifier si un joueur n'a plus de voisins libres
         if (currentPlayer == 1) {
             return !hasPlayerFreeNeighbours(buttonsJ1);
         } else {
@@ -697,10 +657,8 @@ public class Party extends StackPane {
     }
 
     public Timeline Chrono(Label timerLabel, int[] remainingSeconds, StackPane root, Stage primaryStage, int currentPlayer) {
-        // Déclarez la variable timeline ici
         final Timeline[] timeline = new Timeline[1];
 
-        // Initialisez la variable timeline
         timeline[0] = new Timeline(
                 new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
                     @Override
@@ -737,9 +695,8 @@ public class Party extends StackPane {
     }
 
     private VBox createPauseMenu(Stage primaryStage, Timeline timeline1, Timeline timeline2) {
-        VBox menu = new VBox(0.020833 * screenHeight); // Conteneur pour les boutons du menu pause
+        VBox menu = new VBox(0.020833 * screenHeight);
 
-        // Ajout des boutons nécessaires (Reprendre, Options, Quitter, etc.)
         Button resumeButton = new Button("Reprendre");
         Button regles = new Button("Règles");
         Button parametres = new Button("Paramètres");
@@ -750,13 +707,11 @@ public class Party extends StackPane {
         parametres.setFont(Font.font("Cardo", FontWeight.BOLD, 0.027778 * screenHeight));
         quitter.setFont(Font.font("Cardo", FontWeight.BOLD, 0.027778 * screenHeight));
 
-        // Stylisation des boutons du menu pause
         resumeButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
         regles.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white;");
         parametres.setStyle("-fx-background-color: #f44336; -fx-text-fill: white;");
         quitter.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white;");
 
-        // Ajout d'une action pour le bouton "Reprendre" pour masquer le menu pause
         resumeButton.setOnAction(e -> {
             SoundPlayer.soundPlay();
             if (currentPlayer == 1) {
@@ -767,10 +722,9 @@ public class Party extends StackPane {
             menu.setVisible(false);
         });
 
-        // Action du bouton "Règles" pour afficher les règles
         regles.setOnAction(e -> {
             SoundPlayer.soundPlay();
-            ButtonPause.afficherRegles(this); // Passer la racine de la scène pour ajouter la StackPane
+            ButtonPause.afficherRegles(this);
         });
 
         parametres.setOnAction(e -> {
@@ -780,21 +734,16 @@ public class Party extends StackPane {
 
         quitter.setOnAction(e -> {
             SoundPlayer.soundPlay();
-            //menu.setVisible(false);
             quitterMenu = quitterMenuChoose(primaryStage,gridPane,currentPlayer,turns,selectedIndexchrono,selectIndexBG);
             quitterMenu.setVisible(true);
         });
 
-        //quitterMenu = ButtonPause.boutonquittersave(primaryStage);
         quitterMenu = quitterMenuChoose(primaryStage,gridPane,currentPlayer,turns,selectedIndexchrono,selectIndexBG);
 
-        // Ajout des boutons au menu
         menu.getChildren().addAll(resumeButton, regles, parametres, quitter,quitterMenu);
 
-        // Stylisation du menu pause avec un arrière-plan semi-transparent
         menu.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7)");
 
-        // Positionnement du menu pause au centre de l'écran
         menu.setAlignment(Pos.CENTER);
 
         return menu;
@@ -809,7 +758,6 @@ public class Party extends StackPane {
             newQuitterMenu = ButtonPause.boutonquittersave(primaryStage,gridPane,chrono,bg,false,0);
         }
 
-        // Mettre à jour quitterMenu en supprimant l'ancien et en ajoutant le nouveau
         if (quitterMenu != null) {
             getChildren().remove(quitterMenu);
         }
@@ -836,7 +784,6 @@ public class Party extends StackPane {
         int selectedIndex = (int) allInfo.get(11);
         List<String> pictureButton = (List<String>) allInfo.get(12);
         List<Button> buttonSave = new ArrayList<>();
-        //setPlayerInfo(primaryStage,selectedIndexchrono,selectedIndex,avatar1,avatar2,name1,name2,rank1,rank2,currentPlayer,turns);
 
         for (int i = 0; i < buttonLabels.length; i++) {
             Button button = createStyledButton(buttonLabels[i]);
@@ -866,11 +813,9 @@ public class Party extends StackPane {
         return currentPlayer;
     }
 
-
     public int getTurns() {
         return turns;
     }
-
 
     public ToggleGroup getToggleGroup3() {
         return toggleGroup3;
@@ -892,8 +837,6 @@ public class Party extends StackPane {
         return timeline;
     }
 
-
-
     public GridPane getGridPane() {
         return gridPane;
     }
@@ -910,9 +853,7 @@ public class Party extends StackPane {
         return rectangleMap;
     }
 
-
-    public StackPane getEndParty() {
-        return null;
+    public StackPane getEndParty() {return null;
     }
 
     public void setRemovePieceMode(boolean removePieceMode) {

@@ -66,7 +66,7 @@ public class PartyIA extends StackPane {
     static boolean placementisfinished = false;
     static boolean isRemovePieceMode = false;
     static boolean boutonlibre = false;
-    private VBox pauseMenu; // Conteneur pour le menu pause
+    private VBox pauseMenu;
     private VBox quitterMenu;
     private boolean selected = false;
     private boolean change = false;
@@ -98,7 +98,6 @@ public class PartyIA extends StackPane {
     RectangleConstructor mno = new RectangleConstructor(0.15703*screenWidth, 0.07639*screenHeight, 0.11250*screenWidth, 0.00000*screenHeight); Rectangle MNO = mno.getRectangle();
     RectangleConstructor qtw = new RectangleConstructor(0.04297*screenWidth, 0.27917*screenHeight, 0.00078*screenWidth, 0.19861*screenHeight); Rectangle QTW = qtw.getRectangle();
 
-    // Initialisez votre carte pour mapper les noms des rectangles à leurs instances
     static Map<String, RectangleConstructor> rectangleMap = new HashMap<>();
 
     public PartyIA(Stage primaryStage,int currentRound) {
@@ -159,9 +158,9 @@ public class PartyIA extends StackPane {
         Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2, primaryStage,this);
 
         gridPane = new GridPane();
-        gridPane.setHgap(0.0171875*screenWidth); // Espacement horizontal entre les boutons
-        gridPane.setVgap(0.0305556*screenHeight); // Espacement vertical entre les boutons
-        gridPane.setAlignment(Pos.CENTER); // Positionnement au centre de la StackPane
+        gridPane.setHgap(0.0171875*screenWidth);
+        gridPane.setVgap(0.0305556*screenHeight);
+        gridPane.setAlignment(Pos.CENTER);
 
         String[] buttonLabels = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X"};
         int[] rowIndices = {0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 6};
@@ -183,7 +182,7 @@ public class PartyIA extends StackPane {
         leftVBox = ProfilParty.createVBoxWithImages(vaisseau1, 9);
         rightVBox = ProfilParty.createVBoxWithImages(vaisseau2, 9);
 
-        HBox hBox = new HBox(0.6 * Constant.screenWidth); // Espacement horizontal entre les Vbox
+        HBox hBox = new HBox(0.6 * Constant.screenWidth);
         hBox.getChildren().addAll(leftVBox, rightVBox);
         hBox.setAlignment(Pos.CENTER);
 
@@ -209,19 +208,16 @@ public class PartyIA extends StackPane {
         setAlignment(profileBox1, Pos.BOTTOM_LEFT);
         setAlignment(profileBox2, Pos.BOTTOM_RIGHT);
 
-        // Création du bouton pause avec une image
-        Image pauseImage = new Image("pause.png"); // Remplacez "chemin/vers/votre/image.png" par le chemin de votre image
+        Image pauseImage = new Image("pause.png");
         ImageView imageView = new ImageView(pauseImage);
-        imageView.setFitWidth(0.025*screenWidth); // Ajustez la largeur de l'image selon vos besoins
-        imageView.setFitHeight(0.04444*screenHeight); // Ajustez la hauteur de l'image selon vos besoins
+        imageView.setFitWidth(0.025*screenWidth);
+        imageView.setFitHeight(0.04444*screenHeight);
 
         Button pauseButton = new Button();
-        pauseButton.setGraphic(imageView); // Définit l'image comme graphique du bouton
+        pauseButton.setGraphic(imageView);
 
-        // Rendre l'arrière-plan du bouton invisible
         pauseButton.setStyle("-fx-background-color: transparent");
 
-        // Ajout d'une action pour afficher le menu pause lors du clic sur le bouton pause
         pauseButton.setOnAction(e -> {
             SoundPlayer.soundPlay();
             timeline1.pause();
@@ -229,7 +225,6 @@ public class PartyIA extends StackPane {
             pauseMenu.setVisible(true);
         });
 
-        // Positionnement du bouton pause en haut à droite
         StackPane.setAlignment(pauseButton, Pos.TOP_RIGHT);
         setMargin(pauseButton, new Insets(0.0138889*screenHeight, 0.0078*screenWidth, 0, 0));
 
@@ -241,7 +236,6 @@ public class PartyIA extends StackPane {
 
         timeline1.play();
 
-        // Gestionnaire d'événements pour les boutons du GridPane
         for (Node node : gridPane.getChildren()) {
             if (node instanceof Button) {
                 Button button = (Button) node;
@@ -327,7 +321,7 @@ public class PartyIA extends StackPane {
         leftVBox = ProfilParty.createVBoxWithImages(vaisseau1, 9);
         rightVBox = ProfilParty.createVBoxWithImages(vaisseau2, 9);
 
-        HBox hBox = new HBox(0.6 * Constant.screenWidth); // Espacement horizontal entre les Vbox
+        HBox hBox = new HBox(0.6 * Constant.screenWidth);
         hBox.getChildren().addAll(leftVBox, rightVBox);
         hBox.setAlignment(Pos.CENTER);
 
@@ -353,19 +347,16 @@ public class PartyIA extends StackPane {
         setAlignment(profileBox1, Pos.BOTTOM_LEFT);
         setAlignment(profileBox2, Pos.BOTTOM_RIGHT);
 
-        // Création du bouton pause avec une image
-        Image pauseImage = new Image("pause.png"); // Remplacez "chemin/vers/votre/image.png" par le chemin de votre image
+        Image pauseImage = new Image("pause.png");
         ImageView imageView = new ImageView(pauseImage);
-        imageView.setFitWidth(0.025*screenWidth); // Ajustez la largeur de l'image selon vos besoins
-        imageView.setFitHeight(0.04444*screenHeight); // Ajustez la hauteur de l'image selon vos besoins
+        imageView.setFitWidth(0.025*screenWidth);
+        imageView.setFitHeight(0.04444*screenHeight);
 
         Button pauseButton = new Button();
-        pauseButton.setGraphic(imageView); // Définit l'image comme graphique du bouton
+        pauseButton.setGraphic(imageView);
 
-        // Rendre l'arrière-plan du bouton invisible
         pauseButton.setStyle("-fx-background-color: transparent");
 
-        // Ajout d'une action pour afficher le menu pause lors du clic sur le bouton pause
         pauseButton.setOnAction(e -> {
             SoundPlayer.soundPlay();
             timeline1.pause();
@@ -373,7 +364,6 @@ public class PartyIA extends StackPane {
             pauseMenu.setVisible(true);
         });
 
-        // Positionnement du bouton pause en haut à droite
         StackPane.setAlignment(pauseButton, Pos.TOP_RIGHT);
         setMargin(pauseButton, new Insets(0.0138889*screenHeight, 0.0078*screenWidth, 0, 0));
 
@@ -385,7 +375,6 @@ public class PartyIA extends StackPane {
 
         timeline1.play();
 
-        // Gestionnaire d'événements pour les boutons du GridPane
         for (Node node : gridPane.getChildren()) {
             if (node instanceof Button) {
                 Button button = (Button) node;
@@ -397,7 +386,6 @@ public class PartyIA extends StackPane {
         }
     }
 
-    // Méthode pour gérer le clic sur le bouton
     private void handleButtonClick(Button button, GridPane gridpane, Timeline timeline1, Timeline timeline2, Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2, String chrono, Stage primaryStage, int diffliculty) {
 
         disableMouseInteractions(gridpane, false);
@@ -432,7 +420,6 @@ public class PartyIA extends StackPane {
                     }
                 }
 
-                // Vérifier si la partie est terminée
                 if(placementisfinished){
                     if (isGameFinished()) {
                         System.out.println("1");
@@ -442,13 +429,10 @@ public class PartyIA extends StackPane {
             }
         }
         else {
-            // Vérifier si le bouton n'a pas déjà d'image et si tous les tours n'ont pas été joués
             if (button.getGraphic() == null && turns < 18) {
-                // Placer l'image du joueur sur le bouton en fonction du joueur 1
                 if (currentPlayer == 1) {
                     placePlayerImage(button, leftVBox, timeline1, timeline2, remainingSeconds2, timerLabel2, chrono);
                     buttonsJ1.add(button);
-                    // Vérifier les combinaisons après chaque placement de pion
                     checkButtonCombinations();
                     if(isRemovePieceMode){
                         currentPlayer = 1;
@@ -478,11 +462,9 @@ public class PartyIA extends StackPane {
             }
             else if ( turns >= 18) {
                 placementisfinished = true;
-                // Vérifier si le bouton cliqué appartient à la liste des boutons autorisés à être sélectionnés par le joueur actuel
                 if (currentPlayer == 1 && (buttonsJ1.contains(button) || button.getGraphic() == null)) {
                     handleSelection(this, button, buttonsJ1, button, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono, primaryStage,gridpane, diffliculty);
                 }
-                // Vérifier si la partie est terminée
                 if (isGameFinished()) {
                     System.out.println("2");
                     FinPartie(this,timeline1, timeline2, primaryStage);
@@ -491,14 +473,10 @@ public class PartyIA extends StackPane {
         }
     }
 
-    // Méthode pour placer l'image du joueur sur un bouton
     static void placePlayerImage(Button button, VBox playerVBox, Timeline timeline1, Timeline timeline2, int[] remainingSeconds2, Label timerLabel2, String chrono) {
-        // Obtenir le GridPane enfant de la VBox
         GridPane gridPane = (GridPane) playerVBox.getChildren().get(0);
 
-        // Vérifier si le GridPane contient des images
         if (!gridPane.getChildren().isEmpty()) {
-            // Récupérer l'image correspondant à l'index du joueur actuel
             ImageView imageView = (ImageView) gridPane.getChildren().get(0);
             button.setGraphic(imageView);
             SoundPlayer.soundPlay();
@@ -535,14 +513,13 @@ public class PartyIA extends StackPane {
             if (node instanceof Button) {
                 emptyButton = (Button) node;
                 if (emptyButton.getGraphic() != null) {
-                    emptyButton = null; // Réinitialiser si le bouton n'est pas vide
+                    emptyButton = null;
                 }
             }
         } while (emptyButton == null);
         return emptyButton;
     }
 
-    // Méthode pour récupérer un bouton à partir de son identifiant
     static Button getButtonById(String buttonId) {
         ObservableList<Node> children = gridPane.getChildren();
         for (Node node : children) {
@@ -556,7 +533,6 @@ public class PartyIA extends StackPane {
         return null;
     }
 
-    // Méthode pour gérer la sélection du bouton
     private void handleSelection(StackPane root, Button button, List<Button> buttons, Button clickedButton, Timeline timeline1, Timeline timeline2, Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2, String chrono, Stage primaryStage,GridPane gridpane, int difficulty) {
         if (selectedButton == null) {
             if (buttons.contains(clickedButton) && placementisfinished) {
@@ -566,9 +542,7 @@ public class PartyIA extends StackPane {
             }
         }
         else {
-            // Vérifier si le bouton actuel est voisin du bouton sélectionné
             if (isNeighbourButton(selectedButton, clickedButton) || (buttons.size() == 3 && placementisfinished)) {
-                // Échanger les images des boutons
                 if (clickedButton.getGraphic() == null) {
                     ImageView imageView = (ImageView) selectedButton.getGraphic();
                     clickedButton.setGraphic(imageView);
@@ -578,10 +552,8 @@ public class PartyIA extends StackPane {
                     deselectButton(clickedButton);
                     change = true;
 
-                    // Après le déplacement, réinitialiser la couleur des boutons formant une ligne complète
                     resetButtonColorsForMovedButton(selectedButton);
 
-                    // Vérifier si une nouvelle ligne de trois pions a été formée après le déplacement
                     checkButtonCombinations();
 
                     if(!isRemovePieceMode) {
@@ -595,7 +567,6 @@ public class PartyIA extends StackPane {
                     }
                 }
             }
-            // Désélectionner le bouton sélectionné
             deselectButton(selectedButton);
             selectedButton = null;
             if (!change && buttons.contains(clickedButton)) {
@@ -662,16 +633,13 @@ public class PartyIA extends StackPane {
 
 
 
-    // Méthode pour réinitialiser la couleur des boutons de la ligne/colonne où le dernier bouton a été déplacé si les trois boutons de l'alignement sont verts
     static void resetButtonColorsForMovedButton(Button movedButton) {
         String nomButton = movedButton.getText();
         for (Map.Entry<String, RectangleConstructor> entry : rectangleMap.entrySet()) {
             String rectangleName = entry.getKey();
             RectangleConstructor rectangleConstructor = entry.getValue();
 
-            // Itérer sur chaque caractère du nom du rectangle
             for (int i = 0; i < rectangleName.length(); i++) {
-                // Vérifier si le caractère du nom du rectangle est égal au nom du bouton et si le rectangle est vert
                 if (rectangleName.charAt(i) == nomButton.charAt(0) && rectangleConstructor.getStrokeColor() == GREEN) {
                     rectangleConstructor.setStrokeColor(TRANSPARENT);
                 }
@@ -679,7 +647,6 @@ public class PartyIA extends StackPane {
         }
     }
 
-    // Méthode pour vérifier les combinaisons de boutons et changer leur couleur si une combinaison est trouvée
     static boolean checkAndChangeButtonColor(String buttonId1, String buttonId2, String buttonId3) {
         Button button1 = getButtonById(buttonId1);
         Button button2 = getButtonById(buttonId2);
@@ -705,7 +672,6 @@ public class PartyIA extends StackPane {
 
 
 
-    // Méthode pour vérifier les combinaisons de boutons et changer leur couleur si une combinaison est trouvée
     static void checkButtonCombinations() {
         int compteur = 0;
         for (String[] combination : alignments) {
@@ -725,24 +691,19 @@ public class PartyIA extends StackPane {
             String rectangleName = entry.getKey();
             RectangleConstructor rectangleConstructor = entry.getValue();
 
-            // Itérer sur chaque caractère du nom du rectangle
             for (int i = 0; i < rectangleName.length(); i++) {
-                // Vérifier si le caractère du nom du rectangle est égal au nom du bouton et si le rectangle est vert
                 if (rectangleName.charAt(i) == nomButton.charAt(0) && rectangleConstructor.getStrokeColor() == GREEN) {
                     compteur++;
                 }
             }
         }
-        // Vérifier si le compteur atteint 2 (ce qui signifie que les deux bords verts sont trouvés)
         return compteur > 0;
     }
 
-    // Méthode pour vérifier si deux boutons sont voisins
     static boolean isNeighbourButton(Button button1, Button button2) {
         String id1 = button1.getId();
         String id2 = button2.getId();
 
-        // Vérifier si les boutons sont dans la liste des voisins
         for (String[] neighbours : neighbourList) {
             if ((neighbours[0].equals(id1) && neighbours[1].equals(id2)) ||
                     (neighbours[0].equals(id2) && neighbours[1].equals(id1))) {
@@ -752,7 +713,6 @@ public class PartyIA extends StackPane {
         return false;
     }
 
-    // Méthode pour vérifier si tous les pions d'un joueur ont au moins un voisin libre
     static boolean hasPlayerFreeNeighbours(List<Button> playerButtons) {
         for (Button button : playerButtons) {
             if (hasFreeNeighbour(button)) {
@@ -762,7 +722,6 @@ public class PartyIA extends StackPane {
         return false;
     }
 
-    // Méthode pour vérifier si un bouton a au moins un voisin libre
     static boolean hasFreeNeighbour(Button button) {
         String id = button.getId();
         for (String[] neighbours : neighbourList) {
@@ -778,18 +737,16 @@ public class PartyIA extends StackPane {
     }
 
     static boolean isGameFinished() {
-        // Vérifier si un joueur a moins de 3 pions restants
         if (currentPlayer == 1) {
             if (buttonsJ1.size() < 3 || buttonsJ2.size() < 3) {
-                return true; // La partie est terminée si le joueur 1 a moins de 3 pions
+                return true;
             }
         } else {
             if (buttonsJ2.size() < 3) {
-                return true; // La partie est terminée si le joueur 2 a moins de 3 pions
+                return true;
             }
         }
 
-        // Vérifier si un joueur n'a plus de voisins libres
         if (currentPlayer == 1 && (buttonsJ1.size() != 3 || buttonsJ2.size() != 3)) {
             return !hasPlayerFreeNeighbours(buttonsJ1);
         } else if (currentPlayer == 2 && (buttonsJ1.size() != 3 || buttonsJ2.size() != 3)) {
@@ -799,10 +756,8 @@ public class PartyIA extends StackPane {
     }
 
     static Timeline Chrono(Label timerLabel, int[] remainingSeconds, Stage primaryStage, StackPane root) {
-        // Déclarez la variable timeline ici
         final Timeline[] timeline = new Timeline[1];
 
-        // Initialisez la variable timeline
         timeline[0] = new Timeline(
                 new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
                     @Override
@@ -838,9 +793,8 @@ public class PartyIA extends StackPane {
     }
 
     private VBox createPauseMenu(Stage primaryStage, Timeline timeline1, Timeline timeline2) {
-        VBox menu = new VBox(0.020833*screenHeight); // Conteneur pour les boutons du menu pause
+        VBox menu = new VBox(0.020833*screenHeight);
 
-        // Ajout des boutons nécessaires (Reprendre, Options, Quitter, etc.)
         Button resumeButton = new Button("Reprendre");
         Button regles = new Button("Règles");
         Button parametres = new Button("Paramètres");
@@ -851,13 +805,11 @@ public class PartyIA extends StackPane {
         parametres.setFont(Font.font("Cardo", FontWeight.BOLD, 0.027778*screenHeight));
         quitter.setFont(Font.font("Cardo", FontWeight.BOLD, 0.027778*screenHeight));
 
-        // Stylisation des boutons du menu pause
         resumeButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
         regles.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white;");
         parametres.setStyle("-fx-background-color: #f44336; -fx-text-fill: white;");
         quitter.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white;");
 
-        // Ajout d'une action pour le bouton "Reprendre" pour masquer le menu pause
         resumeButton.setOnAction(e -> {
             SoundPlayer.soundPlay();
             if (currentPlayer==1){
@@ -874,29 +826,23 @@ public class PartyIA extends StackPane {
             ButtonPause.parametres(this);
         });
 
-        // Action du bouton "Règles" pour afficher les règles
         regles.setOnAction(e -> {
             SoundPlayer.soundPlay();
-            ButtonPause.afficherRegles(this); // Passer la racine de la scène pour ajouter la StackPane
+            ButtonPause.afficherRegles(this);
         });
 
         quitter.setOnAction(e -> {
             SoundPlayer.soundPlay();
-            //menu.setVisible(false);
             quitterMenu = quitterMenuChoose(primaryStage,gridPane,currentPlayer,turns,selectedIndexchrono,selectedIndex,difficulty);
             quitterMenu.setVisible(true);
         });
 
-        //quitterMenu = ButtonPause.boutonquittersave(primaryStage);
         quitterMenu = quitterMenuChoose(primaryStage,gridPane,currentPlayer,turns,selectedIndexchrono,selectedIndex,difficulty);
 
-        // Ajout des boutons au menu
         menu.getChildren().addAll(resumeButton, regles, parametres, quitter,quitterMenu);
 
-        // Stylisation du menu pause avec un arrière-plan semi-transparent
         menu.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7)");
 
-        // Positionnement du menu pause au centre de l'écran
         menu.setAlignment(Pos.CENTER);
 
         return menu;
@@ -911,7 +857,6 @@ public class PartyIA extends StackPane {
             newQuitterMenu = ButtonPause.boutonquittersave(primaryStage,gridPane,chrono,bg,true,difficulty);
         }
 
-        // Mettre à jour quitterMenu en supprimant l'ancien et en ajoutant le nouveau
         if (quitterMenu != null) {
             getChildren().remove(quitterMenu);
         }

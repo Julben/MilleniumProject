@@ -2,11 +2,8 @@ package org.example.milleniumproject.model;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -72,7 +69,6 @@ public class SauvegardePartie {
      */
     public void sauvegarderDansFichier(String nomFichier) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomFichier))) {
-            // Parcourir les éléments de la grille
             for (Node node : gridPane.getChildren()) {
                 if (node instanceof Button) {
                     Button button = (Button) node;
@@ -86,7 +82,6 @@ public class SauvegardePartie {
                 }
             }
 
-            // Écrire d'autres données de la partie
             writer.write("currentPlayer=" + currentPlayer);
             writer.newLine();
             writer.write("Tour=" + turn);
