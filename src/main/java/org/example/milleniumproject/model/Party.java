@@ -32,6 +32,7 @@ import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 import static javafx.scene.paint.Color.GREEN;
 import static javafx.scene.paint.Color.TRANSPARENT;
+import static org.example.milleniumproject.model.EndParty.FinPartie;
 import static org.example.milleniumproject.model.EndParty.afficherFinPartie;
 
 public class Party extends StackPane {
@@ -361,11 +362,8 @@ public class Party extends StackPane {
 
             // Vérifier si la partie est terminée
             if (placementisfinished) {
-                if (isGameFinished()) {
-                    timeline.stop();
-                    timeline1.stop();
-                    timeline2.stop();
-                    afficherFinPartie(this, primaryStage);
+                if (PartyIA.isGameFinished()) {
+                    FinPartie(this,timeline1, timeline2, primaryStage);
                 }
             }
         } else {
@@ -411,11 +409,8 @@ public class Party extends StackPane {
                 }
 
                 // Vérifier si la partie est terminée
-                if (isGameFinished()) {
-                    timeline.stop();
-                    timeline1.stop();
-                    timeline2.stop();
-                    afficherFinPartie(this, primaryStage);
+                if (PartyIA.isGameFinished()) {
+                    FinPartie(this,timeline1, timeline2, primaryStage);
                 }
             }
         }
@@ -673,27 +668,6 @@ public class Party extends StackPane {
             }
         }
         return false;
-    }
-
-    // Méthode pour vérifier si la partie est terlinée
-    private boolean isGameFinished() {
-        // Vérifier si un joueur a moins de 3 pions restants
-        if (currentPlayer == 1) {
-            if (buttonsJ1.size() < 3) {
-                return true; // La partie est terminée si le joueur 1 a moins de 3 pions
-            }
-        } else {
-            if (buttonsJ2.size() < 3) {
-                return true; // La partie est terminée si le joueur 2 a moins de 3 pions
-            }
-        }
-
-        // Vérifier si un joueur n'a plus de voisins libres
-        if (currentPlayer == 1) {
-            return !hasPlayerFreeNeighbours(buttonsJ1);
-        } else {
-            return !hasPlayerFreeNeighbours(buttonsJ2);
-        }
     }
 
     public Timeline Chrono(Label timerLabel, int[] remainingSeconds, StackPane root, Stage primaryStage, int currentPlayer) {

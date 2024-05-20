@@ -226,7 +226,6 @@ public class ButtonPause extends StackPane {
         node.setEffect(dropShadow);
     }
 
-
     /**
      * Crée un menu pour confirmer la sortie du jeu.
      *
