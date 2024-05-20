@@ -16,9 +16,16 @@ import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 import static org.example.milleniumproject.model.PartyIA.*;
 import static org.example.milleniumproject.model.PartyIA.currentPlayer;
-
+/**
+ * Cette classe gère la fin de partie.
+ */
 public class EndParty extends StackPane {
-
+    /**
+     * Affiche l'écran de fin de partie.
+     *
+     * @param root         Conteneur principal de la scène.
+     * @param primaryStage La scène en premier plan.
+     */
     static void afficherFinPartie(StackPane root, Stage primaryStage){
         StackPane reglesPane = new StackPane();
         reglesPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7);");
@@ -74,13 +81,20 @@ public class EndParty extends StackPane {
 
         root.getChildren().add(reglesPane);
     }
-
+    /**
+     * Termine la partie en arrêtant les chronomètres et en affichant l'écran de fin de partie.
+     *
+     * @param root         Conteneur principal de la scène.
+     * @param timeline1    La timeline pour le premier joueur.
+     * @param timeline2    La timeline pour le second joueur.
+     * @param primaryStage La scène en premier plan.
+     */
     static void FinPartie(StackPane root, Timeline timeline1, Timeline timeline2, Stage primaryStage){
         timeline1.stop();
         timeline2.stop();
         afficherFinPartie(root, primaryStage);
     }
-
+    //apparemment pas utilise
     static boolean hasPlayerFreeNeighbours(List<Button> playerButtons) {
         for (Button button : playerButtons) {
             if (hasFreeNeighbour(button)) {
@@ -89,7 +103,12 @@ public class EndParty extends StackPane {
         }
         return false;
     }
-
+    /**
+     * Vérifie si un bouton a des voisins libres.
+     *
+     * @param button Le bouton à vérifier.
+     * @return true si le bouton a des voisins libres, sinon faux.
+     */
     static boolean hasFreeNeighbour(Button button) {
         String id = button.getId();
         for (String[] neighbours : neighbourList) {

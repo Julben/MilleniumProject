@@ -14,8 +14,22 @@ import java.util.Random;
 import static org.example.milleniumproject.model.EndParty.FinPartie;
 import static org.example.milleniumproject.model.PartyIA.*;
 
+/**
+ * La classe RemovePiece gère la suppression des pions.
+ */
 public class RemovePiece {
-
+    /**
+     * Supprime un pion alétoire du joueur 1.
+     *
+     * @param root            Conteneur principal de la scène.
+     * @param button          Le bouton contenant le pion à supprimer.
+     * @param timeline2       La timeline pour le second joueur ou l'IA.
+     * @param timerLabel2     Le label du timer pour le second joueur ou l'IA.
+     * @param chrono          Le chronomètre.
+     * @param remainingSeconds2 Le temps restant pour le second joueur.
+     * @param timeline1       La timeline pour le premier joueur.
+     * @param primaryStage    La scène en premier plan.
+     */
     static void removePiece(StackPane root, Button button, Timeline timeline2, Label timerLabel2, String chrono, int[] remainingSeconds2, Timeline timeline1, Stage primaryStage) {
         if (button.getGraphic() instanceof ImageView) {
             if(currentPlayer==1) {
@@ -67,7 +81,16 @@ public class RemovePiece {
         }
     }
 
-
+    /**
+     * Met à jour les boutons contenant des pions.
+     *
+     * @param button         Le bouton à mettre à jour.
+     * @param buttonsList    La liste de bouton du joueur 1 ou 2.
+     * @param root           Conteneur principal de la scène.
+     * @param timeline1      La timeline pour le premier joueur.
+     * @param timeline2      La timeline pour le second joueur.
+     * @param primaryStage   La scène en premier plan.
+     */
     static void updateButtonState(Button button, List<Button> buttonsList, StackPane root, Timeline timeline1, Timeline timeline2, Stage primaryStage) {
         button.setGraphic(null);
         SoundPlayer.soundPlay();
@@ -75,12 +98,27 @@ public class RemovePiece {
         isRemovePieceMode = false;
         boutonlibre = false;
     }
-
+    /**
+     Même utilité que updateButtonState mais retire le rectangle si un pion d'une ligne de 3 est supprimé.
+     Prends les mêmes paramètres que updateButtonState.
+     */
     static void updateButtonState2(Button button,List<Button> buttonsList, StackPane root, Timeline timeline1, Timeline timeline2, Stage primaryStage) {
         updateButtonState(button, buttonsList, root, timeline1, timeline2, primaryStage);
         resetButtonColorsForMovedButton(button);
     }
-
+    /**
+     * Supprime un pion du joueur 1 qui est sur une même ligne qu'un autre pion.
+     *
+     * @param root            Conteneur principal de la scène.
+     * @param button          Le bouton contenant le pion à supprimer.
+     * @param timeline2       La timeline pour le second joueur ou l'IA.
+     * @param timerLabel2     Le label du timer pour le second joueur ou l'IA.
+     * @param timerLabel1     Le label du timer pour le premier joueur.
+     * @param chrono          Le chronomètre.
+     * @param remainingSeconds2 Le temps restant pour le second joueur.
+     * @param timeline1       La timeline pour le premier joueur.
+     * @param primaryStage    La scène en premier plan.
+     */
     static void HardRemove(StackPane root, Button button, Timeline timeline2, Label timerLabel2, Label timerLabel1, String chrono, int[] remainingSeconds2, Timeline timeline1, Stage primaryStage) {
 
         checkPerfectAlignments();
@@ -126,7 +164,9 @@ public class RemovePiece {
             removePiece(root, button, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
         }
     }
-
+    /**
+     * Vérifie les alignements des pions.
+     */
     public static void checkPerfectAlignments() {
         for (String[] alignment : alignments) {
             int count = 0;
@@ -167,7 +207,9 @@ public class RemovePiece {
             }
         }
     }
-
+    /**
+     * Vérifie les alignements des pions.
+     */
     public static void checkAlignments(){
         for (String[] alignment : alignments) {
             int count = 0;

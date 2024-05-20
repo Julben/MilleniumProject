@@ -8,13 +8,13 @@ import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 
 /**
- * Classe utilitaire pour créer des boutons de menu avec un style prédéfini.
+ * Classe pour créer des boutons de menu avec un style.
  */
 public class ButtonsMenu {
 
     /**
-     * Crée une liste de boutons de menu avec des noms prédéfinis et un style spécifié.
-     * @return Une liste de boutons de menu.
+     * Crée la liste de boutons du menu.
+     * @return La liste de boutons de menu.
      */
     public List<Button> creerBoutons() {
 
