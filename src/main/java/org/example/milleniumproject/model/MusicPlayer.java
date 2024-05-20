@@ -3,7 +3,6 @@ package org.example.milleniumproject.model;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
-import org.example.milleniumproject.view.AudioData;
 
 import java.io.File;
 
@@ -34,5 +33,13 @@ public class MusicPlayer {
         if (mediaPlayer != null) {
             mediaPlayer.setVolume(volume);
         }
+    }
+
+    public static MediaPlayer getMediaPlayer() {
+        return mediaPlayer;
+    }
+
+    public static void setMediaPlayer(MediaPlayer mediaPlayer) {
+        MusicPlayer.mediaPlayer = mediaPlayer;
     }
 }

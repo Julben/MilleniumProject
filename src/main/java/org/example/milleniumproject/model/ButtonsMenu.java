@@ -1,6 +1,8 @@
 package org.example.milleniumproject.model;
 
 import javafx.scene.control.Button;
+import org.example.milleniumproject.presentation.ButtonsStyle;
+
 import java.util.ArrayList;
 import java.util.List;
 import static org.example.milleniumproject.model.Constant.screenHeight;

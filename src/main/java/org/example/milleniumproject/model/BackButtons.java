@@ -1,5 +1,6 @@
 package org.example.milleniumproject.model;
 
+import org.example.milleniumproject.presentation.ButtonsStyle;
 import org.example.milleniumproject.view.Menu;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;

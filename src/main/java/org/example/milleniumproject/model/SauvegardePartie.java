@@ -10,7 +10,9 @@ import javafx.scene.layout.VBox;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-
+/**
+ * La classe SauvegardePartie permet de sauvegarder l'état d'une partie de jeu dans un fichier.
+ */
 public class SauvegardePartie {
     private GridPane gridPane;
     private int currentPlayer;
@@ -26,7 +28,23 @@ public class SauvegardePartie {
     private int chronoselect;
     private int BGselect;
 
-
+    /**
+     * Constructeur de la classe SauvegardePartie.
+     *
+     * @param gridPane      Le GridPane contenant les boutons du jeu.
+     * @param avatar1       L'avatar du joueur 1.
+     * @param avatar2       L'avatar du joueur 2.
+     * @param rank1         Le rang du joueur 1.
+     * @param rank2         Le rang du joueur 2.
+     * @param ship1         Le vaisseau du joueur 1.
+     * @param ship2         Le vaisseau du joueur 2.
+     * @param name1         Le nom du joueur 1.
+     * @param name2         Le nom du joueur 2.
+     * @param currentPlayer Le joueur actuel (1 ou 2).
+     * @param turn          Le numéro du tour actuel.
+     * @param chronoselect  La sélection du chronomètre.
+     * @param BGselect      La sélection de l'arrière-plan.
+     */
     public SauvegardePartie(GridPane gridPane,String avatar1,String avatar2,String rank1,String rank2, String ship1, String ship2, String name1, String name2,int currentPlayer,int turn,int chronoselect,int BGselect) {
         this.gridPane = gridPane;
         this.currentPlayer = currentPlayer;
@@ -42,7 +60,11 @@ public class SauvegardePartie {
         this.chronoselect=chronoselect;
         this.BGselect=BGselect;
     }
-
+    /**
+     * Sauvegarde l'état actuel de la partie dans un fichier.
+     *
+     * @param nomFichier Le nom du fichier dans lequel sauvegarder la partie.
+     */
     public void sauvegarderDansFichier(String nomFichier) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomFichier))) {
             // Parcourir les éléments de la grille

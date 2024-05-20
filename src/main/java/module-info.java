@@ -4,7 +4,7 @@ module org.example.milleniumproject {
     requires javafx.media;
     requires java.prefs;
     requires java.desktop;
-
+    requires java.sql;
 
     opens org.example.milleniumproject to javafx.fxml;
     exports org.example.milleniumproject;
@@ -12,4 +12,6 @@ module org.example.milleniumproject {
     opens org.example.milleniumproject.model to javafx.fxml;
     exports org.example.milleniumproject.view;
     opens org.example.milleniumproject.view to javafx.fxml;
+    exports org.example.milleniumproject.presentation;
+    opens org.example.milleniumproject.presentation to javafx.fxml;
 }

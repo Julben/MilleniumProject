@@ -1,4 +1,4 @@
-package org.example.milleniumproject.model;
+package org.example.milleniumproject.view;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -14,13 +14,13 @@ import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-import org.example.milleniumproject.view.Video;
-import org.example.milleniumproject.view.VideoData;
+import org.example.milleniumproject.model.*;
+import org.example.milleniumproject.presentation.BG;
+
 
 import java.io.File;
 import java.util.Arrays;
@@ -31,13 +31,14 @@ import java.util.prefs.Preferences;
 import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 
-public class PreParty extends StackPane {
+public class PrePartyIA extends StackPane {
     private Button launchButton;
+    //String[] vaisseau = {"src/main/resources/Pion/PionDestroyer.png", "src/main/resources/Pion/PionFaucon.png", "src/main/resources/Pion/PionTfighter.png", "src/main/resources/Pion/PionXwing.png"};
     String video;
     String shipIndex1 = ProfileData.getShip(1);
     String shipIndex2 = ProfileData.getShip(2);
 
-    public PreParty(Stage primaryStage) {
+    public PrePartyIA(Stage primaryStage) {
 
         Button retourButton = BackButtons.createBackButton(primaryStage);
 
@@ -48,6 +49,10 @@ public class PreParty extends StackPane {
         vbox.setAlignment(Pos.CENTER); // Centrer les HBox verticalement
         vbox.setPadding(new Insets(0.13889*screenHeight, 0, 0, 0)); // Ajouter une marge en haut
 
+        String[] niveau = {"Facile", "Difficile"};
+
+        ToggleGroup toggleGroup1 = new ToggleGroup();
+        HBox hbox1 = createToggleHBox(niveau, toggleGroup1); // Appeler la méthode pour créer la HBox appropriée
         ToggleGroup toggleGroup2 = new ToggleGroup();
         String[] imageUrls2 = {"Chrono30sec.png", "Chrono1min.png", "ChronoNoTime.png"}; // Remplacez les liens par vos propres URLs
         HBox hbox2 = createImageToggleHBox(toggleGroup2, imageUrls2); // Appeler la méthode pour créer la HBox appropriée
@@ -55,29 +60,30 @@ public class PreParty extends StackPane {
         String[] imageUrls3 = {"NabooNoBG.png", "CoruscantNoBG.png", "MustafarNoBG.png"}; // Remplacez les liens par vos propres URLs
         HBox hbox3 = createImageToggleHBox(toggleGroup3, imageUrls3); // Appeler la méthode pour créer la HBox appropriée
         HBox hbox4 = new HBox(0.0078*screenWidth); // Création de la VBox pour le bouton "Lancer Partie"
+
         hbox4.setAlignment(Pos.CENTER);
-        setMargin(hbox4, new Insets(0.111*screenHeight, 0, 0, 0));
 
         launchButton = new Button("Lancer Partie");
-        launchButton.setPrefSize(0.15625*screenWidth, 0.06944*screenHeight);
-        launchButton.setBackground(new Background(new BackgroundFill(Color.rgb(85, 174, 47), new CornerRadii(50), javafx.geometry.Insets.EMPTY)));
+        launchButton.setPrefSize(0.15625*screenWidth, 0.0694*screenHeight);
+        launchButton.setBackground(new Background(new BackgroundFill(Color.rgb(61, 141, 230), new CornerRadii(50), javafx.geometry.Insets.EMPTY)));
         launchButton.setTextFill(Color.WHITE); // Couleur du texte
         launchButton.setFont(Font.font("Cardo", FontWeight.BOLD, 0.0333*screenHeight));
         launchButton.setDisable(true); // Désactiver le bouton au départ
 
         hbox4.getChildren().add(launchButton); // Ajouter le bouton à la HBox
 
-        vbox.getChildren().addAll(hbox2, hbox3, hbox4); // Ajouter les HBox à la VBox
+        vbox.getChildren().addAll(hbox1, hbox2, hbox3, hbox4); // Ajouter les HBox à la VBox
 
         getChildren().addAll(vbox); // Ajouter l'arrière-plan et la VBox à la StackPane
 
         // Ajouter des écouteurs pour surveiller les sélections dans les ToggleGroups
-        toggleGroup2.selectedToggleProperty().addListener((observable, oldValue, newValue) -> checkLaunchButtonState(toggleGroup2, toggleGroup3));
-        toggleGroup3.selectedToggleProperty().addListener((observable, oldValue, newValue) -> checkLaunchButtonState(toggleGroup2, toggleGroup3));
+        toggleGroup1.selectedToggleProperty().addListener((observable, oldValue, newValue) -> checkLaunchButtonState(toggleGroup1, toggleGroup2, toggleGroup3));
+        toggleGroup2.selectedToggleProperty().addListener((observable, oldValue, newValue) -> checkLaunchButtonState(toggleGroup1, toggleGroup2, toggleGroup3));
+        toggleGroup3.selectedToggleProperty().addListener((observable, oldValue, newValue) -> checkLaunchButtonState(toggleGroup1, toggleGroup2, toggleGroup3));
 
         launchButton.setOnAction(event -> {
             MusicPlayer.stopPlaying();
-            VideoLoad(primaryStage, toggleGroup3, hbox3, toggleGroup2, hbox2);
+            VideoLoad(primaryStage, toggleGroup3, hbox3, toggleGroup2,  hbox2, toggleGroup1,  hbox1);
         });
 
         getChildren().addAll(retourButton);
@@ -140,6 +146,7 @@ public class PreParty extends StackPane {
         }
         return video;
     }
+
     public boolean getVideoPreference() {
         // Initialiser les préférences
         Preferences preferences = Preferences.userNodeForPackage(Video.class);
@@ -147,11 +154,11 @@ public class PreParty extends StackPane {
         // Récupérer la valeur de la clé "video" (false par défaut si la clé n'existe pas)
         return preferences.getBoolean("video", false);
     }
-    public void VideoLoad(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3, ToggleGroup toggleGroup2, HBox hbox2) {
-        if(VideoData.isVideoChoose()) {
 
+    public void VideoLoad(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3,ToggleGroup toggleGroup2, HBox hbox2, ToggleGroup toggleGroup1, HBox hbox1) {
+        if(VideoData.isVideoChoose()) {
             List<String> stringList = Arrays.asList("src/main/resources/MusicParty1.mp3", "src/main/resources/MusicParty2.mp3", "src/main/resources/MusicParty3.mp3",
-                    "src/main/resources/MusicParty4.mp3", "src/main/resources/MusicParty5.mp3", "src/main/resources/MusicParty6.mp3");
+                    "src/main/resources/MusicParty5.mp3", "src/main/resources/MusicParty6.mp3", "src/main/resources/MusicParty6.mp3");
             Random rand = new Random();
             int index = rand.nextInt(stringList.size());
             String randomString = stringList.get(index);
@@ -181,25 +188,61 @@ public class PreParty extends StackPane {
                 if (event.getCode() == KeyCode.SPACE && !mediaPlayer.getCurrentTime().equals(mediaPlayer.getTotalDuration())) {
                     mediaPlayer.stop();
                     MusicPlayer.musicPlay(randomString);
-                    Party party = new Party(primaryStage, toggleGroup3, hbox3, toggleGroup2, hbox2); // Supposons que primaryStage soit accessible ici
-                    primaryStage.getScene().setRoot(party);
+                    PartyIA partyia = new PartyIA(primaryStage, toggleGroup3, hbox3, toggleGroup2, hbox2, toggleGroup1, hbox1); // Supposons que primaryStage soit accessible ici
+                    primaryStage.getScene().setRoot(partyia);
                 }
             });
 
             mediaPlayer.setOnEndOfMedia(() -> {
                 MusicPlayer.musicPlay(randomString);
-                Party party = new Party(primaryStage, toggleGroup3, hbox3, toggleGroup2, hbox2); // Supposons que primaryStage soit accessible ici
-                primaryStage.getScene().setRoot(party);
+                PartyIA partyia = new PartyIA(primaryStage, toggleGroup3, hbox3, toggleGroup2, hbox2, toggleGroup1, hbox1); // Supposons que primaryStage soit accessible ici
+                primaryStage.getScene().setRoot(partyia);
             });
             mediaPlayer.play();
         }else{
-            Party party = new Party(primaryStage, toggleGroup3, hbox3, toggleGroup2, hbox2); // Supposons que primaryStage soit accessible ici
-            primaryStage.getScene().setRoot(party);
+            PartyIA partyia = new PartyIA(primaryStage, toggleGroup3, hbox3, toggleGroup2, hbox2, toggleGroup1, hbox1); // Supposons que primaryStage soit accessible ici
+            primaryStage.getScene().setRoot(partyia);
+        }
+
     }
-}
+
+    private HBox createToggleHBox(String[] niveau, ToggleGroup toggleGroup) {
+        HBox hbox = new HBox(0); // Création de la HBox
+        hbox.setAlignment(Pos.CENTER); // Centrer les boutons horizontalement
+
+        for (String niv : niveau) {
+            ToggleButton button = new ToggleButton(niv);
+            button.setToggleGroup(toggleGroup); // Associez le bouton au ToggleGroup
+
+            button.setPrefSize(0.1796875*screenWidth, 0.0277778*screenHeight);
+            button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, new CornerRadii(50), javafx.geometry.Insets.EMPTY)));
+            button.setTextFill(Color.WHITE); // Couleur du texte
+            button.setFont(Font.font("Cardo", FontWeight.BOLD, 45));
+            DropShadow dropShadow = new DropShadow();
+            dropShadow.setRadius(3);
+            dropShadow.setOffsetX(1);
+            dropShadow.setOffsetY(1);
+            button.setEffect(dropShadow);
+
+            // Style lorsque le bouton est sélectionné
+            button.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                SoundPlayer.soundPlay();
+                if (newValue) {
+                    button.setTextFill(Color.rgb(0, 140, 255));
+                } else {
+                    button.setTextFill(Color.WHITE);
+                }
+            });
+
+            hbox.getChildren().add(button); // Ajouter le bouton à la HBox
+        }
+
+        return hbox;
+    }
+
 
     private HBox createImageToggleHBox(ToggleGroup toggleGroup, String[] imageUrls) {
-        HBox hbox = new HBox(0.04167*screenWidth); // Création de la HBox
+        HBox hbox = new HBox(0.0234*screenWidth); // Création de la HBox
         hbox.setAlignment(Pos.CENTER); // Centrer les boutons horizontalement
 
         for (int j = 0; j < 3; j++) {
@@ -211,7 +254,7 @@ public class PreParty extends StackPane {
             Image image = new Image(imageUrls[j]);
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(0.1156*screenWidth);
-            imageView.setFitHeight(0.11527*screenHeight);
+            imageView.setFitHeight(0.1153*screenHeight);
 
             DropShadow dropShadow = new DropShadow();
             dropShadow.setRadius(3);
@@ -223,7 +266,7 @@ public class PreParty extends StackPane {
             button.selectedProperty().addListener((observable, oldValue, newValue) -> {
                 SoundPlayer.soundPlay();
                 if (newValue) {
-                    Color intenseBlue = Color.rgb(0, 255, 0); // Intensité de la couleur verte
+                    Color intenseBlue = Color.rgb(0, 103, 255); // Intensité de la couleur verte
                     imageView.setEffect(new javafx.scene.effect.DropShadow(40, intenseBlue));
                 } else {
                     imageView.setEffect(dropShadow);
@@ -238,8 +281,8 @@ public class PreParty extends StackPane {
         return hbox;
     }
 
-    private void checkLaunchButtonState(ToggleGroup toggleGroup2, ToggleGroup toggleGroup3) {
-        if (toggleGroup2.getSelectedToggle() != null && toggleGroup3.getSelectedToggle() != null) {
+    private void checkLaunchButtonState(ToggleGroup toggleGroup1, ToggleGroup toggleGroup2, ToggleGroup toggleGroup3) {
+        if (toggleGroup1.getSelectedToggle() != null && toggleGroup2.getSelectedToggle() != null && toggleGroup3.getSelectedToggle() != null) {
             launchButton.setDisable(false); // Activer le bouton si une sélection est faite dans chaque ToggleGroup
         } else {
             launchButton.setDisable(true); // Désactiver le bouton sinon
@@ -255,6 +298,15 @@ public class PreParty extends StackPane {
         return selectedIndex;
     }
 
+    public static int getSelectedIndexDifficulty(ToggleGroup toggleGroup1, HBox hbox1) {
+        int selectedIndex = -1;
+        ToggleButton selectedButton = (ToggleButton) toggleGroup1.getSelectedToggle();
+        if(selectedButton != null) {
+            selectedIndex = hbox1.getChildren().indexOf(selectedButton);
+        }
+        return selectedIndex;
+    }
+
     public static int getSelectedIndexchrono(ToggleGroup toggleGroup2, HBox hbox2) {
         int selectedIndex = -1;
         ToggleButton selectedButton = (ToggleButton) toggleGroup2.getSelectedToggle();
@@ -263,4 +315,6 @@ public class PreParty extends StackPane {
         }
         return selectedIndex;
     }
+
+
 }

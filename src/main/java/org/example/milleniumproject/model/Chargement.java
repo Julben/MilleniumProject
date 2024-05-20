@@ -10,6 +10,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.example.milleniumproject.presentation.BG;
+
 import java.io.File;
 
 public class Chargement extends StackPane {
@@ -120,4 +122,3 @@ public class Chargement extends StackPane {
         node.setEffect(dropShadow);
     }
 }
-

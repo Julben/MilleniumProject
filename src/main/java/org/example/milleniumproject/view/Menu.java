@@ -1,8 +1,7 @@
 package org.example.milleniumproject.view;
 
-import org.example.milleniumproject.model.BG;
+import org.example.milleniumproject.presentation.BG;
 import org.example.milleniumproject.model.ButtonsMenu;
-import org.example.milleniumproject.model.Constant;
 import org.example.milleniumproject.model.Management;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
