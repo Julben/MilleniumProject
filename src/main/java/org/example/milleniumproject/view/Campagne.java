@@ -1,6 +1,5 @@
 package org.example.milleniumproject.view;
 
-import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -28,12 +27,11 @@ public class Campagne extends Pane {
             System.out.println("Playing video: " + fullPath);
 
             VideoPlayer videoPlayer = new VideoPlayer(fullPath);
-            getChildren().setAll(videoPlayer); // Utilise le conteneur existant pour afficher la vidéo
+            getChildren().setAll(videoPlayer);
 
             videoPlayer.playVideo(onEnd);
         } catch (NullPointerException e) {
             System.err.println("Video file not found: " + videoPath);
-            // Si la vidéo est introuvable, appelez immédiatement onEnd pour ne pas bloquer
             onEnd.run();
         }
     }
@@ -73,21 +71,17 @@ public class Campagne extends Pane {
     private void playPart(Runnable onEnd, int currentRound) {
         System.out.println("Playing part for round: " + currentRound);
 
-        // Initialisation et affichage de PartyIA
         PartyIA partyIA = new PartyIA(primaryStage, currentRound);
 
-        // Set dimensions and positions based on PartyIA class settings
         partyIA.setPrefWidth(Constant.screenWidth);
         partyIA.setPrefHeight(Constant.screenHeight);
 
-        // Ensure the elements are positioned correctly
-        partyIA.setLayoutX(0); // Adjust as needed
-        partyIA.setLayoutY(0); // Adjust as needed
+        partyIA.setLayoutX(0);
+        partyIA.setLayoutY(0);
 
-        getChildren().setAll(partyIA); // Utilise le conteneur existant pour afficher la partie
+        getChildren().setAll(partyIA);
 
-        // Ajoutez un délai pour permettre à PartyIA de se lancer et être visible
-        PauseTransition pause = new PauseTransition(Duration.seconds(50)); // Ajustez la durée si nécessaire
+        PauseTransition pause = new PauseTransition(Duration.seconds(50));
         pause.setOnFinished(event -> {
             System.out.println("Part finished.");
             onEnd.run();

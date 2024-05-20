@@ -42,7 +42,6 @@ public class BG extends StackPane {
                 "src/main/resources/Backgrounds/BG16.png", "src/main/resources/Backgrounds/BG17.png", "src/main/resources/Backgrounds/BG18.png", "src/main/resources/Backgrounds/BG19.png", "src/main/resources/Backgrounds/BG20.png",
                 "src/main/resources/Backgrounds/BG21.png", "src/main/resources/Backgrounds/BG22.png", "src/main/resources/Backgrounds/BG23.png", "src/main/resources/Backgrounds/BG24.png");
 
-        // Récupération d'une chaîne de manière aléatoire
         Random rand = new Random();
         int index = rand.nextInt(stringList.size());
         String randomString = stringList.get(index);

@@ -41,7 +41,6 @@ public class Profil extends StackPane {
 
     public Profil(Stage primaryStage) {
 
-        // Ajouter directement le label d'erreur à la scène principale (Profil)  Initialiser le label d'erreur
         erreurLabel = new Label();
         erreurLabel.setTextFill(Color.WHITE);
         erreurLabel.setFont(Font.font("Cardo", FontWeight.BOLD, 0.025*screenHeight));
@@ -49,18 +48,15 @@ public class Profil extends StackPane {
         StackPane.setAlignment(erreurLabel, Pos.TOP_CENTER);
         StackPane.setMargin(erreurLabel, new Insets(0.02778*screenHeight, 0, 0, 0));
 
-        //Créer un fond d'écran
         BG ground = new BG("src/main/resources/BGProfil.png");
         setBackground(ground.getCustomBackground());
 
-        // Créer un bouton retour
         Button retourButton = BackButtons.createBackButton(primaryStage);
 
         String[] avatar = {"src/main/resources/Avatar/1.png", "src/main/resources/Avatar/2.png", "src/main/resources/Avatar/3.png", "src/main/resources/Avatar/4.png", "src/main/resources/Avatar/5.png", "src/main/resources/Avatar/6.png", "src/main/resources/Avatar/7.png", "src/main/resources/Avatar/8.png", "src/main/resources/Avatar/9.png", "src/main/resources/Avatar/10.png", "src/main/resources/Avatar/11.png", "src/main/resources/Avatar/12.png",};
         String[] rang = {"Padawan", "Apprenti Jedi", "Jeune Jedi", "Jedi", "Maitre Jedi", "Seigneur Sith", "Wookie", "Mandalorian"};
         String[] vaisseau = {"src/main/resources/PionDestroyer.png", "src/main/resources/PionFaucon.png", "src/main/resources/PionTfighter.png", "src/main/resources/PionXwing.png"};
 
-        // Charger les données du profil s'il existe
         String savedPlayerName1 = ProfileData.getPlayerName(1);
         String savedAvatar1 = ProfileData.getAvatar(1);
         String savedRank1 = ProfileData.getRank(1);
@@ -71,10 +67,9 @@ public class Profil extends StackPane {
 
         if (savedPlayerName1.isEmpty()) {
             savedPlayerName1 = "";
-            savedAvatarIndex1 = 0; // Index par défaut pour le premier joueur
-            savedRankIndex1 = 0; // Index par défaut pour le premier joueur
-            savedShipIndex1 = 0; // Index par défaut pour le premier joueur
-            // Sauvegarder les valeurs par défaut pour le joueur 1
+            savedAvatarIndex1 = 0;
+            savedRankIndex1 = 0;
+            savedShipIndex1 = 0;
             ProfileData.saveProfile(1, savedPlayerName1, avatar[savedAvatarIndex1], rang[savedRankIndex1], vaisseau[savedShipIndex1]);
         }
 
@@ -88,20 +83,16 @@ public class Profil extends StackPane {
 
         if (savedPlayerName2.isEmpty()) {
             savedPlayerName2 = "";
-            savedAvatarIndex2 = 0; // Index par défaut pour le deuxième joueur
-            savedRankIndex2 = 0; // Index par défaut pour le deuxième joueur
-            savedShipIndex2 = 0; // Index par défaut pour le deuxième joueur
-            // Sauvegarder les valeurs par défaut pour le joueur 2
+            savedAvatarIndex2 = 0;
+            savedRankIndex2 = 0;
+            savedShipIndex2 = 0;
             ProfileData.saveProfile(2, savedPlayerName2, avatar[savedAvatarIndex2], rang[savedRankIndex2], vaisseau[savedShipIndex2]);
         }
 
-        //Créer les VBox pour les profils
         VBox vBox1 = createPlayerBox("Joueur 1", avatar, rang, vaisseau, savedPlayerName1, savedAvatarIndex1, savedRankIndex1, savedShipIndex1);
         VBox vBox2 = createPlayerBox("Joueur 2", avatar, rang, vaisseau, savedPlayerName2, savedAvatarIndex2, savedRankIndex2, savedShipIndex2);
 
-        //Créer les messages d'erreurs lorsque 2 joueurs ont des éléments en commun
         retourButton.setOnAction(event -> {
-            // Vérifier si les joueurs ont entré leur pseudo
             if (textField1.getText().isEmpty() || textField2.getText().isEmpty()) {
                 erreurLabel.setText("Veuillez entrer les pseudos des joueurs !");
             } else if (avatarCarrousel1.getCurrentIndex() == avatarCarrousel2.getCurrentIndex()) {
@@ -109,7 +100,6 @@ public class Profil extends StackPane {
             } else if (vaisseauCarrousel1.getCurrentIndex() == vaisseauCarrousel2.getCurrentIndex()) {
                 erreurLabel.setText("Les pions des joueurs ne doivent pas être identiques !");
             } else {
-                // Si les avatars, les vaisseaux spatiaux et les pseudos sont différents, poursuivre avec l'action de retour
                 getProfileData(1, textField1, avatarCarrousel1, rangCarrousel1, vaisseauCarrousel1, avatar, rang, vaisseau);
                 getProfileData(2, textField2, avatarCarrousel2, rangCarrousel2, vaisseauCarrousel2, avatar, rang, vaisseau);
                 SoundPlayer.soundPlay();
@@ -118,7 +108,7 @@ public class Profil extends StackPane {
         });
 
 
-        HBox hBox = new HBox(0.27344*screenWidth); // Espacement horizontal entre les Vbox
+        HBox hBox = new HBox(0.27344*screenWidth);
         hBox.getChildren().addAll(vBox1, vBox2);
         hBox.setAlignment(Pos.CENTER);
         getChildren().addAll(hBox, retourButton);
@@ -138,15 +128,14 @@ public class Profil extends StackPane {
      */
     private VBox createPlayerBox(String playerNum, String[] avatar, String[] rang, String[] vaisseau, String playerName, int savedAvatarIndex, int savedRankIndex, int savedShipIndex) {
         Label label = new Label(playerNum);
-        label.setTextFill(Color.WHITE); // Couleur du texte
-        label.setFont(Font.font("Cardo", 0.0833*screenHeight)); // Police et taille du texte
+        label.setTextFill(Color.WHITE);
+        label.setFont(Font.font("Cardo", 0.0833*screenHeight));
 
         //Création des Carrousel pour les vaisseaux
         Carrousel avatarCarrousel = new Carrousel(avatar, true, savedAvatarIndex);
         Carrousel rangCarrousel = new Carrousel(rang, false, savedRankIndex);
         Carrousel vaisseauCarrousel = new Carrousel(vaisseau, true, savedShipIndex);
 
-        //Instancie la zone de texte pour entrer les pseudos des joueurs
         TextField textField = createTextField(playerName);
 
         if (playerNum.equals("Joueur 1")) {
@@ -161,7 +150,7 @@ public class Profil extends StackPane {
             textField2 = textField;
         }
 
-        VBox vBox = new VBox(0.02778*screenHeight); // Espacement vertical entre les carrousels
+        VBox vBox = new VBox(0.02778*screenHeight);
         vBox.getChildren().addAll(label, avatarCarrousel, textField, rangCarrousel, vaisseauCarrousel);
         vBox.setAlignment(Pos.CENTER);
         return vBox;
@@ -178,10 +167,10 @@ public class Profil extends StackPane {
         textField.setPromptText("Entrez votre pseudo");
         textField.setPrefSize(0.2344*screenWidth, 0.0625*screenHeight);
         textField.setAlignment(Pos.CENTER);
-        textField.setFont(Font.font("Cardo", FontWeight.BOLD, 0.04167*screenHeight)); // Taille de police basée sur la hauteur de l'écran
+        textField.setFont(Font.font("Cardo", FontWeight.BOLD, 0.04167*screenHeight));
         textField.setBackground(new Background(new BackgroundFill(Color.rgb(240, 240, 240, 0.35), CornerRadii.EMPTY, Insets.EMPTY)));
         textField.setStyle("-fx-text-fill: white;");
-        textField.setText(playerName); // Remplir le champ avec le nom du joueur actuel
+        textField.setText(playerName);
         return textField;
     }
 
