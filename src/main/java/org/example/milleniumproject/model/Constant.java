@@ -7,12 +7,6 @@ import javafx.stage.Screen;
  */
 public class Constant {
 
-    /** Hauteur des boutons en mode vertical. */
-    public static final double button_heightV = 50;
-
-    /** Hauteur des boutons en mode horizontal. */
-    public static final double button_heightH = 360;
-
     /** Largeur de l'écran. */
     public static double screenWidth;
 

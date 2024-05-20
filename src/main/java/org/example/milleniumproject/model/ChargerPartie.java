@@ -1,9 +1,5 @@
 package org.example.milleniumproject.model;
 
-import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;

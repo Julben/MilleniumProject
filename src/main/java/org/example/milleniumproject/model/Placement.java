@@ -1,17 +1,21 @@
 package org.example.milleniumproject.model;
 
 import javafx.animation.Timeline;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.example.milleniumproject.model.EndParty.FinPartie;
 import static org.example.milleniumproject.model.PartyIA.*;
-import javafx.scene.control.Button;
+import static org.example.milleniumproject.model.RemovePiece.*;
 
 public class Placement {
 
-    static void makeEasyPlacement(StackPane root,GridPane gridPane, Timeline timeline1, Timeline timeline2, int[] remainingSeconds2, Label timerLabel2, String chrono, Stage primaryStage, int difficulty) {
+    static void makeEasyPlacement(StackPane root, Button button, GridPane gridPane, Timeline timeline1, Timeline timeline2, int[] remainingSeconds2, Label timerLabel2, Label timerLabel1, String chrono, Stage primaryStage, int difficulty) {
 
         Button randomButton = getEmptyButton(gridPane);
 
@@ -21,23 +25,30 @@ public class Placement {
 
         // Vérifier les combinaisons après chaque placement de pion
         checkButtonCombinations();
-
         if (isRemovePieceMode) {
-            Button button = new Button();
-            RemovePiece.CheckRemovedifficulty(root, button, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage, difficulty);
+            Button randomFreeButton = getRandomFreeButtonJ1();
+            if(difficulty == 0){
+                removePiece(root,randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1, primaryStage);
+            } else if (difficulty == 1) {
+                HardRemove(root, randomFreeButton, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage);
+            }
         } else {
+            if (isGameFinished() && placementisfinished) {
+                FinPartie(root,timeline1, timeline2, primaryStage);
+            }
             currentPlayer = 1;
-
             ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
         }
         turns++;
+
+
     }
 
-    static void makeHardPlacement(PartyIA root,GridPane gridPane, Timeline timeline1, Timeline timeline2, int[] remainingSeconds2, Label timerLabel2, String chrono, Stage primaryStage, int difficulty) {
+    static void makeHardPlacement(StackPane root, Button button,GridPane gridPane, Timeline timeline1, Timeline timeline2, int[] remainingSeconds2, Label timerLabel2, Label timerLabel1, String chrono, Stage primaryStage, int difficulty) {
+
         // Vérifier si le joueur 1 est sur le point de faire un alignement
         String buttonToFill =  checkAlignment(buttonsJ2);
         String buttonToBlock = checkAlignment(buttonsJ1);
-
 
         if (buttonToFill != null) {
             Button buttonToPlace = getButtonById(buttonToFill);
@@ -66,12 +77,17 @@ public class Placement {
         checkButtonCombinations();
 
         if (isRemovePieceMode) {
-            Button button = new Button();
-            RemovePiece.CheckRemovedifficulty(root, button, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1, primaryStage, difficulty);
-
+            Button randomFreeButton = getRandomFreeButtonJ1();
+            if(difficulty == 0){
+                removePiece(root,randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1, primaryStage);
+            } else if (difficulty == 1) {
+                HardRemove( root,  button,  timeline2,  timerLabel2,  timerLabel1,  chrono, remainingSeconds2,  timeline1,  primaryStage);
+            }
         } else {
+            if (isGameFinished() && placementisfinished) {
+                FinPartie(root,timeline1, timeline2, primaryStage);
+            }
             currentPlayer = 1;
-
             ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
         }
         turns++;
@@ -87,10 +103,10 @@ public class Placement {
             for (String buttonId : alignment) {
                 Button button = getButtonById(buttonId);
                 if (button != null) {
-                    if (isButtonOccupied(button, playerButtons)) { // Modifier cet appel
+                    if (isButtonOccupiedByPlayer(button, playerButtons)) {
                         // Si le joueur a déjà placé un pion dans cette case, incrémenter le compteur
                         playerCount++;
-                    } else if (!isButtonOccupied(button, null)) { // Modifier cet appel
+                    } else if (!isButtonOccupied(button)) {
                         // Sinon, enregistrer le bouton vide
                         emptyCount++;
                         emptyButton = buttonId;
@@ -103,8 +119,16 @@ public class Placement {
                 return emptyButton;
             }
         }
-        return null; // Aucun alignement à bloquer
+        return null;
     }
+
+
+    static boolean isButtonOccupiedByPlayer(Button button, List<Button> playerButtons) {
+        // Vérifier si le bouton est occupé par le joueur correspondant à la liste spécifiée
+        return playerButtons.contains(button);
+    }
+
+
 
     static Button getPriorityButtonToPlace() {
         // Liste des boutons prioritaires à placer
@@ -112,7 +136,7 @@ public class Placement {
 
         // Parcourir la liste des boutons prioritaires
         for (Button button : priorityButtons) {
-            if (button != null && !isButtonOccupied(button, null)) { // Modifier cet appel
+            if (button != null && !isButtonOccupied(button)) {
                 return button; // Retourner le premier bouton disponible trouvé
             }
         }
@@ -120,12 +144,8 @@ public class Placement {
         return null; // Aucun bouton prioritaire disponible
     }
 
-    static boolean isButtonOccupied(Button button, List<Button> playerButtons) {
+    static boolean isButtonOccupied(Button button) {
         // Vérifier si le bouton est occupé par un joueur
-        if (playerButtons != null) {
-            return playerButtons.contains(button);
-        } else {
-            return button.getGraphic() != null;
-        }
+        return button.getGraphic() != null;
     }
 }

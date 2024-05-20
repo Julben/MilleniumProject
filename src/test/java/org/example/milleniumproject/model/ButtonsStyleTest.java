@@ -2,10 +2,9 @@ package org.example.milleniumproject.model;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.Button;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
+import org.example.milleniumproject.presentation.ButtonsStyle;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

@@ -1,6 +1,7 @@
 package org.example.milleniumproject.model;
 
 import javafx.scene.paint.Color;
+import org.example.milleniumproject.presentation.RectangleConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

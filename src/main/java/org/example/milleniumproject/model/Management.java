@@ -1,9 +1,11 @@
 package org.example.milleniumproject.model;
 
 import javafx.application.Platform;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import org.example.milleniumproject.presentation.InvisibleButtons;
+import org.example.milleniumproject.view.PreParty;
+import org.example.milleniumproject.view.PrePartyIA;
 import org.example.milleniumproject.view.Audio;
 import org.example.milleniumproject.view.Campagne;
 import org.example.milleniumproject.view.Profil;

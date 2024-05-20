@@ -18,13 +18,13 @@ import javafx.stage.Stage;
 import org.example.milleniumproject.view.Audio;
 import org.example.milleniumproject.view.AudioData;
 import org.example.milleniumproject.view.Menu;
-import org.example.milleniumproject.view.VideoData;
 
 import java.io.File;
-import java.util.Optional;
 
 import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
+import static org.example.milleniumproject.model.PartyIA.*;
+import static org.example.milleniumproject.model.PartyIA.currentPlayer;
 
 /**
  * Cette classe gère le bouton pause et l'affichage des règles du jeu.
@@ -42,11 +42,6 @@ public class ButtonPause extends StackPane {
      *
      * @param root La StackPane racine où afficher les règles.
      */
-
-
-
-
-
     public static void afficherRegles(StackPane root) {
         // Création de la StackPane pour contenir l'image et le bouton
         StackPane reglesPane = new StackPane();
@@ -266,6 +261,13 @@ public class ButtonPause extends StackPane {
             Menu menu = new Menu();
             menu.afficherMenu(primaryStage);
             MusicPlayer.musicPlay("src/main/resources/MusicMenu.mp3");
+            currentPlayer = 1;
+            turns = 0;
+            isNoChrono = false;
+            buttonsJ1.clear();
+            buttonsJ2.clear();
+            isRemovePieceMode = false;
+            placementisfinished = false;
         });
 
         hbox.getChildren().addAll(quitterButton, annulerButton);
@@ -282,7 +284,7 @@ public class ButtonPause extends StackPane {
         return vbox;
     }
 
-    static VBox boutonquittersave(Stage primaryStage, GridPane gridPane, int currentPlayer, int turns, int chrono, int bg) {
+    static VBox boutonquittersave(Stage primaryStage, GridPane gridPane, int chrono, int bg) {
         VBox vbox = new VBox(0.04167 * screenHeight);
 
         Label confirmationLabelsave = new Label("Souhaitez-vous sauvegarder la partie ?");
@@ -373,7 +375,6 @@ public class ButtonPause extends StackPane {
                             SoundPlayer.soundPlay();
                         });
 
-
                         dialogBox.getChildren().clear();
                         dialogBox.getChildren().addAll(fileExistsLabel, overwriteButton, cancelButton2);
                     } else {
@@ -404,10 +405,17 @@ public class ButtonPause extends StackPane {
         hbox.setAlignment(Pos.CENTER);
         vbox.setAlignment(Pos.TOP_CENTER);
 
+        currentPlayer = 1;
+        buttonsJ1.clear();
+        buttonsJ2.clear();
+        turns = 0;
+        isRemovePieceMode = false;
+        placementisfinished = false;
+        isNoChrono = false;
+
         return vbox;
     }
 
     public static boolean isSave() {
         return save;
-    }
-}
+    }}

@@ -1,4 +1,4 @@
-package org.example.milleniumproject.model;
+package org.example.milleniumproject.presentation;
 
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
@@ -15,6 +15,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.example.milleniumproject.model.Constant;
+
 import java.io.File;
 
 import static org.example.milleniumproject.model.Constant.screenHeight;

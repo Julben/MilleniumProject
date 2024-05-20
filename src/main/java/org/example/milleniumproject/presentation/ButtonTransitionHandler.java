@@ -1,4 +1,4 @@
-package org.example.milleniumproject.model;
+package org.example.milleniumproject.presentation;
 
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Point2D;

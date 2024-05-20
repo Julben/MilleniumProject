@@ -4,7 +4,7 @@ import javafx.application.Application;
 import javafx.scene.input.KeyCode;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-import org.example.milleniumproject.model.LoadVideo;
+import org.example.milleniumproject.presentation.LoadVideo;
 import org.example.milleniumproject.model.MusicPlayer;
 import org.example.milleniumproject.view.Menu;
 

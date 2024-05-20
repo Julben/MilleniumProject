@@ -2,12 +2,10 @@ package org.example.milleniumproject.model;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.animation.TranslateTransition;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -23,8 +21,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.example.milleniumproject.presentation.BG;
+import org.example.milleniumproject.presentation.ButtonTransitionHandler;
+import org.example.milleniumproject.presentation.RectangleConstructor;
+import org.example.milleniumproject.view.PreParty;
+
 import java.util.*;
-import static org.example.milleniumproject.model.ButtonSelector.deselectButton;
+
 import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 import static javafx.scene.paint.Color.GREEN;
@@ -362,7 +365,7 @@ public class Party extends StackPane {
                     timeline.stop();
                     timeline1.stop();
                     timeline2.stop();
-                    afficherFinPartie(this, primaryStage, currentPlayer);
+                    afficherFinPartie(this, primaryStage);
                 }
             }
         } else {
@@ -412,7 +415,7 @@ public class Party extends StackPane {
                     timeline.stop();
                     timeline1.stop();
                     timeline2.stop();
-                    afficherFinPartie(this, primaryStage, currentPlayer);
+                    afficherFinPartie(this, primaryStage);
                 }
             }
         }
@@ -715,7 +718,7 @@ public class Party extends StackPane {
                         if (remainingSeconds[0] <= 0) {
                             timeline[0].stop();
                             System.out.println(currentPlayer);
-                            afficherFinPartie(root, primaryStage, currentPlayer);
+                            afficherFinPartie(root, primaryStage);
                         }
                     }
                 })
@@ -803,7 +806,7 @@ public class Party extends StackPane {
         if (turns <= 17) {
             newQuitterMenu = ButtonPause.boutonquitter(primaryStage);
         } else {
-            newQuitterMenu = ButtonPause.boutonquittersave(primaryStage,gridPane,currentPlayer,turns,chrono,bg);
+            newQuitterMenu = ButtonPause.boutonquittersave(primaryStage,gridPane,chrono,bg);
         }
 
         // Mettre à jour quitterMenu en supprimant l'ancien et en ajoutant le nouveau
@@ -862,10 +865,6 @@ public class Party extends StackPane {
     public int getCurrentPlayer() {
         return currentPlayer;
     }
-
-
-
-
 
 
     public int getTurns() {
