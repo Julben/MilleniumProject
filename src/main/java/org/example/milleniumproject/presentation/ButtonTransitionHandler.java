@@ -6,9 +6,18 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import java.util.List;
-
+/**
+ * La classe ButtonTransitionHandler gère l'animation des pions'.
+ */
 public class ButtonTransitionHandler {
-
+    /**
+     * Effectue l'animation des pions.
+     *
+     * @param selectedButton Le bouton contenant le pion à déplacée.
+     * @param clickedButton Le bouton où le pion sera déplacée.
+     * @param buttons La liste des boutons du joueur 1 ou 2.
+     * @param onComplete L'action à exécuter à la fin de l'animation.
+     */
     public static void performTransition(Button selectedButton, Button clickedButton, List<Button> buttons,
                                          Runnable onComplete) {
         if (clickedButton.getGraphic() == null && selectedButton != null) {

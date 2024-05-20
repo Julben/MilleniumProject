@@ -9,19 +9,19 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Classe pour ajouter un fond d'écran à une StackPane.
+ * Classe pour ajouter un fond d'écran.
  */
 public class BG extends StackPane {
 
     private Background background;
 
     /**
-     * Crée un fond d'écran à partir du chemin de l'image spécifié.
+     * Crée un fond d'écran à partir d'une image dans les ressources'.
      *
-     * @param imagePath Le chemin de l'image à utiliser comme fond d'écran.
-     * @throws RuntimeException Si le fichier image n'est pas trouvé.
+     * @param imagePath L'image à utiliser comme fond d'écran.
+     * @throws RuntimeException Exception si l'image n'est pas trouvé.
      */
-    public BG(String imagePath) {
+    public BG (String imagePath) {
 
         try {
             Image image = new Image(new FileInputStream(imagePath));
@@ -58,9 +58,9 @@ public class BG extends StackPane {
     }
 
     /**
-     * Obtient le fond d'écran personnalisé associé à cette StackPane.
+     * Obtient le fond d'écran.
      *
-     * @return Le fond d'écran personnalisé.
+     * @return Le fond d'écran.
      */
     public Background getCustomBackground() {
         return background;
