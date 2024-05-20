@@ -831,7 +831,7 @@ public class Party extends StackPane {
         String name1 = (String) allInfo.get(6);
         String name2 = (String) allInfo.get(7);
         int currentPlayer = (int) allInfo.get(8);
-        int turns = (int) allInfo.get(9);
+        int turns = 18;
         int selectedIndexchrono =2;
         int selectedIndex = (int) allInfo.get(11);
         List<String> pictureButton = (List<String>) allInfo.get(12);

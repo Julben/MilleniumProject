@@ -12,8 +12,10 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.example.milleniumproject.presentation.BG;
 import java.io.File;
+import java.util.List;
 
 public class Chargement extends StackPane {
+    private ChargerPartie chargerPartie = new ChargerPartie();
 
     public Chargement(Stage primaryStage) {
 
@@ -86,10 +88,21 @@ public class Chargement extends StackPane {
         messageLabel.setStyle("-fx-text-fill: white;");
         addDropShadowEffect(messageLabel);
 
+
+
         lancerPartieButton.setOnAction(e -> {
             String fileChoisi = comboBox.getValue();
+            List<Object> allInfo = chargerPartie.chargerPartieDepuisFichier(fileChoisi);
+            boolean Ia = (boolean) allInfo.get(13);
             if (fileChoisi != null) {
-                LoadPartyCall loadPartyCall = new LoadPartyCall(primaryStage, fileChoisi);
+
+                int valeur = 0;
+                if(Ia == true){
+                    valeur= 1;
+                }else if(Ia == false){
+                    valeur= 0;
+                }
+                LoadPartyCall loadPartyCall = new LoadPartyCall(primaryStage,valeur,fileChoisi);
                 primaryStage.getScene().equals(loadPartyCall);
             } else {
                 // Aucun fichier sélectionné dans la ComboBox
