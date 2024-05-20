@@ -23,6 +23,7 @@ public class ChargerPartie {
         int turn = 0;
         int chronoselect = 0;
         int BGselect = 0;
+        boolean Ia =false;
 
         try (BufferedReader reader = new BufferedReader(new FileReader("Save/"+nomfichier+".txt"))) {
             String ligne;
@@ -55,12 +56,14 @@ public class ChargerPartie {
                     chronoselect = Integer.parseInt(ligne.split("=")[1].trim());
                 } else if (ligne.startsWith("BGSelect=")) {
                     BGselect = Integer.parseInt(ligne.split("=")[1].trim());
+                }else if(ligne.startsWith("Ia=")){
+                    Ia= Boolean.parseBoolean(ligne.split("=")[1].trim());
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return Arrays.asList(avatar1, avatar2, rank1, rank2, ship1, ship2, name1, name2, currentPlayer, turn, chronoselect, BGselect, pictureButton);
+        return Arrays.asList(avatar1, avatar2, rank1, rank2, ship1, ship2, name1, name2, currentPlayer, turn, chronoselect, BGselect, pictureButton,Ia);
     }
 }

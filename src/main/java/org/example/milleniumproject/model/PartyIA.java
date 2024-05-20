@@ -42,6 +42,7 @@ import org.example.milleniumproject.view.PrePartyIA;
 import java.util.Random;
 
 public class PartyIA extends StackPane {
+    private ChargerPartie chargerPartie = new ChargerPartie();
     static int currentPlayer = 1;
     private VBox leftVBox;
     static VBox rightVBox;
@@ -70,6 +71,8 @@ public class PartyIA extends StackPane {
     private VBox quitterMenu;
     private boolean selected = false;
     private boolean change = false;
+    String[] buttonLabels = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X"};
+
     static final List<String[]> neighbourList = Arrays.asList(
             new String[]{"A", "B"}, new String[]{"A", "J"}, new String[]{"B", "C"}, new String[]{"B", "E"}, new String[]{"C", "O"}, new String[]{"D", "E"}, new String[]{"D", "K"}, new String[]{"E", "F"},
             new String[]{"E", "H"}, new String[]{"F", "N"}, new String[]{"G", "H"}, new String[]{"G", "L"}, new String[]{"H", "I"}, new String[]{"I", "M"}, new String[]{"J", "K"}, new String[]{"J", "V"},
@@ -100,6 +103,9 @@ public class PartyIA extends StackPane {
 
     static Map<String, RectangleConstructor> rectangleMap = new HashMap<>();
 
+    public PartyIA(){
+
+    }
     public PartyIA(Stage primaryStage,int currentRound) {
 
         rectangleMap.put("ABC", abc); rectangleMap.put("DEF", def); rectangleMap.put("GHI", ghi); rectangleMap.put("JKL", jkl);
@@ -162,7 +168,6 @@ public class PartyIA extends StackPane {
         gridPane.setVgap(0.0305556*screenHeight);
         gridPane.setAlignment(Pos.CENTER);
 
-        String[] buttonLabels = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X"};
         int[] rowIndices = {0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 6};
         int[] colIndices = {0, 3, 6, 1, 3, 5, 2, 3, 4, 0, 1, 2, 4, 5, 6, 2, 3, 4, 1, 3, 5, 0, 3, 6, 6};
 
@@ -866,7 +871,7 @@ public class PartyIA extends StackPane {
         return quitterMenu;
     }
 
-    /*public void LoadParty(Stage primaryStage, String nameFile){
+    public void LoadParty(Stage primaryStage, String nameFile){
         List<Object> allInfo = chargerPartie.chargerPartieDepuisFichier(nameFile);
         String avatar1 = (String) allInfo.get(0);
         String rank1 = (String) allInfo.get(2);
@@ -900,7 +905,7 @@ public class PartyIA extends StackPane {
             }
         }
 
-        Party party = new Party(primaryStage,selectedIndexchrono,selectedIndex,avatar1,name1,rank1,currentPlayer,turns, buttonSave, buttonsJ1 , buttonsJ2);
-        primaryStage.getScene().setRoot(party);
-    }*/
+        PartyIA partyIA = new PartyIA();
+        primaryStage.getScene().setRoot(partyIA);
+    }
 }
