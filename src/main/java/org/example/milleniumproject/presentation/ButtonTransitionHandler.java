@@ -5,6 +5,8 @@ import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
+import org.example.milleniumproject.model.SoundPlayer;
+
 import java.util.List;
 
 public class ButtonTransitionHandler {
@@ -29,6 +31,7 @@ public class ButtonTransitionHandler {
                     imageView.setTranslateX(0);
                     imageView.setTranslateY(0);
                     clickedButton.setGraphic(imageView);
+                    SoundPlayer.soundPlay();
                     selectedButton.setGraphic(null);
                     buttons.remove(selectedButton);
                     buttons.add(clickedButton);
