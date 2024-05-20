@@ -13,7 +13,6 @@ import org.example.milleniumproject.model.Party;
 import org.example.milleniumproject.model.PartyIA;
 
 public class VideoPlayer extends StackPane {
-
     private MediaPlayer mediaPlayer;
 
     public VideoPlayer(String videoPath) {

@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.example.milleniumproject.presentation.BG;
 import org.example.milleniumproject.presentation.ButtonTransitionHandler;
+import org.example.milleniumproject.presentation.RectangleConstructor;
 import org.example.milleniumproject.view.PreParty;
 
 import java.util.*;
@@ -805,7 +806,7 @@ public class Party extends StackPane {
         if (turns <= 17) {
             newQuitterMenu = ButtonPause.boutonquitter(primaryStage);
         } else {
-            newQuitterMenu = ButtonPause.boutonquittersave(primaryStage, gridPane, chrono, bg);
+            newQuitterMenu = ButtonPause.boutonquittersave(primaryStage,gridPane,chrono,bg,false,0);
         }
 
         // Mettre à jour quitterMenu en supprimant l'ancien et en ajoutant le nouveau

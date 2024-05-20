@@ -5,6 +5,7 @@ module org.example.milleniumproject {
     requires java.prefs;
     requires java.desktop;
     requires javafx.swing;
+    requires java.sql;
 
 
     opens org.example.milleniumproject to javafx.fxml;

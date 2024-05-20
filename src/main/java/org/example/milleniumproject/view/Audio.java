@@ -9,11 +9,11 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import org.example.milleniumproject.model.AudioData;
-import org.example.milleniumproject.presentation.BG;
 import org.example.milleniumproject.model.BackButtons;
 import org.example.milleniumproject.model.MusicPlayer;
 import org.example.milleniumproject.model.SoundPlayer;
 import javafx.scene.Node;
+import org.example.milleniumproject.presentation.BG;
 
 /**
  * La classe Audio représente la vue de la page de configuration audio de l'application.

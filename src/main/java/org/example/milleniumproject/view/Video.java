@@ -11,6 +11,9 @@ import javafx.stage.Stage;
 import org.example.milleniumproject.model.VideoData;
 import org.example.milleniumproject.presentation.BG;
 import org.example.milleniumproject.model.BackButtons;
+import org.example.milleniumproject.model.VideoData;
+import org.example.milleniumproject.presentation.BG;
+
 import java.util.prefs.Preferences;
 import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;

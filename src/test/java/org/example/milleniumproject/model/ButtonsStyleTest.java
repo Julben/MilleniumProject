@@ -5,6 +5,7 @@ import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
+import org.example.milleniumproject.presentation.ButtonsStyle;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
