@@ -14,7 +14,6 @@ import javafx.event.ActionEvent;
 import org.example.milleniumproject.view.Profil;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
 import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 
@@ -57,8 +56,6 @@ public class Carrousel extends StackPane {
         HBox buttonsBox = new HBox(0.09375*screenWidth, previousButton, nextButton);
         buttonsBox.setAlignment(Pos.CENTER);
         this.getChildren().addAll(isImage ? imageView : label, buttonsBox);
-
-        // Charger le contenu sauvegardé dès la création
         showContent(savedIndex);
     }
 
@@ -91,7 +88,7 @@ public class Carrousel extends StackPane {
                     Image image = new Image(new FileInputStream(contents[index]));
                     imageView.setImage(image);
                 } catch (FileNotFoundException e) {
-                    e.printStackTrace(); // Gérer l'exception
+                    e.printStackTrace();
                 }
             } else {
                 label.setText(contents[index]);

@@ -2,7 +2,6 @@ package org.example.milleniumproject.model;
 
 import javafx.scene.control.Button;
 import org.example.milleniumproject.presentation.ButtonsStyle;
-
 import java.util.ArrayList;
 import java.util.List;
 import static org.example.milleniumproject.model.Constant.screenHeight;
@@ -25,7 +24,7 @@ public class ButtonsMenu {
 
         for (String nom : nomsBoutons) {
             Button bouton = new Button(nom);
-            ButtonsStyle.appliquerStyle(bouton, 0.28125*screenWidth, 0.0694*screenHeight, 0.0347*screenHeight); // Appliquer le style défini dans ButtonsStyle
+            ButtonsStyle.appliquerStyle(bouton, 0.28125*screenWidth, 0.0694*screenHeight, 0.0347*screenHeight);
             boutons.add(bouton);
         }
         return boutons;

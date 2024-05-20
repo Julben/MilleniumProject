@@ -31,7 +31,7 @@ public class VideoData {
      */
     public static void setVideoChoose(boolean choose) {
         videoChoose.set(choose);
-        preferences.putBoolean("videoChoose", choose); // Enregistre la valeur dans les préférences
+        preferences.putBoolean("videoChoose", choose);
     }
 
     /**
@@ -59,7 +59,7 @@ public class VideoData {
      */
     public static void setAnimation(boolean animate) {
         animation.set(animate);
-        preferences.putBoolean("animation", animate); // Enregistre la valeur dans les préférences
+        preferences.putBoolean("animation", animate);
     }
 
     /**
@@ -71,7 +71,6 @@ public class VideoData {
         return animation;
     }
 
-    // Initialise les données à partir des préférences
     static {
         videoChoose.set(preferences.getBoolean("videoChoose", false));
         animation.set(preferences.getBoolean("animation", false));

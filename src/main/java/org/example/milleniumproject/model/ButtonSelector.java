@@ -17,9 +17,8 @@ public class ButtonSelector {
         }
     }
 
-    // Méthode pour changer le style d'un bouton désélectionné
     static void deselectButton(Button button) {
-        button.setStyle("-fx-background-color: transparent"); // Bordure transparente
+        button.setStyle("-fx-background-color: transparent");
         if(button.getGraphic() != null){
             ImageView originalImageView = (ImageView) button.getGraphic();
             originalImageView.setScaleX(1.0);
@@ -27,14 +26,13 @@ public class ButtonSelector {
         }
     }
 
-    // Méthode pour créer et styliser les boutons
     static Button createStyledButton(String label) {
         Button button = new Button(label);
         button.setId(label);
-        button.setPrefSize(0.03906*screenWidth, 0.069444*screenHeight); // Taille préférée des boutons
+        button.setPrefSize(0.03906*screenWidth, 0.069444*screenHeight);
         button.setMinSize(0.03906*screenWidth, 0.069444*screenHeight);
         button.setMaxSize(0.03906*screenWidth, 0.069444*screenHeight);
-        button.setStyle("-fx-background-color: transparent"); // Fond transparent
+        button.setStyle("-fx-background-color: transparent");
         button.setTextFill(Color.TRANSPARENT);
         return button;
     }

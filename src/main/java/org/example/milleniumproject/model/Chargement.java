@@ -11,7 +11,6 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.example.milleniumproject.presentation.BG;
-
 import java.io.File;
 
 public class Chargement extends StackPane {
@@ -25,20 +24,16 @@ public class Chargement extends StackPane {
 
         ComboBox<String> comboBox = new ComboBox<>();
 
-        // Chemin du dossier contenant les fichiers .txt
         String dossierSave = "Save";
 
         File dossier = new File(dossierSave);
 
         if (dossier.exists() && dossier.isDirectory()) {
-            // Liste des fichiers dans le dossier
             File[] fichiers = dossier.listFiles();
 
             if (fichiers != null) {
-                // Parcourir les fichiers pour ne garder que les fichiers .txt
                 for (File fichier : fichiers) {
                     if (fichier.isFile() && fichier.getName().endsWith(".txt")) {
-                        // Ajouter le nom de fichier sans l'extension .txt dans le ComboBox
                         String nomFichier = fichier.getName().substring(0, fichier.getName().lastIndexOf('.'));
                         comboBox.getItems().add(nomFichier);
                     }
@@ -48,14 +43,12 @@ public class Chargement extends StackPane {
             System.err.println("Le dossier 'Save' n'existe pas ou n'est pas un dossier valide.");
         }
 
-        // Appliquer un style CSS au ComboBox
-        comboBox.setStyle("-fx-pref-width: 200px; " + // Largeur préférée
-                "-fx-pref-height: 50px; " + // Hauteur préférée
-                "-fx-background-color: rgba(0,0,0,0.3); " + // Couleur de fond transparente
-                "-fx-border-color: white; " + // Couleur de contour blanc
-                "-fx-border-width: 3px;"); // Épaisseur du contour
+        comboBox.setStyle("-fx-pref-width: 200px; " +
+                "-fx-pref-height: 50px; " +
+                "-fx-background-color: rgba(0,0,0,0.3); " +
+                "-fx-border-color: white; " +
+                "-fx-border-width: 3px;");
 
-        // Définir un CellFactory pour styliser les éléments de la liste (texte noir)
         comboBox.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
             public ListCell<String> call(ListView<String> listView) {
                 return new ListCell<String>() {
@@ -72,7 +65,6 @@ public class Chargement extends StackPane {
             }
         });
 
-        // Définir le style pour l'élément sélectionné dans le ComboBox (texte blanc)
         comboBox.setButtonCell(new ListCell<String>() {
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -105,12 +97,9 @@ public class Chargement extends StackPane {
             }
         });
 
-        // Créer un VBox pour organiser les éléments verticalement
-        VBox vbox = new VBox(20); // Espacement de 10 entre les éléments
-        vbox.getChildren().addAll(messageLabel, comboBox, lancerPartieButton); // Ajouter le ComboBox et le bouton au VBox
+        VBox vbox = new VBox(20);
+        vbox.getChildren().addAll(messageLabel, comboBox, lancerPartieButton);
         vbox.setAlignment(Pos.CENTER);
-
-        // Ajouter la VBox et le bouton retour au StackPane
         getChildren().addAll(vbox, retourButton);
     }
 

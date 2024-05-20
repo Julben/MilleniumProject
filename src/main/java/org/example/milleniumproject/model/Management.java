@@ -27,9 +27,10 @@ public class Management {
 
         for (Button bouton : boutonsComplets) {
             bouton.setOnAction(event -> {
-                SoundPlayer.soundPlay(); // Joue un son lorsqu'un bouton est cliqué
+                SoundPlayer.soundPlay();
                 if (bouton.getText().equals("Nouvelle Partie")) {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
+
                 } else if (bouton.getText().equals("Campagne")) {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
                     Campagne campagne=new Campagne(primaryStage);
@@ -51,26 +52,26 @@ public class Management {
                     Chargement chargement = new Chargement(primaryStage);
                     primaryStage.getScene().setRoot(chargement);
 
-                    /*InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
-                    LoadPartyCall loadPartyCall = new LoadPartyCall(primaryStage);
-                    primaryStage.getScene().equals(loadPartyCall); // Utilise setRoot() au lieu de equals()*/
-
                 } else if (bouton.getText().equals("Profil")) {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
                     Profil profil = new Profil(primaryStage);
                     primaryStage.getScene().setRoot(profil);
+
                 } else if (bouton.getText().equals("Paramètres")) {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
+
                 } else if (bouton.getText().equals("Audio")) {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
                     Audio audio = new Audio(primaryStage);
                     primaryStage.getScene().setRoot(audio);
+
                 } else if (bouton.getText().equals("Video")) {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
                     Video video = new Video(primaryStage);
                     primaryStage.getScene().setRoot(video);
+
                 } else if (bouton.getText().equals("Quitter")) {
-                    Platform.exit(); // Ferme l'application
+                    Platform.exit();
                 }
             });
         }

@@ -87,7 +87,6 @@ public class Movement {
                 SoundPlayer.soundPlay();
                 Button boutonVide = getEmptyButton(gridPane);
 
-                // Si on trouve un bouton vide et un pion restant
                 if (boutonVide != null && pionRestantJ2 != null) {
 
                     PauseTransition pause = new PauseTransition(Duration.seconds(1));
@@ -326,13 +325,12 @@ public class Movement {
     }
 
     public static void checkAlignments() {
-        // Boucle sur chaque élément de alignments
+
         for (String[] alignment : alignments) {
             int count = 0;
             Button buttonWithoutImage = null;
             List<Button> buttonsInAlignment = new ArrayList<>();
 
-            // Identifier le bouton sans image et collecter les boutons présents dans l'alignement
             for (String buttonId : alignment) {
                 Button button = getButtonById(buttonId);
                 if (button != null && button.getGraphic() == null) {
@@ -346,26 +344,21 @@ public class Movement {
                 }
             }
 
-            // Si on a exactement deux boutons dans buttonsJ2 et un bouton sans image
             if (count == 2 && buttonWithoutImage != null) {
                 String buttonIdWithoutImage = buttonWithoutImage.getId();
                 boolean hasValidNeighbour = false;
 
-                // Vérifier les voisins du bouton sans image dans neighbourList
                 for (String[] neighbourPair : neighbourList) {
                     if (neighbourPair[0].equals(buttonIdWithoutImage) || neighbourPair[1].equals(buttonIdWithoutImage)) {
                         String neighbourId = neighbourPair[0].equals(buttonIdWithoutImage) ? neighbourPair[1] : neighbourPair[0];
                         Button neighbourButton = getButtonById(neighbourId);
 
-                        // Vérifier si le voisin appartient à buttonsJ2 et n'est pas déjà dans l'alignement
                         if (neighbourButton != null && buttonsJ2.contains(neighbourButton) && !buttonsInAlignment.contains(neighbourButton)) {
                             hasValidNeighbour = true;
                             break;
                         }
                     }
                 }
-
-                // Si un voisin valide est trouvé, ajouter l'alignement à la liste finale
                 if (hasValidNeighbour) {
                     finalValidAlignments.add(alignment);
                 }
@@ -374,14 +367,12 @@ public class Movement {
     }
 
     public static void checkAlignmentsJ1() {
-        // Boucle sur chaque élément de alignments
         for (String[] alignment : alignments) {
             int count = 0;
             Button buttonWithoutImage = null;
 
             List<Button> buttonsInAlignment = new ArrayList<>();
 
-            // Identifier le bouton sans image et collecter les boutons présents dans l'alignement
             for (String buttonId : alignment) {
                 Button button = getButtonById(buttonId);
                 if (button.getGraphic() == null) {
@@ -393,19 +384,15 @@ public class Movement {
                 }
 
             }
-
-            // Si on a exactement deux boutons dans buttonsJ2 et un bouton sans image
             if (count == 2 && buttonWithoutImage != null) {
                 String buttonIdWithoutImage = buttonWithoutImage.getId();
                 boolean hasValidNeighbour = false;
 
-                // Vérifier les voisins du bouton sans image dans neighbourList
                 for (String[] neighbourPair : neighbourList) {
                     if (neighbourPair[0].equals(buttonIdWithoutImage) || neighbourPair[1].equals(buttonIdWithoutImage)) {
                         String neighbourId = neighbourPair[0].equals(buttonIdWithoutImage) ? neighbourPair[1] : neighbourPair[0];
                         Button neighbourButton = getButtonById(neighbourId);
 
-                        // Vérifier si le voisin appartient à buttonsJ2 et n'est pas déjà dans l'alignement
                         if (neighbourButton != null && buttonsJ2.contains(neighbourButton) && !buttonsInAlignment.contains(neighbourButton)) {
                             hasValidNeighbour = true;
                             break;
@@ -413,7 +400,6 @@ public class Movement {
                     }
                 }
 
-                // Si un voisin valide est trouvé, ajouter l'alignement à la liste finale
                 if (hasValidNeighbour) {
                     finalValidAlignmentsJ1.add(alignment);
                 }
@@ -423,14 +409,13 @@ public class Movement {
 
     public static Button RandomFreeJ1() {
 
-        FreeButtonsJ1.clear(); // Nettoyer la liste avant de l'utiliser
+        FreeButtonsJ1.clear();
 
         for (Button i : buttonsJ1) {
             if (!isNotlibre(i)) {
                 FreeButtonsJ1.add(i);
             }
         }
-
         if (FreeButtonsJ1.isEmpty()) {
             Random random = new Random();
             int index = random.nextInt(buttonsJ1.size());

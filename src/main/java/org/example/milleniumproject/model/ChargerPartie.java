@@ -63,5 +63,4 @@ public class ChargerPartie {
 
         return Arrays.asList(avatar1, avatar2, rank1, rank2, ship1, ship2, name1, name2, currentPlayer, turn, chronoselect, BGselect, pictureButton);
     }
-
 }
