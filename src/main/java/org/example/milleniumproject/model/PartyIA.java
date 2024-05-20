@@ -36,6 +36,7 @@ import static org.example.milleniumproject.model.Placement.*;
 import static org.example.milleniumproject.model.RemovePiece.*;
 import javafx.scene.control.Button;
 import org.example.milleniumproject.presentation.BG;
+import org.example.milleniumproject.presentation.ButtonTransitionHandler;
 import org.example.milleniumproject.presentation.RectangleConstructor;
 import org.example.milleniumproject.view.PreParty;
 import org.example.milleniumproject.view.PrePartyIA;
@@ -578,7 +579,6 @@ public class PartyIA extends StackPane {
 
                 if(placementisfinished){
                     if (isGameFinished()) {
-                        System.out.println("1");
                         FinPartie(this,timeline1, timeline2, primaryStage);
                     }
                 }
@@ -622,7 +622,6 @@ public class PartyIA extends StackPane {
                     handleSelection(this, button, buttonsJ1, button, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono, primaryStage,gridpane, diffliculty);
                 }
                 if (isGameFinished()) {
-                    System.out.println("2");
                     FinPartie(this,timeline1, timeline2, primaryStage);
                 }
             }
@@ -700,26 +699,48 @@ public class PartyIA extends StackPane {
         else {
             if (isNeighbourButton(selectedButton, clickedButton) || (buttons.size() == 3 && placementisfinished)) {
                 if (clickedButton.getGraphic() == null) {
-                    ImageView imageView = (ImageView) selectedButton.getGraphic();
-                    clickedButton.setGraphic(imageView);
-                    selectedButton.setGraphic(null);
-                    buttons.remove(selectedButton);
-                    buttons.add(clickedButton);
-                    deselectButton(clickedButton);
-                    change = true;
 
-                    resetButtonColorsForMovedButton(selectedButton);
+                    if(VideoData.isAnimation()){
+                        Button finalSelectedButton = selectedButton;
+                        ButtonTransitionHandler.performTransition(selectedButton, clickedButton, buttonsJ1, () -> {
+                            deselectButton(clickedButton);
 
-                    checkButtonCombinations();
+                            resetButtonColorsForMovedButton(finalSelectedButton);
+                            checkButtonCombinations();
 
-                    if(!isRemovePieceMode) {
-                        currentPlayer = 2;
-                        ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
-                        if(difficulty == 0){
-                            EasyMovement(this, button, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage, difficulty);
-                        } else if (difficulty == 1) {
-                            HardMovement( this, button, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage, gridpane, difficulty);
+                            if(!isRemovePieceMode) {
+                                currentPlayer = 2;
+                                ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
+                                if(difficulty == 0){
+                                    EasyMovement(this, button, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage, difficulty);
+                                } else if (difficulty == 1) {
+                                    HardMovement( this, button, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage, gridpane, difficulty);
+                                }
+                            }
+                            change = true;
+                        });
+                    }
+                    else {
+                        ImageView imageView = (ImageView) selectedButton.getGraphic();
+                        clickedButton.setGraphic(imageView);
+                        selectedButton.setGraphic(null);
+                        buttons.remove(selectedButton);
+                        buttons.add(clickedButton);
+                        deselectButton(clickedButton);
+
+                        resetButtonColorsForMovedButton(selectedButton);
+                        checkButtonCombinations();
+
+                        if(!isRemovePieceMode) {
+                            currentPlayer = 2;
+                            ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
+                            if(difficulty == 0){
+                                EasyMovement(this, button, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage, difficulty);
+                            } else if (difficulty == 1) {
+                                HardMovement( this, button, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage, gridpane, difficulty);
+                            }
                         }
+                        change = true;
                     }
                 }
             }
@@ -768,7 +789,7 @@ public class PartyIA extends StackPane {
 
         for (Button b : buttonsJ2) {
             String id = b.getId();
-
+            
             for (String[] neighbours : neighbourList) {
                 if (neighbours[0].equals(id)) {
                     Button button = getButtonById(neighbours[1]);
@@ -891,14 +912,8 @@ public class PartyIA extends StackPane {
     }
 
     static boolean isGameFinished() {
-        if (currentPlayer == 1) {
-            if (buttonsJ1.size() < 3 || buttonsJ2.size() < 3) {
-                return true;
-            }
-        } else {
-            if (buttonsJ2.size() < 3) {
-                return true;
-            }
+        if(buttonsJ1.size()<3 || buttonsJ2.size()<3) {
+            return true;
         }
 
         if (currentPlayer == 1 && (buttonsJ1.size() != 3 || buttonsJ2.size() != 3)) {

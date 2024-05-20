@@ -5,10 +5,21 @@ import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
+import org.example.milleniumproject.model.SoundPlayer;
+
 import java.util.List;
-
+/**
+ * La classe ButtonTransitionHandler gère l'animation des pions'.
+ */
 public class ButtonTransitionHandler {
-
+    /**
+     * Effectue l'animation des pions.
+     *
+     * @param selectedButton Le bouton contenant le pion à déplacée.
+     * @param clickedButton Le bouton où le pion sera déplacée.
+     * @param buttons La liste des boutons du joueur 1 ou 2.
+     * @param onComplete L'action à exécuter à la fin de l'animation.
+     */
     public static void performTransition(Button selectedButton, Button clickedButton, List<Button> buttons,
                                          Runnable onComplete) {
         if (clickedButton.getGraphic() == null && selectedButton != null) {
@@ -29,6 +40,7 @@ public class ButtonTransitionHandler {
                     imageView.setTranslateX(0);
                     imageView.setTranslateY(0);
                     clickedButton.setGraphic(imageView);
+                    SoundPlayer.soundPlay();
                     selectedButton.setGraphic(null);
                     buttons.remove(selectedButton);
                     buttons.add(clickedButton);

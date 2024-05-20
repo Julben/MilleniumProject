@@ -10,16 +10,16 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 /**
- * Classe utilitaire pour appliquer des styles aux boutons.
+ * Classe pour appliquer un style aux boutons.
  */
 public class ButtonsStyle {
 
     /**
-     * Applique un style spécifié aux boutons.
+     * Applique un style aux boutons.
      * @param bouton Le bouton auquel appliquer le style.
-     * @param width  La largeur préférée du bouton.
-     * @param height La hauteur préférée du bouton.
-     * @param size   La taille de la police du texte.
+     * @param width  La largeur du bouton.
+     * @param height La hauteur du bouton.
+     * @param size   La taille du texte.
      */
     public static void appliquerStyle(Button bouton, double width, double height, double size) {
         bouton.setPrefSize(width, height);

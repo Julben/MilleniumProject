@@ -9,6 +9,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.example.milleniumproject.presentation.ButtonTransitionHandler;
+
 import java.util.*;
 import static org.example.milleniumproject.model.ButtonSelector.deselectButton;
 import static org.example.milleniumproject.model.ButtonSelector.selectButton;
@@ -38,37 +40,69 @@ public class Movement {
                 pause.setOnFinished(event -> {
                     Button voisinChoisi = getSelectedNeighbourButton(buttonJ2avecvoisinlibre);
 
-                    ImageView imageView1 = (ImageView) buttonJ2avecvoisinlibre.getGraphic();
-                    voisinChoisi.setGraphic(imageView1);
-                    SoundPlayer.soundPlay();
-                    buttonJ2avecvoisinlibre.setGraphic(null);
-                    buttonsJ2.remove(buttonJ2avecvoisinlibre);
-                    buttonsJ2.add(voisinChoisi);
-                    deselectButton(buttonJ2avecvoisinlibre);
-                    deselectButton(voisinChoisi);
+                    if(VideoData.isAnimation()){
+                        Button finalButtonJ2avecviosinlibre = buttonJ2avecvoisinlibre;
+                        ButtonTransitionHandler.performTransition(buttonJ2avecvoisinlibre, voisinChoisi, buttonsJ2, () -> {
 
-                    buttonsvoisinlibres.clear();
+                            deselectButton(voisinChoisi);
+                            deselectButton(buttonJ2avecvoisinlibre);
 
-                    resetButtonColorsForMovedButton(buttonJ2avecvoisinlibre);
-                    checkButtonCombinations();
+                            buttonsvoisinlibres.clear();
 
-                    if (!isRemovePieceMode) {
-                        currentPlayer = 1;
-                        ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
-                        if (isGameFinished()) {
-                            System.out.println("3");
-                            FinPartie(root, timeline1, timeline2, primaryStage);
-                        }
-                    } else {
-                        Button randomFreeButton = getRandomFreeButtonJ1();
-                        if (difficulty == 0) {
-                            removePiece(root, randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1, primaryStage);
-                        } else if (difficulty == 1) {
-                            HardRemove(root, randomFreeButton, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage);
-                        }
-                        if (isGameFinished()) {
-                            System.out.println("4");
-                            FinPartie(root, timeline1, timeline2, primaryStage);
+                            resetButtonColorsForMovedButton(finalButtonJ2avecviosinlibre);
+                            checkButtonCombinations();
+
+                            if (!isRemovePieceMode) {
+                                currentPlayer = 1;
+                                ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                                if (isGameFinished()) {
+                                    FinPartie(root, timeline1, timeline2, primaryStage);
+                                }
+                            } else {
+                                Button randomFreeButton = getRandomFreeButtonJ1();
+                                if (difficulty == 0) {
+                                    removePiece(root, randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1, primaryStage);
+                                } else if (difficulty == 1) {
+                                    HardRemove(root, randomFreeButton, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage);
+                                }
+                                if (isGameFinished()) {
+                                    FinPartie(root, timeline1, timeline2, primaryStage);
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        ImageView imageView1 = (ImageView) buttonJ2avecvoisinlibre.getGraphic();
+                        voisinChoisi.setGraphic(imageView1);
+                        SoundPlayer.soundPlay();
+                        buttonJ2avecvoisinlibre.setGraphic(null);
+                        buttonsJ2.remove(buttonJ2avecvoisinlibre);
+                        buttonsJ2.add(voisinChoisi);
+                        deselectButton(buttonJ2avecvoisinlibre);
+                        deselectButton(voisinChoisi);
+                        deselectButton(buttonJ2avecvoisinlibre);
+
+                        buttonsvoisinlibres.clear();
+
+                        resetButtonColorsForMovedButton(buttonJ2avecvoisinlibre);
+                        checkButtonCombinations();
+
+                        if (!isRemovePieceMode) {
+                            currentPlayer = 1;
+                            ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                            if (isGameFinished()) {
+                                FinPartie(root, timeline1, timeline2, primaryStage);
+                            }
+                        } else {
+                            Button randomFreeButton = getRandomFreeButtonJ1();
+                            if (difficulty == 0) {
+                                removePiece(root, randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1, primaryStage);
+                            } else if (difficulty == 1) {
+                                HardRemove(root, randomFreeButton, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage);
+                            }
+                            if (isGameFinished()) {
+                                FinPartie(root, timeline1, timeline2, primaryStage);
+                            }
                         }
                     }
                 });
@@ -92,43 +126,76 @@ public class Movement {
                     PauseTransition pause = new PauseTransition(Duration.seconds(1));
                     pause.setOnFinished(event -> {
 
-                        ImageView imageViewPion = (ImageView) pionRestantJ2.getGraphic();
-                        boutonVide.setGraphic(imageViewPion);
-                        SoundPlayer.soundPlay();
-                        pionRestantJ2.setGraphic(null);
-                        buttonsJ2.remove(pionRestantJ2);
-                        buttonsJ2.add(boutonVide);
-                        deselectButton(pionRestantJ2);
-                        deselectButton(boutonVide);
+                        if(VideoData.isAnimation()){
+                            Button finalpionrestantJ2 = pionRestantJ2;
+                            ButtonTransitionHandler.performTransition(pionRestantJ2, boutonVide, buttonsJ2, () -> {
+                                deselectButton(boutonVide);
+                                deselectButton(pionRestantJ2);
 
-                        resetButtonColorsForMovedButton(pionRestantJ2);
-                        checkButtonCombinations();
+                                resetButtonColorsForMovedButton(finalpionrestantJ2);
+                                checkButtonCombinations();
 
-                        if (!isRemovePieceMode) {
-                            currentPlayer = 1;
-                            ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
-                            if (isGameFinished()) {
-                                System.out.println("5");
-                                FinPartie(root, timeline1, timeline2, primaryStage);
-                            }
-                        } else {
-                            currentPlayer = 2;
+                                if (!isRemovePieceMode) {
+                                    currentPlayer = 1;
+                                    ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                                    if (isGameFinished()) {
+                                        FinPartie(root, timeline1, timeline2, primaryStage);
+                                    }
+                                } else {
+                                    currentPlayer = 2;
 
-                            Button randomFreeButton = RandomFreeJ1();
+                                    Button randomFreeButton = RandomFreeJ1();
 
-                            if (difficulty == 0) {
-                                removePiece(root, randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1, primaryStage);
+                                    if (difficulty == 0) {
+                                        removePiece(root, randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1, primaryStage);
 
-                            } else if (difficulty == 1) {
-                                HardRemove(root, randomFreeButton, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage);
+                                    } else if (difficulty == 1) {
+                                        HardRemove(root, randomFreeButton, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage);
 
-                            }
-                            if (isGameFinished()) {
-                                System.out.println("6");
-                                FinPartie(root, timeline1, timeline2, primaryStage);
+                                    }
+                                    if (isGameFinished()) {
+                                        FinPartie(root, timeline1, timeline2, primaryStage);
+                                    }
+                                }
+                            });
+                        }
+                        else {
+                            ImageView imageView1 = (ImageView) pionRestantJ2.getGraphic();
+                            boutonVide.setGraphic(imageView1);
+                            SoundPlayer.soundPlay();
+                            pionRestantJ2.setGraphic(null);
+                            buttonsJ2.remove(pionRestantJ2);
+                            buttonsJ2.add(boutonVide);
+                            deselectButton(pionRestantJ2);
+                            deselectButton(boutonVide);
+
+
+                            resetButtonColorsForMovedButton(pionRestantJ2);
+                            checkButtonCombinations();
+
+                            if (!isRemovePieceMode) {
+                                currentPlayer = 1;
+                                ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                                if (isGameFinished()) {
+                                    FinPartie(root, timeline1, timeline2, primaryStage);
+                                }
+                            } else {
+                                currentPlayer = 2;
+
+                                Button randomFreeButton = RandomFreeJ1();
+
+                                if (difficulty == 0) {
+                                    removePiece(root, randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1, primaryStage);
+
+                                } else if (difficulty == 1) {
+                                    HardRemove(root, randomFreeButton, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage);
+
+                                }
+                                if (isGameFinished()) {
+                                    FinPartie(root, timeline1, timeline2, primaryStage);
+                                }
                             }
                         }
-
                     });
                     pause.play();
                 }
@@ -183,46 +250,84 @@ public class Movement {
                     Button finalClickedButton = clickedButton;
                     pause1.setOnFinished(event -> {
 
-                        ImageView imageView1 = (ImageView) finalSelectedButton.getGraphic();
-                        finalClickedButton.setGraphic(imageView1);
-                        SoundPlayer.soundPlay();
-                        finalSelectedButton.setGraphic(null);
-                        buttonsJ2.remove(finalSelectedButton);
-                        buttonsJ2.add(finalClickedButton);
-                        deselectButton(finalClickedButton);
-                        deselectButton(finalSelectedButton);
+                        if(VideoData.isAnimation()){
+                            Button finalfinalselectedButton = finalSelectedButton;
+                            ButtonTransitionHandler.performTransition(finalSelectedButton, finalClickedButton, buttonsJ2, () -> {
+                                deselectButton(finalClickedButton);
+                                deselectButton(finalSelectedButton);
 
-                        finalValidAlignments.clear();
-                        finalValidAlignmentsJ1.clear();
+                                finalValidAlignments.clear();
+                                finalValidAlignmentsJ1.clear();
 
-                        resetButtonColorsForMovedButton(finalSelectedButton);
-                        checkButtonCombinations();
+                                resetButtonColorsForMovedButton(finalfinalselectedButton);
+                                checkButtonCombinations();
 
-                        if(!isRemovePieceMode){
-                            currentPlayer = 1;
-                            PartyIA.ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
-                            if (isGameFinished()) {
-                                System.out.println("7");
-                                FinPartie(root, timeline1, timeline2, primaryStage);
-                            }
+                                if(!isRemovePieceMode){
+                                    currentPlayer = 1;
+                                    PartyIA.ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                                    if (isGameFinished()) {
+                                        FinPartie(root, timeline1, timeline2, primaryStage);
+                                    }
+                                }
+                                else {
+                                    currentPlayer = 2;
+
+                                    Button randomFreeButton = RandomFreeJ1();
+
+                                    if(difficulty == 0){
+                                        removePiece(root, randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
+
+                                    } else if (difficulty == 1) {
+                                        HardRemove( root,  button,  timeline2,  timerLabel2,  timerLabel1,  chrono, remainingSeconds2,  timeline1,  primaryStage);
+
+                                    }
+                                    if (isGameFinished()) {
+                                        FinPartie(root, timeline1, timeline2, primaryStage);
+                                    }
+                                }
+                            });
                         }
                         else {
-                            currentPlayer = 2;
+                            ImageView imageView1 = (ImageView) finalSelectedButton.getGraphic();
+                            finalClickedButton.setGraphic(imageView1);
+                            SoundPlayer.soundPlay();
+                            finalSelectedButton.setGraphic(null);
+                            buttonsJ2.remove(finalSelectedButton);
+                            buttonsJ2.add(finalClickedButton);
+                            deselectButton(finalClickedButton);
+                            deselectButton(finalSelectedButton);
 
-                            Button randomFreeButton = RandomFreeJ1();
+                            finalValidAlignments.clear();
+                            finalValidAlignmentsJ1.clear();
 
-                            if(difficulty == 0){
-                                removePiece(root, randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
+                            resetButtonColorsForMovedButton(finalSelectedButton);
+                            checkButtonCombinations();
 
-                            } else if (difficulty == 1) {
-                                HardRemove( root,  button,  timeline2,  timerLabel2,  timerLabel1,  chrono, remainingSeconds2,  timeline1,  primaryStage);
-
+                            if(!isRemovePieceMode){
+                                currentPlayer = 1;
+                                PartyIA.ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                                if (isGameFinished()) {
+                                    FinPartie(root, timeline1, timeline2, primaryStage);
+                                }
                             }
-                            if (isGameFinished()) {
-                                System.out.println("8");
-                                FinPartie(root, timeline1, timeline2, primaryStage);
+                            else {
+                                currentPlayer = 2;
+
+                                Button randomFreeButton = RandomFreeJ1();
+
+                                if(difficulty == 0){
+                                    removePiece(root, randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
+
+                                } else if (difficulty == 1) {
+                                    HardRemove( root,  button,  timeline2,  timerLabel2,  timerLabel1,  chrono, remainingSeconds2,  timeline1,  primaryStage);
+
+                                }
+                                if (isGameFinished()) {
+                                    FinPartie(root, timeline1, timeline2, primaryStage);
+                                }
                             }
                         }
+
                     });
                     pause1.play();
                 });
@@ -268,44 +373,77 @@ public class Movement {
                     Button finalClickedButton = clickedButton;
                     pause1.setOnFinished(event -> {
 
-                        ImageView imageView1 = (ImageView) finalSelectedButton.getGraphic();
-                        finalClickedButton.setGraphic(imageView1);
-                        SoundPlayer.soundPlay();
-                        finalSelectedButton.setGraphic(null);
-                        buttonsJ2.remove(finalSelectedButton);
-                        buttonsJ2.add(finalClickedButton);
-                        deselectButton(finalClickedButton);
-                        deselectButton(finalSelectedButton);
+                        if(VideoData.isAnimation()){
+                            Button finalfinalselectedButton = finalSelectedButton;
+                            ButtonTransitionHandler.performTransition(finalSelectedButton, finalClickedButton, buttonsJ2, () -> {
+                                deselectButton(finalClickedButton);
+                                deselectButton(finalSelectedButton);
 
-                        finalValidAlignmentsJ1.clear();
-                        finalValidAlignments.clear();
+                                finalValidAlignmentsJ1.clear();
+                                finalValidAlignments.clear();
 
-                        resetButtonColorsForMovedButton(finalSelectedButton);
-                        checkButtonCombinations();
+                                resetButtonColorsForMovedButton(finalfinalselectedButton);
+                                checkButtonCombinations();
 
-                        if(!isRemovePieceMode){
-                            currentPlayer = 1;
-                            ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
-                            if (isGameFinished()) {
-                                System.out.println("9");
-                                FinPartie(root, timeline1, timeline2, primaryStage);
-                            }
+                                if(!isRemovePieceMode){
+                                    currentPlayer = 1;
+                                    ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                                    if (isGameFinished()) {
+                                        FinPartie(root, timeline1, timeline2, primaryStage);
+                                    }
+                                }
+                                else {
+                                    currentPlayer = 2;
+                                    Button randomFreeButton = RandomFreeJ1();
+                                    if (difficulty == 0){
+                                        removePiece(root, randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
+
+                                    } else if (difficulty == 1) {
+                                        HardRemove(root,  button,  timeline2,  timerLabel2,  timerLabel1,  chrono, remainingSeconds2,  timeline1,  primaryStage);
+                                    }
+                                    if (isGameFinished()) {
+                                        FinPartie(root, timeline1, timeline2, primaryStage);
+                                    }
+                                }
+                            });
                         }
                         else {
-                            currentPlayer = 2;
-                            Button randomFreeButton = RandomFreeJ1();
-                            if (difficulty == 0){
-                                removePiece(root, randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
+                            ImageView imageView1 = (ImageView) finalSelectedButton.getGraphic();
+                            finalClickedButton.setGraphic(imageView1);
+                            SoundPlayer.soundPlay();
+                            finalSelectedButton.setGraphic(null);
+                            buttonsJ2.remove(finalSelectedButton);
+                            buttonsJ2.add(finalClickedButton);
+                            deselectButton(finalClickedButton);
+                            deselectButton(finalSelectedButton);
 
-                            } else if (difficulty == 1) {
-                                HardRemove(root,  button,  timeline2,  timerLabel2,  timerLabel1,  chrono, remainingSeconds2,  timeline1,  primaryStage);
+                            finalValidAlignmentsJ1.clear();
+                            finalValidAlignments.clear();
+
+                            resetButtonColorsForMovedButton(finalSelectedButton);
+                            checkButtonCombinations();
+
+                            if(!isRemovePieceMode){
+                                currentPlayer = 1;
+                                ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                                if (isGameFinished()) {
+                                    FinPartie(root, timeline1, timeline2, primaryStage);
+                                }
                             }
-                            if (isGameFinished()) {
-                                System.out.println("10");
-                                FinPartie(root, timeline1, timeline2, primaryStage);
+                            else {
+                                currentPlayer = 2;
+                                Button randomFreeButton = RandomFreeJ1();
+                                if (difficulty == 0){
+                                    removePiece(root, randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
+
+                                } else if (difficulty == 1) {
+                                    HardRemove(root,  button,  timeline2,  timerLabel2,  timerLabel1,  chrono, remainingSeconds2,  timeline1,  primaryStage);
+                                }
+                                if (isGameFinished()) {
+                                    FinPartie(root, timeline1, timeline2, primaryStage);
+                                }
                             }
                         }
-
                     });
                     pause1.play();
                 });

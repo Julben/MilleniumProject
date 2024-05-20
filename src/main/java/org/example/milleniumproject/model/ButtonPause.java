@@ -24,7 +24,7 @@ import static org.example.milleniumproject.model.PartyIA.*;
 import static org.example.milleniumproject.model.PartyIA.currentPlayer;
 
 /**
- * Cette classe gère le bouton pause et l'affichage des règles du jeu.
+ * Cette classe gère le bouton pause et les sous paramètres de celui-ci.
  */
 public class ButtonPause extends StackPane {
 
@@ -35,9 +35,9 @@ public class ButtonPause extends StackPane {
     private Audio.SliderWithControls sliderWithControls3;
 
     /**
-     * Affiche les règles du jeu sur une StackPane semi-transparente avec un bouton pour les fermer.
+     * Affiche les règles du jeu.
      *
-     * @param root La StackPane racine où afficher les règles.
+     * @param root  Conteneur principal de la scène.
      */
     public static void afficherRegles(StackPane root) {
 
@@ -72,7 +72,11 @@ public class ButtonPause extends StackPane {
         root.getChildren().add(reglesPane);
     }
 
-
+    /**
+     * Affiche les paramètres du jeu.
+     *
+     * @param root Conteneur principal de la scène.
+     */
     public static void parametres(StackPane root) {
         StackPane parametrePane = new StackPane();
         parametrePane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7);");
@@ -176,18 +180,31 @@ public class ButtonPause extends StackPane {
 
         root.getChildren().add(parametrePane);
     }
-
+    /**
+     * Crée un label stylisé.
+     *
+     * @param text Le texte du label.
+     * @return Le label.
+     */
     private static Label createStyledLabel(String text) {
         Label label = new Label(text);
         label.setStyle("-fx-font-family: Cardo; -fx-text-fill: #FFFFFFFF; -fx-font-size: 20px;");
         addDropShadowEffect(label);
         return label;
     }
-
+    /**
+     * Applique un style aux boutons.
+     *
+     * @param button Le bouton à styliser.
+     */
     private static void stylizeButton(Button button) {
         button.setStyle("-fx-font-family: Cardo; -fx-background-color: transparent; -fx-text-fill: #FFFFFFFF; -fx-font-size: 25px;");
     }
-
+    /**
+     * Ajoute un effet d'ombre.
+     *
+     * @param node Le nœud auquel appliquer l'effet d'ombre.
+     */
     private static void addDropShadowEffect(Node node) {
         DropShadow dropShadow = new DropShadow();
         dropShadow.setRadius(3);
@@ -197,10 +214,10 @@ public class ButtonPause extends StackPane {
     }
 
     /**
-     * Crée un menu pour confirmer la sortie du jeu.
+     * Sert à revenir vers le menu du jeu.
      *
-     * @param primaryStage La fenêtre principale de l'application.
-     * @return Une VBox contenant le menu de confirmation.
+     * @param primaryStage  La scène en premier plan.
+     * @return Une VBox contenant le bouton quitter.
      */
     static VBox boutonquitter(Stage primaryStage) {
         VBox vbox = new VBox(0.04167 * screenHeight);

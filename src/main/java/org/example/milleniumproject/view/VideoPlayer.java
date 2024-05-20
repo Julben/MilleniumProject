@@ -9,9 +9,18 @@ import javafx.scene.media.MediaView;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
+/**
+ * VideoPlayer est une classe qui permet de gérer les vidéos de la campagne.
+ */
 public class VideoPlayer extends StackPane {
+
     private MediaPlayer mediaPlayer;
 
+    /**
+     * Construit un VideoPlayer pour lire les vidéos de la campagne.
+     *
+     * @param videoPath le chemin du fichier vidéo.
+     */
     public VideoPlayer(String videoPath) {
         Media media = new Media(videoPath);
         mediaPlayer = new MediaPlayer(media);
@@ -28,6 +37,8 @@ public class VideoPlayer extends StackPane {
         setFocusTraversable(true);
     }
 
+
+    //méthode qu'on va supprimer
     private void handleKeyPress(KeyEvent event) {
         if (event.getCode() == KeyCode.SPACE) {
             Duration duration = mediaPlayer.getTotalDuration();
@@ -38,6 +49,11 @@ public class VideoPlayer extends StackPane {
             }
         }
     }
+    /**
+     * Lance les vidéos de la campagne.
+     *
+     * @param onEnd le Runnable à exécuter lorsque la vidéo se termine.
+     */
     public void playVideo(Runnable onEnd) {
         mediaPlayer.setOnEndOfMedia(() -> {
             mediaPlayer.seek(Duration.ZERO);

@@ -16,8 +16,8 @@ import org.example.milleniumproject.model.SoundPlayer;
 import javafx.scene.Node;
 
 /**
- * La classe Audio représente la vue de la page de configuration audio de l'application.
- * Elle permet à l'utilisateur de régler les volumes de la musique et des effets sonores.
+ * La classe Audio permet de gèrer tout les sons du jeu.
+ * Elle permet au joueur de modifier le volume de la musique et des effets sonores.
  */
 public class Audio extends StackPane {
 
@@ -25,9 +25,9 @@ public class Audio extends StackPane {
     private SliderWithControls sliderWithControls3;
 
     /**
-     * Constructeur de la classe Audio.
+     * Crée la classe Audio.
      *
-     * @param primaryStage La fenêtre principale de l'application.
+     * @param primaryStage La scène en premier plan.
      */
     public Audio(Stage primaryStage) {
         BG ground = new BG("src/main/resources/BGAUDIO.png");
@@ -96,18 +96,31 @@ public class Audio extends StackPane {
 
         getChildren().addAll(finalhbox, retourButton);
     }
-
+    /**
+     * Crée un label stylisé.
+     *
+     * @param text Le texte du label.
+     * @return Le label.
+     */
     private static Label createStyledLabel(String text) {
         Label label = new Label(text);
         label.setStyle("-fx-font-family: Cardo; -fx-text-fill: #FFFFFFFF; -fx-font-size: 24px;");
         addDropShadowEffect(label);
         return label;
     }
-
+    /**
+     * Applique un style aux boutons.
+     *
+     * @param button Le bouton à styliser.
+     */
     private void stylizeButton(Button button) {
         button.setStyle("-fx-font-family: Cardo; -fx-background-color: transparent; -fx-text-fill: #FFFFFFFF; -fx-font-size: 35px;");
     }
-
+    /**
+     * Ajoute un effet d'ombre.
+     *
+     * @param node Le nœud auquel appliquer l'effet d'ombre.
+     */
     private static void addDropShadowEffect(Node node) {
         DropShadow dropShadow = new DropShadow();
         dropShadow.setRadius(3);
@@ -115,13 +128,19 @@ public class Audio extends StackPane {
         dropShadow.setOffsetY(3);
         node.setEffect(dropShadow);
     }
-
+    /**
+     * Crée la classe SliderWithControls pour avoir des sliders.
+     */
     public static class SliderWithControls {
         private Slider slider;
         private Button btnLeft;
         private Button btnRight;
         private Label valueLabel;
 
+        /**
+         * Constructeur de la classe SliderWithControls.
+         * Permet de modifier les différents volumes
+         */
         public SliderWithControls() {
             slider = new Slider(0, 100, 50);
             btnLeft = new Button("<");

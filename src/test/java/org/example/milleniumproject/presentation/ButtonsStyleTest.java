@@ -1,6 +1,6 @@
 package org.example.milleniumproject.presentation;
 
-//import presentation.ButtonsStyle;
+import org.example.milleniumproject.presentation.ButtonsStyle;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BackgroundFill;

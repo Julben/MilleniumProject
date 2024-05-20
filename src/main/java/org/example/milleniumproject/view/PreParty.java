@@ -140,7 +140,6 @@ public class PreParty extends StackPane {
 
     public boolean getVideoPreference() {
         Preferences preferences = Preferences.userNodeForPackage(Video.class);
-
         return preferences.getBoolean("video", false);
     }
 

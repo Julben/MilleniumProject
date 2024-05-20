@@ -17,16 +17,16 @@ import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 
 /**
- * Cette classe contient des méthodes utilitaires pour la création de profils de joueur et de boîtes avec des images répétées.
+ * Cette classe permet la création du profil et des pions des joueurs durant la partie.
  */
 public class ProfilParty extends StackPane {
 
     /**
-     * Crée une VBox contenant des images répétées.
+     * Crée une VBox contenant les pions choisi par le joueur.
      *
-     * @param imageLink Le lien vers l'image à répéter.
-     * @param count Le nombre d'images à afficher.
-     * @return Une VBox contenant les images répétées.
+     * @param imageLink L'image du pion du joueur.
+     * @param count Le nombre de pions à afficher.
+     * @return Une VBox contenant les pions du joueur.
      */
     public static VBox createVBoxWithImages(String imageLink, int count) {
 
@@ -61,7 +61,17 @@ public class ProfilParty extends StackPane {
 
         return vBox;
     }
-
+    /**
+     * Crée une VBox représentant le profil d'un joueur, contenant son avatar, son nom, son rang et un chronomètre si applicable.
+     *
+     * @param avatarFileName L'image de l'avatar du joueur.
+     * @param playerName     Le nom du joueur.
+     * @param rank           Le rang du joueur.
+     * @param timerlabel     Le chronomètre pour le joueur.
+     * @param isPlayer1      Indique si il faut utiliser la ProfilBox du profil .
+     * @param isIA           Indique si il faut utiliser la ProfilBox de l'IA.
+     * @return Une VBox contenant le profil du joueur ou l'IA.
+     */
     public static VBox createProfileBox(String avatarFileName, String playerName, String rank, Label timerlabel, boolean isPlayer1, boolean isIA) {
 
         VBox profileBox = new VBox(0);

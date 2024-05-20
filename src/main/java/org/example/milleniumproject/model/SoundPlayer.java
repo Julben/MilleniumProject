@@ -5,17 +5,16 @@ import javafx.scene.media.MediaPlayer;
 import java.io.File;
 
 /**
- * La classe SoundPlayer permet de gérer la lecture des sons dans l'application.
- * Elle utilise JavaFX pour jouer les fichiers audio.
+ * La classe SoundPlayer permet de créer des sons lorsque un bouton est clické.
  */
 public class SoundPlayer {
 
     private static MediaPlayer clickPlayer;
 
     /**
-     * Joue le son avec le volume spécifié.
+     * Diffuse le son avec le volume demandé.
      *
-     * @param volume Le volume du son (entre 0.0 et 1.0).
+     * @param volume Le volume du son.
      */
     public static void soundPlay(double volume) {
         String clickSoundFile = "src/main/resources/button-202966.mp3";
@@ -34,7 +33,7 @@ public class SoundPlayer {
     }
 
     /**
-     * Joue le son avec le volume récupéré depuis les données audio.
+     * Diffuse le son récupéré depuis les données audio.
      */
     public static void soundPlay() {
         double volume = AudioData.getSoundVolume();

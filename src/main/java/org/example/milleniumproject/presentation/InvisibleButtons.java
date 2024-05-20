@@ -4,14 +4,14 @@ import javafx.scene.control.Button;
 import java.util.List;
 
 /**
- * Classe permettant de rendre certains boutons invisibles et non cliquables en fonction de l'action effectuée.
+ * Classe permettant de rendre certains boutons du menu invisibles et non cliquables.
  */
 public class InvisibleButtons {
 
     /**
-     * Rend certains boutons invisibles et non cliquables en fonction du bouton principal cliqué.
-     * @param boutonsComplets La liste complète des boutons du menu
-     * @param bouton          Le bouton principal cliqué
+     * Rend certains boutons du menu invisibles et non cliquables en fonction du dernier bouton cliqué.
+     * @param boutonsComplets La liste des boutons principaux du menu
+     * @param bouton          Le bouton cliqué
      */
     public static void renderInvisibleButtons(List<Button> boutonsComplets, Button bouton) {
         if (bouton.getText().equals("Nouvelle Partie")) {

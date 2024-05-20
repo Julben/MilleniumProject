@@ -53,14 +53,13 @@ public class Party extends StackPane {
     private Button selectedButton = null;
     private List<Button> buttonsJ1 = new ArrayList<>();
     private List<Button> buttonsJ2 = new ArrayList<>();
-    private GridPane gridPane;
+    private static GridPane gridPane;
     private boolean placementisfinished = false;
     private boolean isRemovePieceMode = false;
     boolean boutonlibre = false;
     private VBox pauseMenu;
     private VBox quitterMenu;
     private int selectIndexBG;
-    private EndParty endparty = new EndParty();
     private boolean selected = false;
     private boolean change = false;
     private int[] rowIndices = {0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 6};
@@ -163,8 +162,8 @@ public class Party extends StackPane {
         Label timerLabel2 = new Label(chrono);
         timerLabel1.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
         timerLabel2.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
-        Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1, endparty, primaryStage, currentPlayer);
-        Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2, endparty, primaryStage, currentPlayer);
+        Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1, this, primaryStage, currentPlayer);
+        Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2, this, primaryStage, currentPlayer);
 
         for (int i = 0; i < buttonLabels.length; i++) {
             Button button = buttonSave.get(i);
@@ -276,8 +275,8 @@ public class Party extends StackPane {
         Label timerLabel2 = new Label(chrono);
         timerLabel1.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
         timerLabel2.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
-        Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1, endparty,primaryStage ,currentPlayer);
-        Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2, endparty, primaryStage,currentPlayer);
+        Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1, this, primaryStage , currentPlayer);
+        Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2, this, primaryStage, currentPlayer);
 
         gridPane = new GridPane();
         gridPane.setHgap(0.0171875 * screenWidth);
@@ -353,10 +352,9 @@ public class Party extends StackPane {
                 ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
             }
 
-            if (placementisfinished) {
-                if (PartyIA.isGameFinished()) {
-                    FinPartie(this,timeline1, timeline2, primaryStage);
-                }
+            if (isGameFinished(buttonsJ1, buttonsJ2, currentPlayer) && placementisfinished) {
+                currentPlayer = currentPlayer == 1 ? 2 : 1;
+                FinPartie(this,timeline1, timeline2, primaryStage);
             }
         } else {
             if (button.getGraphic() == null && turns < 18) {
@@ -396,7 +394,8 @@ public class Party extends StackPane {
                 }
 
                 // Vérifier si la partie est terminée
-                if (PartyIA.isGameFinished()) {
+                if (isGameFinished(buttonsJ1, buttonsJ2, currentPlayer) && placementisfinished) {
+                    currentPlayer = currentPlayer == 1 ? 2 : 1;
                     FinPartie(this,timeline1, timeline2, primaryStage);
                 }
             }
@@ -413,9 +412,7 @@ public class Party extends StackPane {
         }
     }
 
-    private void handleSelection(List<Button> buttons, Button clickedButton, Timeline timeline1, Timeline timeline2,
-                                 Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2,
-                                 String chrono) {
+    private void handleSelection(List<Button> buttons, Button clickedButton, Timeline timeline1, Timeline timeline2, Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2, String chrono) {
         if (selectedButton == null) {
             if (buttons.contains(clickedButton) && placementisfinished) {
                 selectedButton = clickedButton; // Sélectionner le bouton actuel
@@ -527,7 +524,7 @@ public class Party extends StackPane {
         return false;
     }
 
-    private Button getButtonById(String buttonId) {
+    private static Button getButtonById(String buttonId) {
         ObservableList<Node> children = gridPane.getChildren();
         for (Node node : children) {
             if (node instanceof Button) {
@@ -611,7 +608,7 @@ public class Party extends StackPane {
         return button;
     }
 
-    private boolean hasPlayerFreeNeighbours(List<Button> playerButtons) {
+    private static boolean hasPlayerFreeNeighbours(List<Button> playerButtons) {
         for (Button button : playerButtons) {
             if (hasFreeNeighbour(button)) {
                 return true;
@@ -620,7 +617,7 @@ public class Party extends StackPane {
         return false;
     }
 
-    private boolean hasFreeNeighbour(Button button) {
+    private static boolean hasFreeNeighbour(Button button) {
         String id = button.getId();
         for (String[] neighbours : neighbourList) {
             if (neighbours[0].equals(id) || neighbours[1].equals(id)) {
@@ -630,6 +627,22 @@ public class Party extends StackPane {
                     return true;
                 }
             }
+        }
+        return false;
+    }
+
+    static boolean isGameFinished(List<Button> buttonsJ1, List<Button> buttonsJ2, int currentPlayer) {
+        if(buttonsJ1.size()<3 || buttonsJ2.size()<3) {
+            System.out.println("ici");
+            return true;
+        }
+
+        if (currentPlayer == 1 && (buttonsJ1.size() != 3 || buttonsJ2.size() != 3)) {
+            System.out.println("là");
+            return !hasPlayerFreeNeighbours(buttonsJ1);
+        } else if (currentPlayer == 2 && (buttonsJ1.size() != 3 || buttonsJ2.size() != 3)) {
+            System.out.println("li");
+            return !hasPlayerFreeNeighbours(buttonsJ2);
         }
         return false;
     }
@@ -653,7 +666,6 @@ public class Party extends StackPane {
                         timerLabel.setText(Integer.toString(remainingSeconds[0]));
                         if (remainingSeconds[0] <= 0) {
                             timeline[0].stop();
-                            System.out.println(currentPlayer);
                             afficherFinPartie(root, primaryStage);
                         }
                     }

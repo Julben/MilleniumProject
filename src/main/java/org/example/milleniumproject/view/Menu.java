@@ -16,15 +16,15 @@ import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 
 /**
- * Classe gérant l'affichage du menu principal de l'application.
- * Elle permet d'afficher les boutons du menu sur la scène principale.
+ * Classe qui gère l'affichage du menu principal.
+ * Elle sert à afficher les boutons du menu.
  */
 public class Menu {
 
     /**
-     * Affiche le menu principal sur la scène principale.
+     * Affiche le menu principal en premier plan.
      *
-     * @param primaryStage La fenêtre principale de l'application.
+     * @param primaryStage La scène en premier plan.
      */
     public void afficherMenu(Stage primaryStage) {
 
@@ -61,10 +61,10 @@ public class Menu {
     }
 
     /**
-     * Crée une VBox pour contenir une liste de boutons.
+     * Crée une VBox pour les boutons du menu.
      *
-     * @param buttons La liste de boutons à inclure dans la VBox.
-     * @return La VBox contenant les boutons.
+     * @param buttons La liste des boutons à placer dans la VBox.
+     * @return La VBox avec les boutons du menu.
      */
     private VBox createButtonVBox(List<Button> buttons) {
         VBox vbox = new VBox(0.0417*screenHeight);

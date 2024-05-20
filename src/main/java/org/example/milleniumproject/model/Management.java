@@ -20,7 +20,7 @@ public class Management {
     /**
      * Gère les événements associés aux boutons du menu.
      *
-     * @param primaryStage   La fenêtre principale de l'application
+     * @param primaryStage   La scène en premier plan.
      * @param boutonsComplets La liste des boutons du menu
      */
     public static void gererEvenements(Stage primaryStage, List<Button> boutonsComplets) {
