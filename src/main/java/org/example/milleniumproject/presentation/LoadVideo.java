@@ -20,14 +20,14 @@ import java.io.File;
 import static org.example.milleniumproject.model.Constant.screenHeight;
 
 /**
- * Classe permettant de charger et de lire une vidéo au démarrage de l'application.
+ * Classe permettant de lancer une vidéo au démarrage du jeu.
  */
 public class LoadVideo {
 
     /**
-     * Charge et lit la vidéo au démarrage de l'application.
-     * @param primaryStage La fenêtre principale de l'application
-     * @param videoPath    Le chemin vers le fichier vidéo
+     * Charge et lit la vidéo au démarrage du jeu.
+     * @param primaryStage La scène en premier plan.
+     * @param videoPath    Le fichier vidéo
      * @return Le MediaPlayer utilisé pour lire la vidéo
      */
     public MediaPlayer chargerVideo(Stage primaryStage, String videoPath) {

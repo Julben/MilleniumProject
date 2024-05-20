@@ -16,16 +16,17 @@ import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 
 /**
- * La classe Video représente la vue de la page de configuration des vidéos et des animations.
- * Cette page permet à l'utilisateur d'activer ou de désactiver les vidéos de pré-lancement et les animations.
+ * La classe Video permet d'afficher les paramètres vidéos.
+ * Cela permet au joueur d'activer ou de désactiver les vidéos de pré-lancement et les animations.
  */
 public class Video extends StackPane {
+
     private Preferences preferences;
 
     /**
-     * Constructeur de la classe Video.
+     * Crée la l'affichage des paramètres vidéos.
      *
-     * @param primaryStage La fenêtre principale de l'application.
+     * @param primaryStage La scène en premier plan.
      */
     public Video(Stage primaryStage) {
         preferences = Preferences.userNodeForPackage(this.getClass());

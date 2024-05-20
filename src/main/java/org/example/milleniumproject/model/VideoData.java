@@ -5,8 +5,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import java.util.prefs.Preferences;
 
 /**
- * La classe VideoData stocke les préférences des vidéos et des animations.
- * Elle utilise les préférences utilisateur pour sauvegarder et récupérer les valeurs des choix.
+ * La classe VideoData enregistre le choix de l'apparition des vidéos et des animations.
  */
 public class VideoData {
 
@@ -16,58 +15,54 @@ public class VideoData {
     private static BooleanProperty animation = new SimpleBooleanProperty(false);
 
     /**
-     * Vérifie si l'utilisateur a choisi d'activer les vidéos de pré-lancement.
+     * Vérifie si le joueur a choisi d'activer les vidéos de pré-lancement.
      *
-     * @return true si les vidéos de pré-lancement sont activées, sinon false.
+     * @return true si les vidéos sont activées ou false.
      */
     public static boolean isVideoChoose() {
+
         return videoChoose.get();
     }
 
     /**
-     * Définit si l'utilisateur a choisi d'activer les vidéos de pré-lancement.
+     * Définit si le joueur a choisi d'activer les vidéos de pré-lancement.
      *
-     * @param choose true pour activer les vidéos de pré-lancement, sinon false.
+     * @param choose true pour activer les vidéos ou false.
      */
     public static void setVideoChoose(boolean choose) {
         videoChoose.set(choose);
         preferences.putBoolean("videoChoose", choose);
     }
 
-    /**
-     * Récupère la propriété associée au choix des vidéos de pré-lancement.
-     *
-     * @return la propriété associée au choix des vidéos de pré-lancement.
-     */
+
     public static BooleanProperty videoChooseProperty() {
+
         return videoChoose;
     }
 
     /**
-     * Vérifie si l'utilisateur a choisi d'activer les animations.
+     * Vérifie si le joueur a choisi d'activer les animations.
      *
-     * @return true si les animations sont activées, sinon false.
+     * @return true si les animations sont activées ou false.
      */
     public static boolean isAnimation() {
+
         return animation.get();
     }
 
     /**
-     * Définit si l'utilisateur a choisi d'activer les animations.
+     * Définit si le joueur a choisi d'activer les animations.
      *
-     * @param animate true pour activer les animations, sinon false.
+     * @param animate true pour activer les animations ou false.
      */
     public static void setAnimation(boolean animate) {
         animation.set(animate);
         preferences.putBoolean("animation", animate);
     }
 
-    /**
-     * Récupère la propriété associée au choix des animations.
-     *
-     * @return la propriété associée au choix des animations.
-     */
+
     public static BooleanProperty animationProperty() {
+
         return animation;
     }
 
