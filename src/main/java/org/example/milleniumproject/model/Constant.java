@@ -16,7 +16,6 @@ public class Constant {
     /** Objet représentant l'écran principal. */
     private static final Screen screen = Screen.getPrimary();
 
-    // Initialisation des constantes de largeur et de hauteur de l'écran
     static {
         screenWidth = screen.getBounds().getWidth();
         screenHeight = screen.getBounds().getHeight();

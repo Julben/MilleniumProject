@@ -27,7 +27,7 @@ public class Management {
 
         for (Button bouton : boutonsComplets) {
             bouton.setOnAction(event -> {
-                SoundPlayer.soundPlay(); // Joue un son lorsqu'un bouton est cliqué
+                SoundPlayer.soundPlay();
                 if (bouton.getText().equals("Nouvelle Partie")) {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
                 } else if (bouton.getText().equals("Campagne")) {

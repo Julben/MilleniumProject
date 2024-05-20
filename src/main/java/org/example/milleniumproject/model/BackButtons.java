@@ -22,9 +22,9 @@ public class BackButtons {
     public static Button createBackButton(Stage primaryStage) {
         //Instanciation du bouton retour+style
         Button retourButton = new Button("Retour");
-        ButtonsStyle.appliquerStyle(retourButton, 0.125*screenWidth, 0.00694*screenHeight, 0.0278*screenHeight); // Appliquer le style défini dans ButtonsStyle
+        ButtonsStyle.appliquerStyle(retourButton, 0.125*screenWidth, 0.00694*screenHeight, 0.0278*screenHeight);
 
-        Menu menu = new Menu(); // Création de l'instance de la classe Menu
+        Menu menu = new Menu();
         retourButton.setOnAction(event -> { SoundPlayer.soundPlay(); menu.afficherMenu(primaryStage); });
 
         // Positionnement du bouton en haut à gauche

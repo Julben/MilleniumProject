@@ -32,7 +32,7 @@ public class AudioData {
      */
     public static void setSoundVolume(double volume) {
         soundVolume.set(volume);
-        preferences.putDouble("soundVolume", volume); // Enregistre le volume dans les préférences
+        preferences.putDouble("soundVolume", volume);
     }
 
     /**
@@ -60,7 +60,7 @@ public class AudioData {
      */
     public static void setMusicVolume(double volume) {
         musicVolume.set(volume);
-        preferences.putDouble("musicVolume", volume); // Enregistre le volume dans les préférences
+        preferences.putDouble("musicVolume", volume);
     }
 
     /**
@@ -88,7 +88,7 @@ public class AudioData {
      */
     public static void setSliderPosition(double position) {
         sliderPosition.set(position);
-        preferences.putDouble("sliderPosition", position); // Enregistre la position dans les préférences
+        preferences.putDouble("sliderPosition", position);
     }
 
     /**
