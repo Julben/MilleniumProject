@@ -163,12 +163,12 @@ public class Movement {
                             ImageView imageView1 = (ImageView) pionRestantJ2.getGraphic();
                             boutonVide.setGraphic(imageView1);
                             SoundPlayer.soundPlay();
-                            boutonVide.setGraphic(null);
+                            pionRestantJ2.setGraphic(null);
                             buttonsJ2.remove(pionRestantJ2);
                             buttonsJ2.add(boutonVide);
                             deselectButton(pionRestantJ2);
                             deselectButton(boutonVide);
-                            deselectButton(pionRestantJ2);
+
 
                             resetButtonColorsForMovedButton(pionRestantJ2);
                             checkButtonCombinations();
