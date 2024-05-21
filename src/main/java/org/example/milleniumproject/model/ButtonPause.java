@@ -92,7 +92,8 @@ public class ButtonPause extends StackPane {
 
         CheckBox animationCheckBox = new CheckBox("Activer animations");
         addDropShadowEffect(animationCheckBox);
-        animationCheckBox.setStyle("-fx-text-fill: white; -fx-font-family: Cardo; -fx-font-weight: bold; -fx-font-size: 20px;");
+        animationCheckBox.setFont(Font.font("cardo", FontWeight.BOLD, 15));
+        animationCheckBox.setStyle("-fx-text-fill: white");
         vboxVideo.getChildren().add(animationCheckBox);
 
         animationCheckBox.setSelected(VideoData.isAnimation());
@@ -188,7 +189,8 @@ public class ButtonPause extends StackPane {
      */
     private static Label createStyledLabel(String text) {
         Label label = new Label(text);
-        label.setStyle("-fx-font-family: Cardo; -fx-text-fill: #FFFFFFFF; -fx-font-size: 20px;");
+        label.setFont(Font.font("cardo", FontWeight.BOLD, 15));
+        label.setStyle("-fx-text-fill: #FFFFFFFF;");
         addDropShadowEffect(label);
         return label;
     }
@@ -198,7 +200,8 @@ public class ButtonPause extends StackPane {
      * @param button Le bouton à styliser.
      */
     private static void stylizeButton(Button button) {
-        button.setStyle("-fx-font-family: Cardo; -fx-background-color: transparent; -fx-text-fill: #FFFFFFFF; -fx-font-size: 25px;");
+        button.setFont(Font.font("cardo", FontWeight.BOLD, 19));
+        button.setStyle("-fx-background-color: transparent; -fx-text-fill: #FFFFFFFF;");
     }
     /**
      * Ajoute un effet d'ombre.
@@ -302,14 +305,10 @@ public class ButtonPause extends StackPane {
             fileNameLabel.setFont(Font.font("Cardo", FontWeight.BOLD, 0.0305 * screenHeight));
             fileNameLabel.setTextFill(Color.WHITE);
             TextField fileNameField = new TextField();
-            fileNameField.setPrefSize(100,50);
+            fileNameField.setPrefSize(0.0781125*screenWidth,0.06944*screenHeight);
 
-            fileNameField.setStyle("-fx-background-color: rgba(0,0,0,0.5); " +
-                    "-fx-border-color: #FF9800; " +
-                    "-fx-text-fill: white; " +
-                    "-fx-font-family: 'Cardo'; " +
-                    "-fx-font-size: 25; " +
-                    "-fx-alignment: center;");
+            fileNameField.setStyle("-fx-background-color: rgba(0,0,0,0.5); -fx-border-color: #FF9800; -fx-text-fill: white; -fx-alignment: center;");
+            fileNameField.setFont(Font.font("cardo", FontWeight.BOLD, 25));
 
 
             Button saveButton = new Button("Sauvegarder");
