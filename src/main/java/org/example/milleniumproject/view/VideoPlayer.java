@@ -33,22 +33,9 @@ public class VideoPlayer extends StackPane {
         getChildren().add(mediaView);
         setStyle("-fx-alignment: center;");
 
-        setOnKeyPressed(event -> handleKeyPress(event));
         setFocusTraversable(true);
     }
 
-
-    //méthode qu'on va supprimer
-    private void handleKeyPress(KeyEvent event) {
-        if (event.getCode() == KeyCode.SPACE) {
-            Duration duration = mediaPlayer.getTotalDuration();
-            if (duration != null && !duration.isUnknown()) {
-                Duration seekTime = duration.subtract(Duration.seconds(5));
-                mediaPlayer.seek(seekTime);
-                mediaPlayer.play();
-            }
-        }
-    }
     /**
      * Lance les vidéos de la campagne.
      *
