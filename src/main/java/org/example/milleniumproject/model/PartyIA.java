@@ -182,8 +182,8 @@ public class PartyIA extends StackPane {
         int lastIndex2 = str2.lastIndexOf('/');
         String vaisseau2 = str2.substring(lastIndex2 + 1);
 
-        leftVBox = ProfilParty.createVBoxWithImages(vaisseau1, 0);
-        rightVBox = ProfilParty.createVBoxWithImages(vaisseau2, 0);
+        leftVBox = ProfileParty.createVBoxWithImages(vaisseau1, 0);
+        rightVBox = ProfileParty.createVBoxWithImages(vaisseau2, 0);
 
         HBox hBox = new HBox(0.6 * Constant.screenWidth);
         hBox.getChildren().addAll(leftVBox, rightVBox);
@@ -589,7 +589,7 @@ public class PartyIA extends StackPane {
                             win=false;
                         }
                         FromSave=false;
-                        FinPartie(this,timeline1, timeline2, primaryStage);
+                        endGame(this,timeline1, timeline2, primaryStage);
                     }
                 }
             }
