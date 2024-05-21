@@ -7,6 +7,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import org.example.milleniumproject.model.AudioData;
 import org.example.milleniumproject.presentation.BG;
@@ -107,7 +109,8 @@ public class Audio extends StackPane {
      */
     private static Label createStyledLabel(String text) {
         Label label = new Label(text);
-        label.setStyle("-fx-font-family: Cardo; -fx-text-fill: #FFFFFFFF; -fx-font-size: 24px;");
+        label.setFont(Font.font("Cardo", FontWeight.BOLD, 0.034722*screenHeight));
+        label.setStyle("-fx-text-fill: #FFFFFFFF;");
         addDropShadowEffect(label);
         return label;
     }
@@ -117,7 +120,8 @@ public class Audio extends StackPane {
      * @param button Le bouton à styliser.
      */
     private void stylizeButton(Button button) {
-        button.setStyle("-fx-font-family: Cardo; -fx-background-color: transparent; -fx-text-fill: #FFFFFFFF; -fx-font-size: 35px;");
+        button.setFont(Font.font("Cardo", FontWeight.BOLD, 0.034722*screenHeight));
+        button.setStyle("-fx-background-color: transparent; -fx-text-fill: #FFFFFFFF;");
     }
     /**
      * Ajoute un effet d'ombre.
