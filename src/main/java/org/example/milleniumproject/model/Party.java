@@ -797,7 +797,6 @@ public class Party extends StackPane {
     }
     /**
      * Crée le chrono.
-
      *
      * @param timerLabel       Affiche le temps restant.
      * @param remainingSeconds Tableau pour le nombre de secondes restantes.

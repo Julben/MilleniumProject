@@ -43,7 +43,9 @@ import org.example.milleniumproject.view.PreParty;
 import org.example.milleniumproject.view.PrePartyIA;
 
 import java.util.Random;
-
+/**
+ * Cette classe affiche le jeu lorsque le joueur affronte l'IA.
+ */
 public class PartyIA extends StackPane {
     private LoadParty chargerPartie = new LoadParty();
     static int currentPlayer = 1;
@@ -108,10 +110,28 @@ public class PartyIA extends StackPane {
     RectangleConstructor qtw = new RectangleConstructor(0.04297*screenWidth, 0.27917*screenHeight, 0.00078*screenWidth, 0.19861*screenHeight); Rectangle QTW = qtw.getRectangle();
 
     static Map<String, RectangleConstructor> rectangleMap = new HashMap<>();
-
+    /**
+     * Constructeur par défaut.
+     */
     public PartyIA(){
 
     }
+    /**
+     * Constructeur de la classe PartyIA.
+     *
+     * @param primaryStage   La scène en premier plan.
+     * @param selectedIndex  Indice de l'image de fond.
+     * @param selectedIndexchrono  Indice du chrono.
+     * @param difficulty     Niveau de difficulté.
+     * @param avatar1       Avatar du joueur 1.
+     * @param rank1          Rang du joueur 1.
+     * @param playerName1    Nom du joueur 1.
+     * @param turns          Nombre de tours.
+     * @param currentPlayer  Joueur actuel.
+     * @param buttonSave     Liste de boutons pour sauvegarder.
+     * @param buttonsJ1      Liste de boutons pour le joueur 1.
+     * @param buttonsJ2      Liste de boutons pour le joueur 2.
+     */
     public PartyIA (Stage primaryStage,int selectedIndex,int selectedIndexchrono, int difficulty,String avatar1,String rank1,String playerName1,int turns,int currentPlayer,List<Button> buttonSave, List<Button> buttonsJ1, List<Button> buttonsJ2){
         rectangleMap.put("ABC", abc); rectangleMap.put("DEF", def); rectangleMap.put("GHI", ghi); rectangleMap.put("JKL", jkl);
         rectangleMap.put("MNO", mno); rectangleMap.put("PQR", pqr); rectangleMap.put("STU", stu); rectangleMap.put("VWX", vwx);
@@ -259,6 +279,12 @@ public class PartyIA extends StackPane {
 
 
     }
+    /**
+     * Constructeur de la classe PartyIA.
+     *
+     * @param primaryStage   La scène en premier plan.
+     * @param currentRound   Le tour actuel.
+     */
     public PartyIA(Stage primaryStage,int currentRound) {
 
         rectangleMap.put("ABC", abc); rectangleMap.put("DEF", def); rectangleMap.put("GHI", ghi); rectangleMap.put("JKL", jkl);
@@ -406,7 +432,17 @@ public class PartyIA extends StackPane {
             }
         }
     }
-
+    /**
+     * Constructeur de la classe PartyIA.
+     *
+     * @param primaryStage   La scène en premier plan.
+     * @param toggleGroup3   Le choix pour la sélection de l'arrière-plan.
+     * @param hbox3          La HBox pour l'arrière-plan.
+     * @param toggleGroup2   Le choix pour la sélection du chronomètre.
+     * @param hbox2          La HBox pour le chronomètre.
+     * @param toggleGroup1   Le choix pour la sélection de la difficulté.
+     * @param hbox1          La HBox pour la difficulté.
+     */
     public PartyIA(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3, ToggleGroup toggleGroup2, HBox hbox2, ToggleGroup toggleGroup1, HBox hbox1) {
         this.toggleGroup3 = toggleGroup3;
         this.hbox3 = hbox3;
@@ -545,7 +581,20 @@ public class PartyIA extends StackPane {
             }
         }
     }
-
+    /**
+     * Gère l'action lorsqu'un bouton est cliqué pendant la partie.
+     *
+     * @param button            Le bouton cliqué.
+     * @param gridpane          La grille de jeu(plateau).
+     * @param timeline1         La timeline pour le joueur 1.
+     * @param timeline2         La timeline pour le joueur 2.
+     * @param timerLabel1       Le chrono pour le joueur 1.
+     * @param timerLabel2       Le chrono pour le joueur 2.
+     * @param remainingSeconds1 Le temps restant pour le joueur 1.
+     * @param remainingSeconds2 Le temps restant pour le joueur 2.
+     * @param chrono            Le chrono.
+     * @param primaryStage      La scène en premier plan.
+     */
     public void handleButtonClick(Button button, GridPane gridpane, Timeline timeline1, Timeline timeline2, Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2, String chrono, Stage primaryStage, int diffliculty) {
         if (FromSave==true){
             turns= 18;
@@ -645,7 +694,12 @@ public class PartyIA extends StackPane {
             }
         }
     }
-
+    /**
+     * Place une image d'un joueur sur un bouton.
+     *
+     * @param button    Le bouton sur lequel placer l'image du joueur.
+     * @param playerVBox    La VBox contenant les images(pions) des joueurs.
+     */
     static void placePlayerImage(Button button, VBox playerVBox, Timeline timeline1, Timeline timeline2, int[] remainingSeconds2, Label timerLabel2, String chrono) {
         GridPane gridPane = (GridPane) playerVBox.getChildren().get(0);
 
@@ -656,7 +710,11 @@ public class PartyIA extends StackPane {
             gridPane.getChildren().remove(imageView);
         }
     }
-
+    /**
+     * Obtient aléatoirement un bouton libre pour le joueur 1.
+     *
+     * @return Un bouton libre du joueur 1.
+     */
     static Button getRandomFreeButtonJ1() {
         List<Button> freeButtonsJ1 = new ArrayList<>();
         for (Button button : buttonsJ1) {
@@ -676,7 +734,12 @@ public class PartyIA extends StackPane {
         }
     }
 
-
+    /**
+     * Obtient aléatoirement un bouton vide.
+     *
+     * @param gridPane La grille du jeu(plateau).
+     * @return Un bouton vide choisi aléatoirement.
+     */
     static Button getEmptyButton(GridPane gridPane) {
         Random random = new Random();
         Button emptyButton = null;
@@ -692,7 +755,12 @@ public class PartyIA extends StackPane {
         } while (emptyButton == null);
         return emptyButton;
     }
-
+    /**
+     * Récupère un bouton à partir de son identifiant.
+     *
+     * @param buttonId L'identifiant du bouton.
+     * @return Le bouton correspondant à l'identifiant si il existe.
+     */
     static Button getButtonById(String buttonId) {
         ObservableList<Node> children = gridPane.getChildren();
         for (Node node : children) {
@@ -705,7 +773,19 @@ public class PartyIA extends StackPane {
         }
         return null;
     }
-
+    /**
+     * Gère la sélection d'un bouton pendant la partie.
+     *
+     * @param buttons   La liste des boutons associés au joueur actuel.
+     * @param clickedButton Le bouton sur lequel le joueur a cliqué.
+     * @param timeline1 Le timeline pour le joueur 1.
+     * @param timeline2 Le timeline pour le joueur 2.
+     * @param timerLabel1   Le temps pour le joueur 1.
+     * @param timerLabel2   Le temps pour le joueur 2.
+     * @param remainingSeconds1 Les secondes restantes pour le joueur 1.
+     * @param remainingSeconds2 Les secondes restantes pour le joueur 2.
+     * @param chrono    Le chrono.
+     */
     private void handleSelection(StackPane root, Button button, List<Button> buttons, Button clickedButton, Timeline timeline1, Timeline timeline2, Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2, String chrono, Stage primaryStage,GridPane gridpane, int difficulty) {
         if (selectedButton == null) {
             if (buttons.contains(clickedButton) && placementisfinished) {
@@ -772,7 +852,12 @@ public class PartyIA extends StackPane {
             change = false;
         }
     }
-
+    /**
+     * Obtient aléatoirement un bouton voisin sélectionné à partir d'un bouton donné.
+     *
+     * @param button Le bouton à partir duquel rechercher les voisins.
+     * @return Un bouton vide adjacent au bouton qui a été vérifié.
+     */
     static Button getSelectedNeighbourButton(Button button) {
         List<Button> neighbours = new ArrayList<>();
 
@@ -800,7 +885,12 @@ public class PartyIA extends StackPane {
 
         return null;
     }
-
+    /**
+     * Obtient une liste de boutons avec voisins libres.
+     *
+     * @param buttonsJ2 La liste de boutons qui sera utilisé pour trouver des voisins libres.
+     * @return Une liste de boutons voisins libres adjacents aux autres boutons.
+     */
     static List<Button> getFreeNeighbourButtons(List<Button> buttonsJ2) {
 
         List<Button> buttonsvoisinlibres = new ArrayList<>();
@@ -826,7 +916,12 @@ public class PartyIA extends StackPane {
         return buttonsvoisinlibres;
     }
 
-
+    /**
+     * Réinitialise les couleurs des boutons.
+     * Les bordures vertes des combinaisons précédentes sont effacées.
+     *
+     * @param movedButton Le bouton qui a été déplacé.
+     */
 
     static void resetButtonColorsForMovedButton(Button movedButton) {
         String nomButton = movedButton.getText();
@@ -841,7 +936,15 @@ public class PartyIA extends StackPane {
             }
         }
     }
-
+    /**
+     * Vérifie si une combinaison de boutons forme une ligne.
+     * Si une ligne est formée, la couleur du rectangle est changée en vert.
+     *
+     * @param buttonId1 L'identifiant du premier bouton.
+     * @param buttonId2 L'identifiant du deuxième bouton.
+     * @param buttonId3 L'identifiant du troisième bouton.
+     * @return true si une ligne est formée ou false.
+     */
     static boolean checkAndChangeButtonColor(String buttonId1, String buttonId2, String buttonId3) {
         Button button1 = getButtonById(buttonId1);
         Button button2 = getButtonById(buttonId2);
@@ -864,7 +967,9 @@ public class PartyIA extends StackPane {
         }
         return false;
     }
-
+    /**
+     * Vérifie toutes les combinaisons de boutons sur le plateau de jeu.
+     */
     static void checkButtonCombinations() {
         int compteur = 0;
         for (String[] combination : alignments) {
@@ -876,7 +981,12 @@ public class PartyIA extends StackPane {
             isRemovePieceMode = true;
         }
     }
-
+    /**
+     * Vérifie si le bouton est libre.
+     *
+     * @param b Le bouton à vérifier.
+     * @return true si le bouton n'est pas entouré ou false.
+     */
     static boolean isNotlibre(Button b) {
         String nomButton = b.getText();
         int compteur = 0;
@@ -892,7 +1002,13 @@ public class PartyIA extends StackPane {
         }
         return compteur > 0;
     }
-
+    /**
+     * Vérifie si deux boutons sont des boutons voisins l'un de l'autre.
+     *
+     * @param button1 Le premier bouton à vérifier.
+     * @param button2 Le deuxième bouton à vérifier.
+     * @return true si les deux boutons sont voisins, false sinon.
+     */
     static boolean isNeighbourButton(Button button1, Button button2) {
         String id1 = button1.getId();
         String id2 = button2.getId();
@@ -905,7 +1021,12 @@ public class PartyIA extends StackPane {
         }
         return false;
     }
-
+    /**
+     * Vérifie si au moins l'un des boutons d'un joueur a des voisins libres.
+     *
+     * @param playerButtons La liste des boutons du joueur à vérifier.
+     * @return true si un des boutons a des voisins libres ou false.
+     */
     static boolean hasPlayerFreeNeighbours(List<Button> playerButtons) {
         for (Button button : playerButtons) {
             if (hasFreeNeighbour(button)) {
@@ -914,7 +1035,12 @@ public class PartyIA extends StackPane {
         }
         return false;
     }
-
+    /**
+     * Vérifie si un bouton a des voisins libres.
+     *
+     * @param button Le bouton à vérifier.
+     * @return true si le bouton a des voisins libres ou false sinon.
+     */
     static boolean hasFreeNeighbour(Button button) {
         String id = button.getId();
         for (String[] neighbours : neighbourList) {
@@ -928,7 +1054,11 @@ public class PartyIA extends StackPane {
         }
         return false;
     }
-
+    /**
+     * Vérifie si la partie est terminée.
+     *
+     * @return true si la partie est terminée ou false.
+     */
     public static boolean isGameFinished() {
         if(buttonsJ1.size()<3 || buttonsJ2.size()<3) {
             return true;
@@ -942,6 +1072,15 @@ public class PartyIA extends StackPane {
         return false;
     }
 
+    /**
+     * Crée le chrono.
+     *
+     * @param timerLabel       Affiche le temps restant.
+     * @param remainingSeconds Tableau pour le nombre de secondes restantes.
+     * @param root             Conteneur principal de la scène.
+     * @param primaryStage     La scène en premier plan.
+     * @return Le chrono.
+     */
     static Timeline timer(Label timerLabel, int[] remainingSeconds, Stage primaryStage, StackPane root ) {
         final Timeline[] timeline = new Timeline[1];
 
@@ -972,7 +1111,15 @@ public class PartyIA extends StackPane {
         timeline[0].setCycleCount(Timeline.INDEFINITE);
         return timeline[0];
     }
-
+    /**
+     * Réinitialise le chrono.
+     *
+     * @param timeline1        Le chrono du joueur 1.
+     * @param timerLabel       Affiche le temps restant.
+     * @param chrono           La durée initiale du minuteur.
+     * @param remainingSeconds Tableau pour le nombre de secondes restantes.
+     * @param timeline2        Le chrono du joueur 2.
+     */
     static void resetTimer(Timeline timeline1, Label timerLabel, String chrono, int[] remainingSeconds, Timeline timeline2) {
         int reset = Integer.parseInt(chrono);
         timeline1.stop();
@@ -981,7 +1128,14 @@ public class PartyIA extends StackPane {
         remainingSeconds[0] = reset;
         timeline2.play();
     }
-
+    /**
+     * Crée un menu pause.
+     *
+     * @param primaryStage  La scène en premier plan.
+     * @param timeline1    Le chrono du joueur 1.
+     * @param timeline2    Le chrono du joueur 2.
+     * @return Le menu pause créé.
+     */
     public VBox createPauseMenu(Stage primaryStage, Timeline timeline1, Timeline timeline2) {
         VBox menu = new VBox(0.020833*screenHeight);
 
