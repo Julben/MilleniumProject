@@ -44,10 +44,8 @@ public class ButtonPause extends StackPane {
         StackPane reglesPane = new StackPane();
         reglesPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7);");
 
-
         Image image = new Image("Règles.png");
         ImageView imageView = new ImageView(image);
-
 
         imageView.setFitWidth(0.9765 * screenWidth);
         imageView.setFitHeight(1.04167 * screenHeight);
