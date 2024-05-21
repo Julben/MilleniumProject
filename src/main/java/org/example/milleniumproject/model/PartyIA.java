@@ -76,7 +76,7 @@ public class PartyIA extends StackPane {
     private boolean selected = false;
     private boolean change = false;
     private static boolean FromSave=false;
-    public boolean win=false;
+    public static boolean win=false;
     String[] buttonLabels = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X"};
 
     static final List<String[]> neighbourList = Arrays.asList(
@@ -273,6 +273,8 @@ public class PartyIA extends StackPane {
         }else {
             selectedIndex = 2;
         }
+        turns=0;
+        currentPlayer=1;
 
         String backgroundImage = "";
         if (selectedIndex == 0) {
@@ -584,9 +586,9 @@ public class PartyIA extends StackPane {
                 if(placementisfinished){
                     if (isGameFinished()) {
                         if (buttonsJ1.size()<3){
-                            win=true;
-                        }else{
                             win=false;
+                        }else if (buttonsJ2.size()<3){
+                            win=true;
                         }
                         FromSave=false;
                         endGame(this,timeline1, timeline2, primaryStage);
@@ -633,6 +635,11 @@ public class PartyIA extends StackPane {
                 }
                 if (isGameFinished()) {
                     FromSave=false;
+                    if (buttonsJ1.size()<3){
+                        win=false;
+                    } else if (buttonsJ2.size()<3) {
+                        win=true;
+                    }
                     endGame(this,timeline1, timeline2, primaryStage);
                 }
             }
@@ -922,7 +929,7 @@ public class PartyIA extends StackPane {
         return false;
     }
 
-    static boolean isGameFinished() {
+    public static boolean isGameFinished() {
         if(buttonsJ1.size()<3 || buttonsJ2.size()<3) {
             return true;
         }
