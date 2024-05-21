@@ -30,7 +30,7 @@ public class LoadVideo {
      * @param videoPath    Le fichier vidéo
      * @return Le MediaPlayer utilisé pour lire la vidéo
      */
-    public MediaPlayer chargerVideo(Stage primaryStage, String videoPath) {
+    public MediaPlayer loadVideo(Stage primaryStage, String videoPath) {
 
         Media media = new Media(new File(videoPath).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);

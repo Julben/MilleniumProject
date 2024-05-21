@@ -1,6 +1,5 @@
 package org.example.milleniumproject.view;
 
-import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -8,16 +7,16 @@ import javafx.animation.PauseTransition;
 import org.example.milleniumproject.model.Constant;
 import org.example.milleniumproject.model.PartyIA;
 
-public class Campagne extends Pane {
+public class Campaign extends Pane {
     private int currentRound = 0;
     private final int totalRounds = 3;
     private Stage primaryStage;
 
-    public Campagne(Stage primaryStage) {
+    public Campaign(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
-    public void startCampagne() {
+    public void startCampaign() {
         System.out.println("Starting campaign...");
         playVideo("/VideoCamp/VideoCampagneNaboo.mp4", this::startRound);
     }

@@ -11,13 +11,13 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import static org.example.milleniumproject.model.EndParty.FinPartie;
+import static org.example.milleniumproject.model.EndParty.endGame;
 import static org.example.milleniumproject.model.PartyIA.*;
 
 /**
  * La classe RemovePiece gère la suppression des pions.
  */
-public class RemovePiece {
+public class RemovePawn {
     /**
      * Supprime un pion alétoire du joueur 1.
      *
@@ -30,7 +30,7 @@ public class RemovePiece {
      * @param timeline1       La timeline pour le premier joueur.
      * @param primaryStage    La scène en premier plan.
      */
-    static void removePiece(StackPane root, Button button, Timeline timeline2, Label timerLabel2, String chrono, int[] remainingSeconds2, Timeline timeline1, Stage primaryStage) {
+    static void easyRemove(StackPane root, Button button, Timeline timeline2, Label timerLabel2, String chrono, int[] remainingSeconds2, Timeline timeline1, Stage primaryStage) {
         if (button.getGraphic() instanceof ImageView) {
             if(currentPlayer==1) {
                 for(Button b : buttonsJ2){
@@ -57,9 +57,9 @@ public class RemovePiece {
                     PauseTransition pause = new PauseTransition(Duration.seconds(1));
                     pause.setOnFinished(event -> {
                         updateButtonState(button, buttonsJ1, root, timeline1, timeline2, primaryStage);
-                        ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                        resetTimer(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                         if (isGameFinished() && placementisfinished) {
-                            FinPartie(root,timeline1, timeline2, primaryStage);
+                            endGame(root,timeline1, timeline2, primaryStage);
                         }
                     });
                     pause.play();
@@ -69,9 +69,9 @@ public class RemovePiece {
                     PauseTransition pause = new PauseTransition(Duration.seconds(1));
                     pause.setOnFinished(event -> {
                         updateButtonState2(button, buttonsJ1, root, timeline1, timeline2, primaryStage);
-                        ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                        resetTimer(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                         if (isGameFinished() && placementisfinished) {
-                            FinPartie(root,timeline1, timeline2, primaryStage);
+                            endGame(root,timeline1, timeline2, primaryStage);
                         }
                     });
                     pause.play();
@@ -119,7 +119,7 @@ public class RemovePiece {
      * @param timeline1       La timeline pour le premier joueur.
      * @param primaryStage    La scène en premier plan.
      */
-    static void HardRemove(StackPane root, Button button, Timeline timeline2, Label timerLabel2, Label timerLabel1, String chrono, int[] remainingSeconds2, Timeline timeline1, Stage primaryStage) {
+    static void hardRemove(StackPane root, Button button, Timeline timeline2, Label timerLabel2, Label timerLabel1, String chrono, int[] remainingSeconds2, Timeline timeline1, Stage primaryStage) {
 
         checkPerfectAlignments();
         checkAlignments();
@@ -137,7 +137,7 @@ public class RemovePiece {
             }
 
             Button randomJ1Button = j1ButtonsInAlignment.get(random.nextInt(j1ButtonsInAlignment.size()));
-            removePiece(root, randomJ1Button, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
+            easyRemove(root, randomJ1Button, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
 
             j1ButtonsInAlignment.clear();
             finalValidAlignments.clear();
@@ -155,13 +155,13 @@ public class RemovePiece {
             }
 
             Button randomJ1Button = j1ButtonsInAlignment.get(random.nextInt(j1ButtonsInAlignment.size()));
-            removePiece(root, randomJ1Button, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
+            easyRemove(root, randomJ1Button, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
 
             j1ButtonsInAlignment.clear();
             finalAlignments.clear();
         }
         else {
-            removePiece(root, button, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
+            easyRemove(root, button, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
         }
     }
     /**

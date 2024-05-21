@@ -9,7 +9,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.milleniumproject.model.VideoData;
-import org.example.milleniumproject.presentation.BG;
+import org.example.milleniumproject.presentation.BackGround;
 import org.example.milleniumproject.model.BackButtons;
 import java.util.prefs.Preferences;
 import static org.example.milleniumproject.model.Constant.screenHeight;
@@ -31,7 +31,7 @@ public class Video extends StackPane {
     public Video(Stage primaryStage) {
         preferences = Preferences.userNodeForPackage(this.getClass());
 
-        BG ground = new BG("src/main/resources/BGVIDEO.png");
+        BackGround ground = new BackGround("src/main/resources/BGVIDEO.png");
         setBackground(ground.getCustomBackground());
 
         Button retourButton = BackButtons.createBackButton(primaryStage);

@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ChargerPartie {
+public class LoadParty {
 
-    public List<Object> chargerPartieDepuisFichier(String nomfichier) {
+    public List<Object> loadPartyFromFile(String nomfichier) {
         String avatar1 = "";
         String avatar2 = "";
         String rank1 = "";

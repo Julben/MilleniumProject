@@ -10,8 +10,8 @@ class ChargerPartieTest {
 
 	@Test
 	void chargerPartieDepuisFichier() {
-		ChargerPartie chargerPartie = new ChargerPartie();
-		List<Object> result = chargerPartie.chargerPartieDepuisFichier("test"); // Assurez-vous que "Save/test.txt" existe
+		LoadParty chargerPartie = new LoadParty();
+		List<Object> result = chargerPartie.loadPartyFromFile("test"); // Assurez-vous que "Save/test.txt" existe
 
 		assertNotNull(result);
 		assertEquals(13, result.size()); // Vérifie que la taille de la liste retournée est correcte

@@ -7,8 +7,8 @@ import org.example.milleniumproject.presentation.InvisibleButtons;
 import org.example.milleniumproject.view.PreParty;
 import org.example.milleniumproject.view.PrePartyIA;
 import org.example.milleniumproject.view.Audio;
-import org.example.milleniumproject.view.Campagne;
-import org.example.milleniumproject.view.Profil;
+import org.example.milleniumproject.view.Campaign;
+import org.example.milleniumproject.view.Profile;
 import org.example.milleniumproject.view.Video;
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class Management {
      * @param primaryStage   La scène en premier plan.
      * @param boutonsComplets La liste des boutons du menu
      */
-    public static void gererEvenements(Stage primaryStage, List<Button> boutonsComplets) {
+    public static void handleEvents(Stage primaryStage, List<Button> boutonsComplets) {
 
         for (Button bouton : boutonsComplets) {
             bouton.setOnAction(event -> {
@@ -33,9 +33,9 @@ public class Management {
 
                 } else if (bouton.getText().equals("Campagne")) {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
-                    Campagne campagne=new Campagne(primaryStage);
+                    Campaign campagne=new Campaign(primaryStage);
                     primaryStage.getScene().setRoot(campagne);
-                    campagne.startCampagne();
+                    campagne.startCampaign();
                 }
                 else if (bouton.getText().equals("Jouer contre l'ordinateur")) {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
@@ -49,12 +49,12 @@ public class Management {
                 }
                 else if (bouton.getText().equals("Charger une Partie")) {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
-                    Chargement chargement = new Chargement(primaryStage);
+                    Loading chargement = new Loading(primaryStage);
                     primaryStage.getScene().setRoot(chargement);
 
                 } else if (bouton.getText().equals("Profil")) {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
-                    Profil profil = new Profil(primaryStage);
+                    Profile profil = new Profile(primaryStage);
                     primaryStage.getScene().setRoot(profil);
 
                 } else if (bouton.getText().equals("Paramètres")) {

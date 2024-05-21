@@ -19,7 +19,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import org.example.milleniumproject.model.*;
-import org.example.milleniumproject.presentation.BG;
+import org.example.milleniumproject.presentation.BackGround;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
@@ -38,7 +38,7 @@ public class PrePartyIA extends StackPane {
 
         Button retourButton = BackButtons.createBackButton(primaryStage);
 
-        BG ground = new BG();
+        BackGround ground = new BackGround();
         setBackground(ground.getCustomBackground());
 
         VBox vbox = new VBox(0.0625*screenHeight);

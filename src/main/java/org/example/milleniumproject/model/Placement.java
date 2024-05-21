@@ -8,9 +8,9 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import java.util.Arrays;
 import java.util.List;
-import static org.example.milleniumproject.model.EndParty.FinPartie;
+import static org.example.milleniumproject.model.EndParty.endGame;
 import static org.example.milleniumproject.model.PartyIA.*;
-import static org.example.milleniumproject.model.RemovePiece.*;
+import static org.example.milleniumproject.model.RemovePawn.*;
 
 public class Placement {
 
@@ -25,16 +25,16 @@ public class Placement {
         if (isRemovePieceMode) {
             Button randomFreeButton = getRandomFreeButtonJ1();
             if(difficulty == 0){
-                removePiece(root,randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1, primaryStage);
+                easyRemove(root,randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1, primaryStage);
             } else if (difficulty == 1) {
-                HardRemove(root, randomFreeButton, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage);
+                hardRemove(root, randomFreeButton, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage);
             }
         } else {
             if (isGameFinished() && placementisfinished) {
-                FinPartie(root,timeline1, timeline2, primaryStage);
+                endGame(root,timeline1, timeline2, primaryStage);
             }
             currentPlayer = 1;
-            ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+            resetTimer(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
         }
         turns++;
 
@@ -71,16 +71,16 @@ public class Placement {
         if (isRemovePieceMode) {
             Button randomFreeButton = getRandomFreeButtonJ1();
             if(difficulty == 0){
-                removePiece(root,randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1, primaryStage);
+                easyRemove(root,randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1, primaryStage);
             } else if (difficulty == 1) {
-                HardRemove( root,  button,  timeline2,  timerLabel2,  timerLabel1,  chrono, remainingSeconds2,  timeline1,  primaryStage);
+                hardRemove( root,  button,  timeline2,  timerLabel2,  timerLabel1,  chrono, remainingSeconds2,  timeline1,  primaryStage);
             }
         } else {
             if (isGameFinished() && placementisfinished) {
-                FinPartie(root,timeline1, timeline2, primaryStage);
+                endGame(root,timeline1, timeline2, primaryStage);
             }
             currentPlayer = 1;
-            ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+            resetTimer(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
         }
         turns++;
     }
@@ -114,8 +114,6 @@ public class Placement {
         return playerButtons.contains(button);
     }
 
-
-
     static Button getPriorityButtonToPlace() {
         List<Button> priorityButtons = Arrays.asList(getButtonById("K"), getButtonById("E"), getButtonById("N"), getButtonById("T"));
 
@@ -129,6 +127,7 @@ public class Placement {
     }
 
     static boolean isButtonOccupied(Button button) {
+
         return button.getGraphic() != null;
     }
 }

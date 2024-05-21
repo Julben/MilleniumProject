@@ -35,7 +35,7 @@ public class HelloApplication extends Application {
         Menu menu = new Menu();
 
         String videoPath = "src/main/resources/VideoChargement.mp4";
-        MediaPlayer mediaPlayer = loadVideo.chargerVideo(primaryStage, videoPath);
+        MediaPlayer mediaPlayer = loadVideo.loadVideo(primaryStage, videoPath);
 
         // Affiche le Menu et lance la musique lorsque la vidéo s'arrête
         mediaPlayer.setOnEndOfMedia(() -> showMenuAndPlayMusic(primaryStage, menu));
@@ -66,7 +66,7 @@ public class HelloApplication extends Application {
      * @param menu          Le menu à afficher.
      */
     public static void showMenuAndPlayMusic(Stage primaryStage, Menu menu) {
-        menu.afficherMenu(primaryStage);
+        menu.showMenu(primaryStage);
         MusicPlayer.musicPlay("src/main/resources/MusicMenu.mp3");
     }
 }

@@ -21,7 +21,7 @@ public class ButtonsStyle {
      * @param height La hauteur du bouton.
      * @param size   La taille du texte.
      */
-    public static void appliquerStyle(Button bouton, double width, double height, double size) {
+    public static void applyStyle(Button bouton, double width, double height, double size) {
         bouton.setPrefSize(width, height);
         bouton.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, new CornerRadii(50), javafx.geometry.Insets.EMPTY)));
         bouton.setTextFill(Color.WHITE);

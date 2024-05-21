@@ -10,16 +10,16 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import org.example.milleniumproject.presentation.BG;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-public class Chargement extends StackPane {
-    private ChargerPartie chargerPartie = new ChargerPartie();
+public class Loading extends StackPane {
+    private LoadParty chargerPartie = new LoadParty();
 
-    public Chargement(Stage primaryStage) {
+    public Loading(Stage primaryStage) {
 
         Button retourButton = BackButtons.createBackButton(primaryStage);
 
@@ -101,7 +101,7 @@ public class Chargement extends StackPane {
 
         lancerPartieButton.setOnAction(e -> {
             String fileChoisi = comboBox.getValue();
-            List<Object> allInfo = chargerPartie.chargerPartieDepuisFichier(fileChoisi);
+            List<Object> allInfo = chargerPartie.loadPartyFromFile(fileChoisi);
             boolean Ia = (boolean) allInfo.get(13);
             if (fileChoisi != null) {
 

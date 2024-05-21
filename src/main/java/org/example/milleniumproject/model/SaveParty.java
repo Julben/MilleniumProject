@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * La classe SauvegardePartie permet de sauvegarder l'état d'une partie de jeu dans un fichier.
  */
-public class SauvegardePartie {
+public class SaveParty {
     private GridPane gridPane;
     private int currentPlayer;
     private int turn;
@@ -45,7 +45,7 @@ public class SauvegardePartie {
      * @param BGselect      La sélection de l'arrière-plan.
      */
     
-    public SauvegardePartie(GridPane gridPane,String avatar1,String avatar2,String rank1,String rank2, String ship1, String ship2, String name1, String name2,int currentPlayer,int turn,int chronoselect,int BGselect,boolean ia, int difficulty) {
+    public SaveParty(GridPane gridPane, String avatar1, String avatar2, String rank1, String rank2, String ship1, String ship2, String name1, String name2, int currentPlayer, int turn, int chronoselect, int BGselect, boolean ia, int difficulty) {
         this.gridPane = gridPane;
         this.currentPlayer = currentPlayer;
         this.turn = turn;
@@ -67,7 +67,7 @@ public class SauvegardePartie {
      *
      * @param nomFichier Le nom du fichier dans lequel sauvegarder la partie.
      */
-    public void sauvegarderDansFichier(String nomFichier) {
+    public void saveInFile(String nomFichier) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomFichier))) {
             for (Node node : gridPane.getChildren()) {
                 if (node instanceof Button) {

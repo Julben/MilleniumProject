@@ -14,15 +14,15 @@ import org.example.milleniumproject.presentation.ButtonTransitionHandler;
 import java.util.*;
 import static org.example.milleniumproject.model.ButtonSelector.deselectButton;
 import static org.example.milleniumproject.model.ButtonSelector.selectButton;
-import static org.example.milleniumproject.model.EndParty.FinPartie;
+import static org.example.milleniumproject.model.EndParty.endGame;
 import static org.example.milleniumproject.model.PartyIA.*;
-import static org.example.milleniumproject.model.RemovePiece.*;
+import static org.example.milleniumproject.model.RemovePawn.*;
 
 public class Movement {
 
     private static List<Button> FreeButtonsJ1 = new ArrayList<>();
 
-    static void EasyMovement(StackPane root, Button button, Timeline timeline2, Label timerLabel2, Label timerLabel1, String chrono, int[] remainingSeconds2, Timeline timeline1, Stage primaryStage, int difficulty) {
+    static void easyMovement(StackPane root, Button button, Timeline timeline2, Label timerLabel2, Label timerLabel1, String chrono, int[] remainingSeconds2, Timeline timeline1, Stage primaryStage, int difficulty) {
         if (buttonsJ2.size() > 3 && placementisfinished) {
 
             PauseTransition pause1 = new PauseTransition(Duration.seconds(1));
@@ -54,19 +54,19 @@ public class Movement {
 
                             if (!isRemovePieceMode) {
                                 currentPlayer = 1;
-                                ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                                resetTimer(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                                 if (isGameFinished()) {
-                                    FinPartie(root, timeline1, timeline2, primaryStage);
+                                    endGame(root, timeline1, timeline2, primaryStage);
                                 }
                             } else {
                                 Button randomFreeButton = getRandomFreeButtonJ1();
                                 if (difficulty == 0) {
-                                    removePiece(root, randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1, primaryStage);
+                                    easyRemove(root, randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1, primaryStage);
                                 } else if (difficulty == 1) {
-                                    HardRemove(root, randomFreeButton, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage);
+                                    hardRemove(root, randomFreeButton, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage);
                                 }
                                 if (isGameFinished()) {
-                                    FinPartie(root, timeline1, timeline2, primaryStage);
+                                    endGame(root, timeline1, timeline2, primaryStage);
                                 }
                             }
                         });
@@ -89,19 +89,19 @@ public class Movement {
 
                         if (!isRemovePieceMode) {
                             currentPlayer = 1;
-                            ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                            resetTimer(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                             if (isGameFinished()) {
-                                FinPartie(root, timeline1, timeline2, primaryStage);
+                                endGame(root, timeline1, timeline2, primaryStage);
                             }
                         } else {
                             Button randomFreeButton = getRandomFreeButtonJ1();
                             if (difficulty == 0) {
-                                removePiece(root, randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1, primaryStage);
+                                easyRemove(root, randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1, primaryStage);
                             } else if (difficulty == 1) {
-                                HardRemove(root, randomFreeButton, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage);
+                                hardRemove(root, randomFreeButton, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage);
                             }
                             if (isGameFinished()) {
-                                FinPartie(root, timeline1, timeline2, primaryStage);
+                                endGame(root, timeline1, timeline2, primaryStage);
                             }
                         }
                     }
@@ -137,24 +137,24 @@ public class Movement {
 
                                 if (!isRemovePieceMode) {
                                     currentPlayer = 1;
-                                    ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                                    resetTimer(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                                     if (isGameFinished()) {
-                                        FinPartie(root, timeline1, timeline2, primaryStage);
+                                        endGame(root, timeline1, timeline2, primaryStage);
                                     }
                                 } else {
                                     currentPlayer = 2;
 
-                                    Button randomFreeButton = RandomFreeJ1();
+                                    Button randomFreeButton = randomFreeJ1();
 
                                     if (difficulty == 0) {
-                                        removePiece(root, randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1, primaryStage);
+                                        easyRemove(root, randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1, primaryStage);
 
                                     } else if (difficulty == 1) {
-                                        HardRemove(root, randomFreeButton, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage);
+                                        hardRemove(root, randomFreeButton, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage);
 
                                     }
                                     if (isGameFinished()) {
-                                        FinPartie(root, timeline1, timeline2, primaryStage);
+                                        endGame(root, timeline1, timeline2, primaryStage);
                                     }
                                 }
                             });
@@ -174,24 +174,24 @@ public class Movement {
 
                             if (!isRemovePieceMode) {
                                 currentPlayer = 1;
-                                ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                                resetTimer(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                                 if (isGameFinished()) {
-                                    FinPartie(root, timeline1, timeline2, primaryStage);
+                                    endGame(root, timeline1, timeline2, primaryStage);
                                 }
                             } else {
                                 currentPlayer = 2;
 
-                                Button randomFreeButton = RandomFreeJ1();
+                                Button randomFreeButton = randomFreeJ1();
 
                                 if (difficulty == 0) {
-                                    removePiece(root, randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1, primaryStage);
+                                    easyRemove(root, randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1, primaryStage);
 
                                 } else if (difficulty == 1) {
-                                    HardRemove(root, randomFreeButton, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage);
+                                    hardRemove(root, randomFreeButton, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage);
 
                                 }
                                 if (isGameFinished()) {
-                                    FinPartie(root, timeline1, timeline2, primaryStage);
+                                    endGame(root, timeline1, timeline2, primaryStage);
                                 }
                             }
                         }
@@ -203,7 +203,7 @@ public class Movement {
         }
     }
 
-    static void HardMovement(PartyIA root, Button button,Timeline timeline2, Label timerLabel2, Label timerLabel1,String chrono, int[] remainingSeconds2, Timeline timeline1, Stage primaryStage, GridPane gridpane, int difficulty){
+    static void hardMovement(PartyIA root, Button button, Timeline timeline2, Label timerLabel2, Label timerLabel1, String chrono, int[] remainingSeconds2, Timeline timeline1, Stage primaryStage, GridPane gridpane, int difficulty){
         if (buttonsJ2.size() > 3 && placementisfinished){
 
             checkAlignments();
@@ -263,25 +263,25 @@ public class Movement {
 
                                 if(!isRemovePieceMode){
                                     currentPlayer = 1;
-                                    PartyIA.ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                                    PartyIA.resetTimer(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                                     if (isGameFinished()) {
-                                        FinPartie(root, timeline1, timeline2, primaryStage);
+                                        endGame(root, timeline1, timeline2, primaryStage);
                                     }
                                 }
                                 else {
                                     currentPlayer = 2;
 
-                                    Button randomFreeButton = RandomFreeJ1();
+                                    Button randomFreeButton = randomFreeJ1();
 
                                     if(difficulty == 0){
-                                        removePiece(root, randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
+                                        easyRemove(root, randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
 
                                     } else if (difficulty == 1) {
-                                        HardRemove( root,  button,  timeline2,  timerLabel2,  timerLabel1,  chrono, remainingSeconds2,  timeline1,  primaryStage);
+                                        hardRemove( root,  button,  timeline2,  timerLabel2,  timerLabel1,  chrono, remainingSeconds2,  timeline1,  primaryStage);
 
                                     }
                                     if (isGameFinished()) {
-                                        FinPartie(root, timeline1, timeline2, primaryStage);
+                                        endGame(root, timeline1, timeline2, primaryStage);
                                     }
                                 }
                             });
@@ -304,25 +304,25 @@ public class Movement {
 
                             if(!isRemovePieceMode){
                                 currentPlayer = 1;
-                                PartyIA.ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                                PartyIA.resetTimer(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                                 if (isGameFinished()) {
-                                    FinPartie(root, timeline1, timeline2, primaryStage);
+                                    endGame(root, timeline1, timeline2, primaryStage);
                                 }
                             }
                             else {
                                 currentPlayer = 2;
 
-                                Button randomFreeButton = RandomFreeJ1();
+                                Button randomFreeButton = randomFreeJ1();
 
                                 if(difficulty == 0){
-                                    removePiece(root, randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
+                                    easyRemove(root, randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
 
                                 } else if (difficulty == 1) {
-                                    HardRemove( root,  button,  timeline2,  timerLabel2,  timerLabel1,  chrono, remainingSeconds2,  timeline1,  primaryStage);
+                                    hardRemove( root,  button,  timeline2,  timerLabel2,  timerLabel1,  chrono, remainingSeconds2,  timeline1,  primaryStage);
 
                                 }
                                 if (isGameFinished()) {
-                                    FinPartie(root, timeline1, timeline2, primaryStage);
+                                    endGame(root, timeline1, timeline2, primaryStage);
                                 }
                             }
                         }
@@ -386,22 +386,22 @@ public class Movement {
 
                                 if(!isRemovePieceMode){
                                     currentPlayer = 1;
-                                    ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                                    resetTimer(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                                     if (isGameFinished()) {
-                                        FinPartie(root, timeline1, timeline2, primaryStage);
+                                        endGame(root, timeline1, timeline2, primaryStage);
                                     }
                                 }
                                 else {
                                     currentPlayer = 2;
-                                    Button randomFreeButton = RandomFreeJ1();
+                                    Button randomFreeButton = randomFreeJ1();
                                     if (difficulty == 0){
-                                        removePiece(root, randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
+                                        easyRemove(root, randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
 
                                     } else if (difficulty == 1) {
-                                        HardRemove(root,  button,  timeline2,  timerLabel2,  timerLabel1,  chrono, remainingSeconds2,  timeline1,  primaryStage);
+                                        hardRemove(root,  button,  timeline2,  timerLabel2,  timerLabel1,  chrono, remainingSeconds2,  timeline1,  primaryStage);
                                     }
                                     if (isGameFinished()) {
-                                        FinPartie(root, timeline1, timeline2, primaryStage);
+                                        endGame(root, timeline1, timeline2, primaryStage);
                                     }
                                 }
                             });
@@ -424,22 +424,22 @@ public class Movement {
 
                             if(!isRemovePieceMode){
                                 currentPlayer = 1;
-                                ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                                resetTimer(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                                 if (isGameFinished()) {
-                                    FinPartie(root, timeline1, timeline2, primaryStage);
+                                    endGame(root, timeline1, timeline2, primaryStage);
                                 }
                             }
                             else {
                                 currentPlayer = 2;
-                                Button randomFreeButton = RandomFreeJ1();
+                                Button randomFreeButton = randomFreeJ1();
                                 if (difficulty == 0){
-                                    removePiece(root, randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
+                                    easyRemove(root, randomFreeButton, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
 
                                 } else if (difficulty == 1) {
-                                    HardRemove(root,  button,  timeline2,  timerLabel2,  timerLabel1,  chrono, remainingSeconds2,  timeline1,  primaryStage);
+                                    hardRemove(root,  button,  timeline2,  timerLabel2,  timerLabel1,  chrono, remainingSeconds2,  timeline1,  primaryStage);
                                 }
                                 if (isGameFinished()) {
-                                    FinPartie(root, timeline1, timeline2, primaryStage);
+                                    endGame(root, timeline1, timeline2, primaryStage);
                                 }
                             }
                         }
@@ -452,12 +452,12 @@ public class Movement {
                 finalValidAlignments.clear();
                 finalValidAlignmentsJ1.clear();
                 Button randomFreeButton = getRandomFreeButtonJ1();
-                EasyMovement(root, randomFreeButton, timeline2, timerLabel2, timerLabel2, chrono, remainingSeconds2, timeline1, primaryStage, difficulty);
+                easyMovement(root, randomFreeButton, timeline2, timerLabel2, timerLabel2, chrono, remainingSeconds2, timeline1, primaryStage, difficulty);
             }
         }
         else if (buttonsJ2.size() == 3 && placementisfinished) {
             Button randomFreeButton = getRandomFreeButtonJ1();
-            EasyMovement(root, randomFreeButton, timeline2,  timerLabel2,  timerLabel1,  chrono,  remainingSeconds2,  timeline1,  primaryStage, difficulty);
+            easyMovement(root, randomFreeButton, timeline2,  timerLabel2,  timerLabel1,  chrono,  remainingSeconds2,  timeline1,  primaryStage, difficulty);
         }
     }
 
@@ -544,7 +544,7 @@ public class Movement {
         }
     }
 
-    public static Button RandomFreeJ1() {
+    public static Button randomFreeJ1() {
 
         FreeButtonsJ1.clear();
 

@@ -16,7 +16,7 @@ public class ButtonsMenu {
      * Crée la liste de boutons du menu.
      * @return La liste de boutons de menu.
      */
-    public List<Button> creerBoutons() {
+    public List<Button> createButtons() {
 
         //Création des Boutons du Menu
         List<Button> boutons = new ArrayList<>();
@@ -24,7 +24,7 @@ public class ButtonsMenu {
 
         for (String nom : nomsBoutons) {
             Button bouton = new Button(nom);
-            ButtonsStyle.appliquerStyle(bouton, 0.28125*screenWidth, 0.0694*screenHeight, 0.0347*screenHeight);
+            ButtonsStyle.applyStyle(bouton, 0.28125*screenWidth, 0.0694*screenHeight, 0.0347*screenHeight);
             boutons.add(bouton);
         }
         return boutons;

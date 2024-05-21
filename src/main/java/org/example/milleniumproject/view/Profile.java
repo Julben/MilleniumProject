@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import org.example.milleniumproject.presentation.BG;
+import org.example.milleniumproject.presentation.BackGround;
 import java.util.Arrays;
 import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
@@ -20,18 +20,18 @@ import static org.example.milleniumproject.model.Constant.screenWidth;
  * Classe gérant l'affichage des profils des joueurs durant la partie.
  * Elle permet de gérer le choix des avatars, des rangs et des pions des deux joueurs.
  */
-public class Profil extends StackPane {
+public class Profile extends StackPane {
 
     Menu menu = new Menu();
     public static final double AVATAR_SIZE = 0.10156*screenWidth;
     private TextField textField1;
     private TextField textField2;
-    private Carrousel avatarCarrousel1;
-    private Carrousel avatarCarrousel2;
-    private Carrousel rangCarrousel1;
-    private Carrousel rangCarrousel2;
-    private Carrousel vaisseauCarrousel1;
-    private Carrousel vaisseauCarrousel2;
+    private Carousel avatarCarrousel1;
+    private Carousel avatarCarrousel2;
+    private Carousel rangCarrousel1;
+    private Carousel rangCarrousel2;
+    private Carousel vaisseauCarrousel1;
+    private Carousel vaisseauCarrousel2;
     private Label erreurLabel;
 
     /**
@@ -41,7 +41,7 @@ public class Profil extends StackPane {
      * @param primaryStage La scène en premier plan.
      */
 
-    public Profil(Stage primaryStage) {
+    public Profile(Stage primaryStage) {
 
         erreurLabel = new Label();
         erreurLabel.setTextFill(Color.WHITE);
@@ -50,7 +50,7 @@ public class Profil extends StackPane {
         StackPane.setAlignment(erreurLabel, Pos.TOP_CENTER);
         StackPane.setMargin(erreurLabel, new Insets(0.02778*screenHeight, 0, 0, 0));
 
-        BG ground = new BG("src/main/resources/BGProfil.png");
+        BackGround ground = new BackGround("src/main/resources/BGProfil.png");
         setBackground(ground.getCustomBackground());
 
         Button retourButton = BackButtons.createBackButton(primaryStage);
@@ -105,7 +105,7 @@ public class Profil extends StackPane {
                 getProfileData(1, textField1, avatarCarrousel1, rangCarrousel1, vaisseauCarrousel1, avatar, rang, vaisseau);
                 getProfileData(2, textField2, avatarCarrousel2, rangCarrousel2, vaisseauCarrousel2, avatar, rang, vaisseau);
                 SoundPlayer.soundPlay();
-                menu.afficherMenu(primaryStage);
+                menu.showMenu(primaryStage);
             }
         });
 
@@ -133,9 +133,9 @@ public class Profil extends StackPane {
         label.setTextFill(Color.WHITE);
         label.setFont(Font.font("Cardo", 0.0833*screenHeight));
 
-        Carrousel avatarCarrousel = new Carrousel(avatar, true, savedAvatarIndex);
-        Carrousel rangCarrousel = new Carrousel(rang, false, savedRankIndex);
-        Carrousel vaisseauCarrousel = new Carrousel(vaisseau, true, savedShipIndex);
+        Carousel avatarCarrousel = new Carousel(avatar, true, savedAvatarIndex);
+        Carousel rangCarrousel = new Carousel(rang, false, savedRankIndex);
+        Carousel vaisseauCarrousel = new Carousel(vaisseau, true, savedShipIndex);
 
         TextField textField = createTextField(playerName);
 
@@ -171,7 +171,7 @@ public class Profil extends StackPane {
      * @param rang           Le rang du joueur.
      * @param vaisseau       Le vaisseau spatial .
      */
-    private void getProfileData(int playerNumber, TextField playerNameField, Carrousel avatarCarrousel, Carrousel rankCarrousel, Carrousel shipCarrousel, String[] avatar, String[] rang, String[] vaisseau) {
+    private void getProfileData(int playerNumber, TextField playerNameField, Carousel avatarCarrousel, Carousel rankCarrousel, Carousel shipCarrousel, String[] avatar, String[] rang, String[] vaisseau) {
         String playerName = playerNameField.getText();
         int avatarIndex = avatarCarrousel.getCurrentIndex();
         int rankIndex = rankCarrousel.getCurrentIndex();
