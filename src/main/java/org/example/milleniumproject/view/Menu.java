@@ -1,6 +1,6 @@
 package org.example.milleniumproject.view;
 
-import org.example.milleniumproject.presentation.BG;
+import org.example.milleniumproject.presentation.BackGround;
 import org.example.milleniumproject.model.ButtonsMenu;
 import org.example.milleniumproject.model.Management;
 import javafx.geometry.Insets;
@@ -26,16 +26,16 @@ public class Menu {
      *
      * @param primaryStage La scène en premier plan.
      */
-    public void afficherMenu(Stage primaryStage) {
+    public void showMenu(Stage primaryStage) {
 
         StackPane root = (StackPane) primaryStage.getScene().getRoot();
         root.getChildren().clear();
 
-        BG ground = new BG("src/main/resources/BGMENU.png");
+        BackGround ground = new BackGround("src/main/resources/BGMENU.png");
         root.getChildren().add(ground);
 
         ButtonsMenu buttonsMenuCreator = new ButtonsMenu();
-        List<Button> boutonsComplets = buttonsMenuCreator.creerBoutons();
+        List<Button> boutonsComplets = buttonsMenuCreator.createButtons();
         List<Button> boutons1 = new ArrayList<>(boutonsComplets.subList(0, 5));
         List<Button> boutons2 = new ArrayList<>(boutonsComplets.subList(5, boutonsComplets.size()));
 
@@ -57,7 +57,7 @@ public class Menu {
 
         primaryStage.setMaximized(true);
 
-        Management.gererEvenements(primaryStage, boutonsComplets);
+        Management.handleEvents(primaryStage, boutonsComplets);
     }
 
     /**

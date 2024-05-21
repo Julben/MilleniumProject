@@ -11,6 +11,6 @@ public class ManagementTest {
 	public void gererEvenements() {
 		Stage primaryStage = null;
 		List<Button> boutonsComplets = new ArrayList<>();
-		Management.gererEvenements(primaryStage, boutonsComplets);
+		Management.handleEvents(primaryStage, boutonsComplets);
 	}
 }

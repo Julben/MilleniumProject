@@ -7,9 +7,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ChargerPartie {
-
-    public List<Object> chargerPartieDepuisFichier(String nomfichier) {
+/**
+ * Cette classe permet de charger les données d'une partie à partir d'une sauvegarde.
+ */
+public class LoadParty {
+    /**
+     * Charge les données d'une partie à partir d'un fichier de sauvegarde.
+     *
+     * @param nomfichier Le nom du fichier de sauvegarde.
+     * @return Une liste contenant les informations chargées, telles que les avatars, les rangs, les vaisseaux, etc.
+     */
+    public List<Object> loadPartyFromFile(String nomfichier) {
         String avatar1 = "";
         String avatar2 = "";
         String rank1 = "";

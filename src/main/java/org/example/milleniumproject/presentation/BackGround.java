@@ -11,7 +11,7 @@ import java.util.Random;
 /**
  * Classe pour ajouter un fond d'écran.
  */
-public class BG extends StackPane {
+public class BackGround extends StackPane {
 
     private Background background;
 
@@ -21,7 +21,7 @@ public class BG extends StackPane {
      * @param imagePath L'image à utiliser comme fond d'écran.
      * @throws RuntimeException Exception si l'image n'est pas trouvé.
      */
-    public BG (String imagePath) {
+    public BackGround(String imagePath) {
 
         try {
             Image image = new Image(new FileInputStream(imagePath));
@@ -34,7 +34,7 @@ public class BG extends StackPane {
         }
     }
 
-    public BG() {
+    public BackGround() {
 
         List<String> stringList = Arrays.asList("src/main/resources/Backgrounds/BG1.png", "src/main/resources/Backgrounds/BG2.png", "src/main/resources/Backgrounds/BG3.png", "src/main/resources/Backgrounds/BG4.png", "src/main/resources/Backgrounds/BG5.png",
                 "src/main/resources/Backgrounds/BG6.png", "src/main/resources/Backgrounds/BG7.png", "src/main/resources/Backgrounds/BG8.png", "src/main/resources/Backgrounds/BG9.png", "src/main/resources/Backgrounds/BG10.png",

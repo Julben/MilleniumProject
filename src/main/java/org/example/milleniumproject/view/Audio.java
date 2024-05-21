@@ -11,7 +11,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import org.example.milleniumproject.model.AudioData;
-import org.example.milleniumproject.presentation.BG;
+import org.example.milleniumproject.presentation.BackGround;
 import org.example.milleniumproject.model.BackButtons;
 import org.example.milleniumproject.model.MusicPlayer;
 import org.example.milleniumproject.model.SoundPlayer;
@@ -35,7 +35,7 @@ public class Audio extends StackPane {
      * @param primaryStage La scène en premier plan.
      */
     public Audio(Stage primaryStage) {
-        BG ground = new BG("src/main/resources/BGAUDIO.png");
+        BackGround ground = new BackGround("src/main/resources/BGAUDIO.png");
         setBackground(ground.getCustomBackground());
 
         Button retourButton = BackButtons.createBackButton(primaryStage);

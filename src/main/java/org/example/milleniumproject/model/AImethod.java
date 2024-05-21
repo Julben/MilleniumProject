@@ -6,7 +6,7 @@ import javafx.scene.layout.GridPane;
 /**
  * Cette classe fournit des méthodes utiles pour le fonctionnement de l'IA.
  */
-public class Methodeia {
+public class AImethod {
     /**
      * Désactive ou réactive la souris de l'utilisateur .
      *

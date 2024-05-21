@@ -26,7 +26,7 @@ public class EndParty extends StackPane {
      * @param root         Conteneur principal de la scène.
      * @param primaryStage La scène en premier plan.
      */
-    static void afficherFinPartie(StackPane root, Stage primaryStage){
+    static void displayEndGame(StackPane root, Stage primaryStage){
         StackPane reglesPane = new StackPane();
         reglesPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7);");
 
@@ -67,7 +67,7 @@ public class EndParty extends StackPane {
             SoundPlayer.soundPlay();
             MusicPlayer.musicPlay("src/main/resources/MusicMenu.mp3");
             Menu menu = new Menu();
-            menu.afficherMenu(primaryStage);
+            menu.showMenu(primaryStage);
         });
 
         StackPane.setAlignment(quitterButton, Pos.TOP_RIGHT);
@@ -89,12 +89,13 @@ public class EndParty extends StackPane {
      * @param timeline2    La timeline pour le second joueur.
      * @param primaryStage La scène en premier plan.
      */
-    static void FinPartie(StackPane root, Timeline timeline1, Timeline timeline2, Stage primaryStage){
+
+    static void endGame(StackPane root, Timeline timeline1, Timeline timeline2, Stage primaryStage){
         timeline1.stop();
         timeline2.stop();
-        afficherFinPartie(root, primaryStage);
+        displayEndGame(root, primaryStage);
     }
-    //apparemment pas utilise
+
     static boolean hasPlayerFreeNeighbours(List<Button> playerButtons) {
         for (Button button : playerButtons) {
             if (hasFreeNeighbour(button)) {

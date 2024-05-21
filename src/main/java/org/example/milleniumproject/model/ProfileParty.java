@@ -19,7 +19,7 @@ import static org.example.milleniumproject.model.Constant.screenWidth;
 /**
  * Cette classe permet la création du profil et des pions des joueurs durant la partie.
  */
-public class ProfilParty extends StackPane {
+public class ProfileParty extends StackPane {
 
     /**
      * Crée une VBox contenant les pions choisi par le joueur.

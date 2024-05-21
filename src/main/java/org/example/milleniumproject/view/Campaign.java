@@ -1,27 +1,40 @@
 package org.example.milleniumproject.view;
 
-import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.animation.PauseTransition;
 import org.example.milleniumproject.model.Constant;
+import org.example.milleniumproject.model.MusicPlayer;
 import org.example.milleniumproject.model.PartyIA;
+import org.example.milleniumproject.model.SoundPlayer;
 
-public class Campagne extends Pane {
+public class Campaign extends StackPane {
     private int currentRound = 0;
     private final int totalRounds = 3;
     private Stage primaryStage;
-
-    public Campagne(Stage primaryStage) {
+    /**
+     * Constructeur de la classe Campaign.
+     *
+     * @param primaryStage  La scène en premier plan.
+     */
+    public Campaign(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
-
-    public void startCampagne() {
+    /**
+     * Démarre en lancant la vidéo d'introduction.
+     */
+    public void startCampaign() {
         System.out.println("Starting campaign...");
         playVideo("/VideoCamp/VideoCampagneNaboo.mp4", this::startRound);
     }
-
+    /**
+     * Permet de lancer des vidéos.
+     *
+     * @param videoPath La vidéo à lancer.
+     * @param onEnd     L'action à exécuter à la fin de la vidéo.
+     */
     private void playVideo(String videoPath, Runnable onEnd) {
         try {
             String fullPath = getClass().getResource(videoPath).toExternalForm();
@@ -37,7 +50,9 @@ public class Campagne extends Pane {
             onEnd.run();
         }
     }
-
+    /**
+     * Démarre un round de la campagne.
+     */
     private void startRound() {
         System.out.println("Starting round: " + currentRound);
 
@@ -53,12 +68,17 @@ public class Campagne extends Pane {
 
         } else {
             System.out.println("Campaign finished, playing end video.");
-            playVideo("/VideoChargement.mp4", () -> {
+            playVideo("/VideoCamp/VideoFinCampagne.mp4", () -> {
                 primaryStage.close();
             });
         }
     }
-
+    /**
+     * Retourne la vidéo correspondant au round.
+     *
+     * @param round Le numéro du round.
+     * @return Le chemin de la vidéo pour le round spécifié.
+     */
     private String getVideoPathForRound(int round) {
         switch (round) {
             case 1:
@@ -70,7 +90,15 @@ public class Campagne extends Pane {
         }
     }
 
-    private void playPart(Runnable onEnd, int currentRound) {
+    
+    /**
+     * Lance une partie.
+     *
+     * @param onEnd        L'action à exécuter à la fin de la partie.
+     * @param currentRound Le numéro du round actuel.
+     */
+    public void playPart(Runnable onEnd, int currentRound) {
+
         System.out.println("Playing part for round: " + currentRound);
 
         // Initialisation et affichage de PartyIA
@@ -86,14 +114,19 @@ public class Campagne extends Pane {
 
         getChildren().setAll(partyIA); // Utilise le conteneur existant pour afficher la partie
 
-        // Ajoutez un délai pour permettre à PartyIA de se lancer et être visible
-        PauseTransition pause = new PauseTransition(Duration.seconds(50)); // Ajustez la durée si nécessaire
+        PauseTransition pause = new PauseTransition(Duration.seconds(180));
         pause.setOnFinished(event -> {
-            System.out.println("Part finished.");
-            onEnd.run();
+                if (PartyIA.win) {
+                    System.out.println("Player won the part.");
+                    onEnd.run();
+                    PartyIA.win=false;
+                    MusicPlayer.stopPlaying();
+                } else {
+                   System.out.println("Player lost the part.");
+                   /*Menu menu = new Menu();
+                   menu.showMenu(primaryStage);*/ // End the campaign and show menu
+                }
         });
         pause.play();
-
-        System.out.println("Pause transition started");
     }
 }

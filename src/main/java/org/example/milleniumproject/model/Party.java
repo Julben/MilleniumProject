@@ -21,7 +21,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.example.milleniumproject.presentation.BG;
+import org.example.milleniumproject.presentation.BackGround;
 import org.example.milleniumproject.presentation.ButtonTransitionHandler;
 import org.example.milleniumproject.presentation.RectangleConstructor;
 import org.example.milleniumproject.view.PreParty;
@@ -32,12 +32,14 @@ import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 import static javafx.scene.paint.Color.GREEN;
 import static javafx.scene.paint.Color.TRANSPARENT;
-import static org.example.milleniumproject.model.EndParty.FinPartie;
-import static org.example.milleniumproject.model.EndParty.afficherFinPartie;
-
+import static org.example.milleniumproject.model.EndParty.endGame;
+import static org.example.milleniumproject.model.EndParty.displayEndGame;
+/**
+ * Cette classe affiche le jeu en joueur contre joueur.
+ */
 public class Party extends StackPane {
 
-    private ChargerPartie chargerPartie = new ChargerPartie();
+    private LoadParty chargerPartie = new LoadParty();
     private int currentPlayer = 1;
     private boolean end = false;
     private VBox leftVBox;
@@ -110,11 +112,30 @@ public class Party extends StackPane {
     Rectangle QTW = qtw.getRectangle();
 
     Map<String, RectangleConstructor> rectangleMap = new HashMap<>();
-
+    /**
+     * Constructeur par défaut.
+     */
     public Party() {
 
     }
-
+    /**
+     * Constructeur avec les paramètres nécessaires pour démarrer une partie.
+     *
+     * @param primaryStage       La scène en premier plan.
+     * @param selectedIndexchrono L'index du chrono.
+     * @param selectedIndex      L'index du fond d'écran.
+     * @param avatar1            L'avatar du joueur 1.
+     * @param avatar2            L'avatar du joueur 2.
+     * @param playerName1        Le nom du joueur 1.
+     * @param playerName2        Le nom du joueur 2.
+     * @param rank1              Le rang du joueur 1.
+     * @param rank2              Le rang du joueur 2.
+     * @param currentPlayer      Le joueur actuel.
+     * @param turns              Le nombre de tours effectués.
+     * @param buttonSave         Les boutons sauvegardés.
+     * @param buttonsJ1          La liste des boutons du joueur 1.
+     * @param buttonsJ2          La liste des boutons du joueur 2.
+     */
     public Party(Stage primaryStage, int selectedIndexchrono, int selectedIndex, String avatar1, String avatar2, String playerName1, String playerName2, String rank1, String rank2, int currentPlayer, int turns, List<Button> buttonSave, List<Button> buttonsJ1, List<Button> buttonsJ2) {
 
         rectangleMap.put("ABC", abc);
@@ -162,8 +183,8 @@ public class Party extends StackPane {
         Label timerLabel2 = new Label(chrono);
         timerLabel1.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
         timerLabel2.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
-        Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1, this, primaryStage, currentPlayer);
-        Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2, this, primaryStage, currentPlayer);
+        Timeline timeline1 = timer(timerLabel1, remainingSeconds1, this, primaryStage, currentPlayer);
+        Timeline timeline2 = timer(timerLabel2, remainingSeconds2, this, primaryStage, currentPlayer);
 
         for (int i = 0; i < buttonLabels.length; i++) {
             Button button = buttonSave.get(i);
@@ -188,7 +209,15 @@ public class Party extends StackPane {
             }
         }
     }
-
+    /**
+     * Constructeur pour la sélection des options de la partie.
+     *
+     * @param primaryStage La scène en premier plan.
+     * @param toggleGroup3  Le choix pour la sélection des options 3.
+     * @param hbox3         La HBox pour la sélection des options 3.
+     * @param toggleGroup2  Le choix pour la sélection des options 2.
+     * @param hbox2         La HBox pour la sélection des options 2.
+     */
     public Party(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3, ToggleGroup toggleGroup2, HBox hbox2) {
         this.toggleGroup3 = toggleGroup3;
         this.hbox3 = hbox3;
@@ -226,8 +255,8 @@ public class Party extends StackPane {
         int lastIndex2 = str2.lastIndexOf('/');
         String vaisseau2 = str2.substring(lastIndex2 + 1);
 
-        leftVBox = ProfilParty.createVBoxWithImages(vaisseau1, 9);
-        rightVBox = ProfilParty.createVBoxWithImages(vaisseau2, 9);
+        leftVBox = ProfileParty.createVBoxWithImages(vaisseau1, 9);
+        rightVBox = ProfileParty.createVBoxWithImages(vaisseau2, 9);
 
         HBox hBox = new HBox(0.6 * Constant.screenWidth);
         hBox.getChildren().addAll(leftVBox, rightVBox);
@@ -242,7 +271,21 @@ public class Party extends StackPane {
         setPlayerInfo(primaryStage, selectedIndexchrono, selectedIndex, ProfileData.getAvatar(1), ProfileData.getAvatar(2), ProfileData.getPlayerName(1), ProfileData.getPlayerName(2), ProfileData.getRank(1), ProfileData.getRank(2), currentPlayer, turns);
 
     }
-
+    /**
+     * Initialise les informations des joueurs.
+     *
+     * @param primaryStage       La scène en premier plan.
+     * @param selectedIndexchrono L'index du chronomètre.
+     * @param selectedIndex      L'index du fond d'écran.
+     * @param avatar1            L'avatar du joueur 1.
+     * @param avatar2            L'avatar du joueur 2.
+     * @param playerName1        Le nom du joueur 1.
+     * @param playerName2        Le nom du joueur 2.
+     * @param rank1              Le rang du joueur 1.
+     * @param rank2              Le rang du joueur 2.
+     * @param currentPlayer      Le joueur actuel.
+     * @param turns              Le nombre de tours effectués.
+     */
     public void setPlayerInfo(Stage primaryStage, int selectedIndexchrono, int selectedIndex, String avatar1, String avatar2, String playerName1, String playerName2, String rank1, String rank2, int currentPlayer, int turns) {
 
         String backgroundImage = "";
@@ -253,7 +296,7 @@ public class Party extends StackPane {
         } else if (selectedIndex == 2) {
             backgroundImage = "src/main/resources/FEMUSTAPHAR.png";
         }
-        BG ground = new BG(backgroundImage);
+        BackGround ground = new BackGround(backgroundImage);
         setBackground(ground.getCustomBackground());
 
 
@@ -275,8 +318,8 @@ public class Party extends StackPane {
         Label timerLabel2 = new Label(chrono);
         timerLabel1.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
         timerLabel2.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
-        Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1, this, primaryStage , currentPlayer);
-        Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2, this, primaryStage, currentPlayer);
+        Timeline timeline1 = timer(timerLabel1, remainingSeconds1, this, primaryStage , currentPlayer);
+        Timeline timeline2 = timer(timerLabel2, remainingSeconds2, this, primaryStage, currentPlayer);
 
         gridPane = new GridPane();
         gridPane.setHgap(0.0171875 * screenWidth);
@@ -292,15 +335,14 @@ public class Party extends StackPane {
         String avatarFileName1 = avatar1.substring(avatar1.lastIndexOf('/') + 1);
         String avatarFileName2 = avatar2.substring(avatar2.lastIndexOf('/') + 1);
 
-        VBox profileBox1 = ProfilParty.createProfileBox(avatarFileName1, playerName1, rank1, timerLabel1, true, false);
-        VBox profileBox2 = ProfilParty.createProfileBox(avatarFileName2, playerName2, rank2, timerLabel2, false, false);
+        VBox profileBox1 = ProfileParty.createProfileBox(avatarFileName1, playerName1, rank1, timerLabel1, true, false);
+        VBox profileBox2 = ProfileParty.createProfileBox(avatarFileName2, playerName2, rank2, timerLabel2, false, false);
         setMargin(profileBox1, new Insets(0, 0, 0.020833 * screenHeight, 0.015625 * screenWidth));
         setMargin(profileBox2, new Insets(0, 0.015625 * screenWidth, 0.020833 * screenHeight, 0));
 
         setAlignment(profileBox1, Pos.BOTTOM_LEFT);
         setAlignment(profileBox2, Pos.BOTTOM_RIGHT);
 
-        // Création du bouton pause avec une image
         Image pauseImage = new Image("pause.png");
         ImageView imageView = new ImageView(pauseImage);
         imageView.setFitWidth(0.025 * screenWidth);
@@ -340,21 +382,34 @@ public class Party extends StackPane {
             }
         }
     }
-
+    /**
+     * Gère l'action lorsqu'un bouton est cliqué pendant la partie.
+     *
+     * @param button            Le bouton cliqué.
+     * @param gridpane          La grille de jeu(plateau).
+     * @param timeline1         La timeline pour le joueur 1.
+     * @param timeline2         La timeline pour le joueur 2.
+     * @param timerLabel1       Le chrono pour le joueur 1.
+     * @param timerLabel2       Le chrono pour le joueur 2.
+     * @param remainingSeconds1 Le temps restant pour le joueur 1.
+     * @param remainingSeconds2 Le temps restant pour le joueur 2.
+     * @param chrono            Le chrono.
+     * @param primaryStage      La scène en premier plan.
+     */
     private void handleButtonClick(Button button, GridPane gridpane, Timeline timeline1, Timeline timeline2, Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2, String chrono, Stage primaryStage) {
 
         if (isRemovePieceMode) {
             removePiece(button);
 
             if (currentPlayer == 1) {
-                ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                resetTimer(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
             } else {
-                ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
+                resetTimer(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
             }
 
             if (isGameFinished(buttonsJ1, buttonsJ2, currentPlayer) && placementisfinished) {
                 currentPlayer = currentPlayer == 1 ? 2 : 1;
-                FinPartie(this,timeline1, timeline2, primaryStage);
+                endGame(this,timeline1, timeline2, primaryStage);
             }
         } else {
             if (button.getGraphic() == null && turns < 18) {
@@ -366,7 +421,7 @@ public class Party extends StackPane {
                         currentPlayer = 1;
                     } else {
                         currentPlayer = 2;
-                        ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
+                        resetTimer(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
                     }
                     turns++;
 
@@ -378,7 +433,7 @@ public class Party extends StackPane {
                         currentPlayer = 2;
                     } else {
                         currentPlayer = 1;
-                        ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                        resetTimer(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                     }
                     turns++;
 
@@ -387,21 +442,26 @@ public class Party extends StackPane {
                 placementisfinished = true;
                 if (currentPlayer == 1 && (buttonsJ1.contains(button) || button.getGraphic() == null)) {
                     handleSelection(buttonsJ1, button, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono);
-                    ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                    resetTimer(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                 } else if (currentPlayer == 2 && (buttonsJ2.contains(button) || button.getGraphic() == null)) {
                     handleSelection(buttonsJ2, button, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono);
-                    ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
+                    resetTimer(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
                 }
 
                 // Vérifier si la partie est terminée
                 if (isGameFinished(buttonsJ1, buttonsJ2, currentPlayer) && placementisfinished) {
                     currentPlayer = currentPlayer == 1 ? 2 : 1;
-                    FinPartie(this,timeline1, timeline2, primaryStage);
+                    endGame(this,timeline1, timeline2, primaryStage);
                 }
             }
         }
     }
-
+    /**
+     * Place une image d'un joueur sur un bouton.
+     *
+     * @param button    Le bouton sur lequel placer l'image du joueur.
+     * @param playerVBox    La VBox contenant les images(pions) des joueurs.
+     */
     private void placePlayerImage(Button button, VBox playerVBox) {
         GridPane gridPane = (GridPane) playerVBox.getChildren().get(0);
 
@@ -411,7 +471,19 @@ public class Party extends StackPane {
             gridPane.getChildren().remove(imageView);
         }
     }
-
+    /**
+     * Gère la sélection d'un bouton pendant la partie.
+     *
+     * @param buttons   La liste des boutons associés au joueur actuel.
+     * @param clickedButton Le bouton sur lequel le joueur a cliqué.
+     * @param timeline1 Le timeline pour le joueur 1.
+     * @param timeline2 Le timeline pour le joueur 2.
+     * @param timerLabel1   Le temps pour le joueur 1.
+     * @param timerLabel2   Le temps pour le joueur 2.
+     * @param remainingSeconds1 Les secondes restantes pour le joueur 1.
+     * @param remainingSeconds2 Les secondes restantes pour le joueur 2.
+     * @param chrono    Le chrono.
+     */
     private void handleSelection(List<Button> buttons, Button clickedButton, Timeline timeline1, Timeline timeline2, Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2, String chrono) {
         if (selectedButton == null) {
             if (buttons.contains(clickedButton) && placementisfinished) {
@@ -431,9 +503,9 @@ public class Party extends StackPane {
                     if (!isRemovePieceMode) {
                         currentPlayer = currentPlayer == 1 ? 2 : 1;
                         if (currentPlayer == 1) {
-                            ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                            resetTimer(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                         } else {
-                            ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
+                            resetTimer(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
                         }
                     }
                     change = true;
@@ -449,7 +521,12 @@ public class Party extends StackPane {
             change = false;
         }
     }
-
+    /**
+     * Réinitialise les couleurs des boutons.
+     * Les bordures vertes des combinaisons précédentes sont effacées.
+     *
+     * @param movedButton Le bouton qui a été déplacé.
+     */
     private void resetButtonColorsForMovedButton(Button movedButton) {
         String nomButton = movedButton.getText();
         for (Map.Entry<String, RectangleConstructor> entry : rectangleMap.entrySet()) {
@@ -463,7 +540,9 @@ public class Party extends StackPane {
             }
         }
     }
-
+    /**
+     * Vérifie toutes les combinaisons de boutons sur le plateau de jeu.
+     */
     private void checkButtonCombinations() {
         for (String[] combination : alignments) {
             if (checkAndChangeButtonColor(combination[0], combination[1], combination[2])) {
@@ -471,7 +550,13 @@ public class Party extends StackPane {
             }
         }
     }
-
+    /**
+     * Vérifie si deux boutons sont voisins.
+     *
+     * @param button1 Le premier bouton.
+     * @param button2 Le deuxième bouton.
+     * @return true si les boutons sont voisins ou false.
+     */
     public static boolean isNeighbourButton(Button button1, Button button2) {
         String id1 = button1.getId();
         String id2 = button2.getId();
@@ -485,14 +570,24 @@ public class Party extends StackPane {
         return false;
     }
 
-
+    /**
+     * Met en surbrillance un bouton sélectionné.
+     * La bordure du bouton est mise en jaune et l'image est agrandie.
+     *
+     * @param button Le bouton à sélectionner.
+     */
     public static void selectButton(Button button) {
         button.setStyle("-fx-background-color: yellow; -fx-background-radius: 50%");
         ImageView originalImageView = (ImageView) button.getGraphic();
         originalImageView.setScaleX(1.5);
         originalImageView.setScaleY(1.5);
     }
-
+    /**
+     * Désélectionne un bouton.
+     * La bordure du bouton redevient transparente et l'image reprend sa taille normale.
+     *
+     * @param button Le bouton à désélectionner.
+     */
     public static void deselectButton(Button button) {
         button.setStyle("-fx-background-color: transparent"); // Bordure transparente
         if (button.getGraphic() != null) {
@@ -501,7 +596,15 @@ public class Party extends StackPane {
             originalImageView.setScaleY(1.0);
         }
     }
-
+    /**
+     * Vérifie si une combinaison de boutons forme une ligne.
+     * Si une ligne est formée, la couleur du rectangle est changée en vert.
+     *
+     * @param buttonId1 L'identifiant du premier bouton.
+     * @param buttonId2 L'identifiant du deuxième bouton.
+     * @param buttonId3 L'identifiant du troisième bouton.
+     * @return true si une ligne est formée ou false.
+     */
     private boolean checkAndChangeButtonColor(String buttonId1, String buttonId2, String buttonId3) {
         Button button1 = getButtonById(buttonId1);
         Button button2 = getButtonById(buttonId2);
@@ -523,7 +626,12 @@ public class Party extends StackPane {
         }
         return false;
     }
-
+    /**
+     * Récupère un bouton à partir de son identifiant.
+     *
+     * @param buttonId L'identifiant du bouton.
+     * @return Le bouton correspondant à l'identifiant si il existe.
+     */
     private static Button getButtonById(String buttonId) {
         ObservableList<Node> children = gridPane.getChildren();
         for (Node node : children) {
@@ -537,7 +645,11 @@ public class Party extends StackPane {
         return null;
     }
 
-
+    /**
+     * Supprime une pièce du plateau si le bouton sélectionné contient une image.
+     *
+     * @param button Le bouton à retirer.
+     */
     private void removePiece(Button button) {
         if (button.getGraphic() instanceof ImageView) {
             if (currentPlayer == 1) {
@@ -568,7 +680,12 @@ public class Party extends StackPane {
             }
         }
     }
-
+    /**
+     * Met à jour les boutons contenant des pions
+     *
+     * @param button       Le bouton à mettre à jour.
+     * @param buttonsList La liste de bouton du joueur 1 ou 2.
+     */
     public void updateButtonState3(Button button,List<Button> buttonsList) {
         button.setGraphic(null);
         buttonsList.remove(button);
@@ -576,11 +693,24 @@ public class Party extends StackPane {
         isRemovePieceMode = false;
         boutonlibre = false;
     }
+
+
+    /**
+     * Met à jour les boutons contenant des pions
+     *
+     * @param button     Le bouton à mettre à jour.
+     * @param buttonsList  La liste de bouton du joueur 1 ou 2.
+     */
     public void updateButtonState4(Button button,List<Button> buttonsList) {
         updateButtonState3(button,buttonsList);
         resetButtonColorsForMovedButton(button);
     }
-
+    /**
+     * Vérifie si le bouton est libre.
+     *
+     * @param b Le bouton à vérifier.
+     * @return true si le bouton n'est pas entouré ou false.
+     */
     private boolean isNotlibre(Button b) {
         String nomButton = b.getText();
         int compteur = 0;
@@ -596,7 +726,12 @@ public class Party extends StackPane {
         }
         return compteur > 0;
     }
-
+    /**
+     * Crée et retourne un bouton avec un style.
+     *
+     * @param label Le texte à afficher sur le bouton.
+     * @return Le bouton créé.
+     */
     private Button createStyledButton(String label) {
         Button button = new Button(label);
         button.setId(label);
@@ -607,7 +742,12 @@ public class Party extends StackPane {
         button.setTextFill(Color.TRANSPARENT);
         return button;
     }
-
+    /**
+     * Vérifie si au moins un bouton de la liste passée en paramètre a des voisins libres.
+     *
+     * @param playerButtons La liste des boutons du joueur.
+     * @return true si un bouton a des voisins libres ou false.
+     */
     private static boolean hasPlayerFreeNeighbours(List<Button> playerButtons) {
         for (Button button : playerButtons) {
             if (hasFreeNeighbour(button)) {
@@ -616,7 +756,12 @@ public class Party extends StackPane {
         }
         return false;
     }
-
+    /**
+     * Vérifie si le bouton passé en paramètre a des voisins libres.
+     *
+     * @param button Le bouton à vérifier.
+     * @return true si le bouton a des voisins libres ou false.
+     */
     private static boolean hasFreeNeighbour(Button button) {
         String id = button.getId();
         for (String[] neighbours : neighbourList) {
@@ -630,24 +775,37 @@ public class Party extends StackPane {
         }
         return false;
     }
-
+    /**
+     * Vérifie si la partie est terminée.
+     *
+     * @param buttonsJ1     La liste des boutons du joueur 1.
+     * @param buttonsJ2     La liste des boutons du joueur 2.
+     * @param currentPlayer Le joueur actuel.
+     * @return true si la partie est terminée ou false.
+     */
     static boolean isGameFinished(List<Button> buttonsJ1, List<Button> buttonsJ2, int currentPlayer) {
         if(buttonsJ1.size()<3 || buttonsJ2.size()<3) {
-            System.out.println("ici");
             return true;
         }
 
         if (currentPlayer == 1 && (buttonsJ1.size() != 3 || buttonsJ2.size() != 3)) {
-            System.out.println("là");
             return !hasPlayerFreeNeighbours(buttonsJ1);
         } else if (currentPlayer == 2 && (buttonsJ1.size() != 3 || buttonsJ2.size() != 3)) {
-            System.out.println("li");
             return !hasPlayerFreeNeighbours(buttonsJ2);
         }
         return false;
     }
-
-    public Timeline Chrono(Label timerLabel, int[] remainingSeconds, StackPane root, Stage primaryStage, int currentPlayer) {
+    /**
+     * Crée le chrono.
+     *
+     * @param timerLabel       Affiche le temps restant.
+     * @param remainingSeconds Tableau pour le nombre de secondes restantes.
+     * @param root             Conteneur principal de la scène.
+     * @param primaryStage     La scène en premier plan.
+     * @param currentPlayer    Le joueur actuel.
+     * @return Le chrono.
+     */
+    public Timeline timer(Label timerLabel, int[] remainingSeconds, StackPane root, Stage primaryStage, int currentPlayer) {
         final Timeline[] timeline = new Timeline[1];
 
         timeline[0] = new Timeline(
@@ -666,7 +824,7 @@ public class Party extends StackPane {
                         timerLabel.setText(Integer.toString(remainingSeconds[0]));
                         if (remainingSeconds[0] <= 0) {
                             timeline[0].stop();
-                            afficherFinPartie(root, primaryStage);
+                            displayEndGame(root, primaryStage);
                         }
                     }
                 })
@@ -674,8 +832,16 @@ public class Party extends StackPane {
         timeline[0].setCycleCount(Timeline.INDEFINITE);
         return timeline[0];
     }
-
-    public void ResetChrono(Timeline timeline1, Label timerLabel, String chrono, int[] remainingSeconds, Timeline timeline2) {
+    /**
+     * Réinitialise le chrono.
+     *
+     * @param timeline1        Le chrono du joueur 1.
+     * @param timerLabel       Affiche le temps restant.
+     * @param chrono           La durée initiale du minuteur.
+     * @param remainingSeconds Tableau pour le nombre de secondes restantes.
+     * @param timeline2        Le chrono du joueur 2.
+     */
+    public void resetTimer(Timeline timeline1, Label timerLabel, String chrono, int[] remainingSeconds, Timeline timeline2) {
         int reset = Integer.parseInt(chrono);
         timeline1.stop();
         timerLabel.setText(chrono);
@@ -683,7 +849,14 @@ public class Party extends StackPane {
         remainingSeconds[0] = reset;
         timeline2.play();
     }
-
+    /**
+     * Crée un menu pause.
+     *
+     * @param primaryStage  La scène en premier plan.
+     * @param timeline1    Le chrono du joueur 1.
+     * @param timeline2    Le chrono du joueur 2.
+     * @return Le menu pause créé.
+     */
     private VBox createPauseMenu(Stage primaryStage, Timeline timeline1, Timeline timeline2) {
         VBox menu = new VBox(0.020833 * screenHeight);
 
@@ -714,12 +887,12 @@ public class Party extends StackPane {
 
         regles.setOnAction(e -> {
             SoundPlayer.soundPlay();
-            ButtonPause.afficherRegles(this);
+            ButtonPause.displayRules(this);
         });
 
         parametres.setOnAction(e -> {
             SoundPlayer.soundPlay();
-            ButtonPause.parametres(this);
+            ButtonPause.settings(this);
         });
 
         quitter.setOnAction(e -> {
@@ -738,14 +911,24 @@ public class Party extends StackPane {
 
         return menu;
     }
-
+    /**
+     * Possibilité de sauvegarder la partie en quittant.
+     *
+     * @param primaryStage La scène en premier plan.
+     * @param gridPane      Le plateau de jeu.
+     * @param currentPlayer Le joueur actuel.
+     * @param turns         Le nombre de tours.
+     * @param chrono        L'index du chrono.
+     * @param bg            Le fond d'écran.
+     * @return La confirmation pour quitter la partie.
+     */
     public VBox quitterMenuChoose(Stage primaryStage,GridPane gridPane, int currentPlayer , int turns, int chrono , int bg) {
         VBox newQuitterMenu;
 
         if (turns <= 17) {
-            newQuitterMenu = ButtonPause.boutonquitter(primaryStage);
+            newQuitterMenu = ButtonPause.quitButton(primaryStage);
         } else {
-            newQuitterMenu = ButtonPause.boutonquittersave(primaryStage,gridPane,chrono,bg,false,0);
+            newQuitterMenu = ButtonPause.quitButtonSave(primaryStage,gridPane,chrono,bg,false,0);
         }
 
         if (quitterMenu != null) {
@@ -757,9 +940,14 @@ public class Party extends StackPane {
         return quitterMenu;
     }
 
-
+    /**
+     * Charge les données d'une partie.
+     *
+     * @param primaryStage La scène en premier plan.
+     * @param nameFile     Le nom du fichier de sauvegarde.
+     */
     public void LoadParty(Stage primaryStage, String nameFile){
-        List<Object> allInfo = chargerPartie.chargerPartieDepuisFichier(nameFile);
+        List<Object> allInfo = chargerPartie.loadPartyFromFile(nameFile);
         String avatar1 = (String) allInfo.get(0);
         String avatar2 = (String) allInfo.get(1);
         String rank1 = (String) allInfo.get(2);

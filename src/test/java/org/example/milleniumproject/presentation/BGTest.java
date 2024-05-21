@@ -18,19 +18,19 @@ public class BGTest {
 
 	@Test
 	public void testCustomBackgroundNotNull() {
-		BG bg = new BG("src/main/resources/Backgrounds/BG1.png");
+		BackGround bg = new BackGround("src/main/resources/Backgrounds/BG1.png");
 		assertNotNull(bg.getCustomBackground(), "Le fond d'écran personnalisé ne doit pas être null");
 	}
 
 	@Test
 	public void testRandomBackgroundNotNull() {
-		BG bg = new BG();
+		BackGround bg = new BackGround();
 		assertNotNull(bg.getCustomBackground(), "Le fond d'écran personnalisé ne doit pas être null");
 	}
 
 	@Test
 	public void testGetCustomBackground() {
-		BG bg = new BG("src/main/resources/Backgrounds/BG1.png");
+		BackGround bg = new BackGround("src/main/resources/Backgrounds/BG1.png");
 		Background expectedBackground = bg.getCustomBackground();
 		assertNotNull(expectedBackground, "Le fond d'écran personnalisé ne doit pas être null");
 

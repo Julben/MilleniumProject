@@ -1,6 +1,5 @@
 package org.example.milleniumproject.presentation;
 
-import org.example.milleniumproject.presentation.ButtonsStyle;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BackgroundFill;
@@ -30,7 +29,7 @@ public class ButtonsStyleTest {
 		double width = 100;
 		double height = 50;
 		double size = 14;
-		ButtonsStyle.appliquerStyle(bouton, width, height, size);
+		ButtonsStyle.applyStyle(bouton, width, height, size);
 
 		// Vérification des propriétés du bouton après l'application du style
 		assertEquals(width, bouton.getPrefWidth(), "La largeur du bouton doit être égale à " + width);
