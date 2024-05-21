@@ -205,7 +205,7 @@ public class PrePartyIA extends StackPane {
             button.setPrefSize(0.1796875*screenWidth, 0.0277778*screenHeight);
             button.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, new CornerRadii(50), javafx.geometry.Insets.EMPTY)));
             button.setTextFill(Color.WHITE); // Couleur du texte
-            button.setFont(Font.font("Cardo", FontWeight.BOLD, 45));
+            button.setFont(Font.font("Cardo", FontWeight.BOLD, 0.0625*screenHeight));
             DropShadow dropShadow = new DropShadow();
             dropShadow.setRadius(3);
             dropShadow.setOffsetX(1);

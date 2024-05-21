@@ -10,11 +10,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import static org.example.milleniumproject.model.Constant.screenHeight;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
+
 
 public class Loading extends StackPane {
     private LoadParty chargerPartie = new LoadParty();
@@ -88,12 +90,12 @@ public class Loading extends StackPane {
             }
         });
         Button lancerPartieButton = new Button("Lancer la partie");
-        lancerPartieButton.setFont(Font.font("Cardo", FontWeight.BOLD, 20));
+        lancerPartieButton.setFont(Font.font("Cardo", FontWeight.BOLD, 0.02777*screenHeight));
         lancerPartieButton.setStyle("-fx-background-color: white; -fx-text-fill: black;");
         addDropShadowEffect(lancerPartieButton);
 
         Label messageLabel = new Label();
-        messageLabel.setFont(Font.font("Cardo", FontWeight.BOLD, 25));
+        messageLabel.setFont(Font.font("Cardo", FontWeight.BOLD, 0.0347222*screenHeight));
         messageLabel.setStyle("-fx-text-fill: white;");
         addDropShadowEffect(messageLabel);
 
@@ -119,7 +121,7 @@ public class Loading extends StackPane {
             }
         });
 
-        VBox vbox = new VBox(20);
+        VBox vbox = new VBox(0.027777*screenHeight);
         vbox.getChildren().addAll(messageLabel, comboBox, lancerPartieButton);
         vbox.setAlignment(Pos.CENTER);
         getChildren().addAll(vbox, retourButton);

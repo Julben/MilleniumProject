@@ -33,6 +33,8 @@ public class Management {
 
                 } else if (bouton.getText().equals("Campagne")) {
                     InvisibleButtons.renderInvisibleButtons(boutonsComplets, bouton);
+
+                    MusicPlayer.stopPlaying();
                     Campaign campagne=new Campaign(primaryStage);
                     primaryStage.getScene().setRoot(campagne);
                     campagne.startCampaign();
