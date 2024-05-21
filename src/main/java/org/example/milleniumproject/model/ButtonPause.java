@@ -335,7 +335,7 @@ public class ButtonPause extends StackPane {
             saveButton.setOnAction(event -> {
                 String fileName = fileNameField.getText().trim();
                 if (!fileName.isEmpty()) {
-                    String filePath = "Save/" + fileName + ".txt";
+                    String filePath = "misc/Save/" + fileName + ".txt";
                     File file = new File(filePath);
                     if (file.exists()) {
                         Label fileExistsLabel = new Label("Le fichier existe déjà. Voulez-vous écraser le fichier existant ?");
