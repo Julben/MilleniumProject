@@ -34,7 +34,7 @@ public class LoadParty {
         boolean Ia =false;
         int difficulty=0;
 
-        try (BufferedReader reader = new BufferedReader(new FileReader("Save/"+nomfichier+".txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("misc/Save/"+nomfichier+".txt"))) {
             String ligne;
             while ((ligne = reader.readLine()) != null) {
                 if (ligne.startsWith("setgraphique=true")) {

@@ -44,7 +44,7 @@ public class Loading extends StackPane {
 
         ComboBox<String> comboBox = new ComboBox<>();
 
-        String dossierSave = "Save";
+        String dossierSave = "misc/Save";
 
         File dossier = new File(dossierSave);
 
