@@ -16,11 +16,26 @@ import static org.example.milleniumproject.model.ButtonSelector.selectButton;
 import static org.example.milleniumproject.model.EndParty.endGame;
 import static org.example.milleniumproject.model.PartyIA.*;
 import static org.example.milleniumproject.model.RemovePawn.*;
-
+/**
+ * Cette classe gère la logique du mouvement des pions.
+ */
 public class Movement {
 
     private static List<Button> FreeButtonsJ1 = new ArrayList<>();
-
+    /**
+     * Gère le mouvement pour l'IA en difficulté facile.
+     *
+     * @param root Conteneur principal de la scène.
+     * @param button Le bouton qui a été cliqué.
+     * @param timeline2 La timeline pour le chrono du deuxième joueur.
+     * @param timerLabel2 Le label pour le chrono du deuxième joueur.
+     * @param timerLabel1 Le label pour le chrono du premier joueur.
+     * @param chrono Le chronomètre.
+     * @param remainingSeconds2 Les secondes restantes pour le chrono du deuxième joueur.
+     * @param timeline1 La chrono du premier joueur.
+     * @param primaryStage La scène en premier plan.
+     * @param difficulty Le niveau de difficulté de l'IA.
+     */
     static void easyMovement(StackPane root, Button button, Timeline timeline2, Label timerLabel2, Label timerLabel1, String chrono, int[] remainingSeconds2, Timeline timeline1, Stage primaryStage, int difficulty) {
         if (buttonsJ2.size() > 3 && placementisfinished) {
 
@@ -201,7 +216,21 @@ public class Movement {
             pause1.play();
         }
     }
-
+    /**
+     * Gère le mouvement pour l'IA en difficulté difficile.
+     *
+     * @param root  Conteneur principal de la scène.
+     * @param button Le bouton qui a été cliqué.
+     * @param timeline2 La timeline pour le chrono du deuxième joueur.
+     * @param timerLabel2 Le label pour le chrono du deuxième joueur.
+     * @param timerLabel1 Le label pour le chrono du premier joueur.
+     * @param chrono Le chronomètre.
+     * @param remainingSeconds2 Les secondes restantes pour le minuteur du deuxième joueur.
+     * @param timeline1 La timeline pour le chrono du premier joueur.
+     * @param primaryStage  La scène en premier plan.
+     * @param gridpane Le gridpane(plateau).
+     * @param difficulty Le niveau de difficulté de l'IA.
+     */
     static void hardMovement(PartyIA root, Button button, Timeline timeline2, Label timerLabel2, Label timerLabel1, String chrono, int[] remainingSeconds2, Timeline timeline1, Stage primaryStage, GridPane gridpane, int difficulty){
         if (buttonsJ2.size() > 3 && placementisfinished){
 
@@ -459,7 +488,9 @@ public class Movement {
             easyMovement(root, randomFreeButton, timeline2,  timerLabel2,  timerLabel1,  chrono,  remainingSeconds2,  timeline1,  primaryStage, difficulty);
         }
     }
-
+    /**
+     * Vérifie les alignements valides pour l'IA.
+     */
     public static void checkAlignments() {
 
         for (String[] alignment : alignments) {
@@ -501,7 +532,9 @@ public class Movement {
             }
         }
     }
-
+    /**
+     * Vérifie les alignements valides pour le joueur.
+     */
     public static void checkAlignmentsJ1() {
         for (String[] alignment : alignments) {
             int count = 0;
@@ -542,7 +575,11 @@ public class Movement {
             }
         }
     }
-
+    /**
+     * Permet d'avoir un bouton.
+     *
+     * @return Un bouton libre aléatoire du joueur 1.
+     */
     public static Button randomFreeJ1() {
 
         FreeButtonsJ1.clear();
