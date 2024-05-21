@@ -1,9 +1,8 @@
-package org.example.milleniumproject.model;
+package org.example.milleniumproject.presentation;
 
 //import presentation.BG;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.layout.Background;
-import org.example.milleniumproject.presentation.BG;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

@@ -4,11 +4,17 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 import java.io.File;
-
+/**
+ * La classe MusicPlayer gère la lecture de la musique.
+ */
 public class MusicPlayer {
 
     private static MediaPlayer mediaPlayer;
-
+    /**
+     * Joue la musique.
+     *
+     * @param musicFile Le fichier de la musique.
+     */
     public static void musicPlay(String musicFile) {
 
         stopPlaying();
@@ -19,7 +25,9 @@ public class MusicPlayer {
         mediaPlayer.play();
         mediaPlayer.setVolume(AudioData.getMusicVolume());
     }
-
+    /**
+     * Arrête la lecture de la musique.
+     */
     public static void stopPlaying() {
         if (mediaPlayer != null) {
             mediaPlayer.stop();
@@ -27,13 +35,17 @@ public class MusicPlayer {
             mediaPlayer = null;
         }
     }
-
+    /**
+     * Définit le volume de la musique.
+     *
+     * @param volume Le volume.
+     */
     public static void setVolume(double volume) {
         if (mediaPlayer != null) {
             mediaPlayer.setVolume(volume);
         }
     }
-
+// pas appeler pour l'instant
     public static MediaPlayer getMediaPlayer() {
 
         return mediaPlayer;

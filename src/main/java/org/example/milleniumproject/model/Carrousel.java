@@ -18,8 +18,7 @@ import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 
 /**
- * Carrousel est une classe personnalisée qui représente un composant permettant de naviguer
- * à travers une série d'éléments, qu'ils soient des images ou des textes.
+ * Carrousel est une classe permettant de naviguer entre différents éléments.
  */
 public class Carrousel extends StackPane {
     private ImageView imageView;
@@ -32,7 +31,7 @@ public class Carrousel extends StackPane {
      * Constructeur de la classe Carrousel.
      *
      * @param contents    Le tableau des contenus à afficher dans le carrousel.
-     * @param isImage     Un booléen indiquant si les contenus sont des images ou des textes.
+     * @param isImage     Un booléen indiquant si les contenus sont des images ou pas.
      * @param savedIndex  L'index de départ sauvegardé.
      */
     public Carrousel(String[] contents, boolean isImage, int savedIndex) {

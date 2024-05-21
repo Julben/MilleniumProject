@@ -5,8 +5,8 @@ import javafx.beans.property.SimpleDoubleProperty;
 import java.util.prefs.Preferences;
 
 /**
- * La classe AudioData stocke les préférences audio de l'application.
- * Elle utilise les préférences utilisateur pour sauvegarder et récupérer les valeurs de volume et de position du curseur.
+ * La classe AudioData stocke choix du volume audio du jeu.
+ * Elle utilise les choix de utilisateur pour sauvegarder le volume.
  */
 public class AudioData {
 
@@ -100,7 +100,6 @@ public class AudioData {
         return sliderPosition;
     }
 
-    // Initialise les données à partir des préférences
     static {
         soundVolume.set(preferences.getDouble("soundVolume", 0.5));
         musicVolume.set(preferences.getDouble("musicVolume", 0.5));
