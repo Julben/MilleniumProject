@@ -7,9 +7,11 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import org.example.milleniumproject.model.VideoData;
-import org.example.milleniumproject.presentation.BG;
+import org.example.milleniumproject.presentation.BackGround;
 import org.example.milleniumproject.model.BackButtons;
 import java.util.prefs.Preferences;
 import static org.example.milleniumproject.model.Constant.screenHeight;
@@ -31,7 +33,7 @@ public class Video extends StackPane {
     public Video(Stage primaryStage) {
         preferences = Preferences.userNodeForPackage(this.getClass());
 
-        BG ground = new BG("src/main/resources/BGVIDEO.png");
+        BackGround ground = new BackGround("src/main/resources/BGVIDEO.png");
         setBackground(ground.getCustomBackground());
 
         Button retourButton = BackButtons.createBackButton(primaryStage);
@@ -58,10 +60,10 @@ public class Video extends StackPane {
 
         getChildren().addAll(choicesBox, retourButton);
 
-        String checkBoxStyle = "-fx-text-fill: white; -fx-font-family: Cardo; -fx-font-weight: bold; -fx-font-size: 35px;";
-
-        videoCheckBox.setStyle(checkBoxStyle);
-        animationCheckBox.setStyle(checkBoxStyle);
+        videoCheckBox.setStyle("-fx-text-fill: white");
+        videoCheckBox.setFont(Font.font("Cardo", FontWeight.BOLD, 0.036111*screenHeight));
+        animationCheckBox.setStyle("-fx-text-fill: white");
+        animationCheckBox.setFont(Font.font("Cardo", FontWeight.BOLD, 0.036111*screenHeight));
 
         videoCheckBox.setSelected(VideoData.isVideoChoose());
         animationCheckBox.setSelected(VideoData.isAnimation());

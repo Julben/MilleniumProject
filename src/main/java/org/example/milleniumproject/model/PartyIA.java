@@ -28,24 +28,26 @@ import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 import static javafx.scene.paint.Color.GREEN;
 import static javafx.scene.paint.Color.TRANSPARENT;
-import static org.example.milleniumproject.model.EndParty.FinPartie;
-import static org.example.milleniumproject.model.EndParty.afficherFinPartie;
-import static org.example.milleniumproject.model.Methodeia.disableMouseInteractions;
+import static org.example.milleniumproject.model.EndParty.endGame;
+import static org.example.milleniumproject.model.EndParty.displayEndGame;
+import static org.example.milleniumproject.model.AImethod.disableMouseInteractions;
 import static org.example.milleniumproject.model.Movement.*;
 import static org.example.milleniumproject.model.Placement.*;
-import static org.example.milleniumproject.model.RemovePiece.*;
+import static org.example.milleniumproject.model.RemovePawn.*;
 import javafx.scene.control.Button;
-import org.example.milleniumproject.presentation.BG;
+import org.example.milleniumproject.presentation.BackGround;
 import org.example.milleniumproject.presentation.ButtonTransitionHandler;
 import org.example.milleniumproject.presentation.RectangleConstructor;
+import org.example.milleniumproject.view.Campaign;
 import org.example.milleniumproject.view.PreParty;
 import org.example.milleniumproject.view.PrePartyIA;
 
 import java.util.Random;
 
 public class PartyIA extends StackPane {
-    private ChargerPartie chargerPartie = new ChargerPartie();
+    private LoadParty chargerPartie = new LoadParty();
     static int currentPlayer = 1;
+    private Campaign campagne;
     private VBox leftVBox;
     static VBox rightVBox;
     static int turns = 0;
@@ -134,7 +136,7 @@ public class PartyIA extends StackPane {
         } else if (selectedIndex == 2) {
             backgroundImage = "src/main/resources/FEMUSTAPHAR.png";
         }
-        BG ground = new BG(backgroundImage);
+        BackGround ground = new BackGround(backgroundImage);
         setBackground(ground.getCustomBackground());
 
         String chrono;
@@ -156,8 +158,8 @@ public class PartyIA extends StackPane {
         Label timerLabel2 = new Label(chrono);
         timerLabel1.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
         timerLabel2.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
-        Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1, primaryStage,this);
-        Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2, primaryStage,this);
+        Timeline timeline1 = timer(timerLabel1, remainingSeconds1, primaryStage,this);
+        Timeline timeline2 = timer(timerLabel2, remainingSeconds2, primaryStage,this);
 
         gridPane = new GridPane();
         gridPane.setHgap(0.0171875*screenWidth);
@@ -196,8 +198,8 @@ public class PartyIA extends StackPane {
         String avatarFileName2 ="Robot.png";
 
 
-        VBox profileBox1 = ProfilParty.createProfileBox(avatarFileName1, playerName1, rank1, timerLabel1, true, false);
-        VBox profileBox2 = ProfilParty.createProfileBox(avatarFileName2, playerName2, rank2, timerLabel2, false, true);
+        VBox profileBox1 = ProfileParty.createProfileBox(avatarFileName1, playerName1, rank1, timerLabel1, true, false);
+        VBox profileBox2 = ProfileParty.createProfileBox(avatarFileName2, playerName2, rank2, timerLabel2, false, true);
         setMargin(profileBox1, new Insets(0, 0, 0.020833*screenHeight, 0.015625*screenWidth));
         setMargin(profileBox2, new Insets(0, 0.015625*screenWidth, 0.020833*screenHeight, 0));
 
@@ -280,7 +282,7 @@ public class PartyIA extends StackPane {
         } else if (selectedIndex == 2) {
             backgroundImage = "src/main/resources/FEMUSTAPHAR.png";
         }
-        BG ground = new BG(backgroundImage);
+        BackGround ground = new BackGround(backgroundImage);
         setBackground(ground.getCustomBackground());
 
         String chrono;
@@ -311,8 +313,8 @@ public class PartyIA extends StackPane {
         Label timerLabel2 = new Label(chrono);
         timerLabel1.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
         timerLabel2.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
-        Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1, primaryStage,this);
-        Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2, primaryStage,this);
+        Timeline timeline1 = timer(timerLabel1, remainingSeconds1, primaryStage,this);
+        Timeline timeline2 = timer(timerLabel2, remainingSeconds2, primaryStage,this);
 
         gridPane = new GridPane();
         gridPane.setHgap(0.0171875*screenWidth);
@@ -335,8 +337,8 @@ public class PartyIA extends StackPane {
         int lastIndex2 = str2.lastIndexOf('/');
         String vaisseau2 = str2.substring(lastIndex2 + 1);
 
-        leftVBox = ProfilParty.createVBoxWithImages(vaisseau1, 9);
-        rightVBox = ProfilParty.createVBoxWithImages(vaisseau2, 9);
+        leftVBox = ProfileParty.createVBoxWithImages(vaisseau1, 9);
+        rightVBox = ProfileParty.createVBoxWithImages(vaisseau2, 9);
 
         HBox hBox = new HBox(0.6 * Constant.screenWidth);
         hBox.getChildren().addAll(leftVBox, rightVBox);
@@ -356,8 +358,8 @@ public class PartyIA extends StackPane {
         String avatarFileName1 = avatar1.substring(avatar1.lastIndexOf('/') + 1);
         String avatarFileName2 = avatar2.substring(avatar2.lastIndexOf('/') + 1);
 
-        VBox profileBox1 = ProfilParty.createProfileBox(avatarFileName1, playerName1, rank1, timerLabel1, true, false);
-        VBox profileBox2 = ProfilParty.createProfileBox(avatarFileName2, playerName2, rank2, timerLabel2, false, true);
+        VBox profileBox1 = ProfileParty.createProfileBox(avatarFileName1, playerName1, rank1, timerLabel1, true, false);
+        VBox profileBox2 = ProfileParty.createProfileBox(avatarFileName2, playerName2, rank2, timerLabel2, false, true);
         setMargin(profileBox1, new Insets(0, 0, 0.020833*screenHeight, 0.015625*screenWidth));
         setMargin(profileBox2, new Insets(0, 0.015625*screenWidth, 0.020833*screenHeight, 0));
 
@@ -422,7 +424,7 @@ public class PartyIA extends StackPane {
         } else if (selectedIndex == 2) {
             backgroundImage = "src/main/resources/FEMUSTAPHAR.png";
         }
-        BG ground = new BG(backgroundImage);
+        BackGround ground = new BackGround(backgroundImage);
         setBackground(ground.getCustomBackground());
 
         this.toggleGroup2 = toggleGroup2;
@@ -449,8 +451,8 @@ public class PartyIA extends StackPane {
         Label timerLabel2 = new Label(chrono);
         timerLabel1.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
         timerLabel2.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
-        Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1, primaryStage, this);
-        Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2, primaryStage, this);
+        Timeline timeline1 = timer(timerLabel1, remainingSeconds1, primaryStage, this);
+        Timeline timeline2 = timer(timerLabel2, remainingSeconds2, primaryStage, this);
 
         gridPane = new GridPane();
         gridPane.setHgap(0.0171875*screenWidth); // Espacement horizontal entre les boutons
@@ -474,8 +476,8 @@ public class PartyIA extends StackPane {
         int lastIndex2 = str2.lastIndexOf('/');
         String vaisseau2 = str2.substring(lastIndex2 + 1);
 
-        leftVBox = ProfilParty.createVBoxWithImages(vaisseau1, 9);
-        rightVBox = ProfilParty.createVBoxWithImages(vaisseau2, 9);
+        leftVBox = ProfileParty.createVBoxWithImages(vaisseau1, 9);
+        rightVBox = ProfileParty.createVBoxWithImages(vaisseau2, 9);
 
         HBox hBox = new HBox(0.6 * Constant.screenWidth);
         hBox.getChildren().addAll(leftVBox, rightVBox);
@@ -495,8 +497,8 @@ public class PartyIA extends StackPane {
         String avatarFileName1 = avatar1.substring(avatar1.lastIndexOf('/') + 1);
         String avatarFileName2 = avatar2.substring(avatar2.lastIndexOf('/') + 1);
 
-        VBox profileBox1 = ProfilParty.createProfileBox(avatarFileName1, playerName1, rank1, timerLabel1, true, false);
-        VBox profileBox2 = ProfilParty.createProfileBox(avatarFileName2, playerName2, rank2, timerLabel2, false, true);
+        VBox profileBox1 = ProfileParty.createProfileBox(avatarFileName1, playerName1, rank1, timerLabel1, true, false);
+        VBox profileBox2 = ProfileParty.createProfileBox(avatarFileName2, playerName2, rank2, timerLabel2, false, true);
         setMargin(profileBox1, new Insets(0, 0, 0.020833*screenHeight, 0.015625*screenWidth));
         setMargin(profileBox2, new Insets(0, 0.015625*screenWidth, 0.020833*screenHeight, 0));
 
@@ -552,8 +554,8 @@ public class PartyIA extends StackPane {
         if (isRemovePieceMode) {
 
             if(buttonsJ2.contains(button) && !isNotlibre(button)){
-                removePiece(this, button, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
-                ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
+                easyRemove(this, button, timeline2, timerLabel2, chrono, remainingSeconds2, timeline1,primaryStage);
+                resetTimer(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
 
                 if(turns < 18){
 
@@ -572,10 +574,10 @@ public class PartyIA extends StackPane {
                 else{
                     if(diffliculty == 0){
                         Button randomFreeButtonJ1 = getRandomFreeButtonJ1();
-                        EasyMovement(this, randomFreeButtonJ1, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage, diffliculty);
+                        easyMovement(this, randomFreeButtonJ1, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage, diffliculty);
                     } else if(diffliculty == 1){
                         Button randomFreeButtonJ1 = getRandomFreeButtonJ1();
-                        HardMovement( this, randomFreeButtonJ1, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage, gridpane, diffliculty);
+                        hardMovement( this, randomFreeButtonJ1, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage, gridpane, diffliculty);
                     }
                 }
 
@@ -604,7 +606,7 @@ public class PartyIA extends StackPane {
                     else {
                         currentPlayer = 2;
                         disableMouseInteractions(gridpane, true);
-                        ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
+                        resetTimer(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
                         timerLabel1.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
 
                         PauseTransition pause = new PauseTransition(Duration.seconds(1));
@@ -631,7 +633,7 @@ public class PartyIA extends StackPane {
                 }
                 if (isGameFinished()) {
                     FromSave=false;
-                    FinPartie(this,timeline1, timeline2, primaryStage);
+                    endGame(this,timeline1, timeline2, primaryStage);
                 }
             }
         }
@@ -719,11 +721,11 @@ public class PartyIA extends StackPane {
 
                             if(!isRemovePieceMode) {
                                 currentPlayer = 2;
-                                ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
+                                resetTimer(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
                                 if(difficulty == 0){
-                                    EasyMovement(this, button, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage, difficulty);
+                                    easyMovement(this, button, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage, difficulty);
                                 } else if (difficulty == 1) {
-                                    HardMovement( this, button, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage, gridpane, difficulty);
+                                    hardMovement( this, button, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage, gridpane, difficulty);
                                 }
                             }
                             change = true;
@@ -742,11 +744,11 @@ public class PartyIA extends StackPane {
 
                         if(!isRemovePieceMode) {
                             currentPlayer = 2;
-                            ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
+                            resetTimer(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
                             if(difficulty == 0){
-                                EasyMovement(this, button, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage, difficulty);
+                                easyMovement(this, button, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage, difficulty);
                             } else if (difficulty == 1) {
-                                HardMovement( this, button, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage, gridpane, difficulty);
+                                hardMovement( this, button, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage, gridpane, difficulty);
                             }
                         }
                         change = true;
@@ -798,7 +800,7 @@ public class PartyIA extends StackPane {
 
         for (Button b : buttonsJ2) {
             String id = b.getId();
-            
+
             for (String[] neighbours : neighbourList) {
                 if (neighbours[0].equals(id)) {
                     Button button = getButtonById(neighbours[1]);
@@ -933,7 +935,7 @@ public class PartyIA extends StackPane {
         return false;
     }
 
-    static Timeline Chrono(Label timerLabel, int[] remainingSeconds, Stage primaryStage, StackPane root ) {
+    static Timeline timer(Label timerLabel, int[] remainingSeconds, Stage primaryStage, StackPane root ) {
         final Timeline[] timeline = new Timeline[1];
 
         timeline[0] = new Timeline(
@@ -955,7 +957,7 @@ public class PartyIA extends StackPane {
                         timerLabel.setText(Integer.toString(remainingSeconds[0]));
                         if (remainingSeconds[0] <= 0) {
                             timeline[0].stop();
-                            afficherFinPartie(root,primaryStage);
+                            displayEndGame(root,primaryStage);
                         }
                     }
                 })
@@ -964,7 +966,7 @@ public class PartyIA extends StackPane {
         return timeline[0];
     }
 
-    static void ResetChrono(Timeline timeline1, Label timerLabel, String chrono, int[] remainingSeconds, Timeline timeline2) {
+    static void resetTimer(Timeline timeline1, Label timerLabel, String chrono, int[] remainingSeconds, Timeline timeline2) {
         int reset = Integer.parseInt(chrono);
         timeline1.stop();
         timerLabel.setText(chrono);
@@ -1004,12 +1006,12 @@ public class PartyIA extends StackPane {
 
         parametres.setOnAction(e -> {
             SoundPlayer.soundPlay();
-            ButtonPause.parametres(this);
+            ButtonPause.settings(this);
         });
 
         regles.setOnAction(e -> {
             SoundPlayer.soundPlay();
-            ButtonPause.afficherRegles(this);
+            ButtonPause.displayRules(this);
         });
 
         quitter.setOnAction(e -> {
@@ -1033,9 +1035,9 @@ public class PartyIA extends StackPane {
         VBox newQuitterMenu;
 
         if (turns <= 17) {
-            newQuitterMenu = ButtonPause.boutonquitter(primaryStage);
+            newQuitterMenu = ButtonPause.quitButton(primaryStage);
         } else {
-            newQuitterMenu = ButtonPause.boutonquittersave(primaryStage,gridPane,chrono,bg,true,difficulty);
+            newQuitterMenu = ButtonPause.quitButtonSave(primaryStage,gridPane,chrono,bg,true,difficulty);
         }
 
         if (quitterMenu != null) {
@@ -1048,7 +1050,7 @@ public class PartyIA extends StackPane {
     }
 
     public void LoadParty(Stage primaryStage, String nameFile){
-        List<Object> allInfo = chargerPartie.chargerPartieDepuisFichier(nameFile);
+        List<Object> allInfo = chargerPartie.loadPartyFromFile(nameFile);
         String avatar1 = (String) allInfo.get(0);
         String rank1 = (String) allInfo.get(2);
         String ship1 = (String) allInfo.get(4);

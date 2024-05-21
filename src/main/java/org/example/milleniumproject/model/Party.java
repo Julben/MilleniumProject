@@ -21,7 +21,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.example.milleniumproject.presentation.BG;
+import org.example.milleniumproject.presentation.BackGround;
 import org.example.milleniumproject.presentation.ButtonTransitionHandler;
 import org.example.milleniumproject.presentation.RectangleConstructor;
 import org.example.milleniumproject.view.PreParty;
@@ -32,12 +32,12 @@ import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
 import static javafx.scene.paint.Color.GREEN;
 import static javafx.scene.paint.Color.TRANSPARENT;
-import static org.example.milleniumproject.model.EndParty.FinPartie;
-import static org.example.milleniumproject.model.EndParty.afficherFinPartie;
+import static org.example.milleniumproject.model.EndParty.endGame;
+import static org.example.milleniumproject.model.EndParty.displayEndGame;
 
 public class Party extends StackPane {
 
-    private ChargerPartie chargerPartie = new ChargerPartie();
+    private LoadParty chargerPartie = new LoadParty();
     private int currentPlayer = 1;
     private boolean end = false;
     private VBox leftVBox;
@@ -162,8 +162,8 @@ public class Party extends StackPane {
         Label timerLabel2 = new Label(chrono);
         timerLabel1.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
         timerLabel2.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
-        Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1, this, primaryStage, currentPlayer);
-        Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2, this, primaryStage, currentPlayer);
+        Timeline timeline1 = timer(timerLabel1, remainingSeconds1, this, primaryStage, currentPlayer);
+        Timeline timeline2 = timer(timerLabel2, remainingSeconds2, this, primaryStage, currentPlayer);
 
         for (int i = 0; i < buttonLabels.length; i++) {
             Button button = buttonSave.get(i);
@@ -226,8 +226,8 @@ public class Party extends StackPane {
         int lastIndex2 = str2.lastIndexOf('/');
         String vaisseau2 = str2.substring(lastIndex2 + 1);
 
-        leftVBox = ProfilParty.createVBoxWithImages(vaisseau1, 9);
-        rightVBox = ProfilParty.createVBoxWithImages(vaisseau2, 9);
+        leftVBox = ProfileParty.createVBoxWithImages(vaisseau1, 9);
+        rightVBox = ProfileParty.createVBoxWithImages(vaisseau2, 9);
 
         HBox hBox = new HBox(0.6 * Constant.screenWidth);
         hBox.getChildren().addAll(leftVBox, rightVBox);
@@ -253,7 +253,7 @@ public class Party extends StackPane {
         } else if (selectedIndex == 2) {
             backgroundImage = "src/main/resources/FEMUSTAPHAR.png";
         }
-        BG ground = new BG(backgroundImage);
+        BackGround ground = new BackGround(backgroundImage);
         setBackground(ground.getCustomBackground());
 
 
@@ -275,8 +275,8 @@ public class Party extends StackPane {
         Label timerLabel2 = new Label(chrono);
         timerLabel1.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
         timerLabel2.setStyle("-fx-font-family: 'Cardo'; -fx-font-size: 48; -fx-text-fill: white;");
-        Timeline timeline1 = Chrono(timerLabel1, remainingSeconds1, this, primaryStage , currentPlayer);
-        Timeline timeline2 = Chrono(timerLabel2, remainingSeconds2, this, primaryStage, currentPlayer);
+        Timeline timeline1 = timer(timerLabel1, remainingSeconds1, this, primaryStage , currentPlayer);
+        Timeline timeline2 = timer(timerLabel2, remainingSeconds2, this, primaryStage, currentPlayer);
 
         gridPane = new GridPane();
         gridPane.setHgap(0.0171875 * screenWidth);
@@ -292,15 +292,14 @@ public class Party extends StackPane {
         String avatarFileName1 = avatar1.substring(avatar1.lastIndexOf('/') + 1);
         String avatarFileName2 = avatar2.substring(avatar2.lastIndexOf('/') + 1);
 
-        VBox profileBox1 = ProfilParty.createProfileBox(avatarFileName1, playerName1, rank1, timerLabel1, true, false);
-        VBox profileBox2 = ProfilParty.createProfileBox(avatarFileName2, playerName2, rank2, timerLabel2, false, false);
+        VBox profileBox1 = ProfileParty.createProfileBox(avatarFileName1, playerName1, rank1, timerLabel1, true, false);
+        VBox profileBox2 = ProfileParty.createProfileBox(avatarFileName2, playerName2, rank2, timerLabel2, false, false);
         setMargin(profileBox1, new Insets(0, 0, 0.020833 * screenHeight, 0.015625 * screenWidth));
         setMargin(profileBox2, new Insets(0, 0.015625 * screenWidth, 0.020833 * screenHeight, 0));
 
         setAlignment(profileBox1, Pos.BOTTOM_LEFT);
         setAlignment(profileBox2, Pos.BOTTOM_RIGHT);
 
-        // Création du bouton pause avec une image
         Image pauseImage = new Image("pause.png");
         ImageView imageView = new ImageView(pauseImage);
         imageView.setFitWidth(0.025 * screenWidth);
@@ -347,14 +346,14 @@ public class Party extends StackPane {
             removePiece(button);
 
             if (currentPlayer == 1) {
-                ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                resetTimer(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
             } else {
-                ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
+                resetTimer(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
             }
 
             if (isGameFinished(buttonsJ1, buttonsJ2, currentPlayer) && placementisfinished) {
                 currentPlayer = currentPlayer == 1 ? 2 : 1;
-                FinPartie(this,timeline1, timeline2, primaryStage);
+                endGame(this,timeline1, timeline2, primaryStage);
             }
         } else {
             if (button.getGraphic() == null && turns < 18) {
@@ -366,7 +365,7 @@ public class Party extends StackPane {
                         currentPlayer = 1;
                     } else {
                         currentPlayer = 2;
-                        ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
+                        resetTimer(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
                     }
                     turns++;
 
@@ -378,7 +377,7 @@ public class Party extends StackPane {
                         currentPlayer = 2;
                     } else {
                         currentPlayer = 1;
-                        ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                        resetTimer(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                     }
                     turns++;
 
@@ -387,16 +386,16 @@ public class Party extends StackPane {
                 placementisfinished = true;
                 if (currentPlayer == 1 && (buttonsJ1.contains(button) || button.getGraphic() == null)) {
                     handleSelection(buttonsJ1, button, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono);
-                    ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                    resetTimer(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                 } else if (currentPlayer == 2 && (buttonsJ2.contains(button) || button.getGraphic() == null)) {
                     handleSelection(buttonsJ2, button, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono);
-                    ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
+                    resetTimer(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
                 }
 
                 // Vérifier si la partie est terminée
                 if (isGameFinished(buttonsJ1, buttonsJ2, currentPlayer) && placementisfinished) {
                     currentPlayer = currentPlayer == 1 ? 2 : 1;
-                    FinPartie(this,timeline1, timeline2, primaryStage);
+                    endGame(this,timeline1, timeline2, primaryStage);
                 }
             }
         }
@@ -431,9 +430,9 @@ public class Party extends StackPane {
                     if (!isRemovePieceMode) {
                         currentPlayer = currentPlayer == 1 ? 2 : 1;
                         if (currentPlayer == 1) {
-                            ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
+                            resetTimer(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                         } else {
-                            ResetChrono(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
+                            resetTimer(timeline1, timerLabel1, chrono, remainingSeconds1, timeline2);
                         }
                     }
                     change = true;
@@ -647,7 +646,7 @@ public class Party extends StackPane {
         return false;
     }
 
-    public Timeline Chrono(Label timerLabel, int[] remainingSeconds, StackPane root, Stage primaryStage, int currentPlayer) {
+    public Timeline timer(Label timerLabel, int[] remainingSeconds, StackPane root, Stage primaryStage, int currentPlayer) {
         final Timeline[] timeline = new Timeline[1];
 
         timeline[0] = new Timeline(
@@ -666,7 +665,7 @@ public class Party extends StackPane {
                         timerLabel.setText(Integer.toString(remainingSeconds[0]));
                         if (remainingSeconds[0] <= 0) {
                             timeline[0].stop();
-                            afficherFinPartie(root, primaryStage);
+                            displayEndGame(root, primaryStage);
                         }
                     }
                 })
@@ -675,7 +674,7 @@ public class Party extends StackPane {
         return timeline[0];
     }
 
-    public void ResetChrono(Timeline timeline1, Label timerLabel, String chrono, int[] remainingSeconds, Timeline timeline2) {
+    public void resetTimer(Timeline timeline1, Label timerLabel, String chrono, int[] remainingSeconds, Timeline timeline2) {
         int reset = Integer.parseInt(chrono);
         timeline1.stop();
         timerLabel.setText(chrono);
@@ -714,12 +713,12 @@ public class Party extends StackPane {
 
         regles.setOnAction(e -> {
             SoundPlayer.soundPlay();
-            ButtonPause.afficherRegles(this);
+            ButtonPause.displayRules(this);
         });
 
         parametres.setOnAction(e -> {
             SoundPlayer.soundPlay();
-            ButtonPause.parametres(this);
+            ButtonPause.settings(this);
         });
 
         quitter.setOnAction(e -> {
@@ -743,9 +742,9 @@ public class Party extends StackPane {
         VBox newQuitterMenu;
 
         if (turns <= 17) {
-            newQuitterMenu = ButtonPause.boutonquitter(primaryStage);
+            newQuitterMenu = ButtonPause.quitButton(primaryStage);
         } else {
-            newQuitterMenu = ButtonPause.boutonquittersave(primaryStage,gridPane,chrono,bg,false,0);
+            newQuitterMenu = ButtonPause.quitButtonSave(primaryStage,gridPane,chrono,bg,false,0);
         }
 
         if (quitterMenu != null) {
@@ -759,7 +758,7 @@ public class Party extends StackPane {
 
 
     public void LoadParty(Stage primaryStage, String nameFile){
-        List<Object> allInfo = chargerPartie.chargerPartieDepuisFichier(nameFile);
+        List<Object> allInfo = chargerPartie.loadPartyFromFile(nameFile);
         String avatar1 = (String) allInfo.get(0);
         String avatar2 = (String) allInfo.get(1);
         String rank1 = (String) allInfo.get(2);

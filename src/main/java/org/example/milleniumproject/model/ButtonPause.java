@@ -39,7 +39,7 @@ public class ButtonPause extends StackPane {
      *
      * @param root  Conteneur principal de la scène.
      */
-    public static void afficherRegles(StackPane root) {
+    public static void displayRules(StackPane root) {
 
         StackPane reglesPane = new StackPane();
         reglesPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7);");
@@ -77,7 +77,7 @@ public class ButtonPause extends StackPane {
      *
      * @param root Conteneur principal de la scène.
      */
-    public static void parametres(StackPane root) {
+    public static void settings(StackPane root) {
         StackPane parametrePane = new StackPane();
         parametrePane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7);");
 
@@ -92,7 +92,8 @@ public class ButtonPause extends StackPane {
 
         CheckBox animationCheckBox = new CheckBox("Activer animations");
         addDropShadowEffect(animationCheckBox);
-        animationCheckBox.setStyle("-fx-text-fill: white; -fx-font-family: Cardo; -fx-font-weight: bold; -fx-font-size: 20px;");
+        animationCheckBox.setFont(Font.font("cardo", FontWeight.BOLD, 15));
+        animationCheckBox.setStyle("-fx-text-fill: white");
         vboxVideo.getChildren().add(animationCheckBox);
 
         animationCheckBox.setSelected(VideoData.isAnimation());
@@ -188,7 +189,8 @@ public class ButtonPause extends StackPane {
      */
     private static Label createStyledLabel(String text) {
         Label label = new Label(text);
-        label.setStyle("-fx-font-family: Cardo; -fx-text-fill: #FFFFFFFF; -fx-font-size: 20px;");
+        label.setFont(Font.font("cardo", FontWeight.BOLD, 15));
+        label.setStyle("-fx-text-fill: #FFFFFFFF;");
         addDropShadowEffect(label);
         return label;
     }
@@ -198,7 +200,8 @@ public class ButtonPause extends StackPane {
      * @param button Le bouton à styliser.
      */
     private static void stylizeButton(Button button) {
-        button.setStyle("-fx-font-family: Cardo; -fx-background-color: transparent; -fx-text-fill: #FFFFFFFF; -fx-font-size: 25px;");
+        button.setFont(Font.font("cardo", FontWeight.BOLD, 19));
+        button.setStyle("-fx-background-color: transparent; -fx-text-fill: #FFFFFFFF;");
     }
     /**
      * Ajoute un effet d'ombre.
@@ -219,7 +222,7 @@ public class ButtonPause extends StackPane {
      * @param primaryStage  La scène en premier plan.
      * @return Une VBox contenant le bouton quitter.
      */
-    static VBox boutonquitter(Stage primaryStage) {
+    static VBox quitButton(Stage primaryStage) {
         VBox vbox = new VBox(0.04167 * screenHeight);
 
         Label confirmationLabel = new Label("Pour sauvegarder la partie le placement des pions doit être terminé. Voulez-vous vraiment quitter ?");
@@ -244,7 +247,7 @@ public class ButtonPause extends StackPane {
         quitterButton.setOnAction(e -> {
             SoundPlayer.soundPlay();
             Menu menu = new Menu();
-            menu.afficherMenu(primaryStage);
+            menu.showMenu(primaryStage);
             MusicPlayer.musicPlay("src/main/resources/MusicMenu.mp3");
             currentPlayer = 1;
             turns = 0;
@@ -267,7 +270,7 @@ public class ButtonPause extends StackPane {
         return vbox;
     }
 
-    static VBox boutonquittersave(Stage primaryStage, GridPane gridPane, int chrono, int bg,boolean ia,int difficulty) {
+    static VBox quitButtonSave(Stage primaryStage, GridPane gridPane, int chrono, int bg, boolean ia, int difficulty) {
         VBox vbox = new VBox(0.04167 * screenHeight);
 
         Label confirmationLabelsave = new Label("Souhaitez-vous sauvegarder la partie ?");
@@ -287,7 +290,7 @@ public class ButtonPause extends StackPane {
         nonButton.setOnAction(e -> {
             SoundPlayer.soundPlay();
             Menu menu = new Menu();
-            menu.afficherMenu(primaryStage);
+            menu.showMenu(primaryStage);
             MusicPlayer.musicPlay("src/main/resources/MusicMenu.mp3");
             save=false;
         });
@@ -302,14 +305,10 @@ public class ButtonPause extends StackPane {
             fileNameLabel.setFont(Font.font("Cardo", FontWeight.BOLD, 0.0305 * screenHeight));
             fileNameLabel.setTextFill(Color.WHITE);
             TextField fileNameField = new TextField();
-            fileNameField.setPrefSize(100,50);
+            fileNameField.setPrefSize(0.0781125*screenWidth,0.06944*screenHeight);
 
-            fileNameField.setStyle("-fx-background-color: rgba(0,0,0,0.5); " +
-                    "-fx-border-color: #FF9800; " +
-                    "-fx-text-fill: white; " +
-                    "-fx-font-family: 'Cardo'; " +
-                    "-fx-font-size: 25; " +
-                    "-fx-alignment: center;");
+            fileNameField.setStyle("-fx-background-color: rgba(0,0,0,0.5); -fx-border-color: #FF9800; -fx-text-fill: white; -fx-alignment: center;");
+            fileNameField.setFont(Font.font("cardo", FontWeight.BOLD, 25));
 
 
             Button saveButton = new Button("Sauvegarder");
@@ -345,10 +344,10 @@ public class ButtonPause extends StackPane {
                         cancelButton2.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white;");
 
                         overwriteButton.setOnAction(event1 -> {
-                            SauvegardePartie sauvegardePartie = new SauvegardePartie(gridPane, ProfileData.getAvatar(1), ProfileData.getAvatar(2), ProfileData.getRank(1), ProfileData.getRank(2), ProfileData.getShip(1), ProfileData.getShip(2), ProfileData.getPlayerName(1), ProfileData.getPlayerName(2), currentPlayer, turns, chrono, bg,ia,difficulty);
-                            sauvegardePartie.sauvegarderDansFichier(filePath);
+                            SaveParty sauvegardePartie = new SaveParty(gridPane, ProfileData.getAvatar(1), ProfileData.getAvatar(2), ProfileData.getRank(1), ProfileData.getRank(2), ProfileData.getShip(1), ProfileData.getShip(2), ProfileData.getPlayerName(1), ProfileData.getPlayerName(2), currentPlayer, turns, chrono, bg,ia,difficulty);
+                            sauvegardePartie.saveInFile(filePath);
                             Menu menu = new Menu();
-                            menu.afficherMenu(primaryStage);
+                            menu.showMenu(primaryStage);
                             MusicPlayer.musicPlay("src/main/resources/MusicMenu.mp3");
                             vbox.setVisible(false);
                         });
@@ -361,10 +360,10 @@ public class ButtonPause extends StackPane {
                         dialogBox.getChildren().clear();
                         dialogBox.getChildren().addAll(fileExistsLabel, overwriteButton, cancelButton2);
                     } else {
-                        SauvegardePartie sauvegardePartie = new SauvegardePartie(gridPane, ProfileData.getAvatar(1), ProfileData.getAvatar(2), ProfileData.getRank(1), ProfileData.getRank(2), ProfileData.getShip(1), ProfileData.getShip(2), ProfileData.getPlayerName(1), ProfileData.getPlayerName(2), currentPlayer, turns, chrono, bg,ia,difficulty);
-                        sauvegardePartie.sauvegarderDansFichier(filePath);
+                        SaveParty sauvegardePartie = new SaveParty(gridPane, ProfileData.getAvatar(1), ProfileData.getAvatar(2), ProfileData.getRank(1), ProfileData.getRank(2), ProfileData.getShip(1), ProfileData.getShip(2), ProfileData.getPlayerName(1), ProfileData.getPlayerName(2), currentPlayer, turns, chrono, bg,ia,difficulty);
+                        sauvegardePartie.saveInFile(filePath);
                         Menu menu = new Menu();
-                        menu.afficherMenu(primaryStage);
+                        menu.showMenu(primaryStage);
                         MusicPlayer.musicPlay("src/main/resources/MusicMenu.mp3");
                         vbox.setVisible(false);
                     }
