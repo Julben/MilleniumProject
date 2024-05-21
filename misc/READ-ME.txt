@@ -1,0 +1,8 @@
+Dans le dossier misc, vous pouvez retrouver:
+-Le dossier Save qui correspond aux sauvegardes actuelles de l'application. (La seule restante est la sauvegarde servant au test unitaire de la classe concernée)
+
+
+Il nous a été également conseillé de rajouter le lien de notre GitHub au cas où certains fichiers servant à Gradle sont manquants)
+Voici un lien vers notre GitHub:
+
+https://github.com/Julben/MilleniumProject
