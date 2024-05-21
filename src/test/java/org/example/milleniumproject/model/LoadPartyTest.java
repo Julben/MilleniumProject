@@ -6,15 +6,15 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ChargerPartieTest {
+class LoadPartyTest {
 
 	@Test
-	void chargerPartieDepuisFichier() {
+	void LoadPartyFromFile() {
 		LoadParty chargerPartie = new LoadParty();
 		List<Object> result = chargerPartie.loadPartyFromFile("test"); // Assurez-vous que "Save/test.txt" existe
 
 		assertNotNull(result);
-		assertEquals(13, result.size()); // Vérifie que la taille de la liste retournée est correcte
+		assertEquals(15, result.size()); // Vérifie que la taille de la liste retournée est correcte
 
 		// Vérifie les valeurs spécifiques retournées
 		assertEquals("src/main/resources/Avatar/2.png", result.get(0));
