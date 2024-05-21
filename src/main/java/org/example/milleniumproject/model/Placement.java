@@ -30,7 +30,7 @@ public class Placement {
                 HardRemove(root, randomFreeButton, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage);
             }
         } else {
-            if (isGameFinished() && placementisfinished) {
+            if (isGameFinished() && turns > 16) {
                 FinPartie(root,timeline1, timeline2, primaryStage);
             }
             currentPlayer = 1;
@@ -76,7 +76,7 @@ public class Placement {
                 HardRemove( root,  button,  timeline2,  timerLabel2,  timerLabel1,  chrono, remainingSeconds2,  timeline1,  primaryStage);
             }
         } else {
-            if (isGameFinished() && placementisfinished) {
+            if (isGameFinished() && turns > 16) {
                 FinPartie(root,timeline1, timeline2, primaryStage);
             }
             currentPlayer = 1;
@@ -113,8 +113,6 @@ public class Placement {
     static boolean isButtonOccupiedByPlayer(Button button, List<Button> playerButtons) {
         return playerButtons.contains(button);
     }
-
-
 
     static Button getPriorityButtonToPlace() {
         List<Button> priorityButtons = Arrays.asList(getButtonById("K"), getButtonById("E"), getButtonById("N"), getButtonById("T"));

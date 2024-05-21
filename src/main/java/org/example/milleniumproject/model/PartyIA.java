@@ -537,14 +537,14 @@ public class PartyIA extends StackPane {
                 Button button = (Button) node;
                 button.setOnAction(e -> {
                     SoundPlayer.soundPlay();
-                    handleButtonClick(button, gridPane, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono, primaryStage, difficulty,buttonsJ1,buttonsJ2);
+                    handleButtonClick(button, gridPane, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono, primaryStage, difficulty, buttonsJ1, buttonsJ2);
                 });
             }
         }
     }
 
     private void handleButtonClick(Button button, GridPane gridpane, Timeline timeline1, Timeline timeline2, Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2, String chrono, Stage primaryStage, int diffliculty,List<Button> buttonsJ1, List<Button> buttonsJ2) {
-        if (FromSave==true){
+        if (FromSave == true){
             turns= 18;
         }
         disableMouseInteractions(gridpane, false);
@@ -581,6 +581,7 @@ public class PartyIA extends StackPane {
 
                 if(placementisfinished){
                     if (isGameFinished()) {
+                        System.out.println("3");
                         FinPartie(this,timeline1, timeline2, primaryStage);
                     }
                 }
@@ -624,6 +625,7 @@ public class PartyIA extends StackPane {
                     handleSelection(this, button, buttonsJ1, button, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono, primaryStage,gridpane, diffliculty);
                 }
                 if (isGameFinished()) {
+                    System.out.println("4");
                     FinPartie(this,timeline1, timeline2, primaryStage);
                 }
             }

@@ -56,6 +56,7 @@ public class Movement {
                                 currentPlayer = 1;
                                 ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                                 if (isGameFinished()) {
+                                    System.out.println("1");
                                     FinPartie(root, timeline1, timeline2, primaryStage);
                                 }
                             } else {
@@ -66,6 +67,7 @@ public class Movement {
                                     HardRemove(root, randomFreeButton, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage);
                                 }
                                 if (isGameFinished()) {
+                                    System.out.println("2");
                                     FinPartie(root, timeline1, timeline2, primaryStage);
                                 }
                             }
@@ -139,6 +141,7 @@ public class Movement {
                                     currentPlayer = 1;
                                     ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                                     if (isGameFinished()) {
+                                        System.out.println("4");
                                         FinPartie(root, timeline1, timeline2, primaryStage);
                                     }
                                 } else {
@@ -154,6 +157,7 @@ public class Movement {
 
                                     }
                                     if (isGameFinished()) {
+                                        System.out.println("5");
                                         FinPartie(root, timeline1, timeline2, primaryStage);
                                     }
                                 }
@@ -265,6 +269,7 @@ public class Movement {
                                     currentPlayer = 1;
                                     PartyIA.ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                                     if (isGameFinished()) {
+                                        System.out.println("6");
                                         FinPartie(root, timeline1, timeline2, primaryStage);
                                     }
                                 }
@@ -281,6 +286,7 @@ public class Movement {
 
                                     }
                                     if (isGameFinished()) {
+                                        System.out.println("7");
                                         FinPartie(root, timeline1, timeline2, primaryStage);
                                     }
                                 }
@@ -388,6 +394,7 @@ public class Movement {
                                     currentPlayer = 1;
                                     ResetChrono(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
                                     if (isGameFinished()) {
+                                        System.out.println("8");
                                         FinPartie(root, timeline1, timeline2, primaryStage);
                                     }
                                 }
@@ -401,6 +408,7 @@ public class Movement {
                                         HardRemove(root,  button,  timeline2,  timerLabel2,  timerLabel1,  chrono, remainingSeconds2,  timeline1,  primaryStage);
                                     }
                                     if (isGameFinished()) {
+                                        System.out.println("8");
                                         FinPartie(root, timeline1, timeline2, primaryStage);
                                     }
                                 }
