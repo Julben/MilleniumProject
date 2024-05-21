@@ -46,8 +46,8 @@ public class Placement {
                 hardRemove(root, randomFreeButton, timeline2, timerLabel2, timerLabel1, chrono, remainingSeconds2, timeline1, primaryStage);
             }
         } else {
-            if (isGameFinished() && turns > 16) {
-                FinPartie(root,timeline1, timeline2, primaryStage);
+            if (isGameFinished() && placementisfinished) {
+                endGame(root,timeline1, timeline2, primaryStage);
             }
             currentPlayer = 1;
             resetTimer(timeline2, timerLabel2, chrono, remainingSeconds2, timeline1);
