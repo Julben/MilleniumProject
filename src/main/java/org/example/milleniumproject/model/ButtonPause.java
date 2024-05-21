@@ -269,7 +269,17 @@ public class ButtonPause extends StackPane {
 
         return vbox;
     }
-
+    /**
+     * Possibilité de sauvegarder la partie en quittant.
+     *
+     * @param primaryStage La scène en premier plan.
+     * @param gridPane Le GridPane représentant le plateau de jeu.
+     * @param chrono La valeur  chrono.
+     * @param bg L'index du fond d'écran.
+     * @param ia Indique si l'adversaire est l'IA.
+     * @param difficulty Le niveau de difficulté de l'IA.
+     * @return Une VBox que dimande de confirmer si le joueur veut sauvegarder.
+     */
     static VBox quitButtonSave(Stage primaryStage, GridPane gridPane, int chrono, int bg, boolean ia, int difficulty) {
         VBox vbox = new VBox(0.04167 * screenHeight);
 
