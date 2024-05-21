@@ -15,6 +15,9 @@ import org.example.milleniumproject.model.MusicPlayer;
 import org.example.milleniumproject.model.SoundPlayer;
 import javafx.scene.Node;
 
+import static org.example.milleniumproject.model.Constant.screenHeight;
+import static org.example.milleniumproject.model.Constant.screenWidth;
+
 /**
  * La classe Audio permet de gèrer tout les sons du jeu.
  * Elle permet au joueur de modifier le volume de la musique et des effets sonores.
@@ -38,7 +41,7 @@ public class Audio extends StackPane {
         Label volumeMusiqueLabel = createStyledLabel("Volume de la Musique");
         Label volumeEffetsLabel = createStyledLabel("Volume des Sons");
 
-        VBox leftbox = new VBox(80);
+        VBox leftbox = new VBox(0.111111*screenHeight);
         leftbox.setAlignment(Pos.CENTER_LEFT);
         leftbox.getChildren().addAll(volumeMusiqueLabel, volumeEffetsLabel);
 
@@ -88,11 +91,11 @@ public class Audio extends StackPane {
         addDropShadowEffect(sliderWithControls2.getSlider());
         addDropShadowEffect(sliderWithControls3.getSlider());
 
-        VBox rightbox = new VBox(43, hbox2, hbox3);
+        VBox rightbox = new VBox(0.0597*screenHeight, hbox2, hbox3);
         rightbox.setAlignment(Pos.CENTER_LEFT);
 
-        HBox finalhbox = new HBox(30, leftbox, rightbox);
-        setMargin(finalhbox, new Insets(130, 0, 0, 650));
+        HBox finalhbox = new HBox(0.023437*screenWidth, leftbox, rightbox);
+        setMargin(finalhbox, new Insets(0.18055*screenHeight, 0, 0, 0.5078*screenWidth));
 
         getChildren().addAll(finalhbox, retourButton);
     }
@@ -147,7 +150,7 @@ public class Audio extends StackPane {
             btnRight = new Button(">");
             valueLabel = createStyledLabel("50");
 
-            valueLabel.setPrefWidth(40);
+            valueLabel.setPrefWidth(0.0328125*screenWidth);
 
             btnLeft.setOnAction(event -> {
                 SoundPlayer.soundPlay();

@@ -1,5 +1,6 @@
 package org.example.milleniumproject.view;
 
+import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -27,11 +28,12 @@ public class Campagne extends Pane {
             System.out.println("Playing video: " + fullPath);
 
             VideoPlayer videoPlayer = new VideoPlayer(fullPath);
-            getChildren().setAll(videoPlayer);
+            getChildren().setAll(videoPlayer); // Utilise le conteneur existant pour afficher la vidéo
 
             videoPlayer.playVideo(onEnd);
         } catch (NullPointerException e) {
             System.err.println("Video file not found: " + videoPath);
+            // Si la vidéo est introuvable, appelez immédiatement onEnd pour ne pas bloquer
             onEnd.run();
         }
     }
@@ -51,7 +53,7 @@ public class Campagne extends Pane {
 
         } else {
             System.out.println("Campaign finished, playing end video.");
-            playVideo("src/main/resources/VideoFinCampagne.mp4", () -> {
+            playVideo("/VideoChargement.mp4", () -> {
                 primaryStage.close();
             });
         }
@@ -71,17 +73,21 @@ public class Campagne extends Pane {
     private void playPart(Runnable onEnd, int currentRound) {
         System.out.println("Playing part for round: " + currentRound);
 
+        // Initialisation et affichage de PartyIA
         PartyIA partyIA = new PartyIA(primaryStage, currentRound);
 
+        // Set dimensions and positions based on PartyIA class settings
         partyIA.setPrefWidth(Constant.screenWidth);
         partyIA.setPrefHeight(Constant.screenHeight);
 
-        partyIA.setLayoutX(0);
-        partyIA.setLayoutY(0);
+        // Ensure the elements are positioned correctly
+        partyIA.setLayoutX(0); // Adjust as needed
+        partyIA.setLayoutY(0); // Adjust as needed
 
-        getChildren().setAll(partyIA);
+        getChildren().setAll(partyIA); // Utilise le conteneur existant pour afficher la partie
 
-        PauseTransition pause = new PauseTransition(Duration.seconds(50));
+        // Ajoutez un délai pour permettre à PartyIA de se lancer et être visible
+        PauseTransition pause = new PauseTransition(Duration.seconds(50)); // Ajustez la durée si nécessaire
         pause.setOnFinished(event -> {
             System.out.println("Part finished.");
             onEnd.run();

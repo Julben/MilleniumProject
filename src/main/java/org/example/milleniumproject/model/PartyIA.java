@@ -37,6 +37,7 @@ import javafx.scene.control.Button;
 import org.example.milleniumproject.presentation.BG;
 import org.example.milleniumproject.presentation.ButtonTransitionHandler;
 import org.example.milleniumproject.presentation.RectangleConstructor;
+import org.example.milleniumproject.view.Campagne;
 import org.example.milleniumproject.view.PreParty;
 import org.example.milleniumproject.view.PrePartyIA;
 
@@ -45,6 +46,7 @@ import java.util.Random;
 public class PartyIA extends StackPane {
     private ChargerPartie chargerPartie = new ChargerPartie();
     static int currentPlayer = 1;
+    private Campagne campagne;
     private VBox leftVBox;
     static VBox rightVBox;
     static int turns = 0;
@@ -638,7 +640,7 @@ public class PartyIA extends StackPane {
 
         for (Button b : buttonsJ2) {
             String id = b.getId();
-            
+
             for (String[] neighbours : neighbourList) {
                 if (neighbours[0].equals(id)) {
                     Button button = getButtonById(neighbours[1]);

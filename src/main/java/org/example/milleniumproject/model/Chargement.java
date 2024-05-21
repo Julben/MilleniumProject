@@ -4,14 +4,16 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.example.milleniumproject.presentation.BG;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 public class Chargement extends StackPane {
@@ -21,8 +23,15 @@ public class Chargement extends StackPane {
 
         Button retourButton = BackButtons.createBackButton(primaryStage);
 
-        BG ground = new BG();
-        setBackground(ground.getCustomBackground());
+        try {
+            Image image = new Image(new FileInputStream("src/main/resources/BGChargement.png"));
+            BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false);
+            BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, null, backgroundSize);
+            Background background = new Background(backgroundImage);
+            setBackground(background);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         ComboBox<String> comboBox = new ComboBox<>();
 
