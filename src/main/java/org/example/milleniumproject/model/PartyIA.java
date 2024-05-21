@@ -427,7 +427,7 @@ public class PartyIA extends StackPane {
                 Button button = (Button) node;
                 button.setOnAction(e -> {
                     SoundPlayer.soundPlay();
-                    handleButtonClick(button, gridPane, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono,primaryStage, 1);
+                    handleButtonClick(button, gridPane, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono,primaryStage, difficulty);
                 });
             }
         }

@@ -1,17 +1,16 @@
 package org.example.milleniumproject.view;
 
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.animation.PauseTransition;
 import org.example.milleniumproject.model.Constant;
+import org.example.milleniumproject.model.MusicPlayer;
 import org.example.milleniumproject.model.PartyIA;
 import org.example.milleniumproject.model.SoundPlayer;
 
-/**
- * La classe Campaign gère le mode campagne.
- */
-public class Campaign extends Pane {
+public class Campaign extends StackPane {
     private int currentRound = 0;
     private final int totalRounds = 3;
     private Stage primaryStage;
@@ -121,11 +120,11 @@ public class Campaign extends Pane {
                     System.out.println("Player won the part.");
                     onEnd.run();
                     PartyIA.win=false;
-                    SoundPlayer.soundPlay(0);
+                    MusicPlayer.stopPlaying();
                 } else {
                    System.out.println("Player lost the part.");
-                   Menu menu = new Menu();
-                   menu.showMenu(primaryStage); // End the campaign and show menu
+                   /*Menu menu = new Menu();
+                   menu.showMenu(primaryStage);*/ // End the campaign and show menu
                 }
         });
         pause.play();
