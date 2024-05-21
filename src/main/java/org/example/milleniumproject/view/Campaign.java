@@ -85,8 +85,13 @@ public class Campaign extends Pane {
 
         getChildren().setAll(partyIA); // Utilise le conteneur existant pour afficher la partie
 
-        // Ajoutez un délai pour permettre à PartyIA de se lancer et être visible
-        PauseTransition pause = new PauseTransition(Duration.seconds(50)); // Ajustez la durée si nécessaire
+       /* while (isGameFinished = false) {
+        }
+        if (isGameFinished=true){
+
+        }  */
+
+        PauseTransition pause = new PauseTransition(/*Duration.seconds(50)*/);
         pause.setOnFinished(event -> {
             System.out.println("Part finished.");
             onEnd.run();

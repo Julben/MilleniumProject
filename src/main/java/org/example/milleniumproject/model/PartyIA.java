@@ -76,6 +76,7 @@ public class PartyIA extends StackPane {
     private boolean selected = false;
     private boolean change = false;
     private static boolean FromSave=false;
+    public boolean win=false;
     String[] buttonLabels = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X"};
 
     static final List<String[]> neighbourList = Arrays.asList(
@@ -124,8 +125,8 @@ public class PartyIA extends StackPane {
         this.currentPlayer = currentPlayer;
         this.buttonsJ1 = buttonsJ1;
         this.buttonsJ2 = buttonsJ2;
-        //isNoChrono=true;
-       // this.isNoChrono = isNoChrono;
+
+
 
         String backgroundImage = "";
         if (selectedIndex == 0) {
@@ -181,8 +182,8 @@ public class PartyIA extends StackPane {
         int lastIndex2 = str2.lastIndexOf('/');
         String vaisseau2 = str2.substring(lastIndex2 + 1);
 
-        leftVBox = ProfileParty.createVBoxWithImages(vaisseau1, 9);
-        rightVBox = ProfileParty.createVBoxWithImages(vaisseau2, 9);
+        leftVBox = ProfileParty.createVBoxWithImages(vaisseau1, 0);
+        rightVBox = ProfileParty.createVBoxWithImages(vaisseau2, 0);
 
         HBox hBox = new HBox(0.6 * Constant.screenWidth);
         hBox.getChildren().addAll(leftVBox, rightVBox);
@@ -251,7 +252,7 @@ public class PartyIA extends StackPane {
                 Button button = (Button) node;
                 button.setOnAction(e -> {
                     SoundPlayer.soundPlay();
-                    handleButtonClick(button, gridPane, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono,primaryStage, difficulty,buttonsJ1,buttonsJ2);
+                    handleButtonClick(button, gridPane, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono,primaryStage, difficulty);
                 });
             }
         }
@@ -398,7 +399,7 @@ public class PartyIA extends StackPane {
                 Button button = (Button) node;
                 button.setOnAction(e -> {
                     SoundPlayer.soundPlay();
-                    handleButtonClick(button, gridPane, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono,primaryStage, 1,buttonsJ1,buttonsJ2);
+                    handleButtonClick(button, gridPane, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono,primaryStage, 1);
                 });
             }
         }
@@ -537,15 +538,16 @@ public class PartyIA extends StackPane {
                 Button button = (Button) node;
                 button.setOnAction(e -> {
                     SoundPlayer.soundPlay();
-                    handleButtonClick(button, gridPane, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono, primaryStage, difficulty,buttonsJ1,buttonsJ2);
+                    handleButtonClick(button, gridPane, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono, primaryStage, difficulty);
                 });
             }
         }
     }
 
-    private void handleButtonClick(Button button, GridPane gridpane, Timeline timeline1, Timeline timeline2, Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2, String chrono, Stage primaryStage, int diffliculty,List<Button> buttonsJ1, List<Button> buttonsJ2) {
+    public void handleButtonClick(Button button, GridPane gridpane, Timeline timeline1, Timeline timeline2, Label timerLabel1, Label timerLabel2, int[] remainingSeconds1, int[] remainingSeconds2, String chrono, Stage primaryStage, int diffliculty) {
         if (FromSave==true){
             turns= 18;
+            
         }
         disableMouseInteractions(gridpane, false);
 
@@ -581,6 +583,12 @@ public class PartyIA extends StackPane {
 
                 if(placementisfinished){
                     if (isGameFinished()) {
+                        if (buttonsJ1.size()<3){
+                            win=true;
+                        }else{
+                            win=false;
+                        }
+                        FromSave=false;
                         endGame(this,timeline1, timeline2, primaryStage);
                     }
                 }
@@ -624,6 +632,7 @@ public class PartyIA extends StackPane {
                     handleSelection(this, button, buttonsJ1, button, timeline1, timeline2, timerLabel1, timerLabel2, remainingSeconds1, remainingSeconds2, chrono, primaryStage,gridpane, diffliculty);
                 }
                 if (isGameFinished()) {
+                    FromSave=false;
                     endGame(this,timeline1, timeline2, primaryStage);
                 }
             }
@@ -966,7 +975,7 @@ public class PartyIA extends StackPane {
         timeline2.play();
     }
 
-    private VBox createPauseMenu(Stage primaryStage, Timeline timeline1, Timeline timeline2) {
+    public VBox createPauseMenu(Stage primaryStage, Timeline timeline1, Timeline timeline2) {
         VBox menu = new VBox(0.020833*screenHeight);
 
         Button resumeButton = new Button("Reprendre");
