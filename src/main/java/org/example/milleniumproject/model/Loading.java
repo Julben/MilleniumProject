@@ -17,10 +17,17 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-
+/**
+ * Cette classe permet au joueurs de charger une partie sauvegardée.
+ */
 public class Loading extends StackPane {
     private LoadParty chargerPartie = new LoadParty();
 
+    /**
+     * Construit l'écran de chargement.
+     *
+     * @param primaryStage La scène en premier plan.
+     */
     public Loading(Stage primaryStage) {
 
         Button retourButton = BackButtons.createBackButton(primaryStage);
@@ -55,13 +62,11 @@ public class Loading extends StackPane {
         } else {
             System.err.println("Le dossier 'Save' n'existe pas ou n'est pas un dossier valide.");
         }
-
         comboBox.setStyle("-fx-pref-width: 200px; " +
                 "-fx-pref-height: 50px; " +
                 "-fx-background-color: rgba(0,0,0,0.3); " +
                 "-fx-border-color: white; " +
                 "-fx-border-width: 3px;");
-
         comboBox.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
             public ListCell<String> call(ListView<String> listView) {
                 return new ListCell<String>() {
@@ -77,7 +82,6 @@ public class Loading extends StackPane {
                 };
             }
         });
-
         comboBox.setButtonCell(new ListCell<String>() {
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -126,7 +130,11 @@ public class Loading extends StackPane {
         vbox.setAlignment(Pos.CENTER);
         getChildren().addAll(vbox, retourButton);
     }
-
+    /**
+     * Ajoute un effet d'ombre.
+     *
+     * @param node Le nœud auquel appliquer l'effet d'ombre.
+     */
     private static void addDropShadowEffect(Node node) {
         DropShadow dropShadow = new DropShadow();
         dropShadow.setRadius(3);

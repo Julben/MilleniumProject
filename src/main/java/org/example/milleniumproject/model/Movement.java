@@ -10,7 +10,6 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.example.milleniumproject.presentation.ButtonTransitionHandler;
-
 import java.util.*;
 import static org.example.milleniumproject.model.ButtonSelector.deselectButton;
 import static org.example.milleniumproject.model.ButtonSelector.selectButton;
