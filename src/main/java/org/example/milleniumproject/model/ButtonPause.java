@@ -369,6 +369,13 @@ public class ButtonPause extends StackPane {
                         vbox.setVisible(false);
                     }
                 }
+                currentPlayer = 1;
+                buttonsJ1.clear();
+                buttonsJ2.clear();
+                turns = 0;
+                isRemovePieceMode = false;
+                placementisfinished = false;
+                isNoChrono = false;
             });
 
             cancelButton.setOnAction(event -> vbox.setVisible(false));
@@ -386,13 +393,7 @@ public class ButtonPause extends StackPane {
         hbox.setAlignment(Pos.CENTER);
         vbox.setAlignment(Pos.TOP_CENTER);
 
-        currentPlayer = 1;
-        buttonsJ1.clear();
-        buttonsJ2.clear();
-        turns = 0;
-        isRemovePieceMode = false;
-        placementisfinished = false;
-        isNoChrono = false;
+
 
         return vbox;
     }

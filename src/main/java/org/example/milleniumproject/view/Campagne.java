@@ -81,7 +81,13 @@ public class Campagne extends Pane {
 
         getChildren().setAll(partyIA);
 
-        PauseTransition pause = new PauseTransition(Duration.seconds(50));
+       /* while (isGameFinished = false) {
+        }
+        if (isGameFinished=true){
+
+        }  */
+
+        PauseTransition pause = new PauseTransition(/*Duration.seconds(50)*/);
         pause.setOnFinished(event -> {
             System.out.println("Part finished.");
             onEnd.run();
