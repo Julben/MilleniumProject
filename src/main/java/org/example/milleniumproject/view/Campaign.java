@@ -6,6 +6,8 @@ import javafx.util.Duration;
 import javafx.animation.PauseTransition;
 import org.example.milleniumproject.model.Constant;
 import org.example.milleniumproject.model.PartyIA;
+import org.example.milleniumproject.model.SoundPlayer;
+
 /**
  * La classe Campaign gère le mode campagne.
  */
@@ -67,7 +69,7 @@ public class Campaign extends Pane {
 
         } else {
             System.out.println("Campaign finished, playing end video.");
-            playVideo("/VideoChargement.mp4", () -> {
+            playVideo("/VideoCamp/VideoFinCampagne.mp4", () -> {
                 primaryStage.close();
             });
         }
@@ -88,13 +90,16 @@ public class Campaign extends Pane {
                 return null;
         }
     }
+
+    
     /**
      * Lance une partie.
      *
      * @param onEnd        L'action à exécuter à la fin de la partie.
      * @param currentRound Le numéro du round actuel.
      */
-    private void playPart(Runnable onEnd, int currentRound) {
+    public void playPart(Runnable onEnd, int currentRound) {
+
         System.out.println("Playing part for round: " + currentRound);
 
         // Initialisation et affichage de PartyIA
@@ -110,19 +115,19 @@ public class Campaign extends Pane {
 
         getChildren().setAll(partyIA); // Utilise le conteneur existant pour afficher la partie
 
-       /* while (isGameFinished = false) {
-        }
-        if (isGameFinished=true){
-
-        }  */
-
-        PauseTransition pause = new PauseTransition(/*Duration.seconds(50)*/);
+        PauseTransition pause = new PauseTransition(Duration.seconds(180));
         pause.setOnFinished(event -> {
-            System.out.println("Part finished.");
-            onEnd.run();
+                if (PartyIA.win) {
+                    System.out.println("Player won the part.");
+                    onEnd.run();
+                    PartyIA.win=false;
+                    SoundPlayer.soundPlay(0);
+                } else {
+                   System.out.println("Player lost the part.");
+                   Menu menu = new Menu();
+                   menu.showMenu(primaryStage); // End the campaign and show menu
+                }
         });
         pause.play();
-
-        System.out.println("Pause transition started");
     }
 }
