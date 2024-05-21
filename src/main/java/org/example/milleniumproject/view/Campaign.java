@@ -6,21 +6,34 @@ import javafx.util.Duration;
 import javafx.animation.PauseTransition;
 import org.example.milleniumproject.model.Constant;
 import org.example.milleniumproject.model.PartyIA;
-
+/**
+ * La classe Campaign gère le mode campagne.
+ */
 public class Campaign extends Pane {
     private int currentRound = 0;
     private final int totalRounds = 3;
     private Stage primaryStage;
-
+    /**
+     * Constructeur de la classe Campaign.
+     *
+     * @param primaryStage  La scène en premier plan.
+     */
     public Campaign(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
-
+    /**
+     * Démarre en lancant la vidéo d'introduction.
+     */
     public void startCampaign() {
         System.out.println("Starting campaign...");
         playVideo("/VideoCamp/VideoCampagneNaboo.mp4", this::startRound);
     }
-
+    /**
+     * Permet de lancer des vidéos.
+     *
+     * @param videoPath La vidéo à lancer.
+     * @param onEnd     L'action à exécuter à la fin de la vidéo.
+     */
     private void playVideo(String videoPath, Runnable onEnd) {
         try {
             String fullPath = getClass().getResource(videoPath).toExternalForm();
@@ -36,7 +49,9 @@ public class Campaign extends Pane {
             onEnd.run();
         }
     }
-
+    /**
+     * Démarre un round de la campagne.
+     */
     private void startRound() {
         System.out.println("Starting round: " + currentRound);
 
@@ -57,7 +72,12 @@ public class Campaign extends Pane {
             });
         }
     }
-
+    /**
+     * Retourne la vidéo correspondant au round.
+     *
+     * @param round Le numéro du round.
+     * @return Le chemin de la vidéo pour le round spécifié.
+     */
     private String getVideoPathForRound(int round) {
         switch (round) {
             case 1:
@@ -68,7 +88,12 @@ public class Campaign extends Pane {
                 return null;
         }
     }
-
+    /**
+     * Lance une partie.
+     *
+     * @param onEnd        L'action à exécuter à la fin de la partie.
+     * @param currentRound Le numéro du round actuel.
+     */
     private void playPart(Runnable onEnd, int currentRound) {
         System.out.println("Playing part for round: " + currentRound);
 

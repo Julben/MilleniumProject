@@ -28,13 +28,19 @@ import java.util.Random;
 import java.util.prefs.Preferences;
 import static org.example.milleniumproject.model.Constant.screenHeight;
 import static org.example.milleniumproject.model.Constant.screenWidth;
-
+/**
+ * Cette classe sert a préparer les paramètres de la partie.
+ */
 public class PreParty extends StackPane {
     private Button launchButton;
     String video;
     String shipIndex1 = ProfileData.getShip(1);
     String shipIndex2 = ProfileData.getShip(2);
-
+    /**
+     * Constructeur de la classe PreParty.
+     *
+     * @param primaryStage La scène en premier plan.
+     */
     public PreParty(Stage primaryStage) {
 
         Button retourButton = BackButtons.createBackButton(primaryStage);
@@ -79,7 +85,15 @@ public class PreParty extends StackPane {
 
         getChildren().addAll(retourButton);
     }
-
+    /**
+     * Choisis la vidéo à charger en fonction des vaisseaux(pions) sélectionnés et de la planète(plateau) choisie.
+     *
+     * @param shipIndex1   L'index du vaisseau pour le joueur 1.
+     * @param shipIndex2   L'index du vaisseau pour le joueur 2.
+     * @param toggleGroup3 Ce qui contient les planètes.
+     * @param hbox3        La HBox contenant les planète.
+     * @return Le chemin vers la vidéo correspondant aux choix des vaisseaux et de la planète.
+     */
     public String ChooseVideo(String shipIndex1, String shipIndex2, ToggleGroup toggleGroup3, HBox hbox3) {
 
         int selectedIndex = getSelectedIndex(toggleGroup3, hbox3);
@@ -137,12 +151,20 @@ public class PreParty extends StackPane {
         }
         return video;
     }
-
+//pas appeler
     public boolean getVideoPreference() {
         Preferences preferences = Preferences.userNodeForPackage(Video.class);
         return preferences.getBoolean("video", false);
     }
-
+    /**
+     * Charge la vidéo
+     *
+     * @param primaryStage La scène en premier plan.
+     * @param toggleGroup3 Ce qui contient les planètes.
+     * @param hbox3        La HBox contenant les planète.
+     * @param toggleGroup2 Ce qui contient le temps de jeu.
+     * @param hbox2        La HBox contenant le temps de jeu.
+     */
     public void VideoLoad(Stage primaryStage, ToggleGroup toggleGroup3, HBox hbox3, ToggleGroup toggleGroup2, HBox hbox2) {
         if(VideoData.isVideoChoose()) {
 
@@ -189,7 +211,13 @@ public class PreParty extends StackPane {
             primaryStage.getScene().setRoot(party);
         }
     }
-
+    /**
+     * Crée une HBox contenant les images.
+     *
+     * @param toggleGroup La togglegroup en question.
+     * @param imageUrls   Les chemins vers les images.
+     * @return Une HBox contenant les images.
+     */
     private HBox createImageToggleHBox(ToggleGroup toggleGroup, String[] imageUrls) {
         HBox hbox = new HBox(0.04167*screenWidth);
         hbox.setAlignment(Pos.CENTER);
@@ -227,7 +255,12 @@ public class PreParty extends StackPane {
         }
         return hbox;
     }
-
+    /**
+     * Vérifie que le joueur ai fait les 3 choix disponibles pour activer le bouton de lancement de partie.
+     *
+     * @param toggleGroup2 Le choix du temps de jeu.
+     * @param toggleGroup3 Le choix de la planète.
+     */
     private void checkLaunchButtonState(ToggleGroup toggleGroup2, ToggleGroup toggleGroup3) {
         if (toggleGroup2.getSelectedToggle() != null && toggleGroup3.getSelectedToggle() != null) {
             launchButton.setDisable(false);
@@ -235,7 +268,13 @@ public class PreParty extends StackPane {
             launchButton.setDisable(true);
         }
     }
-
+    /**
+     * Obtient l'index sélectionnée pour la planète.
+     *
+     * @param toggleGroup3 Le choix pour la sélection de la planète.
+     * @param hbox3        La HBox de la planète.
+     * @return L'index sélectionnée pour la planète.
+     */
     public static int getSelectedIndex(ToggleGroup toggleGroup3, HBox hbox3) {
         int selectedIndex = -1;
         ToggleButton selectedButton = (ToggleButton) toggleGroup3.getSelectedToggle();
@@ -244,7 +283,13 @@ public class PreParty extends StackPane {
         }
         return selectedIndex;
     }
-
+    /**
+     * Obtient l'index sélectionnée pour le temps de jeu.
+     *
+     * @param toggleGroup2 Le choix pour la sélection du temps de jeu.
+     * @param hbox2        La HBox contenant le temps de jeu.
+     * @return L'index sélectionnée pour le temps de jeu.
+     */
     public static int getSelectedIndexchrono(ToggleGroup toggleGroup2, HBox hbox2) {
         int selectedIndex = -1;
         ToggleButton selectedButton = (ToggleButton) toggleGroup2.getSelectedToggle();
